@@ -1,0 +1,30 @@
+body {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    iframe {
+        margin-bottom: 30px;
+        width: 650px;
+        height: 600px;
+    }
+
+    &::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: transparent;
+        border-radius: 4px;
+    }
+
+    &:hover::-webkit-scrollbar-thumb {
+        background: hsla(0, 0%, 53%, 0.4);
+    }
+
+    &:hover::-webkit-scrollbar-track {
+        background: hsla(0, 0%, 53%, 0.1);
+    }
+}

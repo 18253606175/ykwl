@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../node_modules/layui.css">
+    <link rel="stylesheet" href="../css/contentHome.min.css">
+    <link rel="stylesheet" href="../css/public.min.css">
+</head>
+
+<body>
+    <div class="homeTitle">
+        大屏标题
+    </div>
+    <div class="Homemain">
+        <div class="Homeleft">
+            <div class="home-left-top">
+                <div class="home-left-top-title">
+                    项目总览
+                </div>
+                <div class="home-left-top-bottom">
+                    <div class="home-left-top-bottom-top">
+
+                    </div>
+                    <div class="home-left-top-bottom-bottom">
+
+                    </div>
+                </div>
+            </div>
+            <div class="home-left-center">
+                <div class="home-left-center-title">
+                    设备状态
+                </div>
+                <div class="home-left-center-bottom">
+                    <div id="home-left-center-bottom-left"></div>
+                    <div class="home-left-center-bottom-right">
+
+                    </div>
+                </div>
+            </div>
+            <div id="home-left-bottom"></div>
+        </div>
+        <div class="Homecenter">
+            <div class="home-center-top"></div>
+            <div class="home-center-bottom">
+                <div class="home-center-bottom-title">
+                    当月设备报警
+                </div>
+                <div id="scrollContent" class="home-center-bottom-bottom">
+                    <ul class="home-center-bottom-bottom-content" id='con1'>
+
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <div class="Homeright">
+            <div class="home-right-top">
+                <div class="home-right-top-title">
+                    报警分类
+                </div>
+                <div class="home-right-top-bottom">
+
+                </div>
+            </div>
+            <div class="home-right-bottom">
+                <div class="home-right-bottom-title">
+                    近七报警统计
+                </div>
+                <div id="home-right-bottom-bottom">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../node_modules/echarts/dist/echarts.min.js"></script>
+<script src="../node_modules/layui.js"></script>
+<script src="../js/homePage.js"></script>
+
+</html>

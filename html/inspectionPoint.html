@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../node_modules/layui.css">
+    <link rel="stylesheet" href="../css/inspectionPoint.min.css">
+</head>
+
+<body>
+    <div class="manage-main">
+        <section>
+            <div class="layui-tab-content">
+                <div class="faultHand-main-header-right-search">
+                    <form class="layui-form" action="">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">单行输入框</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="searchInfo" lay-verify="required" placeholder="请输入"
+                                    autocomplete="off" class="layui-input">
+                                <button type="submit" lay-filter="submitBtn" lay-submit=""
+                                    class="layui-btn layui-btn-primary">
+                                    <i class="layui-icon">&#xe615;</i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <form class="layui-form" action="">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">单行输入框</label>
+                            <div class="layui-input-inline">
+                                <select class="layui-input-inline-select" name="selectDou" lay-verify="required"
+                                    lay-search="">
+
+                                </select>
+                                <button id="refresh" type="submit" lay-filter="submitDoubleBtn" lay-submit=""
+                                    class="layui-btn layui-btn-primary">
+                                    <i class="layui-icon">&#xe615;</i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-btn-group demoTable">
+                    <button class="layui-btn" data-type="getCheckData">导出</button>
+                </div>
+                <table id="table" lay-filter="table"></table>
+            </div>
+        </section>
+        <nav>
+            <p>统计：11</p>
+            <p>已巡检：11</p>
+            <p>未巡检：11</p>
+            <p>巡检率： 11</p>
+            <p>隐患数： 11</p>
+        </nav>
+        <div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+            <div>
+                <div>
+
+                </div>
+                <aside>
+                    <p></p>
+                    <p>12楼1203号消火栓</p>
+                    <p>最终上报时间：2020-12-11</p>
+                </aside>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../node_modules/echarts/dist/echarts.min.js"></script>
+<script src="../node_modules/layui.js"></script>
+<script src="../js/inspectionPoint.js"></script>
+
+</html>

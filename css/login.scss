@@ -1,0 +1,208 @@
+html,
+body {
+    height: 100%;
+}
+
+input:-internal-autofill-previewed,
+input:-internal-autofill-selected {
+    -webkit-text-fill-color: #ffffff;
+    transition: background-color 5000s ease-out 0.5s;
+}
+
+
+
+.login-main {
+    height: 100%;
+    background: url(../img/loginBack.png) no-repeat;
+    background-size: 100% 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+
+    .login-main-content {
+        box-sizing: border-box;
+        display: flex;
+        height: 550px;
+        width: 950px;
+        background: url(../img/loginBorder.png) no-repeat;
+        background-size: 100% 100%;
+        padding: 37px;
+        position: relative;
+
+        .login-main-content-left {
+            flex: 1;
+
+            .login-main-content-left-title {
+                height: 80px;
+                width: 100%;
+                padding: 20px;
+                background: url(../img/esco_logo.png) no-repeat 43%;
+                background-size: 40%;
+            }
+
+            .login-main-content-left-flag {
+                text-align: center;
+                font-family: SourceHanSansCN-Medium;
+                color: #10eaf0;
+                font-size: 24px;
+            }
+
+            .login-main-content-left-bottom {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+
+                &>div {
+                    width: 90px;
+                    height: 90px;
+                    margin: 65px 30px 30px 30px;
+                    background: chocolate;
+                    display: inline-block;
+
+                }
+            }
+        }
+
+        .login-main-content-right {
+            flex: 1;
+
+            &>p {
+                padding-left: 86px;
+                color: #f56c6c;
+                font-size: 12px;
+                display: none;
+            }
+
+            .login-main-content-right-title {
+                font-family: SourceHanSansCN-Medium;
+                font-size: 24px;
+                color: #10eaf0;
+                margin-top: 65px;
+                text-align: center;
+            }
+
+            .login-main-content-right-username {
+                height: 50px;
+                width: 60%;
+                margin: 0 auto;
+                border-bottom: 1px solid #21f5f5;
+                margin-top: 16px;
+                line-height: 50px;
+
+                &>span {
+                    display: inline-block;
+                    width: 15px;
+                    height: 18px;
+                    background: url(../img/username.png) no-repeat;
+                    background-size: 100%;
+                    margin: 6px 5px 6px 15px;
+                    color: #889aa4;
+                    vertical-align: middle;
+                }
+
+                &>input {
+                    background: transparent;
+                    border: 0;
+                    -webkit-appearance: none;
+                    border-radius: 0;
+                    padding: 12px 5px 12px 15px;
+                    box-sizing: border-box;
+                    color: #fff;
+                    height: 47px;
+                    caret-color: #fff;
+                    -webkit-tap-highlight-color: rgba(255, 0, 0, 0);
+                }
+            }
+
+            .login-main-content-right-password {
+                height: 50px;
+                width: 60%;
+                margin: 0 auto;
+                border-bottom: 1px solid #21f5f5;
+                margin-top: 16px;
+                line-height: 50px;
+
+                &>span {
+                    display: inline-block;
+                    width: 15px;
+                    height: 18px;
+                    background: url(../img/password.png) no-repeat;
+                    background-size: 100%;
+                    margin: 6px 5px 6px 15px;
+                    color: #889aa4;
+                    vertical-align: middle;
+                }
+
+                &>input {
+                    background: transparent;
+                    border: 0;
+                    -webkit-appearance: none;
+                    border-radius: 0;
+                    padding: 12px 5px 12px 15px;
+                    box-sizing: border-box;
+                    color: #fff;
+                    height: 47px;
+                    caret-color: #fff;
+                    -webkit-tap-highlight-color: rgba(255, 0, 0, 0);
+                }
+
+                .password-logo {
+                    width: 20px;
+                    height: 15px;
+                    position: relative;
+                    right: -243px;
+                    top: -30px;
+                    overflow: hidden;
+                    cursor: pointer;
+
+                    img {
+                        position: absolute;
+                        top: 3px;
+                    }
+                }
+            }
+
+            .forget-password {
+                width: 60px;
+                font-size: 15px;
+                font-weight: 400;
+                color: #10eaf0;
+                margin-left: 290px;
+                margin-top: 10px;
+                cursor: pointer;
+            }
+
+            #submit {
+                display: flex;
+                justify-content: center;
+
+                #btn-login {
+                    width: 65%;
+                    height: 45px;
+                    margin-top: 60px;
+                    background-color: #10eaf0;
+                    border-radius: 7.5px;
+                    border: 0;
+                    color: #0d2163;
+                    font-family: SourceHanSansCN-Medium;
+                    font-size: 18px;
+                    text-align: center;
+                    cursor: pointer;
+                }
+            }
+
+        }
+
+        .yk {
+            box-sizing: border-box;
+            position: absolute;
+            width: 100%;
+            bottom: 30px;
+            padding-right: 37px;
+            text-align: center;
+            color: #10eaf0;
+            font-size: 16px;
+        }
+    }
+}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../node_modules/layui.css">
+    <link rel="stylesheet" href="../css/login.min.css">
+</head>
+
+<body>
+    <div class="login-main">
+        <div class="login-main-content">
+            <div class="login-main-content-left">
+                <div class="login-main-content-left-title">
+                </div>
+                <div class="login-main-content-left-flag">
+                    智慧物联 丨 数据驱动
+                </div>
+                <div class="login-main-content-left-bottom">
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+            <div class="login-main-content-right">
+                <div class="login-main-content-right-title">
+                    消防CRT平台·登录
+                </div>
+                <div class="login-main-content-right-username">
+                    <span></span>
+                    <input id="username" type="text" value="" placeholder="请输入手机号" required>
+                </div>
+                <p class="username" style="color: red;">请输入正确的用户名</p>
+                <div class="login-main-content-right-password">
+                    <span></span>
+                    <input id="pwd" type="password" placeholder="请输入密码" required>
+                    <p class="password-logo">
+                        <img id="password-logo" src="../img/passwo_logo.png" alt="">
+                    </p>
+                </div>
+                <p class="password" style="color: red;">请输入正确的密码</p>
+                <aside class="forget-password">忘记密码</aside>
+                <div id="submit">
+                    <button id="btn-login">登录</button>
+                </div>
+
+            </div>
+            <div class="yk">
+                Copyright©2021 版权所有：山东英科物联网技术有限公司 <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank"
+                    style="display: inline-block;color: #10eaff;">鲁ICP备2021000967号-1</a>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../node_modules/echarts/dist/echarts.min.js"></script>
+<script src="../node_modules/layui.js"></script>
+<script src="../js/jquery-3.6.0.min.js"></script>
+<script type="module" src="../js/login.js"></script>
+
+</html>
