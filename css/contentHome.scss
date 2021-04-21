@@ -1,6 +1,6 @@
 html {
     height: 96%;
-    overflow-y: hidden;
+    
 }
 
 html,
@@ -8,7 +8,8 @@ body {
     height: (97% !important);
     overflow: (inherit !important);
     background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAP0lEQVQImZ3LsRGAQAwDwTtDE6R08P3XhkWKP+QyzY687pX0AxZVxbczaZKgTYeJ1gGAFu5PlSAqOnGurf/4AsrpDpHqPjDnAAAAAElFTkSuQmCC);
-    overflow: hidden;
+    overflow-y: hidden;
+    // overflow-y: (hidden !important);
 }
 
 .homeTitle {
@@ -27,6 +28,7 @@ body {
     display: flex;
     height: 98%;
     padding: 0 20px;
+    overflow-y: hidden;
 
     .Homeleft {
         flex: 1;
@@ -151,7 +153,10 @@ body {
                     .home-left-center-bottom-right-top:nth-of-type(1) {
                         .home-left-center-bottom-right-top-header {
                             &>span:first-child {
-                                background-color: blue;
+                                background-color: green;
+                            }
+                            &>span:nth-of-type(2) {
+                                color: green;
                             }
                         }
 
@@ -162,6 +167,9 @@ body {
                             &>span:first-child {
                                 background-color: yellow;
                             }
+                            &>span:nth-of-type(2) {
+                                color: yellow;
+                            }
                         }
 
                     }
@@ -169,7 +177,10 @@ body {
                     .home-left-center-bottom-right-top:nth-of-type(3) {
                         .home-left-center-bottom-right-top-header {
                             &>span:first-child {
-                                background-color: green;
+                                background-color: grey;
+                            }
+                            &>span:nth-of-type(2) {
+                                color: grey;
                             }
                         }
 
@@ -243,12 +254,13 @@ body {
             }
 
             .home-center-bottom-bottom {
-                flex: 1;
-                height: 275px;
+                // flex: 1;
+                height: 210px;
                 width: 88%;
                 padding: 0 40px 28px;
                 overflow: hidden;
-                position: relative;
+
+                // position: relative;
 
                 .home-center-bottom-bottom-content {
                     &>li {
@@ -256,11 +268,12 @@ body {
                     }
 
                     margin: 0 0;
-                    height: 100%;
-                    position: absolute;
-                    width: 88%;
+                    // height: 257px;
+                    // height: 40000px;
+                    // position: absolute;
+                    width: 100%;
                     // overflow: hidden;
-                    overflow-y: scroll;
+                    // overflow-y: scroll;
 
                     &::-webkit-scrollbar {
                         width: 6px;
@@ -336,7 +349,11 @@ body {
                 .home-left-center-bottom-right-top:nth-of-type(1) {
                     .home-left-center-bottom-right-top-header {
                         &>span:first-child {
-                            background-color: blue;
+                            background-color: #5470c6;
+                        }
+
+                        &>span:nth-of-type(2) {
+                            color: #5470c6;
                         }
                     }
 
@@ -347,6 +364,10 @@ body {
                         &>span:first-child {
                             background-color: yellow;
                         }
+
+                        &>span:nth-of-type(2) {
+                            color: yellow;
+                        }
                     }
 
                 }
@@ -356,6 +377,10 @@ body {
                         &>span:first-child {
                             background-color: green;
                         }
+
+                        &>span:nth-of-type(2) {
+                            color: green;
+                        }
                     }
 
                 }
@@ -364,6 +389,23 @@ body {
                     .home-left-center-bottom-right-top-header {
                         &>span:first-child {
                             background-color: red;
+                        }
+
+                        &>span:nth-of-type(2) {
+                            color: red;
+                        }
+                    }
+
+                }
+
+                .home-left-center-bottom-right-top:nth-of-type(5) {
+                    .home-left-center-bottom-right-top-header {
+                        &>span:first-child {
+                            background-color: grey;
+                        }
+
+                        &>span:nth-of-type(2) {
+                            color: grey;
                         }
                     }
 
@@ -411,7 +453,7 @@ body {
 
                 .home-left-center-bottom-right-top:nth-of-type(1) {
                     .progress-bar {
-                        background-color: blue;
+                        background-color: #5470c6;
                     }
                 }
 
@@ -433,12 +475,19 @@ body {
                     }
                 }
 
+                .home-left-center-bottom-right-top:nth-of-type(4) {
+                    .progress-bar {
+                        background-color: grey;
+                    }
+                }
+
             }
 
         }
 
         .home-right-bottom {
-            flex: 1;
+            // flex: 1;
+            height: 337px;
             background-image: url("../img/indexBotBak.png");
             background-repeat: no-repeat;
             background-size: 100% 100%;

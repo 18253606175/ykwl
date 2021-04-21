@@ -1,6 +1,5 @@
 html {
   height: 96%;
-  overflow-y: hidden;
 }
 
 html,
@@ -8,7 +7,7 @@ body {
   height: 97% !important;
   overflow: inherit !important;
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAP0lEQVQImZ3LsRGAQAwDwTtDE6R08P3XhkWKP+QyzY687pX0AxZVxbczaZKgTYeJ1gGAFu5PlSAqOnGurf/4AsrpDpHqPjDnAAAAAElFTkSuQmCC);
-  overflow: hidden;
+  overflow-y: hidden;
 }
 
 .homeTitle {
@@ -25,6 +24,7 @@ body {
   display: flex;
   height: 98%;
   padding: 0 20px;
+  overflow-y: hidden;
 }
 
 .Homemain .Homeleft {
@@ -152,15 +152,27 @@ body {
 }
 
 .Homemain .Homeleft .home-left-center .home-left-center-bottom .home-left-center-bottom-right .home-left-center-bottom-right-top:nth-of-type(1) .home-left-center-bottom-right-top-header > span:first-child {
-  background-color: blue;
+  background-color: green;
+}
+
+.Homemain .Homeleft .home-left-center .home-left-center-bottom .home-left-center-bottom-right .home-left-center-bottom-right-top:nth-of-type(1) .home-left-center-bottom-right-top-header > span:nth-of-type(2) {
+  color: green;
 }
 
 .Homemain .Homeleft .home-left-center .home-left-center-bottom .home-left-center-bottom-right .home-left-center-bottom-right-top:nth-of-type(2) .home-left-center-bottom-right-top-header > span:first-child {
   background-color: yellow;
 }
 
+.Homemain .Homeleft .home-left-center .home-left-center-bottom .home-left-center-bottom-right .home-left-center-bottom-right-top:nth-of-type(2) .home-left-center-bottom-right-top-header > span:nth-of-type(2) {
+  color: yellow;
+}
+
 .Homemain .Homeleft .home-left-center .home-left-center-bottom .home-left-center-bottom-right .home-left-center-bottom-right-top:nth-of-type(3) .home-left-center-bottom-right-top-header > span:first-child {
-  background-color: green;
+  background-color: grey;
+}
+
+.Homemain .Homeleft .home-left-center .home-left-center-bottom .home-left-center-bottom-right .home-left-center-bottom-right-top:nth-of-type(3) .home-left-center-bottom-right-top-header > span:nth-of-type(2) {
+  color: grey;
 }
 
 .Homemain .Homeleft .home-left-center .home-left-center-bottom .home-left-center-bottom-right .home-left-center-bottom-right-top {
@@ -227,20 +239,15 @@ body {
 }
 
 .Homemain .Homecenter .home-center-bottom .home-center-bottom-bottom {
-  flex: 1;
-  height: 275px;
+  height: 210px;
   width: 88%;
   padding: 0 40px 28px;
   overflow: hidden;
-  position: relative;
 }
 
 .Homemain .Homecenter .home-center-bottom .home-center-bottom-bottom .home-center-bottom-bottom-content {
   margin: 0 0;
-  height: 100%;
-  position: absolute;
-  width: 88%;
-  overflow-y: scroll;
+  width: 100%;
 }
 
 .Homemain .Homecenter .home-center-bottom .home-center-bottom-bottom .home-center-bottom-bottom-content > li {
@@ -318,19 +325,43 @@ body {
 }
 
 .Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(1) .home-left-center-bottom-right-top-header > span:first-child {
-  background-color: blue;
+  background-color: #5470c6;
+}
+
+.Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(1) .home-left-center-bottom-right-top-header > span:nth-of-type(2) {
+  color: #5470c6;
 }
 
 .Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(2) .home-left-center-bottom-right-top-header > span:first-child {
   background-color: yellow;
 }
 
+.Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(2) .home-left-center-bottom-right-top-header > span:nth-of-type(2) {
+  color: yellow;
+}
+
 .Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(3) .home-left-center-bottom-right-top-header > span:first-child {
   background-color: green;
 }
 
+.Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(3) .home-left-center-bottom-right-top-header > span:nth-of-type(2) {
+  color: green;
+}
+
 .Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(4) .home-left-center-bottom-right-top-header > span:first-child {
   background-color: red;
+}
+
+.Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(4) .home-left-center-bottom-right-top-header > span:nth-of-type(2) {
+  color: red;
+}
+
+.Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(5) .home-left-center-bottom-right-top-header > span:first-child {
+  background-color: grey;
+}
+
+.Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(5) .home-left-center-bottom-right-top-header > span:nth-of-type(2) {
+  color: grey;
 }
 
 .Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top {
@@ -370,7 +401,7 @@ body {
 }
 
 .Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(1) .progress-bar {
-  background-color: blue;
+  background-color: #5470c6;
 }
 
 .Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(2) .progress-bar {
@@ -385,8 +416,12 @@ body {
   background-color: red;
 }
 
+.Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(4) .progress-bar {
+  background-color: grey;
+}
+
 .Homemain .Homeright .home-right-bottom {
-  flex: 1;
+  height: 337px;
   background-image: url("../img/indexBotBak.png");
   background-repeat: no-repeat;
   background-size: 100% 100%;
