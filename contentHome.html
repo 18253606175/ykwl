@@ -5,13 +5,38 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+    <meta name="keywords" content="百度地图,百度地图API，百度地图自定义工具，百度地图所见即所得工具" />
+    <meta name="description" content="百度地图API自定义地图，帮助用户在可视化操作下生成百度地图" />
     <title>Document</title>
     <link rel="stylesheet" href="./node_modules/layui.css">
     <link rel="stylesheet" href="./css/contentHome.min.css">
     <link rel="stylesheet" href="./css/public.min.css">
+    <style>
+        .iw_poi_title {
+            color: #CC5522;
+            font-size: 14px;
+            font-weight: bold;
+            overflow: hidden;
+            padding-right: 13px;
+            white-space: nowrap
+        }
+
+        .iw_poi_content {
+            font: 12px arial, sans-serif;
+            overflow: visible;
+            padding-top: 4px;
+            white-space: -moz-pre-wrap;
+            word-wrap: break-word
+        }
+
+        .anchorBL{display:none}
+    </style>
+    <script type="text/javascript" src="//api.map.baidu.com/api?v=3.0&ak=k2r3HsXXDf0NNM6AgVifp2oDDO3seNTb"></script>
 </head>
 
 <body>
+    <!-- 首页 -->
     <div class="homeTitle">
         大屏标题
     </div>
@@ -44,7 +69,9 @@
             <div id="home-left-bottom"></div>
         </div>
         <div class="Homecenter">
-            <div class="home-center-top"></div>
+            <div class="home-center-top">
+                <div style="height: 100%;" id="allmap"></div>
+            </div>
             <div class="home-center-bottom">
                 <div class="home-center-bottom-title">
                     当月设备报警
@@ -79,5 +106,31 @@
 <script src="./node_modules/echarts/dist/echarts.min.js"></script>
 <script src="./node_modules/layui.js"></script>
 <script src="./js/homePage.js"></script>
+<script type="text/javascript">
+
+
+
+    var mapStyleBrown = [
+          {
+                    "featureType": "background",
+                    "elementType": "all",
+                    "stylers": {
+                              "color": "#1c2536ff"
+                    }
+          },
+          {
+                    "featureType": "road",
+                    "elementType": "all",
+                    "stylers": {
+                              "color": "#367177"
+                    }
+          }
+]
+    var map = new BMap.Map("allmap");
+    map.centerAndZoom('潍坊总部基地',12);
+    map.enableScrollWheelZoom();
+
+    map.setMapStyle({styleJson:eval("mapStyleBrown")});
+</script>
 
 </html>

@@ -256,8 +256,21 @@ body {
                         }
 
 
-                        .layui-table-box {
-                            // overflow-x: scroll;
+                        // .layui-table-box {
+                        //     overflow-x: scroll;
+
+                           
+                        // }
+
+                        .layui-table-header {
+                            border: none;
+                        }
+
+                        .layui-table-body {
+                            position: absolute;
+                            top: 40px;
+                            left: 0;
+                            height: (700px !important);
 
                             &::-webkit-scrollbar {
                                 width: 6px;
@@ -277,17 +290,6 @@ body {
                             &:hover::-webkit-scrollbar-track {
                                 background: hsla(0, 0%, 53%, 0.1);
                             }
-                        }
-
-                        .layui-table-header {
-                            border: none;
-                        }
-
-                        .layui-table-body {
-                            position: absolute;
-                            top: 40px;
-                            left: 0;
-                            height: (700px !important);
                         }
 
                         .layui-form {

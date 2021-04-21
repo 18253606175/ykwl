@@ -12,6 +12,7 @@
 </head>
 
 <body>
+    <!-- 设备列表 -->
     <div class="Realtime-main layui-row">
         <div class="Realtime-left layui-col-md2">
             <div class="Realtime-left-top">
@@ -46,7 +47,7 @@
                                         <form class="layui-form" action="">
                                             <div class="layui-form-item">
                                                 <div class="layui-input-inline">
-                                                    <input type="text" name="searchInfo" lay-verify="required"
+                                                    <input type="text" name="location" 
                                                         placeholder="请输入" autocomplete="off" class="layui-input">
                                                     <button type="submit" lay-filter="submitBtn" lay-submit=""
                                                         class="layui-btn layui-btn-primary">
@@ -59,7 +60,7 @@
                                             <div class="layui-form-item">
                                                 <div class="layui-input-inline">
                                                     <select class="layui-input-inline-select" name="selectDou"
-                                                        lay-verify="required" lay-search="">
+                                                         lay-search="">
 
                                                     </select>
                                                     <button type="submit" lay-filter="submitDoubleBtn" lay-submit=""
@@ -99,7 +100,7 @@
                                         <form class="layui-form" action="">
                                             <div class="layui-form-item">
                                                 <div class="layui-input-inline">
-                                                    <input type="text" name="searchInfo" lay-verify="required"
+                                                    <input type="text" name="location" 
                                                         placeholder="请输入" autocomplete="off" class="layui-input">
                                                     <button type="submit" lay-filter="submitBtn" lay-submit=""
                                                         class="layui-btn layui-btn-primary">
@@ -112,7 +113,7 @@
                                             <div class="layui-form-item">
                                                 <div class="layui-input-inline">
                                                     <select class="layui-input-inline-select" name="selectDou"
-                                                        lay-verify="required" lay-search="">
+                                                         lay-search="">
 
                                                     </select>
                                                     <button type="submit" lay-filter="submitDoubleBtn" lay-submit=""
@@ -152,7 +153,7 @@
                                         <form class="layui-form" action="">
                                             <div class="layui-form-item">
                                                 <div class="layui-input-inline">
-                                                    <input type="text" name="searchInfo" lay-verify="required"
+                                                    <input type="text" name="location" 
                                                         placeholder="请输入" autocomplete="off" class="layui-input">
                                                     <button type="submit" lay-filter="submitBtn" lay-submit=""
                                                         class="layui-btn layui-btn-primary">
@@ -165,7 +166,7 @@
                                             <div class="layui-form-item">
                                                 <div class="layui-input-inline">
                                                     <select class="layui-input-inline-select" name="selectDou"
-                                                        lay-verify="required" lay-search="">
+                                                         lay-search="">
 
                                                     </select>
                                                     <button type="submit" lay-filter="submitDoubleBtn" lay-submit=""
@@ -194,10 +195,10 @@
                             </div>
                         </div>
                         <div>
-                            <div class="wisdom-electricity-bottom-nb">
+                            <div class="wisdom-electricity-bottom-water">
                                 <div class="wisdom-electricity-bottom-top">
                                     <div class="wisdom-electricity-bottom-top-title">
-                                        NB气感监控
+                                        消防水设备
                                     </div>
                                     <div class="wisdom-electricity-bottom-top-classify">
                                     </div>
@@ -205,7 +206,7 @@
                                         <form class="layui-form" action="">
                                             <div class="layui-form-item">
                                                 <div class="layui-input-inline">
-                                                    <input type="text" name="searchInfo" lay-verify="required"
+                                                    <input type="text" name="location" 
                                                         placeholder="请输入" autocomplete="off" class="layui-input">
                                                     <button type="submit" lay-filter="submitBtn" lay-submit=""
                                                         class="layui-btn layui-btn-primary">
@@ -218,7 +219,60 @@
                                             <div class="layui-form-item">
                                                 <div class="layui-input-inline">
                                                     <select class="layui-input-inline-select" name="selectDou"
-                                                        lay-verify="required" lay-search="">
+                                                         lay-search="">
+
+                                                    </select>
+                                                    <button type="submit" lay-filter="submitDoubleBtn" lay-submit=""
+                                                        class="layui-btn layui-btn-primary">
+                                                        <i class="layui-icon">&#xe615;</i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="wisdom-electricity-bottom-top-add">
+                                        <button class="layui-btn button-add">
+                                            添加
+                                        </button>
+                                    </div>
+                                    <div class="wisdom-electricity-bottom-top-type">
+                                        <span class="classifyStyle">表格模式</span>
+                                        <span>阵列模式</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="wisdom-electricity-bottom-bottom">
+                                        <table id="waterV" lay-filter="tableTest"></table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="wisdom-electricity-bottom-nb">
+                                <div class="wisdom-electricity-bottom-top">
+                                    <div class="wisdom-electricity-bottom-top-title">
+                                        NB气感监控
+                                    </div>
+                                    <div class="wisdom-electricity-bottom-top-classify">
+                                    </div>
+                                    <div class="wisdom-electricity-bottom-top-search" style="display: flex;">
+                                        <form class="layui-form" action="">
+                                            <div class="layui-form-item">
+                                                <div class="layui-input-inline">
+                                                    <input type="text" name="location" 
+                                                        placeholder="请输入" autocomplete="off" class="layui-input">
+                                                    <button type="submit" lay-filter="submitBtn" lay-submit=""
+                                                        class="layui-btn layui-btn-primary">
+                                                        <i class="layui-icon">&#xe615;</i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <form class="layui-form" action="">
+                                            <div class="layui-form-item">
+                                                <div class="layui-input-inline">
+                                                    <select class="layui-input-inline-select" name="selectDou"
+                                                        lay-search="">
 
                                                     </select>
                                                     <button type="submit" lay-filter="submitDoubleBtn" lay-submit=""
@@ -266,14 +320,27 @@
     <script src="./node_modules/layui.js"></script>
     <script type="module" src="./js/deviceList.js"></script>
     <script type="text/html" id="sexTpl">
-        {{#  if(d.state === 2){ }}
-        <div style="color: #686d69">离线</div>
-        {{#  } else if(d.state === 1) { }}
-        <div style="color: #1d4f68">正常</div>
-        {{#  } else if(d.state === 4) { }}
+        {{#  if(d.state === 1){ }}
+        <div style="color: green">在线</div>
+        {{#  }else if(d.state === 4) { }}
         <div style="color: #bd6621">故障</div>
         {{#  } else if(d.state === 3) { }}
         <div style="color: #ac3b2d">报警</div>
+        {{#  }  else{ }}
+        <div style="color: #686d69">离线</div>
+        {{#  } }}
+    </script>
+    <script type="text/html" id="typeSign">
+        {{#  if(d.deviceSmallType === '01'){ }}
+        <div>智慧电气监测</div>
+        {{#  } else if(d.deviceSmallType === '02') { }}
+        <div>水压监测</div>
+        {{#  } else if(d.deviceSmallType === '03') { }}
+        <div>水位监测</div>
+        {{#  } else if(d.deviceSmallType === '05') { }}
+        <div>可视化联网报警</div>
+        {{#  } else if(d.deviceSmallType === '06') { }}
+        <div>智慧型独立烟感</div>
         {{#  } }}
     </script>
     <div id="pop-up-add" style="display: none;">

@@ -244,25 +244,6 @@ body {
   color: #a5aeaf;
 }
 
-.Realtime-main .Realtime-right .wisdom-electricity .wisdom-electricity-bottom .wisdom-electricity-bottom-homePage .wisdom-electricity-bottom-bottom .layui-table-box::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-  background: transparent;
-}
-
-.Realtime-main .Realtime-right .wisdom-electricity .wisdom-electricity-bottom .wisdom-electricity-bottom-homePage .wisdom-electricity-bottom-bottom .layui-table-box::-webkit-scrollbar-thumb {
-  background: transparent;
-  border-radius: 4px;
-}
-
-.Realtime-main .Realtime-right .wisdom-electricity .wisdom-electricity-bottom .wisdom-electricity-bottom-homePage .wisdom-electricity-bottom-bottom .layui-table-box:hover::-webkit-scrollbar-thumb {
-  background: rgba(135, 135, 135, 0.4);
-}
-
-.Realtime-main .Realtime-right .wisdom-electricity .wisdom-electricity-bottom .wisdom-electricity-bottom-homePage .wisdom-electricity-bottom-bottom .layui-table-box:hover::-webkit-scrollbar-track {
-  background: rgba(135, 135, 135, 0.1);
-}
-
 .Realtime-main .Realtime-right .wisdom-electricity .wisdom-electricity-bottom .wisdom-electricity-bottom-homePage .wisdom-electricity-bottom-bottom .layui-table-header {
   border: none;
 }
@@ -272,6 +253,25 @@ body {
   top: 40px;
   left: 0;
   height: 700px !important;
+}
+
+.Realtime-main .Realtime-right .wisdom-electricity .wisdom-electricity-bottom .wisdom-electricity-bottom-homePage .wisdom-electricity-bottom-bottom .layui-table-body::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background: transparent;
+}
+
+.Realtime-main .Realtime-right .wisdom-electricity .wisdom-electricity-bottom .wisdom-electricity-bottom-homePage .wisdom-electricity-bottom-bottom .layui-table-body::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.Realtime-main .Realtime-right .wisdom-electricity .wisdom-electricity-bottom .wisdom-electricity-bottom-homePage .wisdom-electricity-bottom-bottom .layui-table-body:hover::-webkit-scrollbar-thumb {
+  background: rgba(135, 135, 135, 0.4);
+}
+
+.Realtime-main .Realtime-right .wisdom-electricity .wisdom-electricity-bottom .wisdom-electricity-bottom-homePage .wisdom-electricity-bottom-bottom .layui-table-body:hover::-webkit-scrollbar-track {
+  background: rgba(135, 135, 135, 0.1);
 }
 
 .Realtime-main .Realtime-right .wisdom-electricity .wisdom-electricity-bottom .wisdom-electricity-bottom-homePage .wisdom-electricity-bottom-bottom .layui-form {

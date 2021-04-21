@@ -12,6 +12,7 @@
 </head>
 
 <body>
+    <!-- 设备列表弹窗 -->
     <div class="detail">
         <div class="biu">
             <div class="biu-title">
@@ -58,6 +59,12 @@
             <div id="chartShow-liquidLevel">
 
             </div>
+            <div id="chartShow-pressure">
+
+            </div>
+            <div id="chartShow-smokeDetector">
+
+            </div>
         </div>
 
         <div class="historyData" style="display: none;">
@@ -98,6 +105,10 @@
         var time = []; //时间
         var liquidLevel = [] //液位
         var liquidLevelSign = [] //液位标志
+        var pressure = [] //压力
+        var pressureSign = [] //压力标志
+        var smokeDetector = []  //烟感
+        var smokeDetectorSign = []  //烟感标志
 
 
 
@@ -152,7 +163,7 @@
 
         //处理回调
         $.ajax({
-            url: baseUrl + "/rest/deviceworkdata/zxlist?token=" + JSON.parse(localStorage.getItem('loginInfo'))
+            url: baseUrl + "/deviceworkdata/zxlist?token=" + JSON.parse(localStorage.getItem('loginInfo'))
                 .token,
             type: 'get',
             data: getUrl(window.location.href),
@@ -354,7 +365,7 @@
                         renderer: 'svg'
                     });
                     //电流
-                    optionA = {
+                    var optionA = {
                         tooltip: {
                             trigger: 'axis'
                         },
@@ -401,7 +412,7 @@
                         ]
                     };
                     //电压
-                    optionV = {
+                    var optionV = {
                         tooltip: {
                             trigger: 'axis'
                         },
@@ -448,7 +459,7 @@
                         ]
                     };
                     //温度
-                    optionT = {
+                    var optionT = {
                         tooltip: {
                             trigger: 'axis'
                         },
@@ -501,7 +512,7 @@
                         ]
                     };
                     //剩余电流
-                    optionRA = {
+                    var optionRA = {
                         tooltip: {
                             trigger: 'axis'
                         },
@@ -557,6 +568,196 @@
                     // 判断节点是否显示
                     if ($('#chartShow-liquidLevel').children().length === 0) {
                         $('#chartShow-liquidLevel').css('display', 'none')
+                    }
+                } else if (response.rows.deviceType === '02') {
+                    //水压 02
+                    if (response.code === 200) {
+                        time = response.rows.time
+                        pressureSign.push(data[0].typeDes)
+                        data.map(item => {
+                            switch (item.dataType) {
+                                case "F":
+                                    pressure = item.value
+                                    break;
+                                default:
+                                    break;
+                            }
+                        })
+                    }
+
+                    console.log(pressureSign)
+                    //echars
+                    var myChartP = echarts.init(document.getElementById('chartShow-pressure'),
+                        null, {
+                        renderer: 'svg'
+                    });
+
+                    //液位
+                    var optionP = {
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+                        legend: {
+                            data: pressureSign
+                        },
+                        grid: {
+                            left: '3%',
+                            right: '4%',
+                            bottom: '3%',
+                            containLabel: true
+                        },
+                        toolbox: {
+                            feature: {
+                                saveAsImage: {}
+                            }
+                        },
+                        xAxis: {
+                            type: 'category',
+                            boundaryGap: false,
+                            data: time
+                        },
+                        yAxis: {
+                            type: 'value'
+                        },
+                        series: [{
+                            name: '压力',
+                            type: 'line',
+                            stack: '总量',
+                            data: pressure
+                        }]
+                    };
+                    optionP && myChartP.setOption(optionP);
+
+                    var infoMapData = data.map(item => {
+                        return `
+                        <p>
+                            <span class="data-record-content-icon"></span>
+                            <span class="data-record-content-detail">${item.typeDes}：${item.value.pop()} ${item.typeUnit}</span>
+                        </p>
+                    `
+                    })
+                    var $infoData = `
+                    <div class="data-record-content-time">
+                        最后上报时间 : ${time.pop()}
+                    </div>
+                    ${infoMapData.join('')}
+                    `
+                    $(".data-record-content").append($infoData)
+
+                    // 判断节点是否显示
+                    if ($('#chartShow-temperature').children().length === 0) {
+                        $('#chartShow-temperature').css('display', 'none')
+                    }
+                    if ($('#chartShow-electric').children().length === 0) {
+                        $('#chartShow-electric').css('display', 'none')
+                    }
+                    if ($('#chartShow-voltage').children().length === 0) {
+                        $('#chartShow-voltage').css('display', 'none')
+                    }
+                    if ($('#chartShow-aftercurrent').children().length === 0) {
+                        $('#chartShow-aftercurrent').css('display', 'none')
+                    }
+                    if ($('#chartShow-liquidLevel').children().length === 0) {
+                        $('#chartShow-liquidLevel').css('display', 'none')
+                    }
+                    if ($('#chartShow-pressure').children().length === 0) {
+                        $('#chartShow-pressure').css('display', 'none')
+                    }
+                } else if (response.rows.deviceType === '06') {
+                    //烟感 06
+                    if (response.code === 200) {
+                        time = response.rows.time
+                        smokeDetectorSign.push(data[3].typeDes)
+                        data.map(item => {
+                            switch (item.dataType) {
+                                case "V":
+                                    smokeDetector = item.value
+                                    break;
+                                default:
+                                    break;
+                            }
+                        })
+                    }
+
+                    //echars
+                    var myChartS = echarts.init(document.getElementById('chartShow-smokeDetector'),
+                        null, {
+                        renderer: 'svg'
+                    });
+
+                    //电池电压
+                    var optionS = {
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+                        legend: {
+                            data: smokeDetectorSign
+                        },
+                        grid: {
+                            left: '3%',
+                            right: '4%',
+                            bottom: '3%',
+                            containLabel: true
+                        },
+                        toolbox: {
+                            feature: {
+                                saveAsImage: {}
+                            }
+                        },
+                        xAxis: {
+                            type: 'category',
+                            boundaryGap: false,
+                            data: time
+                        },
+                        yAxis: {
+                            type: 'value'
+                        },
+                        series: [{
+                            name: '压力',
+                            type: 'line',
+                            stack: '总量',
+                            data: smokeDetector
+                        }]
+                    };
+                    optionS && myChartS.setOption(optionS);
+
+                    var infoMapData = data.map(item => {
+                        return `
+                        <p>
+                            <span class="data-record-content-icon"></span>
+                            <span class="data-record-content-detail">${item.typeDes}：${item.value.pop()} ${item.typeUnit}</span>
+                        </p>
+                    `
+                    })
+                    var $infoData = `
+                    <div class="data-record-content-time">
+                        最后上报时间 : ${time.pop()}
+                    </div>
+                    ${infoMapData.join('')}
+                    `
+                    $(".data-record-content").append($infoData)
+
+                    // 判断节点是否显示
+                    if ($('#chartShow-temperature').children().length === 0) {
+                        $('#chartShow-temperature').css('display', 'none')
+                    }
+                    if ($('#chartShow-electric').children().length === 0) {
+                        $('#chartShow-electric').css('display', 'none')
+                    }
+                    if ($('#chartShow-voltage').children().length === 0) {
+                        $('#chartShow-voltage').css('display', 'none')
+                    }
+                    if ($('#chartShow-aftercurrent').children().length === 0) {
+                        $('#chartShow-aftercurrent').css('display', 'none')
+                    }
+                    if ($('#chartShow-liquidLevel').children().length === 0) {
+                        $('#chartShow-liquidLevel').css('display', 'none')
+                    }
+                    if ($('#chartShow-pressure').children().length === 0) {
+                        $('#chartShow-pressure').css('display', 'none')
+                    }
+                    if ($('#chartShow-smokeDetector').children().length === 0) {
+                        $('#chartShow-smokeDetector').css('display', 'none')
                     }
                 }
             },

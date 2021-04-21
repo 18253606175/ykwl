@@ -40,7 +40,7 @@ layui.use(['element', 'layer'], function () {
             $('.password').css('display', 'none');
 
             $.ajax({
-                url: baseUrl + '/rest/sys/login',
+                url: baseUrl + '/sys/login',
                 type: 'POST',
                 dataType: 'json',
                 data: {
@@ -50,7 +50,7 @@ layui.use(['element', 'layer'], function () {
                 success: function (data) {
                     if (data.code === 200) {
                         localStorage.setItem('loginInfo', JSON.stringify(data.rows));
-                        window.open('http://127.0.0.1:5500/html/homePage.html', '_self')
+                        window.open('../homePage.html', '_self')
                     } else {
                         layer.alert(data.msg, {
                             title: '提示',

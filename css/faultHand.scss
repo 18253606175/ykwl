@@ -206,8 +206,28 @@ body {
 //     }
 // }
 
+
+//分页样式
+.layui-table-page .layui-laypage button, .layui-table-page .layui-laypage input {
+    background: #1c2536;
+    color: #fff;
+
+    
+}
+
 .layui-btn-primary {
     color: #fff;
+}
+
+.layui-table-page .layui-laypage span {
+    margin-left: 0;
+    padding: 0;
+    color: #fff;
+}
+
+.layui-table-page select {
+    color: #fff;
+    background: #1c2536;
 }
 
 .layui-table tbody tr:hover,
@@ -238,6 +258,5 @@ body {
 .layui-table-view,
 .layui-table[lay-skin=line],
 .layui-table[lay-skin=row] {
-    border-style: solid;
-    border-color: #888;
+    border: none;
 }

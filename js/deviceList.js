@@ -30,7 +30,7 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
             area: ['65%', '81%'],
             shadeClose: true,
             anim: 0,
-            content: [`../html/demo.html?deviceId=${data.deviceId}`, 'no'], //iframe的url，no代表不显示滚动条
+            content: [`../demo.html?deviceId=${data.deviceId}`, 'no'], //iframe的url，no代表不显示滚动条
         });
 
 
@@ -84,8 +84,6 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
         },
     ]
 
-    //左侧分类
-    var leftType = ["智慧消防", "消防水", "NB烟感", "视频监控"]
 
     var selectMap = selectDate.map(item => {
         return `
@@ -100,10 +98,70 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
 
     //监听提交搜索
     form.on('submit(submitBtn)', function (data) {
+        table.render({
+            elem: '#home',
+            height: 740,
+            url: baseUrl + "/device/tablelist?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
+            where: {
+                location: data.field.location
+            },
+            limit: 15,
+            limits: [15, 30, 45],
+            cellMinWidth: 85,
+            page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档  
+                groups: 5 //只显示 1 个连续页码
+                    ,
+                first: false //不显示首页
+                    ,
+                last: false //不显示尾页
+            },
+            even: true,
+            parseData: function (res) { //res 即为原始返回的数据
+                return {
+                    "code": 0, //解析接口状态
+                    "data": res.rows.rows, //解析数据列表
+                    "count": res.rows.total,
+                };
+            },
+            request: {
+                pageName: 'pageNumber' //页码的参数名称，默认：page
+                    ,
+                limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            },
+            cols: [
+                [ //表头
+                    {
+                        field: 'type',
+                        title: '状态',
+                        width: 60,
+                        templet: "#sexTpl"
+                    },
+                    {
+                        field: 'imei',
+                        title: '设备编号'
+                    },
+                    {
+                        field: 'deviceName',
+                        title: '设备名称'
+                    },
+                    {
+                        field: 'type',
+                        title: '设备类型',
+                        templet: "#typeSign"
+                    },
+                    {
+                        field: 'location',
+                        title: '设备安装地点'
+                    },
+                    {
+                        field: 'installationTime',
+                        title: '设备安装时间'
+                    },
+                ]
+            ]
+        });
 
-        layer.alert(JSON.stringify(data.field), {
-            title: '最终的提交信息'
-        })
+       
         return false;
     });
 
@@ -141,29 +199,144 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
     $(".Realtime-left-top-bottom").append($span);
 
 
-    var leftTypeDate = leftType.map(item => {
-        return `
-            <li class="layui-nav-item"><a href="javaScript:;">${item}</a></li>
-        `
-    })
+    //设备类型分类
 
-    $(".Realtime-left-bottom > .layui-nav").append(leftTypeDate.join(''));
+    var typeSum = []
 
-    $(".Realtime-left-bottom > .layui-nav li a").on('click', function () {
-        if ($(this).context.innerHTML) {
-            $(".wisdom-electricity-bottom-video iframe").attr("src", '../html/video.html');
-            var frame = $("#video");
+    //设备总数
+    var typeCount = []
 
-            var frameheight = $(window).height();
+    $.ajax({
+        url: baseUrl + '/device/devicetypewithnum?token=' + JSON.parse(localStorage.getItem('loginInfo')).token,
+        success: function(res){
+            const { rows } = res
+            var leftType =  rows.map(item => {
+                typeSum.push(item.type)
+                typeCount.push(item.count)
+                    return item.type_sign
+            })
 
-            // frame.css("height", 100%);
+            var leftTypeDate = leftType.map((item, index) => {
+
+                    return `
+                        <li class="layui-nav-item select-li"><a href="javaScript:;">${item}&nbsp;&nbsp;&nbsp;&nbsp;总数：${typeCount[index]}</a></li>
+                    `
+                
+            })
+
+            $(".Realtime-left-bottom > .layui-nav").append(leftTypeDate.join(''));
+        
+            for (var i = 0; i < document.getElementsByClassName("select-li").length; i++) {
+        
+                $(".Realtime-left-bottom > .layui-nav > li")[i].setAttribute("index", i)
+                
+                $(".Realtime-left-bottom > .layui-nav > li")[i].onclick = function () {
+                    for (var j = 0; j < $(".wisdom-electricity-bottom > div").length; j++) {
+                        $(".wisdom-electricity-bottom > div")[j].className = "";
+                    }
+                    typeSum = Number(this.getAttribute('index')) + 1
+                    if (typeSum === 1) {
+                        var elemName = '#electricity'
+                        typeId = '01'
+                    } else if (typeSum === 2) {
+                        var elemName = '#water'
+                        typeId = '02'
+                    }else if (typeSum === 3) {
+                        var elemName = '#waterV'
+                        typeId = '03'
+                    } else if (typeSum === 4) {
+                        var elemName = '#nb'
+                        typeId = '06'
+                    }else if (typeSum === 5) {
+                        var elemName = '#nb'
+                        typeId = '05'
+                    }
+
+
+                    table.render({
+                        elem: elemName,
+                        height: 740,
+                        url: baseUrl + "/device/tablelist?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
+                        where: {
+                            type: typeId
+                        },
+                        cellMinWidth: 85,
+                        // page: true, //开启分页
+                        even: true,
+                        parseData: function (res) { //res 即为原始返回的数据
+                            return {
+                                "code": 0, //解析接口状态
+                                "data": res.rows.rows, //解析数据列表
+                                "page": {
+                                    'count': res.rows.pageCount,
+                                    'limit': 20
+                                }
+                            };
+                        },
+                        request: {
+                            pageName: 'pageNumber' //页码的参数名称，默认：page
+                                ,
+                            limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                        },
+                        cols: [
+                            [ //表头
+                                {
+                                    field: 'type',
+                                    title: '状态',
+                                    width: 60,
+                                    templet: "#sexTpl"
+                                },
+                                {
+                                    field: 'imei',
+                                    title: '设备编号'
+                                },
+                                {
+                                    field: 'deviceName',
+                                    title: '设备名称'
+                                },
+                                {
+                                    field: 'type',
+                                    title: '设备类型',
+                                    templet: "#typeSign"
+                                },
+                                {
+                                    field: 'location',
+                                    title: '设备安装地点'
+                                },
+                                {
+                                    field: 'installationTime',
+                                    title: '设备安装时间'
+                                },
+                            ]
+                        ]
+                    });
+                    $(".wisdom-electricity-bottom > div")[Number(this.getAttribute("index")) + 1].className = "current";
+                }
+            }
+            $(".select-li").on('click', function () {
+                $(this).addClass("layui-this");
+                $(this).siblings('li').removeClass('layui-this');
+            });
+
+            $(".Realtime-left-bottom > .layui-nav li a").on('click', function () {
+                if ($(this).context.innerHTML) {
+                    $(".wisdom-electricity-bottom-video iframe").attr("src", '../video.html');
+                    var frame = $("#video");
+        
+                    var frameheight = $(window).height();
+        
+                    // frame.css("height", 100%);
+                }
+            })
         }
     })
 
-    $(".Realtime-left-bottom > .layui-nav > li").on("click", function () {
-        $(this).addClass("layui-this");
-        $(this).siblings('li').removeClass('layui-this');
-    });
+
+    
+
+    
+
+    
 
 
     $(".wisdom-electricity-bottom-top-classify").append(
@@ -182,21 +355,28 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
 
     var typeId = 0;
 
-    console.log()
+    //初始化渲染全部类型
+
     table.render({
         elem: '#home',
         height: 740,
-        url: baseUrl + "/rest/device/tablelist?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
-        where: {
-            id: typeId
-        },
+        url: baseUrl + "/device/tablelist?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
+        limit: 15,
+        limits: [15, 30, 45],
         cellMinWidth: 85,
-        page: true, //开启分页
+        page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档  
+            groups: 5 //只显示 1 个连续页码
+                ,
+            first: false //不显示首页
+                ,
+            last: false //不显示尾页
+        },
         even: true,
         parseData: function (res) { //res 即为原始返回的数据
             return {
                 "code": 0, //解析接口状态
-                "data": res.rows.rows //解析数据列表
+                "data": res.rows.rows, //解析数据列表
+                "count": res.rows.total,
             };
         },
         request: {
@@ -221,90 +401,23 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
                     title: '设备名称'
                 },
                 {
-                    field: 'deviceName',
-                    title: '设备类型'
+                    field: 'type',
+                    title: '设备类型',
+                    templet: "#typeSign"
                 },
                 {
                     field: 'location',
                     title: '设备安装地点'
                 },
                 {
-                    field: 'createTime',
+                    field: 'installationTime',
                     title: '设备安装时间'
                 },
             ]
         ]
     });
-
-    for (var i = 0; i < $(".Realtime-left-bottom > .layui-nav > li").length; i++) {
-        $(".Realtime-left-bottom > .layui-nav > li")[i].setAttribute("index", i)
-        $(".Realtime-left-bottom > .layui-nav > li")[i].onclick = function () {
-            for (var j = 0; j < $(".wisdom-electricity-bottom > div").length; j++) {
-                $(".wisdom-electricity-bottom > div")[j].className = "";
-            }
-            typeId = Number(this.getAttribute("index")) + 1
-            if (typeId === 1) {
-                var elemName = '#electricity'
-            } else if (typeId === 2) {
-                var elemName = '#water'
-            } else if (typeId === 3) {
-                var elemName = '#nb'
-            }
-            table.render({
-                elem: elemName,
-                height: 740,
-                url: baseUrl + "/rest/device/tablelist?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
-                where: {
-                    id: typeId
-                },
-                cellMinWidth: 85,
-                page: true, //开启分页
-                even: true,
-                parseData: function (res) { //res 即为原始返回的数据
-                    return {
-                        "code": 0, //解析接口状态
-                        "data": res.rows.rows //解析数据列表
-                    };
-                },
-                request: {
-                    pageName: 'pageNumber' //页码的参数名称，默认：page
-                        ,
-                    limitName: 'pageSize' //每页数据量的参数名，默认：limit
-                },
-                cols: [
-                    [ //表头
-                        {
-                            field: 'type',
-                            title: '状态',
-                            width: 60,
-                            templet: "#sexTpl"
-                        },
-                        {
-                            field: 'imei',
-                            title: '设备编号'
-                        },
-                        {
-                            field: 'deviceName',
-                            title: '设备名称'
-                        },
-                        {
-                            field: 'deviceName',
-                            title: '设备类型'
-                        },
-                        {
-                            field: 'location',
-                            title: '设备安装地点'
-                        },
-                        {
-                            field: 'createTime',
-                            title: '设备安装时间'
-                        },
-                    ]
-                ]
-            });
-            $(".wisdom-electricity-bottom > div")[Number(this.getAttribute("index")) + 1].className = "current";
-        }
-    }
+    
+    
 
     $(".wisdom-electricity-bottom-top-type > span").on("click", function () {
         $(this).addClass("classifyStyle");
@@ -314,7 +427,6 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
 
     for (var i = 0; i < $('.button-add').length; i++) {
         $('.button-add')[i].onclick = function () {
-
             layer.open({
                 type: 1,
                 offset: '180px',
