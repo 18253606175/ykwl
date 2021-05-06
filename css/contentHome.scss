@@ -5,7 +5,7 @@ html {
 
 html,
 body {
-    height: (97% !important);
+    height: (96% !important);
     overflow: (inherit !important);
     background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAP0lEQVQImZ3LsRGAQAwDwTtDE6R08P3XhkWKP+QyzY687pX0AxZVxbczaZKgTYeJ1gGAFu5PlSAqOnGurf/4AsrpDpHqPjDnAAAAAElFTkSuQmCC);
     overflow-y: hidden;
@@ -20,6 +20,7 @@ body {
     font-size: 32px;
     font-weight: 600;
     padding-top: 5px;
+    margin-bottom: 10px;
     // position: absolute;
     // width: 100%;
 }
@@ -40,7 +41,7 @@ body {
             flex: 1.2;
             background-image: url("../img/indexBotBak.png");
             background-repeat: no-repeat;
-            background-size: 100% 25vh;
+            background-size: 100% 23vh;
             margin-bottom: 15px;
             display: flex;
             flex-direction: column;

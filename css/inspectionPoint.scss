@@ -26,6 +26,12 @@ body {
     section {
         .layui-tab-content {
             text-align: right;
+            height: 54px;
+
+            .layui-btn-group {
+                position: relative;
+                top: -40px;
+            }
 
             .layui-disabled {
                 text-align: center;
@@ -34,7 +40,7 @@ body {
             .faultHand-main-header-right-search {
                 display: flex;
                 display: flex;
-                position: absolute;
+                position: inherit;
                 top: 24px;
                 left: 90px;
 

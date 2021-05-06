@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./node_modules/layui.css">
-    <link rel="stylesheet" href="./css/demo.min.css">
+    <link rel="stylesheet" href="./css/demo.css">
 
 </head>
 
@@ -263,7 +263,6 @@
                         series: [{
                             name: '液位',
                             type: 'line',
-                            stack: '总量',
                             data: liquidLevel
                         }]
                     };
@@ -273,13 +272,13 @@
                         return `
                         <p>
                             <span class="data-record-content-icon"></span>
-                            <span class="data-record-content-detail">${item.typeDes}：${item.value.pop()} ${item.typeUnit}</span>
+                            <span class="data-record-content-detail">${item.typeDes}：${item.value.pop() === undefined ? '-' : item.value.pop()} ${item.typeUnit}</span>
                         </p>
                     `
                     })
                     var $infoData = `
                     <div class="data-record-content-time">
-                        最后上报时间 : ${time.pop()}
+                        最后上报时间 : ${time.pop() === undefined ? '-' : time.pop()}
                     </div>
                     ${infoMapData.join('')}
                     `
@@ -300,6 +299,12 @@
                     }
                     if ($('#chartShow-liquidLevel').children().length === 0) {
                         $('#chartShow-liquidLevel').css('display', 'none')
+                    }
+                    if ($('#chartShow-pressure').children().length === 0) {
+                        $('#chartShow-pressure').css('display', 'none')
+                    }
+                    if ($('#chartShow-smokeDetector').children().length === 0) {
+                        $('#chartShow-smokeDetector').css('display', 'none')
                     }
                 } else if (response.rows.deviceType === '01') {
                     if (response.code === 200) {
@@ -394,19 +399,16 @@
                         series: [{
                             name: 'A相电流',
                             type: 'line',
-                            stack: '总量',
                             data: electricA
                         },
                         {
                             name: 'B相电流',
                             type: 'line',
-                            stack: '总量',
                             data: electricB
                         },
                         {
                             name: 'C相电流',
                             type: 'line',
-                            stack: '总量',
                             data: electricC
                         }
                         ]
@@ -441,19 +443,16 @@
                         series: [{
                             name: 'A相电压',
                             type: 'line',
-                            stack: '总量',
                             data: voltageA
                         },
                         {
                             name: 'B相电压',
                             type: 'line',
-                            stack: '总量',
                             data: voltageB
                         },
                         {
                             name: 'C相电压',
                             type: 'line',
-                            stack: '总量',
                             data: voltageC
                         }
                         ]
@@ -488,25 +487,21 @@
                         series: [{
                             name: 'A相温度',
                             type: 'line',
-                            stack: '总量',
                             data: temperatureA
                         },
                         {
                             name: 'B相温度',
                             type: 'line',
-                            stack: '总量',
                             data: temperatureB
                         },
                         {
                             name: 'C相温度',
                             type: 'line',
-                            stack: '总量',
                             data: temperatureC
                         },
                         {
                             name: '环境温度',
                             type: 'line',
-                            stack: '总量',
                             data: temperatureE
                         }
                         ]
@@ -536,12 +531,12 @@
                             data: time
                         },
                         yAxis: {
-                            type: 'value'
+                            type: 'value',
+                            max: function(value){return value.max}
                         },
                         series: [{
                             name: '剩余电流',
                             type: 'line',
-                            stack: '总量',
                             data: electricRA
                         }]
                     };
@@ -553,13 +548,13 @@
                         return `
                         <p>
                             <span class="data-record-content-icon"></span>
-                            <span class="data-record-content-detail">${item.typeDes}：${item.value.pop()} ${item.typeUnit}</span>
+                            <span class="data-record-content-detail">${item.typeDes}：${item.value.pop() === undefined ? '-' : item.value.pop()}  ${item.typeUnit}</span>
                         </p>
                     `
                     })
                     var $infoData = `
                     <div class="data-record-content-time">
-                        最后上报时间 : ${time.pop()}
+                        最后上报时间 : ${time.pop() === undefined ? '-' : time.pop()}
                     </div>
                     ${infoMapData.join('')}
                     `
@@ -568,6 +563,12 @@
                     // 判断节点是否显示
                     if ($('#chartShow-liquidLevel').children().length === 0) {
                         $('#chartShow-liquidLevel').css('display', 'none')
+                    }
+                    if ($('#chartShow-pressure').children().length === 0) {
+                        $('#chartShow-pressure').css('display', 'none')
+                    }
+                    if ($('#chartShow-smokeDetector').children().length === 0) {
+                        $('#chartShow-smokeDetector').css('display', 'none')
                     }
                 } else if (response.rows.deviceType === '02') {
                     //水压 02
@@ -622,7 +623,6 @@
                         series: [{
                             name: '压力',
                             type: 'line',
-                            stack: '总量',
                             data: pressure
                         }]
                     };
@@ -632,13 +632,13 @@
                         return `
                         <p>
                             <span class="data-record-content-icon"></span>
-                            <span class="data-record-content-detail">${item.typeDes}：${item.value.pop()} ${item.typeUnit}</span>
+                            <span class="data-record-content-detail">${item.typeDes}：${item.value.pop() === undefined ? '-' : item.value.pop()} ${item.typeUnit}</span>
                         </p>
                     `
                     })
                     var $infoData = `
                     <div class="data-record-content-time">
-                        最后上报时间 : ${time.pop()}
+                        最后上报时间 : ${time.pop() === undefined ? '-' : time.pop()}
                     </div>
                     ${infoMapData.join('')}
                     `
@@ -663,11 +663,14 @@
                     if ($('#chartShow-pressure').children().length === 0) {
                         $('#chartShow-pressure').css('display', 'none')
                     }
+                    if ($('#chartShow-smokeDetector').children().length === 0) {
+                        $('#chartShow-smokeDetector').css('display', 'none')
+                    }
                 } else if (response.rows.deviceType === '06') {
                     //烟感 06
                     if (response.code === 200) {
                         time = response.rows.time
-                        smokeDetectorSign.push(data[3].typeDes)
+                        smokeDetectorSign.push(data[1].typeDes)
                         data.map(item => {
                             switch (item.dataType) {
                                 case "V":
@@ -715,7 +718,6 @@
                         series: [{
                             name: '压力',
                             type: 'line',
-                            stack: '总量',
                             data: smokeDetector
                         }]
                     };
@@ -725,13 +727,13 @@
                         return `
                         <p>
                             <span class="data-record-content-icon"></span>
-                            <span class="data-record-content-detail">${item.typeDes}：${item.value.pop()} ${item.typeUnit}</span>
+                            <span class="data-record-content-detail">${item.typeDes}：${item.value.pop() === undefined ? '-' : item.value.pop()} ${item.typeUnit}</span>
                         </p>
                     `
                     })
                     var $infoData = `
                     <div class="data-record-content-time">
-                        最后上报时间 : ${time.pop()}
+                        最后上报时间 : ${time.pop() === undefined ? '-' : time.pop()}
                     </div>
                     ${infoMapData.join('')}
                     `

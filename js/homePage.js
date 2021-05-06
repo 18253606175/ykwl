@@ -35,104 +35,16 @@ layui.use(['element', 'layer'], function () {
             }
         ]
     }
-    var alarmData = {
-        "proNum": 1,
-        "devNum": 22
-    }
 
-    var projectData = [{
-            title: "A Title",
-            value: "山东英科物联网",
-            money: "$20"
-        },
-        {
-            title: "B Title",
-            value: "山东英科物联网",
-            money: "$10"
-        },
-        {
-            title: "Title",
-            value: "山东英科物联网",
-            money: "$20"
-        },
-        {
-            title: "Title",
-            value: "山东英科物联网",
-            money: "$20"
-        },
-        {
-            title: "Title",
-            value: "山东英科物联网",
-            money: "$20"
-        },
-        {
-            title: "Title",
-            value: "山东英科物联网",
-            money: "$20"
-        },
-        {
-            title: "Title",
-            value: "山东英科物联网",
-            money: "$20"
-        },
-        {
-            title: "Title",
-            value: "山东英科物联网",
-            money: "$20"
-        },
-        {
-            title: "Title",
-            value: "山东英科物联网",
-            money: "$20"
-        }
-    ]
+
     element.tabChange('test1', layid); //假设当前地址为：http://a.com#test1=222，那么选项卡会自动切换到“发送消息”这一项
 
 
-    var deviceState = [{
-            name: "正常设备",
-            percent: "10",
-            value: 10
-        },
-        {
-            name: "报警设备",
-            percent: "10",
-            value: 10
-        },
-        {
-            name: "离线设备",
-            percent: "10",
-            value: 10
-        }
-    ]
+    var deviceState = []
 
     //柱形图数据
 
-    var columData = [{
-            name: "外地开会",
-            value: 10
-        },
-        {
-            name: "外地开会",
-            value: 20
-        },
-        {
-            name: "外地开会",
-            value: 30
-        },
-        {
-            name: "外地开会",
-            value: 40
-        },
-        {
-            name: "外地开会",
-            value: 50
-        },
-        {
-            name: "外地开会",
-            value: 60
-        },
-    ]
+    var columData = []
 
     //报警数据
     var alertData = []
@@ -145,7 +57,7 @@ layui.use(['element', 'layer'], function () {
     //近7日报警
     var weekAlarm = []
 
-   
+
     //近7日报警统计
     $.ajax({
         url: baseUrl + '/alarm/alarmnumwithsevendate?token=' + JSON.parse(localStorage.getItem('loginInfo')).token,
@@ -163,270 +75,8 @@ layui.use(['element', 'layer'], function () {
 
 
 
-            let num = 0;
-            deviceState.map(item => {
-                num += item.value
-            })
-            let colorPie = ['green', 'yellow', 'grey'];
-            let colorWrap = ["#1be5e7", "#1be5e7", "#1be5e7"];
-            let baseDataPie = [],
-                baseDataWrap = [];
-            for (var i = 0; i < deviceState.length; i++) {
-                baseDataPie.push({
-                    value: deviceState[i].value,
-                    name: deviceState[i].name,
-                    itemStyle: {
-                        normal: {
-                            borderWidth: 10,
-
-                            borderColor: colorPie[i],
-
-                        }
-                    }
-                });
-                baseDataWrap.push({
-                    value: deviceState[i].value,
-                    name: deviceState[i].name,
-                    itemStyle: {
-                        normal: {
-                            color: colorWrap[i],
-                            borderWidth: 10,
-                            borderColor: colorWrap[i],
-                            shadowBlur: 50,
-                            shadowColor: 'rgba(48, 135, 214, 0.3)',
-                        }
-                    }
-                }, {
-                    value: 10,
-                    name: '',
-                    itemStyle: {
-                        normal: {
-                            color: 'transparent',
-                            borderWidth: 10,
-                            borderColor: 'transparent',
-
-                        }
-                    }
-                });
-            }
-            var getmydmc = []; //y
-            var getmyd = []; //x
-            columData.map(item => {
-                getmydmc.push(item.name);
-                getmyd.push(item.value)
-            })
-
-            var getmydzd = [];
-            for (let i = 0; i < getmyd.length; i++) {
-                getmydzd.push(10000)
-            }
-            //计算最大值  
-            function calMax(arr) {
-                let max = 0;
-                arr.forEach((el) => {
-                    el.forEach((el1) => {
-                        if (!(el1 === undefined || el1 === '')) {
-                            if (max < el1) {
-                                max = el1;
-                            }
-                        }
-                    })
-                })
-                let maxint = Math.ceil(max / 9.5);
-                //不让最高的值超过最上面的刻度    
-                let maxval = maxint * 10;
-                //让显示的刻度是整数    
-                return maxval;
-            }
-
-
-            var max = Math.ceil(calMax([getmyd]) / 10) * 10;
-            var myChart = echarts.init(document.getElementById('home-left-center-bottom-left'));
-            var myChartT = echarts.init(document.getElementById('home-left-bottom'));
             var myChartS = echarts.init(document.getElementById('home-right-bottom-bottom'));
-            // 柱形绘制图表
-            var option = {
-                title: {
-                    text: '总数',
-                    subtext: num,
-                    textStyle: {
-                        color: '#00b5f3',
-                        fontSize: 12,
 
-                    },
-                    subtextStyle: {
-                        align: 'center',
-                        fontSize: 18,
-                        color: ['#85c7e3'],
-                        fontWeight: 800
-                    },
-                    x: '38%',
-                    y: '40%',
-                },
-                tooltip: {
-                    show: true,
-                    trigger: 'item',
-                    formatter: "{a}{b} <br/>占比：{d}%"
-                },
-
-                grid: {
-                    left: '1%', // 与容器左侧的距离
-                    right: '1%', // 与容器右侧的距离
-                    top: '1%', // 与容器顶部的距离
-                    bottom: '1%', // 与容器底部的距离
-
-                },
-                series: [{
-                        name: '',
-                        type: 'pie',
-                        clockWise: false, //顺时加载
-                        hoverAnimation: false, //鼠标移入变大
-                        center: ['50%', '50%'],
-                        radius: ['80%', '81%'],
-                        tooltip: {
-                            show: false
-                        },
-                        label: {
-                            normal: {
-                                show: false
-                            }
-                        },
-                        data: baseDataWrap
-                    },
-                    {
-
-                        name: '',
-                        type: 'pie',
-                        color: colorPie,
-                        selectedMode: 'single',
-                        radius: ['55%', '58%'],
-                        center: ['50%', '50%'],
-                        hoverAnimation: false,
-                        label: {
-                            normal: {
-                                show: false,
-                            }
-                        },
-
-                        data: baseDataPie
-                    },
-
-                ]
-            };
-
-            //条形绘制图表
-
-            var optionT = {
-                grid: {
-                    left: '100',
-                    right: '50',
-                    bottom: '40',
-                    top: '30',
-                },
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: {
-                        type: 'none'
-                    },
-                    formatter: function (params) {
-                        return params[0].name + ': ' + params[0].value
-                    }
-                },
-                xAxis: [{
-                    type: 'value',
-                    axisLabel: {
-                        margin: 5,
-                        color: '#999',
-                        textStyle: {
-                            fontSize: '13'
-                        },
-                    },
-                    min: 0,
-                    max: max, // 计算最大值
-                    interval: max / 5, //  平均分为5份
-                    splitNumber: 5,
-                    splitLine: {
-                        show: true,
-                        lineStyle: {
-
-                            color: '#D8D8D8'
-                        }
-                    },
-                    axisLine: {
-                        show: false
-                    },
-                    axisTick: {
-                        show: false
-                    },
-                }, {
-                    type: 'value',
-                    axisLabel: {
-                        show: false,
-                    },
-                    min: 0,
-                    max: max, // 计算最大值
-                    interval: max / 10, //  平均分为5份
-                    splitNumber: 10,
-                    splitLine: {
-                        show: true,
-                        lineStyle: {
-                            type: 'dashed',
-                            color: '#D8D8D8'
-                        }
-                    },
-                    axisLine: {
-                        show: false
-                    },
-                    axisTick: {
-                        show: false
-                    },
-                }],
-                yAxis: [{
-                    type: 'category',
-                    inverse: true,
-                    axisLabel: {
-                        textStyle: {
-                            color: '#999',
-                            fontSize: '13'
-                        },
-                    },
-                    splitLine: {
-                        show: false
-                    },
-                    axisTick: {
-                        show: false
-                    },
-                    axisLine: {
-                        lineStyle: {
-                            color: '#8E8E8E'
-                        }
-                    },
-                    data: getmydmc
-                }],
-                series: [{
-                    name: '值',
-                    type: 'bar',
-                    zlevel: 1,
-                    xAxisIndex: 0,
-                    label: {
-                        show: true,
-                        position: 'insideRight'
-                    },
-                    itemStyle: {
-                        normal: {
-                            color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                                offset: 0,
-                                color: '#1b82a1' // 0% 处的颜色
-                            }, {
-                                offset: 1,
-                                color: '#1b82a1' // 100% 处的颜色
-                            }], false),
-                        },
-                    },
-                    barWidth: 15,
-                    data: getmyd
-                }, ]
-            };
 
             var xData = []
             var line = [];
@@ -473,8 +123,7 @@ layui.use(['element', 'layer'], function () {
             };
 
 
-            option && myChart.setOption(option);
-            optionT && myChartT.setOption(optionT);
+
             optionS && myChartS.setOption(optionS);
 
 
@@ -491,11 +140,323 @@ layui.use(['element', 'layer'], function () {
 
         $.ajax({
             url: baseUrl + '/company/infoanddevicetype?token=' + JSON.parse(localStorage.getItem('loginInfo')).token + '&companyId=' + JSON.parse(localStorage.getItem('loginInfo')).companyId,
-            success: function(res){
-                const { rows, deviceTypeNum } = res
-                first = {
-                    
+            success: function (res) {
+                const {
+                    deviceTypeNum,
+                    company
+                } = res.rows
+                columData = deviceTypeNum.map(item => {
+                    return {
+                        name: item.type_sign,
+                        value: item.count
+                    }
+                })
+
+
+
+                deviceState = [{
+                        name: "正常设备",
+                        percent: (company.deviceOnLine / company.deviceSum).toFixed(2),
+                        value: company.deviceOnLine
+                    },
+                    {
+                        name: "报警设备",
+                        percent: (company.deviceFault / company.deviceSum).toFixed(2),
+                        value: company.deviceFault
+                    },
+                    {
+                        name: "离线设备",
+                        percent: (company.deviceOffLine / company.deviceSum).toFixed(2),
+                        value: company.deviceOffLine
+                    }
+                ]
+
+                //设备状态
+                let num = 0;
+                deviceState.map(item => {
+                    num += item.value
+                })
+                let colorPie = ['green', 'yellow', 'grey'];
+                let colorWrap = ["#1be5e7", "#1be5e7", "#1be5e7"];
+                let baseDataPie = [],
+                    baseDataWrap = [];
+                for (var i = 0; i < deviceState.length; i++) {
+                    baseDataPie.push({
+                        value: deviceState[i].value,
+                        name: deviceState[i].name,
+                        itemStyle: {
+                            normal: {
+                                borderWidth: 10,
+
+                                borderColor: colorPie[i],
+
+                            }
+                        }
+                    });
+                    baseDataWrap.push({
+                        value: deviceState[i].value,
+                        name: deviceState[i].name,
+                        itemStyle: {
+                            normal: {
+                                color: colorWrap[i],
+                                borderWidth: 10,
+                                borderColor: colorWrap[i],
+                                shadowBlur: 50,
+                                shadowColor: 'rgba(48, 135, 214, 0.3)',
+                            }
+                        }
+                    }, {
+                        value: 10,
+                        name: '',
+                        itemStyle: {
+                            normal: {
+                                color: 'transparent',
+                                borderWidth: 10,
+                                borderColor: 'transparent',
+
+                            }
+                        }
+                    });
                 }
+                var getmydmc = []; //y
+                var getmyd = []; //x
+                columData.map(item => {
+                    getmydmc.push(item.name);
+                    getmyd.push(item.value)
+                })
+
+                var getmydzd = [];
+                for (let i = 0; i < getmyd.length; i++) {
+                    getmydzd.push(10000)
+                }
+                //计算最大值  
+                function calMax(arr) {
+                    let max = 0;
+                    arr.forEach((el) => {
+                        el.forEach((el1) => {
+                            if (!(el1 === undefined || el1 === '')) {
+                                if (max < el1) {
+                                    max = el1;
+                                }
+                            }
+                        })
+                    })
+                    let maxint = Math.ceil(max / 9.5);
+                    //不让最高的值超过最上面的刻度    
+                    let maxval = maxint * 10;
+                    //让显示的刻度是整数    
+                    return maxval;
+                }
+
+
+                var max = Math.ceil(calMax([getmyd]) / 10) * 10;
+                var myChart = echarts.init(document.getElementById('home-left-center-bottom-left'));
+                var myChartT = echarts.init(document.getElementById('home-left-bottom'));
+
+                // 柱形绘制图表
+                var option = {
+                    title: {
+                        text: '总数',
+                        subtext: num,
+                        textStyle: {
+                            color: '#00b5f3',
+                            fontSize: 12,
+
+                        },
+                        subtextStyle: {
+                            align: 'center',
+                            fontSize: 18,
+                            color: ['#85c7e3'],
+                            fontWeight: 800
+                        },
+                        x: '38%',
+                        y: '40%',
+                    },
+                    tooltip: {
+                        show: true,
+                        trigger: 'item',
+                        formatter: "{a}{b} <br/>占比：{d}%"
+                    },
+
+                    grid: {
+                        left: '1%', // 与容器左侧的距离
+                        right: '1%', // 与容器右侧的距离
+                        top: '1%', // 与容器顶部的距离
+                        bottom: '1%', // 与容器底部的距离
+
+                    },
+                    series: [{
+                            name: '',
+                            type: 'pie',
+                            clockWise: false, //顺时加载
+                            hoverAnimation: false, //鼠标移入变大
+                            center: ['50%', '50%'],
+                            radius: ['80%', '81%'],
+                            tooltip: {
+                                show: false
+                            },
+                            label: {
+                                normal: {
+                                    show: false
+                                }
+                            },
+                            data: baseDataWrap
+                        },
+                        {
+
+                            name: '',
+                            type: 'pie',
+                            color: colorPie,
+                            selectedMode: 'single',
+                            radius: ['55%', '58%'],
+                            center: ['50%', '50%'],
+                            hoverAnimation: false,
+                            label: {
+                                normal: {
+                                    show: false,
+                                }
+                            },
+
+                            data: baseDataPie
+                        },
+
+                    ]
+                };
+
+                //条形绘制图表
+
+                var optionT = {
+                    grid: {
+                        left: '100',
+                        right: '50',
+                        bottom: '40',
+                        top: '30',
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'none'
+                        },
+                        formatter: function (params) {
+                            return params[0].name + ': ' + params[0].value
+                        }
+                    },
+                    xAxis: [{
+                        type: 'value',
+                        axisLabel: {
+                            margin: 5,
+                            color: '#999',
+                            textStyle: {
+                                fontSize: '13'
+                            },
+                        },
+                        min: 0,
+                        max: max, // 计算最大值
+                        interval: max / 5, //  平均分为5份
+                        splitNumber: 5,
+                        splitLine: {
+                            show: true,
+                            lineStyle: {
+
+                                color: '#D8D8D8'
+                            }
+                        },
+                        axisLine: {
+                            show: false
+                        },
+                        axisTick: {
+                            show: false
+                        },
+                    }, {
+                        type: 'value',
+                        axisLabel: {
+                            show: false,
+                        },
+                        min: 0,
+                        max: max, // 计算最大值
+                        interval: max / 10, //  平均分为5份
+                        splitNumber: 10,
+                        splitLine: {
+                            show: true,
+                            lineStyle: {
+                                type: 'dashed',
+                                color: '#D8D8D8'
+                            }
+                        },
+                        axisLine: {
+                            show: false
+                        },
+                        axisTick: {
+                            show: false
+                        },
+                    }],
+                    yAxis: [{
+                        type: 'category',
+                        inverse: true,
+                        axisLabel: {
+                            textStyle: {
+                                color: '#999',
+                                fontSize: '13'
+                            },
+                        },
+                        splitLine: {
+                            show: false
+                        },
+                        axisTick: {
+                            show: false
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: '#8E8E8E'
+                            }
+                        },
+                        data: getmydmc
+                    }],
+                    series: [{
+                        name: '值',
+                        type: 'bar',
+                        zlevel: 1,
+                        xAxisIndex: 0,
+                        label: {
+                            show: true,
+                            position: 'insideRight'
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                                    offset: 0,
+                                    color: '#1b82a1' // 0% 处的颜色
+                                }, {
+                                    offset: 1,
+                                    color: '#1b82a1' // 100% 处的颜色
+                                }], false),
+                            },
+                        },
+                        barWidth: 15,
+                        data: getmyd
+                    }, ]
+                };
+
+                option && myChart.setOption(option);
+                optionT && myChartT.setOption(optionT);
+
+                const device = deviceState.map(item => {
+                    return `
+                        <div class="home-left-center-bottom-right-top">
+                            <div class="home-left-center-bottom-right-top-header">
+                                <span></span>
+                                <span>${item.name}</span>
+                                <span>占比</span>
+                            </div>
+                            <div class="home-left-center-bottom-right-top-footer">
+                                <span>${item.value}</span>
+                                <span>${item.percent}</span>
+                            </div>
+                        </div>
+                    `
+                })
+
+                document.getElementsByClassName("home-left-center-bottom-right")[0].innerHTML = device.join('');
             }
         })
 
@@ -518,30 +479,18 @@ layui.use(['element', 'layer'], function () {
                 `
         })
 
-        const device = deviceState.map(item => {
-            return `
-                <div class="home-left-center-bottom-right-top">
-                    <div class="home-left-center-bottom-right-top-header">
-                        <span></span>
-                        <span>${item.name}</span>
-                        <span>占比</span>
-                    </div>
-                    <div class="home-left-center-bottom-right-top-footer">
-                        <span>${item.value}</span>
-                        <span>${item.percent}</span>
-                    </div>
-                </div>
-            `
-        })
+
 
 
         //当月设备报警
         $.ajax({
             url: baseUrl + '/alarm/listwithmonth?token=' + JSON.parse(localStorage.getItem('loginInfo')).token,
-            success: function(res){
-                const { rows } = res
+            success: function (res) {
+                const {
+                    rows
+                } = res
 
-                alertData = rows.map(item=>{
+                alertData = rows.map(item => {
                     return {
                         title: item.location,
                         num: item.alarmTime,
@@ -563,7 +512,7 @@ layui.use(['element', 'layer'], function () {
                     `
                 })
 
-                
+
 
                 document.getElementsByClassName("home-center-bottom-bottom-content")[0].innerHTML = alert.join('');
             }
@@ -574,8 +523,10 @@ layui.use(['element', 'layer'], function () {
         //报警分类
         $.ajax({
             url: baseUrl + '/alarm/numbyalarmtype?token=' + JSON.parse(localStorage.getItem('loginInfo')).token + '&companyId=' + JSON.parse(localStorage.getItem('loginInfo')).companyId,
-            success: function(res){
-                const { rows } = res
+            success: function (res) {
+                const {
+                    rows
+                } = res
                 // backwardData = rows.map((item, index, arr)=>{
                 //     return {
                 //         name: Object.keys(arr)[index],
@@ -583,11 +534,15 @@ layui.use(['element', 'layer'], function () {
                 //     }
                 // })
 
-                for(var i in rows){
-                    var pre = rows[i]/rows[Object.keys(rows).pop()] * 100
-                    var backwardObj = {name: i, value: rows[i], percent: pre.toFixed(2)+'%'}
+                for (var i in rows) {
+                    var pre = rows[i] / rows[Object.keys(rows).pop()] * 100
+                    var backwardObj = {
+                        name: i,
+                        value: rows[i],
+                        percent: pre.toFixed(2) + '%'
+                    }
                     backwardData.push(backwardObj)
-                    
+
                 }
                 backwardData.pop()
 
@@ -600,8 +555,8 @@ layui.use(['element', 'layer'], function () {
                         return -1;
                     } else {
                         return 0;
-                    }            
-                } 
+                    }
+                }
                 backwardData.sort(compare)
 
                 const backward = backwardData.map(item => {
@@ -629,15 +584,15 @@ layui.use(['element', 'layer'], function () {
             }
         })
 
-        
+
 
 
 
         document.getElementsByClassName("home-left-top-bottom-top")[0].innerHTML = first.join('');
         document.getElementsByClassName("home-left-top-bottom-bottom")[0].innerHTML = second.join('');
-        document.getElementsByClassName("home-left-center-bottom-right")[0].innerHTML = device.join('');
-        
-        
+
+
+
 
     }
     circulation()
@@ -664,29 +619,30 @@ layui.use(['element', 'layer'], function () {
 
     // 传入的 t 为滚动快慢的时间
     let ul1 = document.getElementById("ul1");
-      let ul2 = document.getElementById("ul2");
-      let box = document.getElementById("scrollContent");
+    let ul2 = document.getElementById("ul2");
+    let box = document.getElementById("scrollContent");
+
     function roll(t) {
-        
-        
-      ul2.innerHTML = ul1.innerHTML;
-      // 初始化滚动高度
-      box.scrollTop = 0;
-      let timer = setInterval(rollStart, t);
-         box.onmouseover = function () {
-           clearInterval(timer)
-         }
-         box.onmouseout = function () {
-           timer = setInterval(rollStart, t);
-       }
+
+
+        ul2.innerHTML = ul1.innerHTML;
+        // 初始化滚动高度
+        box.scrollTop = 0;
+        let timer = setInterval(rollStart, t);
+        box.onmouseover = function () {
+            clearInterval(timer)
+        }
+        box.onmouseout = function () {
+            timer = setInterval(rollStart, t);
+        }
     }
- 
+
     function rollStart() {
         if (box.scrollTop >= ul1.scrollHeight) {
-        box.scrollTop = 0;
-      } else {
-        box.scrollTop++;
-      }
+            box.scrollTop = 0;
+        } else {
+            box.scrollTop++;
+        }
     }
 
     roll(50);

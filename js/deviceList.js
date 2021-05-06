@@ -61,38 +61,35 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
     var selectDate = [{
             title: '没有选项',
             value: " "
-        },
-        {
-            title: "英科1",
-            value: 1
-        },
-        {
-            title: "英科2",
-            value: 2
-        },
-        {
-            title: "英科3",
-            value: 3
-        },
-        {
-            title: "英科4",
-            value: 4
-        },
-        {
-            title: "英科5",
-            value: 5
-        },
+        }
     ]
 
 
-    var selectMap = selectDate.map(item => {
-        return `
-            <option value=${item.value}>${item.title}</option>
-        `
+    //下拉框请求
+    $.ajax({
+        url: baseUrl + "/company/ztreelist?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
+        success: function(res){
+            var selectDate1 = res.rows.map(item=>{
+                return {
+                    title: item.companyName,
+                    value: item.id
+                }
+            })
+            selectDate = selectDate.concat(selectDate1)
+            console.log(selectDate)
+            var selectMap = selectDate.map(item => {
+                return `
+                    <option value=${item.value}>${item.title}</option>
+                `
+            })
+        
+            $(".layui-input-inline-select").html(selectMap.join(''));
+            form.render();
+        }
     })
 
-    $(".layui-input-inline-select").html(selectMap.join(''));
-    form.render();
+
+    
     $(".Realtime-left-top-content").append($p);
 
 
@@ -103,7 +100,9 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
             height: 740,
             url: baseUrl + "/device/tablelist?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
             where: {
-                location: data.field.location
+                location: data.field.location,
+                deviceSmallType: typeId,
+                state: state
             },
             limit: 15,
             limits: [15, 30, 45],
@@ -161,15 +160,26 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
             ]
         });
 
-       
+
         return false;
     });
 
     form.on('submit(submitDoubleBtn)', function (data) {
 
-        layer.alert(JSON.stringify(data.field), {
-            title: '最终的提交信息'
-        })
+        
+
+        // console.log(data.field)
+
+        table.reload('tableReload', {
+            page: {
+              curr: 1 //重新从第 1 页开始
+            },
+            where: {
+                companyId: data.field.companyId
+            }
+          });
+
+        
         return false;
     });
 
@@ -208,143 +218,143 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
 
     $.ajax({
         url: baseUrl + '/device/devicetypewithnum?token=' + JSON.parse(localStorage.getItem('loginInfo')).token,
-        success: function(res){
-            const { rows } = res
-            var leftType =  rows.map(item => {
+        success: function (res) {
+            const {
+                rows
+            } = res
+            var leftType = rows.map(item => {
                 typeSum.push(item.type)
                 typeCount.push(item.count)
-                    return item.type_sign
+                return item.type_sign
             })
 
             var leftTypeDate = leftType.map((item, index) => {
 
-                    return `
-                        <li class="layui-nav-item select-li"><a href="javaScript:;">${item}&nbsp;&nbsp;&nbsp;&nbsp;总数：${typeCount[index]}</a></li>
+                return `
+                        <li class="layui-nav-item select-li"><a href="javaScript:;">${item}<blockquote class="layui-elem-quote layui-quote-nm"><span class="layui-badge">${typeCount[index]}</span></blockquote> </a></li>
                     `
-                
+
             })
 
             $(".Realtime-left-bottom > .layui-nav").append(leftTypeDate.join(''));
-        
+
             for (var i = 0; i < document.getElementsByClassName("select-li").length; i++) {
-        
+
                 $(".Realtime-left-bottom > .layui-nav > li")[i].setAttribute("index", i)
-                
+
                 $(".Realtime-left-bottom > .layui-nav > li")[i].onclick = function () {
-                    for (var j = 0; j < $(".wisdom-electricity-bottom > div").length; j++) {
-                        $(".wisdom-electricity-bottom > div")[j].className = "";
-                    }
+                    // for (var j = 0; j < $(".Realtime-left-bottom > .layui-nav > li").length - 1; j++) {
+                    //     $(".wisdom-electricity-bottom > div")[j].className = "";
+                    // }
                     typeSum = Number(this.getAttribute('index')) + 1
                     if (typeSum === 1) {
-                        var elemName = '#electricity'
                         typeId = '01'
                     } else if (typeSum === 2) {
-                        var elemName = '#water'
                         typeId = '02'
-                    }else if (typeSum === 3) {
-                        var elemName = '#waterV'
+                    } else if (typeSum === 3) {
                         typeId = '03'
                     } else if (typeSum === 4) {
-                        var elemName = '#nb'
                         typeId = '06'
-                    }else if (typeSum === 5) {
-                        var elemName = '#nb'
+                    } else if (typeSum === 5) {
                         typeId = '05'
                     }
 
 
-                    table.render({
-                        elem: elemName,
-                        height: 740,
-                        url: baseUrl + "/device/tablelist?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
+                    table.reload('tableReload', {
+                        page: {
+                          curr: 1 //重新从第 1 页开始
+                        },
                         where: {
-                            type: typeId
-                        },
-                        cellMinWidth: 85,
-                        // page: true, //开启分页
-                        even: true,
-                        parseData: function (res) { //res 即为原始返回的数据
-                            return {
-                                "code": 0, //解析接口状态
-                                "data": res.rows.rows, //解析数据列表
-                                "page": {
-                                    'count': res.rows.pageCount,
-                                    'limit': 20
+                            state: state,
+                            deviceSmallType: typeId
+                        }
+                      });
+
+
+                    
+                    // $(".wisdom-electricity-bottom > div")[Number(this.getAttribute("index")) + 1].className = "current";
+
+                    //小类型状态筛选
+                    for (var i = 0; i < document.getElementsByClassName("typeScreen").length; i++) {
+                        $(".typeScreen")[i].setAttribute("index", i)
+                        $(".typeScreen")[i].onclick = function () {
+                            if (Number(this.getAttribute("index")) === 0) {
+                                state = '0'
+                            }
+                            if (Number(this.getAttribute("index")) === 4) {
+                                state = '2'
+                            }
+                            if (Number(this.getAttribute("index")) === 1) {
+                                state = '1'
+                            }
+                            if (Number(this.getAttribute("index")) === 2) {
+                                state = '3'
+                            }
+                            if (Number(this.getAttribute("index")) === 3) {
+                                state = '4'
+                            }
+
+
+                            table.reload('tableReload', {
+                                page: {
+                                  curr: 1 //重新从第 1 页开始
+                                },
+                                where: {
+                                    state: state,
+                                    deviceSmallType: typeId
                                 }
-                            };
-                        },
-                        request: {
-                            pageName: 'pageNumber' //页码的参数名称，默认：page
-                                ,
-                            limitName: 'pageSize' //每页数据量的参数名，默认：limit
-                        },
-                        cols: [
-                            [ //表头
-                                {
-                                    field: 'type',
-                                    title: '状态',
-                                    width: 60,
-                                    templet: "#sexTpl"
-                                },
-                                {
-                                    field: 'imei',
-                                    title: '设备编号'
-                                },
-                                {
-                                    field: 'deviceName',
-                                    title: '设备名称'
-                                },
-                                {
-                                    field: 'type',
-                                    title: '设备类型',
-                                    templet: "#typeSign"
-                                },
-                                {
-                                    field: 'location',
-                                    title: '设备安装地点'
-                                },
-                                {
-                                    field: 'installationTime',
-                                    title: '设备安装时间'
-                                },
-                            ]
-                        ]
-                    });
-                    $(".wisdom-electricity-bottom > div")[Number(this.getAttribute("index")) + 1].className = "current";
+                              });
+
+                            
+                            
+                        }
+                    }
                 }
+
+
             }
+
+
+
             $(".select-li").on('click', function () {
                 $(this).addClass("layui-this");
                 $(this).siblings('li').removeClass('layui-this');
             });
 
-            $(".Realtime-left-bottom > .layui-nav li a").on('click', function () {
-                if ($(this).context.innerHTML) {
-                    $(".wisdom-electricity-bottom-video iframe").attr("src", '../video.html');
-                    var frame = $("#video");
-        
-                    var frameheight = $(window).height();
-        
-                    // frame.css("height", 100%);
-                }
-            })
+
+            // 视频监控
+
+            // $(".Realtime-left-bottom > .layui-nav li a").on('click', function () {
+            //     if ($(this).context.innerHTML) {
+            //         $(".wisdom-electricity-bottom-video iframe").attr("src", '../video.html');
+            //         var frame = $("#video");
+
+            //         var frameheight = $(window).height();
+
+            //         // frame.css("height", 100%);
+            //     }
+            // })
         }
     })
 
 
-    
 
-    
 
-    
+
+
+
+
+
+
 
 
     $(".wisdom-electricity-bottom-top-classify").append(
         `
-        <p class="classifyStyle"><span style="background: #184f6d;"></span> 正常</p>
-        <p><span style="background: #c82c1f"></span> 报警</p> 
-        <p><span style="background: #bf671d"></span> 故障</p> 
-        <p><span style="background: #75747c"></span> 离线</p> 
+        <p class="classifyStyle typeScreen"><span style="background: #1191da;"></span>全部</p>
+        <p class="typeScreen"><span style="background: #184f6d;"></span> 正常</p>
+        <p class="typeScreen"><span style="background: #c82c1f"></span> 报警</p> 
+        <p class="typeScreen"><span style="background: #bf671d"></span> 故障</p> 
+        <p class="typeScreen"><span style="background: #75747c"></span> 离线</p> 
         `
     )
 
@@ -353,14 +363,52 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
         $(this).siblings('p').removeClass('classifyStyle');
     });
 
-    var typeId = 0;
+    var typeId = null;
+    var state = 0;
 
     //初始化渲染全部类型
 
+    for (var i = 0; i < document.getElementsByClassName("typeScreen").length; i++) {
+        $(".typeScreen")[i].setAttribute("index", i)
+        $(".typeScreen")[i].onclick = function () {
+            if (Number(this.getAttribute("index")) === 0) {
+                state = '0'
+            }
+            if (Number(this.getAttribute("index")) === 4) {
+                state = '2'
+            }
+            if (Number(this.getAttribute("index")) === 1) {
+                state = '1'
+            }
+            if (Number(this.getAttribute("index")) === 2) {
+                state = '3'
+            }
+            if (Number(this.getAttribute("index")) === 3) {
+                state = '4'
+            }
+
+            table.reload('tableReload', {
+                page: {
+                  curr: 1 //重新从第 1 页开始
+                },
+                where: {
+                    state: state,
+                    deviceSmallType: typeId
+                }
+              });
+
+            
+        }
+    }
+
     table.render({
         elem: '#home',
+        id: 'tableReload',
         height: 740,
         url: baseUrl + "/device/tablelist?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
+        where:{
+            state: state
+        },
         limit: 15,
         limits: [15, 30, 45],
         cellMinWidth: 85,
@@ -416,8 +464,8 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
             ]
         ]
     });
-    
-    
+
+
 
     $(".wisdom-electricity-bottom-top-type > span").on("click", function () {
         $(this).addClass("classifyStyle");

@@ -1,2 +1,2 @@
 //接口域名
-export var baseUrl = "http://192.168.0.55:8089/rest"
+export var baseUrl = "http://newxf.yk-iot.cn:8089/rest"

@@ -65,8 +65,8 @@ layui.use(['element'], function () {
         $(".site-demo-active")[i].onclick = function () {
             var bSrc = $(this).attr('accessKey')
             $("#homeIframe").attr('src', `${bSrc}.html`)
-            if (bSrc === 'sy') {
-                $('.layui-body').css('top', '0px')
+            if (bSrc === 'contentHome') {
+                $('.layui-body').css('top', '-15px')
             } else {
                 $('.layui-body').css('top', '50px')
             }

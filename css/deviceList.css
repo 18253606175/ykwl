@@ -141,7 +141,7 @@ body {
   border: 1px solid #3d4959;
   height: 30px;
   display: flex;
-  width: 240px;
+  width: 270px;
   justify-content: space-between;
 }
 
@@ -187,6 +187,25 @@ body {
   background-color: #3d4959;
   border: none;
   color: #fff;
+}
+
+.Realtime-main .Realtime-right .wisdom-electricity .wisdom-electricity-bottom .wisdom-electricity-bottom-homePage .wisdom-electricity-bottom-top .wisdom-electricity-bottom-top-search .layui-form .layui-form-selected dl::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background: transparent;
+}
+
+.Realtime-main .Realtime-right .wisdom-electricity .wisdom-electricity-bottom .wisdom-electricity-bottom-homePage .wisdom-electricity-bottom-top .wisdom-electricity-bottom-top-search .layui-form .layui-form-selected dl::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.Realtime-main .Realtime-right .wisdom-electricity .wisdom-electricity-bottom .wisdom-electricity-bottom-homePage .wisdom-electricity-bottom-top .wisdom-electricity-bottom-top-search .layui-form .layui-form-selected dl:hover::-webkit-scrollbar-thumb {
+  background: rgba(135, 135, 135, 0.4);
+}
+
+.Realtime-main .Realtime-right .wisdom-electricity .wisdom-electricity-bottom .wisdom-electricity-bottom-homePage .wisdom-electricity-bottom-top .wisdom-electricity-bottom-top-search .layui-form .layui-form-selected dl:hover::-webkit-scrollbar-track {
+  background: rgba(135, 135, 135, 0.1);
 }
 
 .Realtime-main .Realtime-right .wisdom-electricity .wisdom-electricity-bottom .wisdom-electricity-bottom-homePage .wisdom-electricity-bottom-top .wisdom-electricity-bottom-top-search .layui-form .layui-form-select dl dd.layui-this {
@@ -288,6 +307,12 @@ body {
 
 .Realtime-main .Realtime-right .wisdom-electricity .wisdom-electricity-bottom .wisdom-electricity-bottom-homePage .wisdom-electricity-bottom-bottom .layui-table-page .layui-laypage {
   float: right;
+}
+
+.Realtime-main .Realtime-right .wisdom-electricity .wisdom-electricity-bottom .wisdom-electricity-bottom-homePage .wisdom-electricity-bottom-bottom .layui-table-page .layui-laypage .layui-laypage-curr em {
+  position: relative;
+  color: #fff;
+  font-weight: 600;
 }
 
 .Realtime-main .Realtime-right .wisdom-electricity .wisdom-electricity-bottom .wisdom-electricity-bottom-electricity .wisdom-electricity-bottom-top {
@@ -827,4 +852,12 @@ body {
   position: absolute;
   top: 5px;
   left: 15px;
+}
+
+.layui-nav .layui-badge, .layui-nav .layui-badge-dot {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 25px;
+  margin: -5px 6px 0;
 }

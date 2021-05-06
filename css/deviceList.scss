@@ -143,7 +143,7 @@ body {
                             border: 1px solid #3d4959;
                             height: 30px;
                             display: flex;
-                            width: 240px;
+                            width: 270px;
 
                             justify-content: space-between;
 
@@ -190,6 +190,25 @@ body {
                                     background-color: #3d4959;
                                     border: none;
                                     color: #fff;
+
+                                    &::-webkit-scrollbar {
+                                        width: 6px;
+                                        height: 6px;
+                                        background: transparent;
+                                    }
+                            
+                                    &::-webkit-scrollbar-thumb {
+                                        background: transparent;
+                                        border-radius: 4px;
+                                    }
+                            
+                                    &:hover::-webkit-scrollbar-thumb {
+                                        background: hsla(0, 0%, 53%, 0.4);
+                                    }
+                            
+                                    &:hover::-webkit-scrollbar-track {
+                                        background: hsla(0, 0%, 53%, 0.1);
+                                    }
                                 }
 
                                 .layui-form-select dl dd.layui-this {
@@ -306,6 +325,13 @@ body {
 
                             .layui-laypage {
                                 float: right;
+
+                                .layui-laypage-curr em {
+                                    position: relative;
+                                    color: #fff;
+                                    font-weight:600;
+                                }
+                                
                             }
                         }
                     }
@@ -915,4 +941,12 @@ body {
     position: absolute;
     top: 5px;
     left: 15px;
+}
+
+.layui-nav .layui-badge, .layui-nav .layui-badge-dot {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 25px;
+    margin: -5px 6px 0;
 }

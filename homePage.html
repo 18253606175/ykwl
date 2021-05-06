@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./node_modules/layui.css">
-    <link rel="stylesheet" href="./css/homePage.min.css">
-    <link rel="stylesheet" href="./css/public.min.css">
-    <link rel="stylesheet" href="./css/deviceList.min.css">
-    <!-- <link rel="stylesheet" href="./css/electric.min.css"> -->
-    <link rel="stylesheet" href="./css/demo.min.css">
+    <link rel="stylesheet" href="./css/homePage.css">
+    <link rel="stylesheet" href="./css/public.css">
+    <link rel="stylesheet" href="./css/deviceList.css">
+    <!-- <link rel="stylesheet" href="./css/electric.css"> -->
+    <link rel="stylesheet" href="./css/demo.css">
 
 </head>
 
@@ -36,8 +36,7 @@
                         <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
                     </a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">重置密码</a></dd>
-                        <dd><a href="javascript:;">退出登录</a></dd>
+                        <dd><a href="./index.html">退出登录</a></dd>
                     </dl>
                 </li>
 
@@ -49,160 +48,6 @@
                 <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
                 <ul class="layui-nav layui-nav-tree" lay-filter="test"></ul>
 
-                <!-- <li class="layui-nav-item">
-                        <a accessKey="1" class="site-demo-active layui-this" data-type="tabAdd" href="javascript:;">
-                            <img src="http://fire.acrelcloud.cn/image/762eba98110b430f9d4c283ccf60c941.png" alt="logo"
-                                srcset="">
-                            首页
-                        </a>
-                    </li>
-                    <li class="layui-nav-item">
-                        <a href="javascript:;">
-                            <img src="http://fire.acrelcloud.cn/image/597d1e53922a46179d28a0a56c318652.png" alt="logo"
-                                srcset="">
-                            数据监控
-                        </a>
-                        <dl class="layui-nav-child">
-                            <dd><a accessKey="2" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">实时监控</a></dd>
-                            <dd><a accessKey="3" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">项目概况</a>
-                            </dd>
-                            <dd><a accessKey="4" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">单位管理</a></dd>
-                        </dl>
-                    </li>
-                    <li class="layui-nav-item">
-                        <a accessKey="5" class="site-demo-active" data-type="tabAdd" href="javascript:;">
-                            <img src="http://fire.acrelcloud.cn/image/4cddd2ec3cf140ebbcb8d6a8afb103a5.png" alt="logo"
-                                srcset="">
-                            巡查管理
-                        </a>
-                    </li>
-                    <li class="layui-nav-item">
-                        <a href="javascript:;">
-                            <img src="http://fire.acrelcloud.cn/image/700f0375d4f943fca2f241e20b7bb769.png" alt="logo"
-                                srcset="">
-                            能耗分析
-                        </a>
-                        <dl class="layui-nav-child">
-                            <dd><a accessKey="6️" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">单位管理</a></dd>
-                            <dd><a accessKey="7" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">同比分析</a></dd>
-                            <dd><a accessKey="8" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">环比分析</a></dd>
-                            <dd><a accessKey="9" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">能耗报表</a></dd>
-                            <dd><a accessKey="10" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">能耗预测</a></dd>
-                            <dd><a accessKey="11" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">复费率报表</a></dd>
-                            <dd><a accessKey="12" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">电能报表</a></dd>
-                        </dl>
-                    </li>
-                    <li class="layui-nav-item">
-                        <a href="javascript:;">
-                            <img src="http://fire.acrelcloud.cn/image/8eaab29889704b3794fee48cffeacf39.png" alt="logo"
-                                srcset="">
-                            电能质量
-                        </a>
-                        <dl class="layui-nav-child">
-                            <dd><a accessKey="13" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">谐波监测</a></dd>
-                            <dd><a accessKey="14" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">三相不平衡度</a></dd>
-                        </dl>
-                    </li>
-                    <li class="layui-nav-item">
-                        <a href="javascript:;">
-                            <img src="http://fire.acrelcloud.cn/image/b5a9a470195a4ce1a1b756fd181db866.png" alt="logo"
-                                srcset="">
-                            需量分析
-                        </a>
-                        <dl class="layui-nav-child">
-                            <dd><a accessKey="15" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">最大需量报表</a></dd>
-                            <dd><a accessKey="16" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">需量检测</a></dd>
-                        </dl>
-                    </li>
-                    <li class="layui-nav-item">
-                        <a href="javascript:;">
-                            <img src="http://fire.acrelcloud.cn/image/df5dc924f2344c25921eb09011853fb0.png" alt="logo"
-                                srcset="">
-                            隐患管理
-                        </a>
-                        <dl class="layui-nav-child">
-                            <dd><a accessKey="17" class="site-demo-active site-demo-active17" data-type="tabAdd"
-                                    href="javascript:;">隐患查询</a></dd>
-                            <dd><a accessKey="18" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">隐患派发</a></dd>
-                            <dd><a accessKey="19" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">隐患处理</a></dd>
-                            <dd><a accessKey="20" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">隐患分析</a></dd>
-                        </dl>
-                    </li>
-                    <li class="layui-nav-item">
-                        <a href="javascript:;">
-                            <img src="http://fire.acrelcloud.cn/image/06ad9d6b180a4698bf00824bf0fd66ad.png" alt="logo"
-                                srcset="">
-                            运维管理
-                        </a>
-                        <dl class="layui-nav-child">
-                            <dd><a accessKey="21" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">巡检轨迹</a></dd>
-                            <dd><a accessKey="22" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">巡检计划</a></dd>
-                            <dd><a accessKey="23" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">巡检记录</a></dd>
-                            <dd><a accessKey="24" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">缺陷记录</a></dd>
-                            <dd><a accessKey="25" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">培训记录</a></dd>
-                            <dd><a accessKey="26" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">通讯记录</a></dd>
-                            <dd><a accessKey="27" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">巡检评分</a></dd>
-                        </dl>
-                    </li>
-                    <li class="layui-nav-item">
-                        <a href="javascript:;">
-                            <img src="http://fire.acrelcloud.cn/image/5d49c3f9fcc64346b1889c90c702bc65.png" alt="logo"
-                                srcset="">
-                            报告分析
-                        </a>
-                        <dl class="layui-nav-child">
-                            <dd><a accessKey="28" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">报告模板</a></dd>
-                            <dd><a accessKey="29" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">用户报告</a></dd>
-                        </dl>
-                    </li>
-                    <li class="layui-nav-item">
-                        <a href="javascript:;">
-                            <img src="http://fire.acrelcloud.cn/image/12adf287d8cf441b9aa5189cb8de2acb.png" alt="logo"
-                                srcset="">
-                            日志管理
-                        </a>
-                        <dl class="layui-nav-child">
-                            <dd><a accessKey="30" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">登录日志</a></dd>
-                            <dd><a accessKey="31" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">操作日志</a></dd>
-                            <dd><a accessKey="32" class="site-demo-active" data-type="tabAdd"
-                                    href="javascript:;">控制日志</a></dd>
-                        </dl>
-                    </li>
-                    <li class="layui-nav-item">
-                        <a accessKey="33" class="site-demo-active" data-type="tabAdd" href="javascript:;">
-                            <img src="http://fire.acrelcloud.cn/image/4cddd2ec3cf140ebbcb8d6a8afb103a5.png" alt="logo"
-                                srcset="">
-                            用户管理
-                        </a>
-                    </li> -->
                 </ul>
             </div>
         </div>
@@ -236,7 +81,7 @@
     <script>
         layui.use(['element', 'layer'], function () {
             var $ = layui.jquery
-            $('.layui-body').css('top', '0px')
+            $('.layui-body').css('top', '-10px')
         })
     </script>
 </body>

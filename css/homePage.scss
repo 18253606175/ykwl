@@ -4,6 +4,8 @@ html {
 
 .layui-layout-body {
     background-color: transparent;
+    overflow: hidden;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAP0lEQVQImZ3LsRGAQAwDwTtDE6R08P3XhkWKP+QyzY687pX0AxZVxbczaZKgTYeJ1gGAFu5PlSAqOnGurf/4AsrpDpHqPjDnAAAAAElFTkSuQmCC);
 }
 
 #warn {
@@ -58,6 +60,7 @@ html {
 .layui-body {
     background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAP0lEQVQImZ3LsRGAQAwDwTtDE6R08P3XhkWKP+QyzY687pX0AxZVxbczaZKgTYeJ1gGAFu5PlSAqOnGurf/4AsrpDpHqPjDnAAAAAElFTkSuQmCC);
     background-color: #1b2535;
+
     overflow-y: hidden;
 
     .layui-tab {
