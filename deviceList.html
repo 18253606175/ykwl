@@ -108,6 +108,10 @@
     <script src="./node_modules/echarts/dist/echarts.min.js"></script>
     <script src="./node_modules/layui.js"></script>
     <script type="module" src="./js/deviceList.js"></script>
+    <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+      </script>
     <script type="text/html" id="sexTpl">
         {{#  if(d.state === 1){ }}
         <div style="color: green">在线</div>
@@ -133,92 +137,7 @@
         {{#  } }}
     </script>
     <div id="pop-up-add" style="display: none;">
-        <form class="layui-form" action="">
-            <div class="layui-form-item">
-                <label class="layui-form-label layui-required">所属子系统</label>
-                <div class="layui-input-block">
-                    <select name="modules" lay-verify="required" lay-search="">
-                        <option value=""></option>
-                        <option value="0">北京</option>
-                        <option value="1">上海</option>
-                        <option value="2">广州</option>
-                        <option value="3">深圳</option>
-                        <option value="4">杭州</option>
-                    </select>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label layui-required">设备类型</label>
-                <div class="layui-input-block">
-                    <select name="modules" lay-verify="required" lay-search="">
-                        <option value=""></option>
-                        <option value="0">北京</option>
-                        <option value="1">上海</option>
-                        <option value="2">广州</option>
-                        <option value="3">深圳</option>
-                        <option value="4">杭州</option>
-                    </select>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label layui-required">设备编号</label>
-                <div class="layui-input-block">
-                    <input type="text" name="title" lay-verify="required" placeholder="请输入" autocomplete="off"
-                        class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label layui-required">所属楼层</label>
-                <div class="layui-input-block">
-                    <select name="modules" lay-verify="required" lay-search="">
-                        <option value=""></option>
-                        <option value="0">北京</option>
-                        <option value="1">上海</option>
-                        <option value="2">广州</option>
-                        <option value="3">深圳</option>
-                        <option value="4">杭州</option>
-                    </select>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label layui-required">位置描述</label>
-                <div class="layui-input-block">
-                    <input type="text" name="title" lay-verify="required" placeholder="请输入" autocomplete="off"
-                        class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">安装日期</label>
-                <div class="layui-input-block">
-                    <input type="text" name="date" id="date" lay-verify="date" placeholder="请选择安装日期" autocomplete="off"
-                        class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">物联卡号</label>
-                <div class="layui-input-block">
-                    <input type="text" name="title" placeholder="请输入" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">设备名称</label>
-                <div class="layui-input-block">
-                    <input type="text" name="title" placeholder="请输入" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">设备描述</label>
-                <div class="layui-input-block">
-                    <input type="text" name="title" placeholder="请输入" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item  layui-form-item-submit">
-                <div class="layui-input-block">
-                    <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">确认</button>
-                </div>
-            </div>
-        </form>
-        <button id="close-pop-up" class="layui-btn">取消</button>
+
     </div>
 </body>
 

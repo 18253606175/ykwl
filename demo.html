@@ -161,16 +161,68 @@
 
 
 
+        var deviceId = null
+
+        //历史数据表格回调
+        $.ajax({
+            url: baseUrl + "/deviceworkdata/list?token=" + JSON.parse(localStorage.getItem('loginInfo'))
+                .token,
+            type: 'get',
+            async: false,
+            data: getUrl(window.location.href),
+            success: function (res) {
+                var tableTitle = []
+                const { fieldlist, dataList } = res.rows
+                //历史信息表格
+                var tableTitle = fieldlist.map(item => {
+                    return { field: item.dataType, title: item.typeDes }
+                })
+                tableTitle.unshift({ field: 'happen_time', title: '上报时间' })
+
+                console.log(tableTitle)
+                //渲染历史数据表格
+                layui.use('table', function () {
+                    var table = layui.table;
+
+                    table.render({
+                        elem: '#historyData',
+                        url: baseUrl + "/deviceworkdata/list?token=" + JSON.parse(localStorage.getItem('loginInfo'))
+                            .token
+                        , request: {
+                            pageName: 'pageNumber' //页码的参数名称，默认：page
+                            , limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                        },
+                        where: {
+                            deviceId: getUrl(window.location.href).deviceId
+                        },
+                        parseData: function (response) {
+                            return {
+                                "data": response.rows.dataList.rows,
+                                "code": 0,
+                                "count": response.rows.dataList.total,
+                            }
+                        }
+                        , page: true
+                        , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                        , cols: [tableTitle]
+                    });
+                });
+            }
+        })
         //处理回调
         $.ajax({
             url: baseUrl + "/deviceworkdata/zxlist?token=" + JSON.parse(localStorage.getItem('loginInfo'))
                 .token,
             type: 'get',
+            async: false,
             data: getUrl(window.location.href),
             success: function (response) {
                 const {
                     data, deviceInfo, deviceData
                 } = response.rows
+                deviceId = deviceInfo.deviceId
+
+
 
                 //添加设备基本信息
                 $('.right-info').append(
@@ -179,33 +231,26 @@
                         <div class="right-content">
                         <p>设备名称：${deviceInfo.location}</p>
                         <p>设备类型：${deviceInfo.typeSign}</p>
-                        <p>设备状态：${deviceInfo.state}</p>
+                        <p>设备状态：${(function () {
+                        if (deviceInfo.state === 1) {
+                            return '在线'
+                        } else if (deviceInfo.state === 2) {
+                            return '离线'
+                        } else if (deviceInfo.state === 3) {
+                            return '报警'
+                        } else if (deviceInfo.state === 4) {
+                            return '故障'
+                        }
+                    })()}</p>
                     </div>
                     `
                 )
 
                 // console.log(deviceData)
-               
 
 
-                //历史信息表格
-                var tableTitle = data.map(item => {
-                    return { field: item.dataType , title: item.typeDes }
-                })
-                tableTitle.unshift({field: 'happen_time' , title: '上报时间'})
 
-                console.log(tableTitle)
-                //渲染历史数据表格
-                layui.use('table', function () {
-                    var table = layui.table;
 
-                    table.render({
-                        elem: '#historyData'
-                        , data: deviceData
-                        , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-                        , cols: [tableTitle]
-                    });
-                });
 
 
 
@@ -268,17 +313,20 @@
                     };
                     optionL && myChartL.setOption(optionL);
 
-                    var infoMapData = data.map(item => {
+                    const infoMapData = data.map(item => {
+                        var value = item.value.pop()
                         return `
                         <p>
                             <span class="data-record-content-icon"></span>
-                            <span class="data-record-content-detail">${item.typeDes}：${item.value.pop() === undefined ? '-' : item.value.pop()} ${item.typeUnit}</span>
+                            <span class="data-record-content-detail">${item.typeDes}：${value === undefined ? '-' : value} ${item.typeUnit}</span>
                         </p>
                     `
                     })
-                    var $infoData = `
+                    
+                    var time = time.pop()
+                    const $infoData = `
                     <div class="data-record-content-time">
-                        最后上报时间 : ${time.pop() === undefined ? '-' : time.pop()}
+                        最后上报时间 : ${time === undefined ? '-' : time}
                     </div>
                     ${infoMapData.join('')}
                     `
@@ -307,6 +355,7 @@
                         $('#chartShow-smokeDetector').css('display', 'none')
                     }
                 } else if (response.rows.deviceType === '01') {
+                    //电
                     if (response.code === 200) {
                         time = response.rows.time
                         voltageSign.push(data[1].typeDes, data[2].typeDes, data[3].typeDes)
@@ -532,7 +581,7 @@
                         },
                         yAxis: {
                             type: 'value',
-                            max: function(value){return value.max}
+                            max: function (value) { return value.max }
                         },
                         series: [{
                             name: '剩余电流',
@@ -544,17 +593,20 @@
                     optionV && myChartV.setOption(optionV);
                     optionT && myChartT.setOption(optionT);
                     optionRA && myChartRA.setOption(optionRA);
-                    var infoMapData = data.map(item => {
+                    const infoMapData = data.map(item => {
+                        var value = item.value.pop()
                         return `
                         <p>
                             <span class="data-record-content-icon"></span>
-                            <span class="data-record-content-detail">${item.typeDes}：${item.value.pop() === undefined ? '-' : item.value.pop()}  ${item.typeUnit}</span>
+                            <span class="data-record-content-detail">${item.typeDes}：${value === undefined ? '-' : value} ${item.typeUnit}</span>
                         </p>
                     `
                     })
-                    var $infoData = `
+                    
+                    var time = time.pop()
+                    const $infoData = `
                     <div class="data-record-content-time">
-                        最后上报时间 : ${time.pop() === undefined ? '-' : time.pop()}
+                        最后上报时间 : ${time === undefined ? '-' : time}
                     </div>
                     ${infoMapData.join('')}
                     `
@@ -628,17 +680,20 @@
                     };
                     optionP && myChartP.setOption(optionP);
 
-                    var infoMapData = data.map(item => {
+                    const infoMapData = data.map(item => {
+                        var value = item.value.pop()
                         return `
                         <p>
                             <span class="data-record-content-icon"></span>
-                            <span class="data-record-content-detail">${item.typeDes}：${item.value.pop() === undefined ? '-' : item.value.pop()} ${item.typeUnit}</span>
+                            <span class="data-record-content-detail">${item.typeDes}：${value === undefined ? '-' : value} ${item.typeUnit}</span>
                         </p>
                     `
                     })
-                    var $infoData = `
+                    
+                    var time = time.pop()
+                    const $infoData = `
                     <div class="data-record-content-time">
-                        最后上报时间 : ${time.pop() === undefined ? '-' : time.pop()}
+                        最后上报时间 : ${time === undefined ? '-' : time}
                     </div>
                     ${infoMapData.join('')}
                     `
@@ -723,17 +778,20 @@
                     };
                     optionS && myChartS.setOption(optionS);
 
-                    var infoMapData = data.map(item => {
+                    const infoMapData = data.map(item => {
+                        var value = item.value.pop()
                         return `
                         <p>
                             <span class="data-record-content-icon"></span>
-                            <span class="data-record-content-detail">${item.typeDes}：${item.value.pop() === undefined ? '-' : item.value.pop()} ${item.typeUnit}</span>
+                            <span class="data-record-content-detail">${item.typeDes}：${value === undefined ? '-' : value} ${item.typeUnit}</span>
                         </p>
                     `
                     })
-                    var $infoData = `
+                    
+                    var time = time.pop()
+                    const $infoData = `
                     <div class="data-record-content-time">
-                        最后上报时间 : ${time.pop() === undefined ? '-' : time.pop()}
+                        最后上报时间 : ${time === undefined ? '-' : time}
                     </div>
                     ${infoMapData.join('')}
                     `
@@ -772,12 +830,1638 @@
         $('.layui-btn').click(function () {
             $(this).removeClass('layui-btn-primary').siblings().addClass('layui-btn-primary')
             var index = $(this).attr('id')
+            var day1 = new Date();
+            var day2 = new Date();
+            var day3 = new Date();
+            day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000 * 2);
+            day2.setTime(day1.getTime() - 24 * 60 * 60 * 1000 * 6);
+            day3.setTime(day1.getTime() - 24 * 60 * 60 * 1000 * 29);
+            var s1 = day1.getFullYear() + "-0" + (day1.getMonth() + 1) + "-0" + day1.getDate();
+            var s2 = day2.getFullYear() + "-0" + (day2.getMonth() + 1) + "-0" + day2.getDate();
+            var s3 = day3.getFullYear() + "-0" + (day3.getMonth() + 1) + "-0" + day3.getDate();
             console.log(index)
             if (index === 'day') {
+                //最近三天
+                $.ajax({
+                    url: baseUrl + "/deviceworkdata/list?&pageSize=10&pageNumber=1&token=" + JSON.parse(localStorage.getItem('loginInfo'))
+                        .token + "&happen_time=" + s1,
+                    type: 'get',
+                    data: getUrl(window.location.href),
+                    success: function (res) {
+                        const { fieldlist, dataList } = res.rows
+                        //历史信息表格
+                        var tableTitle = fieldlist.map(item => {
+                            return { field: item.dataType, title: item.typeDes }
+                        })
+                        tableTitle.unshift({ field: 'happen_time', title: '上报时间' })
 
+                        console.log(tableTitle)
+                        //渲染历史数据表格
+                        layui.use('table', function () {
+                            var table = layui.table;
+
+                            table.render({
+                                elem: '#historyData'
+                                , data: dataList.rows
+                                , page: true
+                                , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                                , cols: [tableTitle]
+                            });
+                        });
+                    }
+                })
+                $.ajax({
+                    url: baseUrl + "/deviceworkdata/zxlist?token=" + JSON.parse(localStorage.getItem('loginInfo'))
+                        .token + "&happen_time=" + s1,
+                    type: 'get',
+                    data: getUrl(window.location.href),
+                    success: function (response) {
+                        const {
+                            data, deviceInfo, deviceData
+                        } = response.rows
+
+                        // 水位 03
+                        if (response.rows.deviceType === '03') {
+                            if (response.code === 200) {
+                                time = response.rows.time
+                                liquidLevelSign.push(data[1].typeDes)
+                                data.map(item => {
+                                    switch (item.dataType) {
+                                        case "F":
+                                            liquidLevel = item.value
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                })
+                            }
+                            //echars
+                            var myChartL = echarts.init(document.getElementById('chartShow-liquidLevel'),
+                                null, {
+                                renderer: 'svg'
+                            });
+
+                            //液位
+                            var optionL = {
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data: liquidLevelSign
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    feature: {
+                                        saveAsImage: {}
+                                    }
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: time
+                                },
+                                yAxis: {
+                                    type: 'value'
+                                },
+                                series: [{
+                                    name: '液位',
+                                    type: 'line',
+                                    data: liquidLevel
+                                }]
+                            };
+                            optionL && myChartL.setOption(optionL);
+
+
+
+                            // 判断节点是否显示
+                            if ($('#chartShow-temperature').children().length === 0) {
+                                $('#chartShow-temperature').css('display', 'none')
+                            }
+                            if ($('#chartShow-electric').children().length === 0) {
+                                $('#chartShow-electric').css('display', 'none')
+                            }
+                            if ($('#chartShow-voltage').children().length === 0) {
+                                $('#chartShow-voltage').css('display', 'none')
+                            }
+                            if ($('#chartShow-aftercurrent').children().length === 0) {
+                                $('#chartShow-aftercurrent').css('display', 'none')
+                            }
+                            if ($('#chartShow-liquidLevel').children().length === 0) {
+                                $('#chartShow-liquidLevel').css('display', 'none')
+                            }
+                            if ($('#chartShow-pressure').children().length === 0) {
+                                $('#chartShow-pressure').css('display', 'none')
+                            }
+                            if ($('#chartShow-smokeDetector').children().length === 0) {
+                                $('#chartShow-smokeDetector').css('display', 'none')
+                            }
+                        } else if (response.rows.deviceType === '01') {
+                            if (response.code === 200) {
+                                time = response.rows.time
+                                voltageSign.push(data[1].typeDes, data[2].typeDes, data[3].typeDes)
+                                electricSign.push(data[4].typeDes, data[5].typeDes, data[6].typeDes)
+                                temperatureSign.push(data[7].typeDes, data[8].typeDes, data[9].typeDes, data[10]
+                                    .typeDes)
+                                electricRASign.push(data[0].typeDes)
+                                data.map(item => {
+                                    switch (item.dataType) {
+                                        case "residue_electricity":
+                                            electricRA = item.value
+                                            break;
+                                        case "a_voltage":
+                                            voltageA = item.value
+                                            break;
+                                        case "b_voltage":
+                                            voltageB = item.value
+                                            break;
+                                        case "c_voltage":
+                                            voltageC = item.value
+                                            break;
+                                        case "a_electricity":
+                                            electricA = item.value
+                                            break;
+                                        case "b_electricity":
+                                            electricB = item.value
+                                            break;
+                                        case "c_electricity":
+                                            electricC = item.value
+                                            break;
+                                        case "a_temperature":
+                                            temperatureA = item.value
+                                            break;
+                                        case "b_temperature":
+                                            temperatureB = item.value
+                                            break;
+                                        case "c_temperature":
+                                            temperatureC = item.value
+                                            break;
+                                        case "environment_temperature":
+                                            temperatureE = item.value
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                })
+                            }
+                            //echars
+                            var myChartA = echarts.init(document.getElementById('chartShow-temperature'),
+                                null, {
+                                renderer: 'svg'
+                            });
+                            var myChartV = echarts.init(document.getElementById('chartShow-electric'), null, {
+                                renderer: 'svg'
+                            });
+                            var myChartT = echarts.init(document.getElementById('chartShow-voltage'), null, {
+                                renderer: 'svg'
+                            });
+                            var myChartRA = echarts.init(document.getElementById('chartShow-aftercurrent'),
+                                null, {
+                                renderer: 'svg'
+                            });
+                            //电流
+                            var optionA = {
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data: electricSign
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    feature: {
+                                        saveAsImage: {}
+                                    }
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: time
+                                },
+                                yAxis: {
+                                    type: 'value'
+                                },
+                                series: [{
+                                    name: 'A相电流',
+                                    type: 'line',
+                                    data: electricA
+                                },
+                                {
+                                    name: 'B相电流',
+                                    type: 'line',
+                                    data: electricB
+                                },
+                                {
+                                    name: 'C相电流',
+                                    type: 'line',
+                                    data: electricC
+                                }
+                                ]
+                            };
+                            //电压
+                            var optionV = {
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data: voltageSign
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    feature: {
+                                        saveAsImage: {}
+                                    }
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: time
+                                },
+                                yAxis: {
+                                    type: 'value'
+                                },
+                                series: [{
+                                    name: 'A相电压',
+                                    type: 'line',
+                                    data: voltageA
+                                },
+                                {
+                                    name: 'B相电压',
+                                    type: 'line',
+                                    data: voltageB
+                                },
+                                {
+                                    name: 'C相电压',
+                                    type: 'line',
+                                    data: voltageC
+                                }
+                                ]
+                            };
+                            //温度
+                            var optionT = {
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data: temperatureSign
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    feature: {
+                                        saveAsImage: {}
+                                    }
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: time
+                                },
+                                yAxis: {
+                                    type: 'value'
+                                },
+                                series: [{
+                                    name: 'A相温度',
+                                    type: 'line',
+                                    data: temperatureA
+                                },
+                                {
+                                    name: 'B相温度',
+                                    type: 'line',
+                                    data: temperatureB
+                                },
+                                {
+                                    name: 'C相温度',
+                                    type: 'line',
+                                    data: temperatureC
+                                },
+                                {
+                                    name: '环境温度',
+                                    type: 'line',
+                                    data: temperatureE
+                                }
+                                ]
+                            };
+                            //剩余电流
+                            var optionRA = {
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data: electricRASign
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    feature: {
+                                        saveAsImage: {}
+                                    }
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: time
+                                },
+                                yAxis: {
+                                    type: 'value',
+                                    max: function (value) { return value.max }
+                                },
+                                series: [{
+                                    name: '剩余电流',
+                                    type: 'line',
+                                    data: electricRA
+                                }]
+                            };
+                            optionA && myChartA.setOption(optionA);
+                            optionV && myChartV.setOption(optionV);
+                            optionT && myChartT.setOption(optionT);
+                            optionRA && myChartRA.setOption(optionRA);
+
+
+                            // 判断节点是否显示
+                            if ($('#chartShow-liquidLevel').children().length === 0) {
+                                $('#chartShow-liquidLevel').css('display', 'none')
+                            }
+                            if ($('#chartShow-pressure').children().length === 0) {
+                                $('#chartShow-pressure').css('display', 'none')
+                            }
+                            if ($('#chartShow-smokeDetector').children().length === 0) {
+                                $('#chartShow-smokeDetector').css('display', 'none')
+                            }
+                        } else if (response.rows.deviceType === '02') {
+                            //水压 02
+                            if (response.code === 200) {
+                                time = response.rows.time
+                                pressureSign.push(data[0].typeDes)
+                                data.map(item => {
+                                    switch (item.dataType) {
+                                        case "F":
+                                            pressure = item.value
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                })
+                            }
+
+                            console.log(pressureSign)
+                            //echars
+                            var myChartP = echarts.init(document.getElementById('chartShow-pressure'),
+                                null, {
+                                renderer: 'svg'
+                            });
+
+                            //液位
+                            var optionP = {
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data: pressureSign
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    feature: {
+                                        saveAsImage: {}
+                                    }
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: time
+                                },
+                                yAxis: {
+                                    type: 'value'
+                                },
+                                series: [{
+                                    name: '压力',
+                                    type: 'line',
+                                    data: pressure
+                                }]
+                            };
+                            optionP && myChartP.setOption(optionP);
+
+
+
+                            // 判断节点是否显示
+                            if ($('#chartShow-temperature').children().length === 0) {
+                                $('#chartShow-temperature').css('display', 'none')
+                            }
+                            if ($('#chartShow-electric').children().length === 0) {
+                                $('#chartShow-electric').css('display', 'none')
+                            }
+                            if ($('#chartShow-voltage').children().length === 0) {
+                                $('#chartShow-voltage').css('display', 'none')
+                            }
+                            if ($('#chartShow-aftercurrent').children().length === 0) {
+                                $('#chartShow-aftercurrent').css('display', 'none')
+                            }
+                            if ($('#chartShow-liquidLevel').children().length === 0) {
+                                $('#chartShow-liquidLevel').css('display', 'none')
+                            }
+                            if ($('#chartShow-pressure').children().length === 0) {
+                                $('#chartShow-pressure').css('display', 'none')
+                            }
+                            if ($('#chartShow-smokeDetector').children().length === 0) {
+                                $('#chartShow-smokeDetector').css('display', 'none')
+                            }
+                        } else if (response.rows.deviceType === '06') {
+                            //烟感 06
+                            if (response.code === 200) {
+                                time = response.rows.time
+                                smokeDetectorSign.push(data[1].typeDes)
+                                data.map(item => {
+                                    switch (item.dataType) {
+                                        case "V":
+                                            smokeDetector = item.value
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                })
+                            }
+
+                            //echars
+                            var myChartS = echarts.init(document.getElementById('chartShow-smokeDetector'),
+                                null, {
+                                renderer: 'svg'
+                            });
+
+                            //电池电压
+                            var optionS = {
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data: smokeDetectorSign
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    feature: {
+                                        saveAsImage: {}
+                                    }
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: time
+                                },
+                                yAxis: {
+                                    type: 'value'
+                                },
+                                series: [{
+                                    name: '压力',
+                                    type: 'line',
+                                    data: smokeDetector
+                                }]
+                            };
+                            optionS && myChartS.setOption(optionS);
+
+
+
+                            // 判断节点是否显示
+                            if ($('#chartShow-temperature').children().length === 0) {
+                                $('#chartShow-temperature').css('display', 'none')
+                            }
+                            if ($('#chartShow-electric').children().length === 0) {
+                                $('#chartShow-electric').css('display', 'none')
+                            }
+                            if ($('#chartShow-voltage').children().length === 0) {
+                                $('#chartShow-voltage').css('display', 'none')
+                            }
+                            if ($('#chartShow-aftercurrent').children().length === 0) {
+                                $('#chartShow-aftercurrent').css('display', 'none')
+                            }
+                            if ($('#chartShow-liquidLevel').children().length === 0) {
+                                $('#chartShow-liquidLevel').css('display', 'none')
+                            }
+                            if ($('#chartShow-pressure').children().length === 0) {
+                                $('#chartShow-pressure').css('display', 'none')
+                            }
+                            if ($('#chartShow-smokeDetector').children().length === 0) {
+                                $('#chartShow-smokeDetector').css('display', 'none')
+                            }
+                        }
+                    },
+                    error: function () {
+
+                    }
+                })
             } else if (index === 'week') {
+                //最近一周
+                $.ajax({
+                    url: baseUrl + "/deviceworkdata/list?&pageSize=10&pageNumber=1&token=" + JSON.parse(localStorage.getItem('loginInfo'))
+                        .token + "&happen_time=" + s2,
+                    type: 'get',
+                    data: getUrl(window.location.href),
+                    success: function (res) {
+                        const { fieldlist, dataList } = res.rows
+                        //历史信息表格
+                        var tableTitle = fieldlist.map(item => {
+                            return { field: item.dataType, title: item.typeDes }
+                        })
+                        tableTitle.unshift({ field: 'happen_time', title: '上报时间' })
+
+                        console.log(tableTitle)
+                        //渲染历史数据表格
+                        layui.use('table', function () {
+                            var table = layui.table;
+
+                            table.render({
+                                elem: '#historyData'
+                                , data: dataList.rows
+                                , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                                , cols: [tableTitle]
+                            });
+                        });
+                    }
+                })
+                $.ajax({
+                    url: baseUrl + "/deviceworkdata/zxlist?token=" + JSON.parse(localStorage.getItem('loginInfo'))
+                        .token + "&happen_time=" + s2,
+                    type: 'get',
+                    data: getUrl(window.location.href),
+                    success: function (response) {
+                        const {
+                            data, deviceInfo, deviceData
+                        } = response.rows
+
+
+
+
+                        // 水位 03
+                        if (response.rows.deviceType === '03') {
+                            if (response.code === 200) {
+                                time = response.rows.time
+                                liquidLevelSign.push(data[1].typeDes)
+                                data.map(item => {
+                                    switch (item.dataType) {
+                                        case "F":
+                                            liquidLevel = item.value
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                })
+                            }
+                            //echars
+                            var myChartL = echarts.init(document.getElementById('chartShow-liquidLevel'),
+                                null, {
+                                renderer: 'svg'
+                            });
+
+                            //液位
+                            var optionL = {
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data: liquidLevelSign
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    feature: {
+                                        saveAsImage: {}
+                                    }
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: time
+                                },
+                                yAxis: {
+                                    type: 'value'
+                                },
+                                series: [{
+                                    name: '液位',
+                                    type: 'line',
+                                    data: liquidLevel
+                                }]
+                            };
+                            optionL && myChartL.setOption(optionL);
+
+
+
+                            // 判断节点是否显示
+                            if ($('#chartShow-temperature').children().length === 0) {
+                                $('#chartShow-temperature').css('display', 'none')
+                            }
+                            if ($('#chartShow-electric').children().length === 0) {
+                                $('#chartShow-electric').css('display', 'none')
+                            }
+                            if ($('#chartShow-voltage').children().length === 0) {
+                                $('#chartShow-voltage').css('display', 'none')
+                            }
+                            if ($('#chartShow-aftercurrent').children().length === 0) {
+                                $('#chartShow-aftercurrent').css('display', 'none')
+                            }
+                            if ($('#chartShow-liquidLevel').children().length === 0) {
+                                $('#chartShow-liquidLevel').css('display', 'none')
+                            }
+                            if ($('#chartShow-pressure').children().length === 0) {
+                                $('#chartShow-pressure').css('display', 'none')
+                            }
+                            if ($('#chartShow-smokeDetector').children().length === 0) {
+                                $('#chartShow-smokeDetector').css('display', 'none')
+                            }
+                        } else if (response.rows.deviceType === '01') {
+                            if (response.code === 200) {
+                                time = response.rows.time
+                                voltageSign.push(data[1].typeDes, data[2].typeDes, data[3].typeDes)
+                                electricSign.push(data[4].typeDes, data[5].typeDes, data[6].typeDes)
+                                temperatureSign.push(data[7].typeDes, data[8].typeDes, data[9].typeDes, data[10]
+                                    .typeDes)
+                                electricRASign.push(data[0].typeDes)
+                                data.map(item => {
+                                    switch (item.dataType) {
+                                        case "residue_electricity":
+                                            electricRA = item.value
+                                            break;
+                                        case "a_voltage":
+                                            voltageA = item.value
+                                            break;
+                                        case "b_voltage":
+                                            voltageB = item.value
+                                            break;
+                                        case "c_voltage":
+                                            voltageC = item.value
+                                            break;
+                                        case "a_electricity":
+                                            electricA = item.value
+                                            break;
+                                        case "b_electricity":
+                                            electricB = item.value
+                                            break;
+                                        case "c_electricity":
+                                            electricC = item.value
+                                            break;
+                                        case "a_temperature":
+                                            temperatureA = item.value
+                                            break;
+                                        case "b_temperature":
+                                            temperatureB = item.value
+                                            break;
+                                        case "c_temperature":
+                                            temperatureC = item.value
+                                            break;
+                                        case "environment_temperature":
+                                            temperatureE = item.value
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                })
+                            }
+                            //echars
+                            var myChartA = echarts.init(document.getElementById('chartShow-temperature'),
+                                null, {
+                                renderer: 'svg'
+                            });
+                            var myChartV = echarts.init(document.getElementById('chartShow-electric'), null, {
+                                renderer: 'svg'
+                            });
+                            var myChartT = echarts.init(document.getElementById('chartShow-voltage'), null, {
+                                renderer: 'svg'
+                            });
+                            var myChartRA = echarts.init(document.getElementById('chartShow-aftercurrent'),
+                                null, {
+                                renderer: 'svg'
+                            });
+                            //电流
+                            var optionA = {
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data: electricSign
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    feature: {
+                                        saveAsImage: {}
+                                    }
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: time
+                                },
+                                yAxis: {
+                                    type: 'value'
+                                },
+                                series: [{
+                                    name: 'A相电流',
+                                    type: 'line',
+                                    data: electricA
+                                },
+                                {
+                                    name: 'B相电流',
+                                    type: 'line',
+                                    data: electricB
+                                },
+                                {
+                                    name: 'C相电流',
+                                    type: 'line',
+                                    data: electricC
+                                }
+                                ]
+                            };
+                            //电压
+                            var optionV = {
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data: voltageSign
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    feature: {
+                                        saveAsImage: {}
+                                    }
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: time
+                                },
+                                yAxis: {
+                                    type: 'value'
+                                },
+                                series: [{
+                                    name: 'A相电压',
+                                    type: 'line',
+                                    data: voltageA
+                                },
+                                {
+                                    name: 'B相电压',
+                                    type: 'line',
+                                    data: voltageB
+                                },
+                                {
+                                    name: 'C相电压',
+                                    type: 'line',
+                                    data: voltageC
+                                }
+                                ]
+                            };
+                            //温度
+                            var optionT = {
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data: temperatureSign
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    feature: {
+                                        saveAsImage: {}
+                                    }
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: time
+                                },
+                                yAxis: {
+                                    type: 'value'
+                                },
+                                series: [{
+                                    name: 'A相温度',
+                                    type: 'line',
+                                    data: temperatureA
+                                },
+                                {
+                                    name: 'B相温度',
+                                    type: 'line',
+                                    data: temperatureB
+                                },
+                                {
+                                    name: 'C相温度',
+                                    type: 'line',
+                                    data: temperatureC
+                                },
+                                {
+                                    name: '环境温度',
+                                    type: 'line',
+                                    data: temperatureE
+                                }
+                                ]
+                            };
+                            //剩余电流
+                            var optionRA = {
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data: electricRASign
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    feature: {
+                                        saveAsImage: {}
+                                    }
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: time
+                                },
+                                yAxis: {
+                                    type: 'value',
+                                    max: function (value) { return value.max }
+                                },
+                                series: [{
+                                    name: '剩余电流',
+                                    type: 'line',
+                                    data: electricRA
+                                }]
+                            };
+                            optionA && myChartA.setOption(optionA);
+                            optionV && myChartV.setOption(optionV);
+                            optionT && myChartT.setOption(optionT);
+                            optionRA && myChartRA.setOption(optionRA);
+
+
+                            // 判断节点是否显示
+                            if ($('#chartShow-liquidLevel').children().length === 0) {
+                                $('#chartShow-liquidLevel').css('display', 'none')
+                            }
+                            if ($('#chartShow-pressure').children().length === 0) {
+                                $('#chartShow-pressure').css('display', 'none')
+                            }
+                            if ($('#chartShow-smokeDetector').children().length === 0) {
+                                $('#chartShow-smokeDetector').css('display', 'none')
+                            }
+                        } else if (response.rows.deviceType === '02') {
+                            //水压 02
+                            if (response.code === 200) {
+                                time = response.rows.time
+                                pressureSign.push(data[0].typeDes)
+                                data.map(item => {
+                                    switch (item.dataType) {
+                                        case "F":
+                                            pressure = item.value
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                })
+                            }
+
+                            console.log(pressureSign)
+                            //echars
+                            var myChartP = echarts.init(document.getElementById('chartShow-pressure'),
+                                null, {
+                                renderer: 'svg'
+                            });
+
+                            //液位
+                            var optionP = {
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data: pressureSign
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    feature: {
+                                        saveAsImage: {}
+                                    }
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: time
+                                },
+                                yAxis: {
+                                    type: 'value'
+                                },
+                                series: [{
+                                    name: '压力',
+                                    type: 'line',
+                                    data: pressure
+                                }]
+                            };
+                            optionP && myChartP.setOption(optionP);
+
+
+
+                            // 判断节点是否显示
+                            if ($('#chartShow-temperature').children().length === 0) {
+                                $('#chartShow-temperature').css('display', 'none')
+                            }
+                            if ($('#chartShow-electric').children().length === 0) {
+                                $('#chartShow-electric').css('display', 'none')
+                            }
+                            if ($('#chartShow-voltage').children().length === 0) {
+                                $('#chartShow-voltage').css('display', 'none')
+                            }
+                            if ($('#chartShow-aftercurrent').children().length === 0) {
+                                $('#chartShow-aftercurrent').css('display', 'none')
+                            }
+                            if ($('#chartShow-liquidLevel').children().length === 0) {
+                                $('#chartShow-liquidLevel').css('display', 'none')
+                            }
+                            if ($('#chartShow-pressure').children().length === 0) {
+                                $('#chartShow-pressure').css('display', 'none')
+                            }
+                            if ($('#chartShow-smokeDetector').children().length === 0) {
+                                $('#chartShow-smokeDetector').css('display', 'none')
+                            }
+                        } else if (response.rows.deviceType === '06') {
+                            //烟感 06
+                            if (response.code === 200) {
+                                time = response.rows.time
+                                smokeDetectorSign.push(data[1].typeDes)
+                                data.map(item => {
+                                    switch (item.dataType) {
+                                        case "V":
+                                            smokeDetector = item.value
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                })
+                            }
+
+                            //echars
+                            var myChartS = echarts.init(document.getElementById('chartShow-smokeDetector'),
+                                null, {
+                                renderer: 'svg'
+                            });
+
+                            //电池电压
+                            var optionS = {
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data: smokeDetectorSign
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    feature: {
+                                        saveAsImage: {}
+                                    }
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: time
+                                },
+                                yAxis: {
+                                    type: 'value'
+                                },
+                                series: [{
+                                    name: '压力',
+                                    type: 'line',
+                                    data: smokeDetector
+                                }]
+                            };
+                            optionS && myChartS.setOption(optionS);
+
+
+
+                            // 判断节点是否显示
+                            if ($('#chartShow-temperature').children().length === 0) {
+                                $('#chartShow-temperature').css('display', 'none')
+                            }
+                            if ($('#chartShow-electric').children().length === 0) {
+                                $('#chartShow-electric').css('display', 'none')
+                            }
+                            if ($('#chartShow-voltage').children().length === 0) {
+                                $('#chartShow-voltage').css('display', 'none')
+                            }
+                            if ($('#chartShow-aftercurrent').children().length === 0) {
+                                $('#chartShow-aftercurrent').css('display', 'none')
+                            }
+                            if ($('#chartShow-liquidLevel').children().length === 0) {
+                                $('#chartShow-liquidLevel').css('display', 'none')
+                            }
+                            if ($('#chartShow-pressure').children().length === 0) {
+                                $('#chartShow-pressure').css('display', 'none')
+                            }
+                            if ($('#chartShow-smokeDetector').children().length === 0) {
+                                $('#chartShow-smokeDetector').css('display', 'none')
+                            }
+                        }
+                    },
+                    error: function () {
+
+                    }
+                })
 
             } else if (index === 'month') {
+                //最近一个月
+                $.ajax({
+                    url: baseUrl + "/deviceworkdata/list?&pageSize=10&pageNumber=1&token=" + JSON.parse(localStorage.getItem('loginInfo'))
+                        .token + "&happen_time=" + s3,
+                    type: 'get',
+                    data: getUrl(window.location.href),
+                    success: function (res) {
+                        const { fieldlist, dataList } = res.rows
+                        //历史信息表格
+                        var tableTitle = fieldlist.map(item => {
+                            return { field: item.dataType, title: item.typeDes }
+                        })
+                        tableTitle.unshift({ field: 'happen_time', title: '上报时间' })
+
+                        console.log(tableTitle)
+                        //渲染历史数据表格
+                        layui.use('table', function () {
+                            var table = layui.table;
+
+                            table.render({
+                                elem: '#historyData'
+                                , data: dataList.rows
+                                , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                                , cols: [tableTitle]
+                            });
+                        });
+                    }
+                })
+                $.ajax({
+                    url: baseUrl + "/deviceworkdata/zxlist?token=" + JSON.parse(localStorage.getItem('loginInfo'))
+                        .token + "&happen_time=" + s3,
+                    type: 'get',
+                    data: getUrl(window.location.href),
+                    success: function (response) {
+                        const {
+                            data, deviceInfo, deviceData
+                        } = response.rows
+
+
+
+
+                        // 水位 03
+                        if (response.rows.deviceType === '03') {
+                            if (response.code === 200) {
+                                time = response.rows.time
+                                liquidLevelSign.push(data[1].typeDes)
+                                data.map(item => {
+                                    switch (item.dataType) {
+                                        case "F":
+                                            liquidLevel = item.value
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                })
+                            }
+                            //echars
+                            var myChartL = echarts.init(document.getElementById('chartShow-liquidLevel'),
+                                null, {
+                                renderer: 'svg'
+                            });
+
+                            //液位
+                            var optionL = {
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data: liquidLevelSign
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    feature: {
+                                        saveAsImage: {}
+                                    }
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: time
+                                },
+                                yAxis: {
+                                    type: 'value'
+                                },
+                                series: [{
+                                    name: '液位',
+                                    type: 'line',
+                                    data: liquidLevel
+                                }]
+                            };
+                            optionL && myChartL.setOption(optionL);
+
+
+
+                            // 判断节点是否显示
+                            if ($('#chartShow-temperature').children().length === 0) {
+                                $('#chartShow-temperature').css('display', 'none')
+                            }
+                            if ($('#chartShow-electric').children().length === 0) {
+                                $('#chartShow-electric').css('display', 'none')
+                            }
+                            if ($('#chartShow-voltage').children().length === 0) {
+                                $('#chartShow-voltage').css('display', 'none')
+                            }
+                            if ($('#chartShow-aftercurrent').children().length === 0) {
+                                $('#chartShow-aftercurrent').css('display', 'none')
+                            }
+                            if ($('#chartShow-liquidLevel').children().length === 0) {
+                                $('#chartShow-liquidLevel').css('display', 'none')
+                            }
+                            if ($('#chartShow-pressure').children().length === 0) {
+                                $('#chartShow-pressure').css('display', 'none')
+                            }
+                            if ($('#chartShow-smokeDetector').children().length === 0) {
+                                $('#chartShow-smokeDetector').css('display', 'none')
+                            }
+                        } else if (response.rows.deviceType === '01') {
+                            if (response.code === 200) {
+                                time = response.rows.time
+                                voltageSign.push(data[1].typeDes, data[2].typeDes, data[3].typeDes)
+                                electricSign.push(data[4].typeDes, data[5].typeDes, data[6].typeDes)
+                                temperatureSign.push(data[7].typeDes, data[8].typeDes, data[9].typeDes, data[10]
+                                    .typeDes)
+                                electricRASign.push(data[0].typeDes)
+                                data.map(item => {
+                                    switch (item.dataType) {
+                                        case "residue_electricity":
+                                            electricRA = item.value
+                                            break;
+                                        case "a_voltage":
+                                            voltageA = item.value
+                                            break;
+                                        case "b_voltage":
+                                            voltageB = item.value
+                                            break;
+                                        case "c_voltage":
+                                            voltageC = item.value
+                                            break;
+                                        case "a_electricity":
+                                            electricA = item.value
+                                            break;
+                                        case "b_electricity":
+                                            electricB = item.value
+                                            break;
+                                        case "c_electricity":
+                                            electricC = item.value
+                                            break;
+                                        case "a_temperature":
+                                            temperatureA = item.value
+                                            break;
+                                        case "b_temperature":
+                                            temperatureB = item.value
+                                            break;
+                                        case "c_temperature":
+                                            temperatureC = item.value
+                                            break;
+                                        case "environment_temperature":
+                                            temperatureE = item.value
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                })
+                            }
+                            //echars
+                            var myChartA = echarts.init(document.getElementById('chartShow-temperature'),
+                                null, {
+                                renderer: 'svg'
+                            });
+                            var myChartV = echarts.init(document.getElementById('chartShow-electric'), null, {
+                                renderer: 'svg'
+                            });
+                            var myChartT = echarts.init(document.getElementById('chartShow-voltage'), null, {
+                                renderer: 'svg'
+                            });
+                            var myChartRA = echarts.init(document.getElementById('chartShow-aftercurrent'),
+                                null, {
+                                renderer: 'svg'
+                            });
+                            //电流
+                            var optionA = {
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data: electricSign
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    feature: {
+                                        saveAsImage: {}
+                                    }
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: time
+                                },
+                                yAxis: {
+                                    type: 'value'
+                                },
+                                series: [{
+                                    name: 'A相电流',
+                                    type: 'line',
+                                    data: electricA
+                                },
+                                {
+                                    name: 'B相电流',
+                                    type: 'line',
+                                    data: electricB
+                                },
+                                {
+                                    name: 'C相电流',
+                                    type: 'line',
+                                    data: electricC
+                                }
+                                ]
+                            };
+                            //电压
+                            var optionV = {
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data: voltageSign
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    feature: {
+                                        saveAsImage: {}
+                                    }
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: time
+                                },
+                                yAxis: {
+                                    type: 'value'
+                                },
+                                series: [{
+                                    name: 'A相电压',
+                                    type: 'line',
+                                    data: voltageA
+                                },
+                                {
+                                    name: 'B相电压',
+                                    type: 'line',
+                                    data: voltageB
+                                },
+                                {
+                                    name: 'C相电压',
+                                    type: 'line',
+                                    data: voltageC
+                                }
+                                ]
+                            };
+                            //温度
+                            var optionT = {
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data: temperatureSign
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    feature: {
+                                        saveAsImage: {}
+                                    }
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: time
+                                },
+                                yAxis: {
+                                    type: 'value'
+                                },
+                                series: [{
+                                    name: 'A相温度',
+                                    type: 'line',
+                                    data: temperatureA
+                                },
+                                {
+                                    name: 'B相温度',
+                                    type: 'line',
+                                    data: temperatureB
+                                },
+                                {
+                                    name: 'C相温度',
+                                    type: 'line',
+                                    data: temperatureC
+                                },
+                                {
+                                    name: '环境温度',
+                                    type: 'line',
+                                    data: temperatureE
+                                }
+                                ]
+                            };
+                            //剩余电流
+                            var optionRA = {
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data: electricRASign
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    feature: {
+                                        saveAsImage: {}
+                                    }
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: time
+                                },
+                                yAxis: {
+                                    type: 'value',
+                                    max: function (value) { return value.max }
+                                },
+                                series: [{
+                                    name: '剩余电流',
+                                    type: 'line',
+                                    data: electricRA
+                                }]
+                            };
+                            optionA && myChartA.setOption(optionA);
+                            optionV && myChartV.setOption(optionV);
+                            optionT && myChartT.setOption(optionT);
+                            optionRA && myChartRA.setOption(optionRA);
+
+
+                            // 判断节点是否显示
+                            if ($('#chartShow-liquidLevel').children().length === 0) {
+                                $('#chartShow-liquidLevel').css('display', 'none')
+                            }
+                            if ($('#chartShow-pressure').children().length === 0) {
+                                $('#chartShow-pressure').css('display', 'none')
+                            }
+                            if ($('#chartShow-smokeDetector').children().length === 0) {
+                                $('#chartShow-smokeDetector').css('display', 'none')
+                            }
+                        } else if (response.rows.deviceType === '02') {
+                            //水压 02
+                            if (response.code === 200) {
+                                time = response.rows.time
+                                pressureSign.push(data[0].typeDes)
+                                data.map(item => {
+                                    switch (item.dataType) {
+                                        case "F":
+                                            pressure = item.value
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                })
+                            }
+
+                            console.log(pressureSign)
+                            //echars
+                            var myChartP = echarts.init(document.getElementById('chartShow-pressure'),
+                                null, {
+                                renderer: 'svg'
+                            });
+
+                            //液位
+                            var optionP = {
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data: pressureSign
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    feature: {
+                                        saveAsImage: {}
+                                    }
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: time
+                                },
+                                yAxis: {
+                                    type: 'value'
+                                },
+                                series: [{
+                                    name: '压力',
+                                    type: 'line',
+                                    data: pressure
+                                }]
+                            };
+                            optionP && myChartP.setOption(optionP);
+
+
+
+                            // 判断节点是否显示
+                            if ($('#chartShow-temperature').children().length === 0) {
+                                $('#chartShow-temperature').css('display', 'none')
+                            }
+                            if ($('#chartShow-electric').children().length === 0) {
+                                $('#chartShow-electric').css('display', 'none')
+                            }
+                            if ($('#chartShow-voltage').children().length === 0) {
+                                $('#chartShow-voltage').css('display', 'none')
+                            }
+                            if ($('#chartShow-aftercurrent').children().length === 0) {
+                                $('#chartShow-aftercurrent').css('display', 'none')
+                            }
+                            if ($('#chartShow-liquidLevel').children().length === 0) {
+                                $('#chartShow-liquidLevel').css('display', 'none')
+                            }
+                            if ($('#chartShow-pressure').children().length === 0) {
+                                $('#chartShow-pressure').css('display', 'none')
+                            }
+                            if ($('#chartShow-smokeDetector').children().length === 0) {
+                                $('#chartShow-smokeDetector').css('display', 'none')
+                            }
+                        } else if (response.rows.deviceType === '06') {
+                            //烟感 06
+                            if (response.code === 200) {
+                                time = response.rows.time
+                                smokeDetectorSign.push(data[1].typeDes)
+                                data.map(item => {
+                                    switch (item.dataType) {
+                                        case "V":
+                                            smokeDetector = item.value
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                })
+                            }
+
+                            //echars
+                            var myChartS = echarts.init(document.getElementById('chartShow-smokeDetector'),
+                                null, {
+                                renderer: 'svg'
+                            });
+
+                            //电池电压
+                            var optionS = {
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data: smokeDetectorSign
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    feature: {
+                                        saveAsImage: {}
+                                    }
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: time
+                                },
+                                yAxis: {
+                                    type: 'value'
+                                },
+                                series: [{
+                                    name: '压力',
+                                    type: 'line',
+                                    data: smokeDetector
+                                }]
+                            };
+                            optionS && myChartS.setOption(optionS);
+
+
+
+                            // 判断节点是否显示
+                            if ($('#chartShow-temperature').children().length === 0) {
+                                $('#chartShow-temperature').css('display', 'none')
+                            }
+                            if ($('#chartShow-electric').children().length === 0) {
+                                $('#chartShow-electric').css('display', 'none')
+                            }
+                            if ($('#chartShow-voltage').children().length === 0) {
+                                $('#chartShow-voltage').css('display', 'none')
+                            }
+                            if ($('#chartShow-aftercurrent').children().length === 0) {
+                                $('#chartShow-aftercurrent').css('display', 'none')
+                            }
+                            if ($('#chartShow-liquidLevel').children().length === 0) {
+                                $('#chartShow-liquidLevel').css('display', 'none')
+                            }
+                            if ($('#chartShow-pressure').children().length === 0) {
+                                $('#chartShow-pressure').css('display', 'none')
+                            }
+                            if ($('#chartShow-smokeDetector').children().length === 0) {
+                                $('#chartShow-smokeDetector').css('display', 'none')
+                            }
+                        }
+                    },
+                    error: function () {
+
+                    }
+                })
 
             } else if (index === 'realtime') {
                 $(".chartShow").css('display', 'block')
