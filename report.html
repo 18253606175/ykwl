@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>设备运行情况日报告</title>
+    <link rel="stylesheet" type="text/css" href="./css/DailyReport.css">
+</head>
+<body class="mkeBody">
+<div class="mkeContentBox" id="frame">
+    <!--效果html开始-->
+    <div class="container">
+        <div class="col-md-9" id="pagecontent">
+            <div class="layoutCon" style="width: 65%; margin: 0 auto;padding: 30px">
+
+                <!-- ----------第一页----------- -->
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <p style="font-size: 32px; font-family: '华文楷体'; text-align: center;"></p>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <p style="font-size: 40px; font-family: '华文楷体'; text-align: center;">潍坊市社会消防安全服务系统</p>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <span style="display: none" id="display-p">{{RepostType1}}</span>
+                <p style="font-size: 24px; font-family: '华文楷体'; text-align: center;"><span>项目名称 ：</span><span
+                        id="project-name">{{CompanySite}}</span></p>
+                <p style="font-size: 24px; font-family: '华文楷体'; text-align: center;"><span>报告日期 ：</span><span
+                        id="project-time">{{DailyReportData}}</span></p>
+                <p style="font-size: 24px; font-family: '华文楷体'; text-align: center;"><span>出具单位 ：</span><span
+                        id="project-company">山东英科物联网技术有限公司</span></p>
+
+
+                <br style="page-break-before:always"></br>
+                <p style="font-size: 21.3px; font-family: '华文楷体'; font-weight: bold; text-align: center;">
+                    英科物联运维管理平台设备运行情况报告</p>
+
+                <!-- -----------第二页--------------- -->
+                <p style="font-size: 18.6px; font-family: '华文楷体';">编号：</p>
+                <table border="1" style="border-collapse: collapse;width: 100%">
+                    <tr style="font-size: 18.6px; font-family: '华文楷体'; line-height: 20px;">
+                        <td>项目名称</td>
+                        <td><span id="project-name1">{{CompanySite}}</span></td>
+                    </tr>
+
+                    <tr style="font-size: 18.6px; font-family: '华文楷体'; line-height: 20px;">
+                        <td>项目地址</td>
+                        <!-- 项目详细地址  -->
+                        <td><span id="project-site">{{CompanyAdress}}</span></td>
+                    </tr>
+
+                    <tr style="font-size: 18.6px; font-family: '华文楷体'; line-height: 35px;">
+                        <td>安装终端设备列表</td>
+                        <td>
+                            <p>
+                                <span v-if="HaveMeter==1"
+                                      style="font-family:'Wingdings 2';font-size:12.0000pt; mso-font-kerning:0.0000pt;">R</span>
+                                <span v-if="HaveMeter==0"
+                                      style="font-family:'Wingdings 2';font-size:12.0000pt; mso-font-kerning:0.0000pt;">&#163;</span>
+                                智慧用电监测系统
+                                <span v-if="HaveWater==1"
+                                      style="font-family:'Wingdings 2';font-size:12.0000pt; mso-font-kerning:0.0000pt;">R</span>
+                                <span v-if="HaveWater==0"
+                                      style="font-family:'Wingdings 2';font-size:12.0000pt; mso-font-kerning:0.0000pt;">&#163;</span>
+                                消防用水监测系统
+                            </p>
+                            <p>
+                                <span v-if="HaveWater==1"
+                                      style="font-family:'Wingdings 2';font-size:12.0000pt; mso-font-kerning:0.0000pt;">R</span>
+                                <span v-if="HaveWater==0"
+                                      style="font-family:'Wingdings 2';font-size:12.0000pt; mso-font-kerning:0.0000pt;">&#163;</span>
+                                隐患视频识别系统
+                                <span v-if="HaveXuncha==1"
+                                      style="font-family:'Wingdings 2';font-size:12.0000pt; mso-font-kerning:0.0000pt;">R</span>
+                                <span v-if="HaveXuncha==0"
+                                      style="font-family:'Wingdings 2';font-size:12.0000pt; mso-font-kerning:0.0000pt;">&#163;</span>
+                                安全隐患巡查系统
+                            </p>
+                            <span v-if="HaveSmoke==1"
+                                  style="font-family:'Wingdings 2';font-size:12.0000pt; mso-font-kerning:0.0000pt;">R</span>
+                            <span v-if="HaveSmoke==0"
+                                  style="font-family:'Wingdings 2';font-size:12.0000pt; mso-font-kerning:0.0000pt;">&#163;</span>
+                            智慧型独立烟感系统
+                        </td>
+                    </tr>
+
+                    <tr style="line-height: 30px;">
+                        <td style="font-size: 18.6px; font-family: '华文楷体';">设备运行情况</td>
+                        <td>
+                            <p style="font-size: 16px; font-family: '仿宋_GB2312'; font-weight: bold;">该单位设备运行情况如下：</p>
+                            <p>
+                                <span style="font-size: 16px; font-family: '黑体';">一、防火巡查。</span>
+                                <span style="font-size: 16px; font-family: '仿宋_GB2312';">安全隐患巡查标签共<span
+                                        id="Fire-inspection-labelAll">{{CardNumber}}</span>个。
+                                        已巡查 <span id="Fire-Already-patrol">{{CardPatrolNumber}}</span>个，
+                                        <span id="Fire-Not-patrol">{{CardNOTPatrolNumber}}</span>个未巡查，
+                                        使用率<span id="Fire-usage-rate">{{CardPatrolRate}}</span>。
+                                    </span>
+                            </p>
+
+                            <p>
+                                <span style="font-size: 16px; font-family: '黑体';">二、智慧用电监测。</span>
+                                <span style="font-size: 16px; font-family: '仿宋_GB2312';">智慧用电监测设备共<span
+                                        id="electrical-installationAll">{{ElectricityDeviceNumber}}</span>套。
+                                        <span id="electrical-online">{{ElectricityDeviceOnNumber}}</span>套在线，
+                                        <span id="electrical-offline">{{ElectricityDeviceOffNumber}}</span>套断线，
+                                        <span id="electrical-alarm">{{ElectricityDeviceAlarmNumber}}</span>套报警，
+                                        在线率<span id="electrical-Online-rate">{{ElectricityDeviceOnLineRate}}</span>。
+                                        报警原因为：<span id="electrical-alarm-reason">{{ElectricityDeviceAlarmReason}}</span> 。
+                                    </span>
+                            </p>
+
+
+                            <p>
+                                <span style="font-size: 16px; font-family: '黑体';">三、建筑消防用水监测。</span>
+                                <span style="font-size: 16px; font-family: '仿宋_GB2312';">建筑消防用水设备共<span
+                                        id="water-equipmentAll">{{WaterDeviceNumber}}</span> 套。</span>
+                                <span style="font-size: 16px; font-family: '仿宋_GB2312';">
+                                        <span id="water-online">{{WaterDeviceOnNumber}}</span>套在线，
+                                        <span id="water-offline">{{WaterDeviceOffNumber}}</span>套断线，
+                                        <span id="water-alarm">{{WaterDeviceAlarmNumber}}</span> 套报警，
+                                        在线率<span id="water-Online-rate">{{WaterDeviceOnLineRate}}</span>。
+                                        报警原因为：<span id="water-alarm-reason">{{WaterDeviceAlarmReason}}</span> 。
+                                    </span>
+                            </p>
+
+                            <p>
+                                <span style="font-size: 16px; font-family: '黑体';">四、慧眼识别。</span>
+                                <span style="font-size: 16px; font-family: '仿宋_GB2312';">慧眼识别系统监控<span
+                                        id="monitoring-site">{{videoNumber}}</span>路。
+                                        主要监控区域为（ <span id="monitoring-area">{{CompanySite}}</span>）。
+                                        今日共报警 （ <span id="monitoring-alarm-numAll">{{videoAlarmNumber}}</span>）次。
+                                    </span>
+                            </p>
+
+                            <p>
+                                <span style="font-size: 16px; font-family: '黑体';">五、</span>
+                                <span style="font-size: 16px; font-family: '仿宋_GB2312';">相关报警信息及报警原因 <span
+                                        id="alarmReason-whetherInform">是 </span>（是否）已告知甲方消防安全管理人。
+                                        相关报警原因 <span id="alarmReason-whetherDispose">是 </span>（是否）已处置，
+                                        隐患 <span id="hiddenTrouble-whetherAbarbeitung">是 </span>（是否）已整改。
+                                    </span>
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="font-size: 18.6px; font-family: '华文楷体';">运行结果确认</td>
+                        <td>
+                            <p style="font-size: 16px; font-family: '仿宋_GB2312';">委托单位意见：</p>
+                            <p style="font-size: 16px; font-family: '仿宋_GB2312';">运行良好，监测用电状态良好安全</p>
+                            <p style="font-size: 14px; font-family: '仿宋_GB2312'; margin-left: 180px;">
+                                单位消防安全责任人或管理人（签字）：</p>
+                            <p style="font-size: 14px; font-family: '仿宋_GB2312'; margin-left: 280px; line-height: 30px; margin-bottom: 20px;">
+                                （委托单位公章）</p>
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <!-- -------------第三页--------------- -->
+                <p style="font-size: 18.6px; font-family: '黑体';">(一)智慧用电监测</p>
+                <table border="1"
+                       style="border-collapse: collapse;font-size: 16px; font-family: '宋体'; width: 100%; height: 30px;">
+                    <thead>
+                    <tr style="line-height: 20px;">
+                        <td style="width: 20%;">监测设备位置</td>
+                        <td style="width: 17%;">报警时间</td>
+                        <td style="width: 18%;">报警内容</td>
+                        <td style="width: 17%;">处置情况</td>
+                        <td style="width: 28%;">备注</td>
+                    </tr>
+                    </thead>
+                    <tbody id="table1">
+                    </tbody>
+                </table>
+                <br/>
+                <p style="font-size: 18.6px; font-family: '黑体';">(二)建筑消防用水监测</p>
+                <table border="1"
+                       style="border-collapse: collapse;font-size: 16px; font-family: '宋体'; width: 100%; height: 30px;">
+                    <thead>
+                    <tr style="line-height: 20px;">
+                        <td style="width: 20%;">监测设备位置</td>
+                        <td style="width: 17%;">报警时间</td>
+                        <td style="width: 18%;">报警内容</td>
+                        <td style="width: 17%;">处置情况</td>
+                        <td style="width: 28%;">备注</td>
+                    </tr>
+                    </thead>
+                    <tbody id="table2">
+
+                    </tbody>
+                </table>
+                <br/>
+                <p style="font-size: 18.6px; font-family: '黑体';">（三）服务情况</p>
+                <table border="1"
+                       style="border-collapse: collapse;font-size: 16px; font-family: '宋体'; width: 100%; height: 30px;">
+                    <thead>
+                    <tr style="line-height: 20px;">
+                        <td style="width: 20%;">时间</td>
+                        <td style="width: 60%;">服务内容</td>
+                        <td style="width: 20%;">备注</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td></td>
+                        <td>（上门检修、参与火灾处置等）</td>
+                        <td></td>
+                    </tr>
+
+                    <tr style="line-height: 20px;">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr style="line-height: 20px;">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 下载文档div -->
+        <div class="col-md-3">
+            <a onclick="buttom();" >
+                <span class="word-icon">W</span>
+                导出为Word文档
+            </a>
+        </div>
+        <!--        <div class="col-md-3">-->
+        <!--            <a class="btn btn-default jquery-word-export" href=" " style="color: aqua">-->
+        <!--                <span class="word-icon">W</span>-->
+        <!--                导出为.doc文档-->
+        <!--            </ a>-->
+        <!--        </div>-->
+    </div>
+</div>
+<!-- <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script> -->
+<script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/FileSaver.js"></script>
+<script type="text/javascript" src="js/jquery.wordexport.js"></script>
+<script type="module" src="js/report.js"></script>
+
+
+<script type="text/javascript">
+    function buttom() {
+            $("#pagecontent").wordExport("运行报告");
+        };
+</script>
+</body>
+</html>

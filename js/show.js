@@ -55,10 +55,9 @@ layui.use(['element'], function () {
     //点击跳转
 
     $("#warn").on('click', function () {
-        $("#homeIframe").attr('src', '../html/faultHand.html');
-
-        $(".site-demo-active").removeClass('layui-this');
-        $(".site-demo-active17").addClass("layui-this");
+        $("#homeIframe").attr('src', '../alarm.html');
+        $('.layui-body').css('top', '50px')
+        
     })
 
     for (var i = 0; i < $(".site-demo-active").length; i++) {
@@ -66,7 +65,7 @@ layui.use(['element'], function () {
             var bSrc = $(this).attr('accessKey')
             $("#homeIframe").attr('src', `${bSrc}.html`)
             if (bSrc === 'contentHome') {
-                $('.layui-body').css('top', '-15px')
+                $('.layui-body').css('top', '-10px')
             } else {
                 $('.layui-body').css('top', '50px')
             }

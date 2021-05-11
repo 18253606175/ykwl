@@ -36,11 +36,11 @@ body {
 }
 
 .Homemain .Homeleft .home-left-top {
-  flex: 1.2;
+  flex: 1.5;
   background-image: url("../img/indexBotBak.png");
   background-repeat: no-repeat;
-  background-size: 100% 23vh;
-  margin-bottom: 15px;
+  background-size: 100% 100%;
+  margin-bottom: 10px;
   display: flex;
   flex-direction: column;
 }
@@ -48,7 +48,9 @@ body {
 .Homemain .Homeleft .home-left-top .home-left-top-title {
   color: #31e0f0;
   font-size: 16px;
-  padding: 5px 8%;
+  padding: 10px 8%;
+  position: relative;
+  top: 5px;
 }
 
 .Homemain .Homeleft .home-left-top .home-left-top-bottom {
@@ -122,7 +124,7 @@ body {
   background-image: url("../img/indexBotBak.png");
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   display: flex;
   flex-direction: column;
 }
@@ -130,7 +132,9 @@ body {
 .Homemain .Homeleft .home-left-center .home-left-center-title {
   color: #31e0f0;
   font-size: 16px;
-  padding: 10px 8%;
+  padding: 2px 8%;
+  position: relative;
+  top: 12px;
 }
 
 .Homemain .Homeleft .home-left-center .home-left-center-bottom {
@@ -150,6 +154,13 @@ body {
   display: flex;
   flex-direction: column;
   margin-right: 50px;
+}
+
+.Homemain .Homeleft .home-left-center .home-left-center-bottom .home-left-center-bottom-right .home-left-center-bottom-right-top {
+  flex: 1;
+  border-bottom: 1px solid #4e6061;
+  margin-bottom: 7%;
+  color: #565e47;
 }
 
 .Homemain .Homeleft .home-left-center .home-left-center-bottom .home-left-center-bottom-right .home-left-center-bottom-right-top:nth-of-type(1) .home-left-center-bottom-right-top-header > span:first-child {
@@ -176,13 +187,6 @@ body {
   color: grey;
 }
 
-.Homemain .Homeleft .home-left-center .home-left-center-bottom .home-left-center-bottom-right .home-left-center-bottom-right-top {
-  flex: 1;
-  border-bottom: 1px solid #4e6061;
-  margin-bottom: 7%;
-  color: #565e47;
-}
-
 .Homemain .Homeleft .home-left-center .home-left-center-bottom .home-left-center-bottom-right .home-left-center-bottom-right-top span:last-child {
   float: right;
 }
@@ -204,10 +208,22 @@ body {
 }
 
 .Homemain .Homeleft #home-left-bottom {
+  height: 270px;
+}
+
+.Homemain .Homeleft .home-left-bottom {
   flex: 2;
   background-image: url("../img/indexBotBak.png");
   background-repeat: no-repeat;
   background-size: 100% 100%;
+}
+
+.Homemain .Homeleft .home-left-bottom .home-left-bottom-title {
+  color: #31e0f0;
+  font-size: 16px;
+  padding: 15px 8%;
+  position: relative;
+  top: 5px;
 }
 
 .Homemain .Homecenter {
@@ -221,7 +237,8 @@ body {
 .Homemain .Homecenter .home-center-top {
   flex: 2;
   background-color: green;
-  margin-bottom: 16px;
+  margin: 4px 0 15px;
+  box-shadow: 0 2px 8px 0 #009688;
 }
 
 .Homemain .Homecenter .home-center-bottom {
@@ -242,7 +259,7 @@ body {
 .Homemain .Homecenter .home-center-bottom .home-center-bottom-bottom {
   height: 210px;
   width: 88%;
-  padding: 0 40px 28px;
+  padding: 0 40px 10px;
   overflow: hidden;
 }
 
@@ -312,17 +329,23 @@ body {
 .Homemain .Homeright .home-right-top .home-right-top-title {
   color: #31e0f0;
   font-size: 16px;
-  padding: 16px 8%;
+  padding: 30px 8%;
 }
 
 .Homemain .Homeright .home-right-top .home-right-top-bottom {
   flex: 1;
-  padding: 0 50px 25px;
+  padding: 0 50px 20px;
   flex: 1;
   height: 100%;
   display: flex;
   flex-direction: column;
-  margin-right: 15px;
+  margin-right: 10px;
+}
+
+.Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top {
+  flex: 1;
+  margin-bottom: 5%;
+  color: #565e47;
 }
 
 .Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(1) .home-left-center-bottom-right-top-header > span:first-child {
@@ -333,12 +356,20 @@ body {
   color: #5470c6;
 }
 
+.Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(1) .progress-bar {
+  background-color: #5470c6;
+}
+
 .Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(2) .home-left-center-bottom-right-top-header > span:first-child {
   background-color: yellow;
 }
 
 .Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(2) .home-left-center-bottom-right-top-header > span:nth-of-type(2) {
   color: yellow;
+}
+
+.Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(2) .progress-bar {
+  background-color: yellow;
 }
 
 .Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(3) .home-left-center-bottom-right-top-header > span:first-child {
@@ -349,6 +380,10 @@ body {
   color: green;
 }
 
+.Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(3) .progress-bar {
+  background-color: green;
+}
+
 .Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(4) .home-left-center-bottom-right-top-header > span:first-child {
   background-color: red;
 }
@@ -357,18 +392,17 @@ body {
   color: red;
 }
 
+.Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(4) .progress-bar {
+  background-color: red;
+  background-color: grey;
+}
+
 .Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(5) .home-left-center-bottom-right-top-header > span:first-child {
   background-color: grey;
 }
 
 .Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(5) .home-left-center-bottom-right-top-header > span:nth-of-type(2) {
   color: grey;
-}
-
-.Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top {
-  flex: 1;
-  margin-bottom: 7%;
-  color: #565e47;
 }
 
 .Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top .progressBar {
@@ -401,28 +435,8 @@ body {
   font-size: 15px;
 }
 
-.Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(1) .progress-bar {
-  background-color: #5470c6;
-}
-
-.Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(2) .progress-bar {
-  background-color: yellow;
-}
-
-.Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(3) .progress-bar {
-  background-color: green;
-}
-
-.Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(4) .progress-bar {
-  background-color: red;
-}
-
-.Homemain .Homeright .home-right-top .home-right-top-bottom .home-left-center-bottom-right-top:nth-of-type(4) .progress-bar {
-  background-color: grey;
-}
-
 .Homemain .Homeright .home-right-bottom {
-  height: 337px;
+  height: 330px;
   background-image: url("../img/indexBotBak.png");
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -433,9 +447,9 @@ body {
 .Homemain .Homeright .home-right-bottom .home-right-bottom-title {
   color: #31e0f0;
   font-size: 16px;
-  padding: 16px 8%;
+  padding: 15px 8%;
   position: relative;
-  top: 16px;
+  top: 5px;
 }
 
 .Homemain .Homeright .home-right-bottom #home-right-bottom-bottom {

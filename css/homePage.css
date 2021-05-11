@@ -50,6 +50,7 @@ html {
   bottom: 0;
   top: 50px;
   height: 100%;
+  padding-bottom: 0;
 }
 
 .layui-body {
@@ -80,13 +81,13 @@ html {
   height: 100%;
 }
 
-.layui-body .layui-tab-title .layui-this {
-  color: white;
-}
-
 .layui-body .layui-tab-title {
   border-bottom: 1px solid rgba(67, 101, 137, 0.3);
   box-shadow: 0 1px 3px 2px #231933;
+}
+
+.layui-body .layui-tab-title .layui-this {
+  color: white;
 }
 
 .layui-body .layui-tab-title .layui-this:after {

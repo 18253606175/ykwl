@@ -76,7 +76,7 @@
         </div>
     </div>
 </body>
-<script src="./node_modules/echarts/dist/echarts.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.1.0/echarts.min.js"></script>
 <script src="./node_modules/layui.js"></script>
 <script src="./js/deviceList.js"></script>
 <script type="module">
@@ -179,13 +179,14 @@
                 })
                 tableTitle.unshift({ field: 'happen_time', title: '上报时间' })
 
-                console.log(tableTitle)
+                
                 //渲染历史数据表格
                 layui.use('table', function () {
                     var table = layui.table;
 
                     table.render({
                         elem: '#historyData',
+                        id: "tableReload",
                         url: baseUrl + "/deviceworkdata/list?token=" + JSON.parse(localStorage.getItem('loginInfo'))
                             .token
                         , request: {
@@ -246,17 +247,7 @@
                     `
                 )
 
-                // console.log(deviceData)
-
-
-
-
-
-
-
-
-
-
+               
                 // 水位 03
                 if (response.rows.deviceType === '03') {
                     if (response.code === 200) {
@@ -322,7 +313,7 @@
                         </p>
                     `
                     })
-                    
+
                     var time = time.pop()
                     const $infoData = `
                     <div class="data-record-content-time">
@@ -602,7 +593,7 @@
                         </p>
                     `
                     })
-                    
+
                     var time = time.pop()
                     const $infoData = `
                     <div class="data-record-content-time">
@@ -638,7 +629,7 @@
                         })
                     }
 
-                    console.log(pressureSign)
+                    
                     //echars
                     var myChartP = echarts.init(document.getElementById('chartShow-pressure'),
                         null, {
@@ -689,7 +680,7 @@
                         </p>
                     `
                     })
-                    
+
                     var time = time.pop()
                     const $infoData = `
                     <div class="data-record-content-time">
@@ -787,7 +778,7 @@
                         </p>
                     `
                     })
-                    
+
                     var time = time.pop()
                     const $infoData = `
                     <div class="data-record-content-time">
@@ -836,10 +827,13 @@
             day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000 * 2);
             day2.setTime(day1.getTime() - 24 * 60 * 60 * 1000 * 6);
             day3.setTime(day1.getTime() - 24 * 60 * 60 * 1000 * 29);
-            var s1 = day1.getFullYear() + "-0" + (day1.getMonth() + 1) + "-0" + day1.getDate();
-            var s2 = day2.getFullYear() + "-0" + (day2.getMonth() + 1) + "-0" + day2.getDate();
-            var s3 = day3.getFullYear() + "-0" + (day3.getMonth() + 1) + "-0" + day3.getDate();
-            console.log(index)
+            function format(){
+
+            }
+            var s1 = day1.getFullYear() + "-" + (day1.getMonth() + 1) + "-" + day1.getDate();
+            var s2 = day2.getFullYear() + "-" + (day2.getMonth() + 1) + "-" + day2.getDate();
+            var s3 = day3.getFullYear() + "-" + (day3.getMonth() + 1) + "-" + day3.getDate();
+          
             if (index === 'day') {
                 //最近三天
                 $.ajax({
@@ -855,17 +849,15 @@
                         })
                         tableTitle.unshift({ field: 'happen_time', title: '上报时间' })
 
-                        console.log(tableTitle)
+                        
                         //渲染历史数据表格
                         layui.use('table', function () {
                             var table = layui.table;
 
-                            table.render({
-                                elem: '#historyData'
-                                , data: dataList.rows
-                                , page: true
-                                , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-                                , cols: [tableTitle]
+                            table.reload('tableReload', {
+                                page: {
+                                    curr: 1 //重新从第 1 页开始
+                                }
                             });
                         });
                     }
@@ -1226,7 +1218,7 @@
                                 })
                             }
 
-                            console.log(pressureSign)
+                            
                             //echars
                             var myChartP = echarts.init(document.getElementById('chartShow-pressure'),
                                 null, {
@@ -1394,16 +1386,15 @@
                         })
                         tableTitle.unshift({ field: 'happen_time', title: '上报时间' })
 
-                        console.log(tableTitle)
+                        
                         //渲染历史数据表格
                         layui.use('table', function () {
                             var table = layui.table;
 
-                            table.render({
-                                elem: '#historyData'
-                                , data: dataList.rows
-                                , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-                                , cols: [tableTitle]
+                            table.reload('tableReload', {
+                                page: {
+                                    curr: 1 //重新从第 1 页开始
+                                }
                             });
                         });
                     }
@@ -1767,7 +1758,7 @@
                                 })
                             }
 
-                            console.log(pressureSign)
+                           
                             //echars
                             var myChartP = echarts.init(document.getElementById('chartShow-pressure'),
                                 null, {
@@ -1936,16 +1927,15 @@
                         })
                         tableTitle.unshift({ field: 'happen_time', title: '上报时间' })
 
-                        console.log(tableTitle)
+                        
                         //渲染历史数据表格
                         layui.use('table', function () {
                             var table = layui.table;
 
-                            table.render({
-                                elem: '#historyData'
-                                , data: dataList.rows
-                                , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-                                , cols: [tableTitle]
+                            table.reload('tableReload', {
+                                page: {
+                                    curr: 1 //重新从第 1 页开始
+                                }
                             });
                         });
                     }
@@ -1959,9 +1949,6 @@
                         const {
                             data, deviceInfo, deviceData
                         } = response.rows
-
-
-
 
                         // 水位 03
                         if (response.rows.deviceType === '03') {
@@ -2309,7 +2296,7 @@
                                 })
                             }
 
-                            console.log(pressureSign)
+                            
                             //echars
                             var myChartP = echarts.init(document.getElementById('chartShow-pressure'),
                                 null, {

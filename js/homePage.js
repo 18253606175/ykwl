@@ -95,30 +95,68 @@ layui.use(['element', 'layer'], function () {
                         type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
                     }
                 },
-                grid: {
-                    left: '3%',
-                    right: '4%',
+                grid: {//设置右侧柱状图 位置 高度
+                    left: '5%',
+                    right: '5%',
                     bottom: '8%',
+					height:235,
                     containLabel: true
                 },
                 xAxis: [{
                     type: 'category',
-                    data: xData
+                    data: xData,
+					axisTick: {
+                            show: true//刻度
+                        },
                 }],
-                yAxis: [{
-                    type: 'value'
-                }],
+                yAxis: [ {
+                        type: 'value',
+                        //splitNumber: 10,
+                        splitLine: {
+                            show: true,
+                            lineStyle: {
+                                type: 'dashed',
+                                color: '#D8D8D8'
+                            }
+                        },
+                        axisLine: {
+                            show: true//刻度
+                        },
+                        axisTick: {
+                            show: true//刻度
+                        },
+                    }],
                 series: [
 
 
                     {
-                        name: '报警次数',
+                        name: '今日报警次数',
                         type: 'bar',
                         emphasis: {
                             focus: 'series'
                         },
+						 label: {
+                            show: true,
+                            position: 'top',//数值位置insideRight
+							textStyle: {	    //数值样式
+                               color: '#ddd',//加个颜色 防止描边
+                               fontSize: 12
+                           }
+						 },
+						  itemStyle: {
+                            normal: {
+                                color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{//渐变位置
+                                    offset: 0,
+                                    color: '#1b82a1' // 0% 处的颜色
+                                }, {
+                                    offset: 1,
+                                    color: 'red' // 100% 处的颜色
+                                }], false),
+                            },
+                        },
                         data: line
                     },
+					
                 ]
             };
 
@@ -326,12 +364,13 @@ layui.use(['element', 'layer'], function () {
                 //条形绘制图表
 
                 var optionT = {
-                    grid: {
-                        left: '100',
-                        right: '50',
-                        bottom: '40',
-                        top: '30',
-                    },
+                    grid: {//设置右侧柱状图 位置 高度
+                    left: '5%',
+                    right: '9%',
+                    bottom: '6%',
+					height:240,
+                    containLabel: true
+                },
                     tooltip: {
                         trigger: 'axis',
                         axisPointer: {
@@ -362,10 +401,10 @@ layui.use(['element', 'layer'], function () {
                             }
                         },
                         axisLine: {
-                            show: false
+                            show: true
                         },
                         axisTick: {
-                            show: false
+                            show: true
                         },
                     }, {
                         type: 'value',
@@ -387,7 +426,7 @@ layui.use(['element', 'layer'], function () {
                             show: false
                         },
                         axisTick: {
-                            show: false
+                            show: true
                         },
                     }],
                     yAxis: [{
@@ -419,7 +458,12 @@ layui.use(['element', 'layer'], function () {
                         xAxisIndex: 0,
                         label: {
                             show: true,
-                            position: 'insideRight'
+                            position: 'right',//数值位置insideRight
+							textStyle: {	    //数值样式
+                               color: '#ddd',//加个颜色 防止描边
+                               fontSize: 12
+                           }
+
                         },
                         itemStyle: {
                             normal: {
@@ -432,7 +476,7 @@ layui.use(['element', 'layer'], function () {
                                 }], false),
                             },
                         },
-                        barWidth: 15,
+                        barWidth: 20,//柱宽度
                         data: getmyd
                     }, ]
                 };

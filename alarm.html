@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./node_modules/layui.css">
-    <link rel="stylesheet" href="./css/deviceList.css">
+    <link rel="stylesheet" href="./css/alarm.css">
 
 </head>
 
@@ -71,11 +71,7 @@
                                             </div>
                                         </form>
                                     </div>
-                                    <div class="wisdom-electricity-bottom-top-add">
-                                        <button class="layui-btn button-add">
-                                            添加
-                                        </button>
-                                    </div>
+                                    
                                     <div class="wisdom-electricity-bottom-top-type">
                                         <span class="classifyStyle">表格模式</span>
                                         <span>阵列模式</span>
@@ -106,10 +102,9 @@
 
 
     <script src="./node_modules/layui.js"></script>
-    <script type="module" src="./js/deviceList.js"></script>
+    <script type="module" src="./js/alarm.js"></script>
     <script type="text/html" id="barDemo">
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit">处理</a>
       </script>
     <script type="text/html" id="sexTpl">
         {{#  if(d.state === 1){ }}
@@ -135,9 +130,13 @@
         <div>智慧型独立烟感</div>
         {{#  } }}
     </script>
-    <div id="pop-up-add" style="display: none;">
-
-    </div>
+    <script type="text/html" id="isSolve">
+        {{#  if(d.isSolve === 1){ }}
+        <div style="color: red">未处理</div>
+        {{#  } else if(d.isSolve === 2) { }}
+        <div style="color: green">已处理</div>
+        {{#  } }}
+    </script>
 </body>
 
 </html>

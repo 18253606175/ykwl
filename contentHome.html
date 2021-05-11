@@ -5,13 +5,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-    <meta name="keywords" content="百度地图,百度地图API，百度地图自定义工具，百度地图所见即所得工具" />
-    <meta name="description" content="百度地图API自定义地图，帮助用户在可视化操作下生成百度地图" />
     <title>Document</title>
     <link rel="stylesheet" href="./node_modules/layui.css">
-    <link rel="stylesheet" href="./css/contentHome.min.css">
-    <link rel="stylesheet" href="./css/public.min.css">
+    <link rel="stylesheet" href="./css/contentHome.css">
+    <link rel="stylesheet" href="./css/public.css">
     <style>
         .iw_poi_title {
             color: #CC5522;
@@ -66,7 +63,12 @@
                     </div>
                 </div>
             </div>
-            <div id="home-left-bottom"></div>
+			<div class="home-left-bottom">
+				<div class="home-left-bottom-title">
+                    设备分类
+                </div>
+				<div id="home-left-bottom"></div>
+			</div>
         </div>
         <div class="Homecenter">
             <div class="home-center-top">
@@ -91,7 +93,7 @@
         <div class="Homeright">
             <div class="home-right-top">
                 <div class="home-right-top-title">
-                    报警分类
+                    设备报警分类
                 </div>
                 <div class="home-right-top-bottom">
 
@@ -99,7 +101,7 @@
             </div>
             <div class="home-right-bottom">
                 <div class="home-right-bottom-title">
-                    近七报警统计
+                    七日报警统计
                 </div>
                 <div id="home-right-bottom-bottom">
                 </div>
@@ -107,7 +109,7 @@
         </div>
     </div>
 </body>
-<script src="./node_modules/echarts/dist/echarts.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.1.0/echarts.min.js"></script>
 <script src="./node_modules/layui.js"></script>
 <script type="module" src="./js/homePage.js"></script>
 <script type="text/javascript">
@@ -128,7 +130,22 @@
                     "stylers": {
                               "color": "#367177"
                     }
-          }
+          },
+		   {
+                    "featureType": "all",
+                    "elementType": "labels.text.fill",
+                    "stylers": {
+                              "color": "#ffffff"
+                    }
+          },
+		  {
+                    "featureType": "all",
+                    "elementType": "labels.text.stroke",
+                    "stylers": {
+                              "color": "#1c2536ff",
+                             
+                    }
+          },
 ]
     var map = new BMap.Map("allmap");
     map.centerAndZoom('潍坊总部基地',12);

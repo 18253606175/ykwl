@@ -1,170 +1,164 @@
 html,
 body {
-    height: 100%;
-    padding: 10px;
-    padding-left: 20px;
-    overflow: hidden;
+  height: 100%;
+  padding: 10px;
+  padding-left: 20px;
+  overflow: hidden;
 }
-
 .manage-main {
-    height: 94%;
-    padding: 50px;
-    padding-top: 0;
-    overflow-y: scroll;
-
-    nav {
-        border: 1px dashed #000;
+  height: 94%;
+  padding: 50px;
+  padding-top: 0;
+  overflow-y: scroll;
+  nav {
+    border: 1px dashed #000;
+    display: flex;
+    height: 55px;
+    justify-content: space-around;
+    align-items: center;
+    color: #fff;
+    background: #687a98;
+    margin-bottom: 20px;
+  }
+  section {
+    .layui-tab-content {
+      text-align: right;
+      height: 54px;
+      .layui-btn-group {
+        position: relative;
+        top: -40px;
+      }
+      .layui-disabled {
+        text-align: center;
+      }
+      .faultHand-main-header-right-search {
         display: flex;
-        height: 55px;
-        justify-content: space-around;
-        align-items: center;
-        color: #fff;
-        background: #687a98;
-        margin-bottom: 20px;
-    }
-
-    section {
-        .layui-tab-content {
-            text-align: right;
-            height: 54px;
-
-            .layui-btn-group {
-                position: relative;
-                top: -40px;
+        display: flex;
+        position: inherit;
+        top: 24px;
+        left: 90px;
+        .layui-form {
+          margin-right: 50px;
+          .layui-form-selected {
+            dl {
+              background-color: #3d4959;
+              border: none;
+              color: #fff;
             }
-
-            .layui-disabled {
-                text-align: center;
-            }
-
-            .faultHand-main-header-right-search {
-                display: flex;
-                display: flex;
-                position: inherit;
-                top: 24px;
-                left: 90px;
-
-
-                .layui-input,
-                .layui-textarea,
-                .layui-select {
-                    margin-top: 14px;
-                    height: 30px;
-                    background: #1f2c3c;
-                    border: none;
-                    color: #fff;
+          }
+          .layui-form-select {
+            dl {
+              dd {
+                &.layui-this {
+                  background-color: #5f949a;
                 }
-
-                .layui-form {
-                    margin-right: 50px;
-
-                    .layui-form-selected dl {
-                        background-color: #3d4959;
-                        border: none;
-                        color: #fff;
-                    }
-
-                    .layui-form-select dl dd.layui-this {
-                        background-color: #5f949a;
-                    }
-
-                    .layui-form-select dl dd:hover {
-                        background-color: #5f949a;
-                    }
-
-                    .layui-form-label {
-                        padding: 0;
-                        padding-top: 20px;
-                        padding-right: 20px;
-                        color: #fff;
-                        text-align: center;
-                    }
-
-
-                    .layui-input-inline {
-                        display: flex;
-
-                        .layui-edge {
-                            top: 69%;
-                        }
-
-                        .layui-btn-primary {
-                            border: none;
-                        }
-
-                        .layui-btn {
-                            height: 30px;
-                            line-height: 30px;
-                            margin-top: 14px;
-                            width: 30px;
-                            padding: 0px 4px;
-                            background: #1f2c3c;
-                            border: none;
-                        }
-                    }
+                &:hover {
+                  background-color: #5f949a;
                 }
+              }
             }
+          }
+          .layui-form-label {
+            padding: 0;
+            padding-top: 20px;
+            padding-right: 20px;
+            color: #fff;
+            text-align: center;
+          }
+          .layui-input-inline {
+            display: flex;
+            .layui-edge {
+              top: 69%;
+            }
+            .layui-btn-primary {
+              border: none;
+            }
+            .layui-btn {
+              height: 30px;
+              line-height: 30px;
+              margin-top: 14px;
+              width: 30px;
+              padding: 0px 4px;
+              background: #1f2c3c;
+              border: none;
+            }
+          }
         }
-
+      }
     }
-
-    &::-webkit-scrollbar {
-        width: 6px;
-        height: 6px;
-        background: transparent;
-    }
-
+  }
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 4px;
+  }
+  &:hover {
     &::-webkit-scrollbar-thumb {
-        background: transparent;
-        border-radius: 4px;
+      background: rgba(135, 135, 135, 0.4);
     }
-
-    &:hover::-webkit-scrollbar-thumb {
-        background: hsla(0, 0%, 53%, 0.4);
+    &::-webkit-scrollbar-track {
+      background: rgba(135, 135, 135, 0.1);
     }
-
-    &:hover::-webkit-scrollbar-track {
-        background: hsla(0, 0%, 53%, 0.1);
-    }
-
-    &>div {
+  }
+  & > div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    & > div {
+      width: 280px;
+      margin: 0 0 20px 0;
+      height: 135px;
+      display: inline-block;
+      border: 1px solid #28374a;
+      position: relative;
+      background: #353f4b;
+      section {
+        position: absolute;
+        top: 105px;
+        color: #97c9e9;
+        width: 45%;
+        text-align: center;
+      }
+      div {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        background: url(../img/red.png) no-repeat center 50%;
+        background-size: 90% 90%;
+        top: 5px;
+        left: 14px;
+        margin-right: 2px;
+      }
+      & > aside {
+        color: #97c9e9;
+        height: 100%;
         display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-
-        &>div {
-            width: 280px;
-            margin: 0 0 20px 0;
-            height: 100px;
-            display: inline-block;
-            border: 1px solid #28374a;
-            position: relative;
-            background: #353f4b;
-
-            div {
-                position: absolute;
-                width: 100px;
-                height: 100px;
-                // background-color: #eee;
-                background: url(../img/red.png) no-repeat center 50%;
-                background-size: 90% 90%;
-                margin-right: 2px;
-            }
-
-            &>aside {
-                color: rgb(151, 201, 233);
-                ;
-                height: 100%;
-                display: flex;
-                flex-direction: column;
-                padding-top: 10px;
-                position: absolute;
-                left: 45%;
-
-                p {
-                    margin-bottom: 5px;
-                }
-            }
+        flex-direction: column;
+        padding-top: 10px;
+        position: absolute;
+        left: 45%;
+        article {
+          position: absolute;
+          top: 0;
+          right: 0;
         }
+        p {
+          margin-bottom: 5px;
+        }
+      }
     }
+  }
+}
+.manage-main section .layui-tab-content .faultHand-main-header-right-search .layui-input,
+.manage-main section .layui-tab-content .faultHand-main-header-right-search .layui-textarea,
+.manage-main section .layui-tab-content .faultHand-main-header-right-search .layui-select {
+  margin-top: 14px;
+  height: 30px;
+  background: #1f2c3c;
+  border: none;
+  color: #fff;
 }
