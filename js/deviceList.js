@@ -53,40 +53,15 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
 
 
 
-    //监听行单击事件（双击事件为：rowDouble）
-    table.on('row(tableTest)', function (obj) {
-        var data = obj.data;
-        // layer.alert(JSON.stringify(data), {
-        //     title: '当前行数据：'
-        // });
-        //标注选中样式
-        obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
-
-        layer.open({
-            type: 2,
-            id: "iframe",
-            title: false,
-            closeBtn: 0, //不显示关闭按钮
-            title: '设备详情',
-            shade: [0],
-            scrollbar: true,
-            closeBtn: 1,
-            area: ['65%', '81%'],
-            shadeClose: true,
-            anim: 0,
-            content: [`../demo.html?deviceId=${data.deviceId}`, 'no'], //iframe的url，no代表不显示滚动条
-        });
-
-
-    });
+    
 
     $(".button-add").click(function () {
         $("#pop-up-add").html(
             `
             <form class="layui-form" action="">
             <div class="layui-form-item">
-                <label class="layui-form-label layui-required">所属单位</label>
-                <div class="layui-input-block">
+                <label class="layui-form-label">所属单位</label>
+                <div class="layui-input-block  layui-required">
                     <select name="companyId" lay-verify="required" lay-search="">
                         <option value="">请选择单位</option>
                         ${selectList.map(item => {
@@ -98,8 +73,8 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label layui-required">设备类型</label>
-                <div class="layui-input-block">
+                <label class="layui-form-label">设备类型</label>
+                <div class="layui-input-block  layui-required">
                     <select name="typeSign" lay-verify="required" lay-search="">
                         <option value=""></option>
                         ${deviceType.map(item => {
@@ -109,15 +84,15 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label layui-required">设备编号</label>
-                <div class="layui-input-block">
+                <label class="layui-form-label">设备编号</label>
+                <div class="layui-input-block  layui-required">
                     <input type="text" name="imei" lay-verify="imei" required placeholder="请输入" autocomplete="off"
                         class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-            <label class="layui-form-label layui-required">位置描述</label>
-            <div class="layui-input-block">
+            <label class="layui-form-label">位置描述</label>
+            <div class="layui-input-block  layui-required">
                 <input type="text" name="location" lay-verify="address" required placeholder="请输入" autocomplete="off"
                     class="layui-input">
             </div>
@@ -176,13 +151,16 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                     <input type="text" name="deviceName" placeholder="请输入" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div class="layui-form-item  layui-form-item-submit">
-                <div class="layui-input-block">
-                    <button type="submit" class="layui-btn" lay-submit lay-filter="demo1">确认</button>
-                </div>
-            </div>
+			
+			<div class="layui-form-item  layui-form-item-submit">
+                    <div style="text-align:center">
+                        <button type="submit" class="layui-btn" lay-submit lay-filter="demo1">确认</button>
+						<button type="button" id="close-pop-up" class="layui-btn layui-btn-primary">取消</button>
+                    </div>
+               </div>
+            
         </form>
-        <button id="close-pop-up" class="layui-btn">取消</button>
+       
             `
         )
 
@@ -240,22 +218,19 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                             if(res.code === 200){
                                 obj.del();
                                 layer.msg('删除成功',{
-                                    skin: 'layui-layer-yingke'
-                                    , closeBtn: 0
-                                    // ,anim: 4 //动画类型
-                                    , yes: function (index, layero) {
-                                        layer.closeAll();
-                                    }
+									icon: 1,
+                                    closeBtn: 0,
+                                    anim: 0, //动画类型
+                                   time: 3000
                                 });
                                 
                             } else {
                                 layer.msg(res.msg, {
-                                    skin: 'layui-layer-yingke'
-                                    , closeBtn: 0
-                                    // ,anim: 4 //动画类型
-                                    , yes: function (index, layero) {
-                                        layer.closeAll();
-                                    }
+                                    icon: 2,
+                                    closeBtn: 0,
+                                    anim: 6, //动画类型
+									time: 4000
+                                    
                                 });
                             }
                         }
@@ -271,15 +246,16 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                 type: 1,
                 offset: '180px',
                 title: '编辑设备',
-                area: ['1000px', '400px'],
+				skin: 'layui-layer-yingke',
+                area: ['900px','420px'],
                 content: $("#pop-up-add"),
                 success: function (layero, index) {
                     $("#pop-up-add").html(
                         `
                 <form class="layui-form" action="">
                 <div class="layui-form-item">
-                    <label class="layui-form-label layui-required">所属单位</label>
-                    <div class="layui-input-block">
+                    <label class="layui-form-label">所属单位</label>
+                    <div class="layui-input-block  layui-required">
                         <select name="companyId" lay-verify="required" lay-search="">
                         <option value="">请选择单位</option>
                         ${selectList.map(item => {
@@ -298,7 +274,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label layui-required">设备类型</label>
+                    <label class="layui-form-label layui-tips1">设备类型</label>
                     <div id="tySign"  class="layui-input-block">
                         <select name="typeSign" lay-verify="required" disabled lay-search="">
                             <option value=""></option>
@@ -316,18 +292,20 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                         })}
                             
                         </select>
+						<i class="layui-icon layui-icon-tips layui-tips" lay-tips="如果类型选择错误，请联系管理员修改" ></i>
                     </div>
+					
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label layui-required">设备编号</label>
-                    <div class="layui-input-block">
+                    <label class="layui-form-label">设备编号</label>
+                    <div class="layui-input-block  layui-required">
                         <input type="text" name="imei" lay-verify="imei" required disabled placeholder="请输入" autocomplete="off"
                             class="layui-input layui-disabled" value=${data.imei}>
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label layui-required">位置描述</label>
-                    <div class="layui-input-block">
+                    <label class="layui-form-label">位置描述</label>
+                    <div class="layui-input-block  layui-required">
                         <input type="text" name="location" lay-verify="address" required placeholder="请输入" autocomplete="off"
                             class="layui-input" value=${data.location}>
                     </div>
@@ -396,22 +374,29 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                     </div>
                 </div>
                 <div class="layui-form-item  layui-form-item-submit">
-                    <div class="layui-input-block">
+                    <div style="text-align:center">
                         <button type="submit" class="layui-btn" lay-submit lay-filter="update">确认</button>
+						<button type="button" id="close-pop-up" class="layui-btn layui-btn-primary">取消</button>
                     </div>
                 </div>
             </form>
-            <button id="close-pop-up" class="layui-btn close-pop-up">取消</button>
+            
         `
                     )
                     form.render();
-                    $("#tySign").mouseover(function () {
-                        layer.tips('如果类型选择错误，请联系管理员修改。', '#tySign');
-                    }).mouseleave(function(){
+                    $('*[lay-tips]').on('mouseenter', function(){
+						var content = $(this).attr('lay-tips');
+                        this.index = layer.tips(content, this,
+						{
+						time: -1
+						//,maxWidth: 200
+						,tips: [4, '#000']
+						});
+					}).mouseleave(function(){
                         layer.closeAll('tips'); //关闭所有的tips层
                     })
                     //关闭弹层
-                    $(".close-pop-up").click(function () {
+                    $("#close-pop-up").click(function () {
                         layer.closeAll();
                     })
                     //验证
@@ -430,7 +415,6 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
             });
         }
         
-        obj.event.stoppropagation();
     });
 
 
@@ -540,12 +524,12 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
     var $span = `
             <div>
                 <p>
-                    <span style="background-color: #346a99;"></span>
-                    <p  class="first" style="color: #346a99;">设备：${titleBottom.deviceSum}</p>
+                    <span style="background-color: #1191da;"></span>
+                    <p  class="first" style="color: #1191da;">总数：${titleBottom.deviceSum}</p>
                 </p>
                 <p>
-                    <span style="background-color: #d2b207;"></span>
-                    <p style="color: #d2b207;">报警：${titleBottom.deviceAlarm}</p>
+                    <span style="background-color: #c82c1f;"></span>
+                    <p style="color: #c82c1f;">报警：${titleBottom.deviceAlarm}</p>
                 </p>
             </div>
             <div>
@@ -554,8 +538,8 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                     <p  class="first" style="color: #3bd83f;">在线：${titleBottom.deviceOnLine}</p>
                 </p>
                 <p>
-                    <span style="background-color: #b82e00;"></span>
-                    <p style="color: #b82e00;">离线：${titleBottom.deviceOffLine}</p>
+                    <span style="background-color: #75747c;"></span>
+                    <p style="color: #75747c;">离线：${titleBottom.deviceOffLine}</p>
                 </p>
             </div>
     `
@@ -589,7 +573,6 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                 return `
                         <li class="layui-nav-item select-li" id=${item.type}><a href="javaScript:;">${item.type_sign}<blockquote class="layui-elem-quote layui-quote-nm"><span class="layui-badge">${typeCount[index]}</span></blockquote> </a></li>
                     `
-
             })
 
             $(".Realtime-left-bottom > .layui-nav").append(leftTypeDate.join(''));
@@ -696,11 +679,11 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
 
     $(".wisdom-electricity-bottom-top-classify").append(
         `
-        <p class="classifyStyle typeScreen"><span style="background: #1191da;"></span>全部</p>
-        <p class="typeScreen"><span style="background: #3bd83f;"></span> 正常</p>
-        <p class="typeScreen"><span style="background: #c82c1f"></span> 报警</p> 
-        <p class="typeScreen"><span style="background: #bf671d"></span> 故障</p> 
-        <p class="typeScreen"><span style="background: #75747c"></span> 离线</p> 
+        <p class="classifyStyle typeScreen"><span style="background: #1191da;"></span>全部 </p>
+        <p class="typeScreen"><span style="background: #3bd83f;"></span> 正常 </p>
+        <p class="typeScreen"><span style="background: #c82c1f"></span> 报警 </p> 
+        <p class="typeScreen"><span style="background: #bf671d"></span> 故障 </p> 
+        <p class="typeScreen"><span style="background: #75747c"></span> 离线 </p> 
         `
     )
 
@@ -761,9 +744,9 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
         page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档  
             groups: 5 //只显示 1 个连续页码
             ,
-            first: false //不显示首页
+            first: "首页" //不显示首页
             ,
-            last: false //不显示尾页
+            last: "尾页" //不显示尾页
         },
         even: true,
         skin: 'row',
@@ -791,7 +774,8 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                 {
                     field: 'imei',
                     align: "center",
-                    title: '设备编号'
+                    title: '设备编号',
+                    event: "rowClick"
                 },
                 {
                     field: 'type',
@@ -820,6 +804,31 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
     });
 
 
+    //监听行单击事件（双击事件为：rowDouble）
+    table.on('tool(tableTest)', function (obj) {
+        var data = obj.data;
+        
+        // obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+        if(obj.event === 'rowClick'){
+            layer.open({
+                type: 2,
+                id: "iframe",
+                skin: 'layui-layer-yingke',
+                title: false,
+                closeBtn: 0, //不显示关闭按钮
+                title: '设备详情',
+                shade: [0],
+                scrollbar: true,
+                closeBtn: 1,
+                area: ['65%', '81%'],
+                shadeClose: true,
+                anim: 0,
+                content: [`../demo.html?deviceId=${data.deviceId}`, 'no'], //iframe的url，no代表不显示滚动条
+            });
+        }
+    });
+
+
 
     $(".wisdom-electricity-bottom-top-type > span").on("click", function () {
         $(this).addClass("classifyStyle");
@@ -832,8 +841,9 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
             layer.open({
                 type: 1,
                 offset: '180px',
+				skin: 'layui-layer-yingke',
                 title: '添加设备',
-                area: ['1000px', '400px'],
+                area: '900px',
                 content: $("#pop-up-add")
             });
         }
@@ -866,21 +876,19 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                     }
                 });
                 if (res.code === 200) {
-                    layer.msg('新增设备成功', {
-                        skin: 'layui-layer-yingke'
-                        , closeBtn: 0
-                        // ,anim: 4 //动画类型
-                    },function (index, layero) {
-                        layer.closeAll();
-                    });
+                    layer.msg('设备添加成功',{
+							icon: 1,
+							closeBtn: 0,
+							anim: 0, //动画类型
+							time: 3000
+						});
                 } else if (res.code === 500) {
-                    layer.msg(res.msg, {
-                        skin: 'layui-layer-yingke'
-                        , closeBtn: 0
-                        // ,anim: 4 //动画类型
-                    },function (index, layero) {
-                        layer.closeAll();
-                    });
+                    layer.msg(res.msg,{
+							icon: 1,
+							closeBtn: 0,
+							anim: 0, //动画类型
+						   time: 3000
+						});
                 }
             }
         })
@@ -913,23 +921,18 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                 });
                 if (res.code === 200) {
                     layer.msg('修改设备成功',{
-                        skin: 'layui-layer-yingke'
-                        , closeBtn: 0
-                        // ,anim: 4 //动画类型
-                    },
-                    function (index, layero) {
-                        layer.closeAll();
-                    });
+									icon: 1,
+                                    closeBtn: 0,
+                                    anim: 0, //动画类型
+                                   time: 3000
+					});
                 } else {
-                    layer.msg(res.msg, {
-                        skin: 'layui-layer-yingke'
-                        , closeBtn: 0
-                        // ,anim: 4 //动画类型
-                        
-                    },
-                    function (index, layero) {
-                        layer.closeAll();
-                    });
+                    layer.msg(res.msg,{
+							icon: 1,
+							closeBtn: 0,
+							anim: 0, //动画类型
+						   time: 3000
+					});
                 }
             }
         })
@@ -940,7 +943,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
     layer.config({
         //anim: 2, //出场动画
         extend: 'layskin/style.css',
-        skin: 'layui-layer-yingke' //英科专用弹窗样式
+        //skin: 'layui-layer-yingke' //英科专用弹窗样式
     });
 
 })

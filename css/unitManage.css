@@ -5,7 +5,10 @@ body {
 }
 
 .unitManage-main {
-  height: 97%;
+  background-color: #1c2536;
+  box-shadow: 0 2px 8px 0 #009688;
+  border-radius: 5px;
+  padding: 20px;
 }
 
 .unitManage-main .unitManage-main-header {
@@ -28,20 +31,9 @@ body {
 
 .unitManage-main .unitManage-main-header .faultHand-main-header-right-search {
   display: flex;
-  display: flex;
   position: absolute;
-  top: 18px;
+  top: 35px;
   left: 160px;
-}
-
-.unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-input,
-.unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-textarea,
-.unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-select {
-  margin-top: 14px;
-  height: 30px;
-  background: #1f2c3c;
-  border: none;
-  color: #fff;
 }
 
 .unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-form {
@@ -52,6 +44,25 @@ body {
   background-color: #3d4959;
   border: none;
   color: #fff;
+}
+
+.unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-form .layui-form-selected dl::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background: transparent;
+}
+
+.unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-form .layui-form-selected dl::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-form .layui-form-selected dl:hover::-webkit-scrollbar-thumb {
+  background: rgba(135, 135, 135, 0.4);
+}
+
+.unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-form .layui-form-selected dl:hover::-webkit-scrollbar-track {
+  background: rgba(135, 135, 135, 0.1);
 }
 
 .unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-form .layui-form-select dl dd.layui-this {
@@ -94,6 +105,16 @@ body {
 
 .unitManage-main .unitManage-main-content {
   height: 97%;
+}
+
+.unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-input,
+.unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-textarea,
+.unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-select {
+  margin-top: 14px;
+  height: 30px;
+  background: #1f2c3c;
+  border: none;
+  color: #fff;
 }
 
 #pop-up-add .layui-form {

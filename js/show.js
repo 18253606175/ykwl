@@ -47,7 +47,7 @@ layui.use(['element'], function () {
 
     $('.layui-side .layui-nav').append(navMap.join(''))
     var layFilter = $(".layui-nav").attr('lay-filter');
-    $(".layui-side .layui-nav").children(":first").addClass('layui-this')
+    $(".layui-side .layui-nav").children(":first").find("a").addClass('layui-this')
     element.render('nav', layFilter);
 
 
@@ -55,9 +55,18 @@ layui.use(['element'], function () {
     //点击跳转
 
     $("#warn").on('click', function () {
+        var x = document.querySelectorAll("a[accessKey]");
+        x.forEach(item=>{
+            if(item.accessKey === 'alarm'){
+                item.classList.add('layui-this');
+                item.parentNode.className += ' layui-nav-itemed'
+            } else {
+                item.classList.remove('layui-this')
+            }
+        })
         $("#homeIframe").attr('src', '../alarm.html');
         $('.layui-body').css('top', '50px')
-        
+        element.render('nav', layFilter);
     })
 
     for (var i = 0; i < $(".site-demo-active").length; i++) {

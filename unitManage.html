@@ -21,20 +21,6 @@
             <div class="faultHand-main-header-right-search">
                 <form class="layui-form" action="">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">单行输入框</label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="searchInfo" lay-verify="required" placeholder="请输入"
-                                autocomplete="off" class="layui-input">
-                            <button type="submit" lay-filter="submitBtn" lay-submit=""
-                                class="layui-btn layui-btn-primary">
-                                <i class="layui-icon">&#xe615;</i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-                <form class="layui-form" action="">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">单行输入框</label>
                         <div class="layui-input-inline">
                             <select class="layui-input-inline-select" name="selectDou" lay-verify="required"
                                 lay-search="">
@@ -61,7 +47,21 @@
 </body>
 
 <script src="./node_modules/layui.js"></script>
-<script src="./js/unitManage.js"></script>
+<script type="module" src="./js/unitManage.js"></script>
+<script type="text/html" id="fireConLevel">
+    {{#  if(d.fireConLevel === "01"){ }}
+    <div>重点</div>
+    {{#  }else if(d.fireConLevel === "02") { }}
+    <div>一般</div>
+    {{#  } }}
+</script>
+<script type="text/html" id="companyLevel">
+    {{#  if(d.companyLevel === "admin"){ }}
+    <div>管理员</div>
+    {{#  }else if(d.companyLevel === "user") { }}
+    <div>用户</div>
+    {{#  } }}
+</script>
 <div id="pop-up-add" style="display: none;">
     <form class="layui-form" action="">
         <div class="layui-form-item">

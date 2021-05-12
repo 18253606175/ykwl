@@ -377,6 +377,16 @@ body {
   width: 91%;
 }
 
+.dialog > .layui-form > .layui-form-item > .radioGroup {
+  padding-top: 8px;
+}
+
+.dialog > .layui-form > .layui-form-item > .radioGroup input {
+  width: 15%;
+  height: 10px;
+  display: inline;
+}
+
 .dialog > .layui-form > .layui-form-item .layui-form-select {
   width: 70%;
 }
@@ -385,10 +395,6 @@ body {
   margin: 0 auto;
   margin-top: 30px;
   width: 100%;
-}
-
-.layui-input, .layui-textarea {
-  width: 96%;
 }
 
 #close-pop-up {
@@ -417,4 +423,8 @@ input::-webkit-inner-spin-button {
 
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+.layui-form input[type=radio] {
+  display: block;
 }

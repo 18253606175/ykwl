@@ -131,7 +131,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
     table.on('tool(tableTest)', function (obj) {
         var data = obj.data;
         //表格处理
-        if (obj.event === 'dispose') {
+        if (obj.event === 'lookover') {
             layer.open({
                 type: 1,
                 offset: '180px',
@@ -153,6 +153,23 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                         <div class="layui-input-block">
                             <input type="text" name="imei" lay-verify="imei" required disabled placeholder="请输入" autocomplete="off"
                             class="layui-input" value=${data.alarmMessage}>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">处理方式</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="dispose_type" lay-verify="imei" required disabled placeholder="请输入" autocomplete="off"
+                            class="layui-input" value=${function(){
+                                if(data.dispose_type === 1){
+                                    return `正常报警`
+                                } else if(data.dispose_type === 2){
+                                    return `误报`
+                                } else if(data.dispose_type === 3){
+                                    return `模拟测试`
+                                } else {
+                                    return ""
+                                }
+                            }()}>
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -192,17 +209,21 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">处理方式</label>
-                        <div class="layui-input-block radioGroup">
-                            <input type="radio" name="dispose_type" value="1"  title="正常报警" checked="">
-                            <input type="radio" name="dispose_type" value="2" title="误报" >
-                            <input type="radio" name="dispose_type" value="3" title="模拟报警" >
+                        <label class="layui-form-label">处理时间</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="alarmTime" placeholder="请输入" disabled autocomplete="off" class="layui-input" value=${data.alarmTime}></input>
+                        </div>
+                     </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">处理人</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="disposer" placeholder="请输入" disabled autocomplete="off" class="layui-input" value=${data.disposer}></input>
                         </div>
                     </div>
                     <div class="layui-form-item" style="width: 100%">
-                        <label class="layui-form-label">处理意见</label>
+                        <label class="layui-form-label">处理办法</label>
                         <div class="layui-input-block">
-                            <textarea style="height: 80px" name="dispose_method" placeholder="请输入" autocomplete="off" class="layui-input" value=${data.deviceName}></textarea>
+                            <input type="text" name="dispose_method" placeholder="请输入" disabled autocomplete="off" class="layui-input" value=${data.dispose_method}></input>
                         </div>
                     </div>
                     <div class="layui-form-item" style="display: none">
@@ -223,22 +244,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                 })
                 }
             });
-        } else if(obj.event === 'setSign'){
-            layer.prompt({
-              formType: 2
-              ,title: `${data.alarmMessage}的处理建议`
-              ,value: data.sign
-            }, function(value, index){
-              layer.close(index);
-              
-              //这里一般是发送修改的Ajax请求
-              
-              //同步更新表格和缓存对应的值
-              obj.update({
-                sign: value
-              });
-            });
-          }
+        }
     });
 
 
@@ -267,6 +273,9 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
         url: baseUrl + "/alarm/list?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
         limits: [15, 30, 45],
         cellMinWidth: 85,
+        where: {
+            isSolve: 2
+        },
         page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档  
             groups: 5 //只显示 1 个连续页码
                 ,
@@ -300,7 +309,6 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                     field: 'alarmMessage',
                     title: '报警类别',
                     align: "center",
-                    event: 'setSign'
                 },
                 {
                     field: 'imei',
@@ -322,7 +330,8 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                 {
                     field: 'alarmTime',
                     align: "center",
-                    title: '设备报警时间'
+                    title: '设备报警时间',
+                    width: 160
                 },
                 {
                     field: 'alarmData',
@@ -334,6 +343,22 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                     align: "center",
                     title: '处理状态',
                     templet: "#isSolve"
+                },
+                {
+                    field: 'alarmTime',
+                    align: "center",
+                    title: '处理时间',
+                    width: 160
+                },
+                {
+                    field: 'disposer',
+                    align: "center",
+                    title: '处理人',
+                },
+                {
+                    field: 'dispose_method',
+                    align: "center",
+                    title: '处理方法',
                 },
                 {
                     fixed: 'right',
@@ -386,6 +411,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                 },
                 where: {
                     type: state,
+                    isSolve: 2,
                     alarmType: typeId
                 }
             });
@@ -412,6 +438,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                         },
                         where: {
                             type: state,
+                            isSolve: 2,
                             alarmType: typeId
                         }
                     });
@@ -428,8 +455,6 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
 
     }
 
-
-
     
     //监听提交搜索
     form.on('submit(submitBtn)', function (data) {
@@ -441,7 +466,8 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
             where: {
                 location: data.field.location,
                 alarmType: typeId,
-                type: state
+                type: state,
+                isSolve: 2
             }
         });
 
@@ -458,7 +484,8 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
             where: {
                 companyId: data.field.companyId,
                 alarmType: typeId,
-                type: state
+                type: state,
+                isSolve: 2
             }
         });
         return false;

@@ -131,7 +131,7 @@ body {
                 width: 55px;
                 height: 30px;
                 display: flex;
-                color: #555;
+                color: #999;
                 align-items: center;
                 padding-left: 4px;
                 & > span {
@@ -323,8 +323,6 @@ body {
   color: #c2c2c2;
   font-size: 12px;
 }
-
-//弹窗
 #pop-up-add {
   padding: 20px;
   & > .layui-form {
@@ -342,26 +340,30 @@ body {
       }
     }
     & > .layui-form-item-submit {
-      position: absolute;
-      bottom: 0;
-      left: 270px;
+      margin: 0 auto;
+      margin-top: 40px;
+      width: 100%;
     }
   }
 }
 #close-pop-up {
-  position: absolute;
-  bottom: 16px;
-  left: 500px;
+  margin-left: 30px;
 }
-.layui-form-label {
+.layui-input-block {
   &.layui-required {
     &:after {
       content: "*";
       color: red;
       position: absolute;
-      top: 5px;
-      left: 15px;
+      top: 10px;
+      right: 23%;
     }
+  }
+  .layui-tips {
+    color: red;
+    position: absolute;
+    top: 10px;
+    right: 21%;
   }
 }
 .layui-nav .layui-badge, .layui-nav .layui-badge-dot {
@@ -369,11 +371,10 @@ body {
   right: 10px;
   width: 25px;
 }
-
 input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-    }
-    input[type="number"]{
-        -moz-appearance: textfield;
-    }
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}

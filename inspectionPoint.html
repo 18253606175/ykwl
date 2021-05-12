@@ -12,54 +12,67 @@
 
 <body>
     <!-- 巡检点列表 -->
-    <div class="manage-main">
-        <section>
-            <div class="layui-tab-content">
-                <div class="faultHand-main-header-right-search">
-                    <form class="layui-form" action="">
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">单行输入框</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="searchInfo" lay-verify="required" placeholder="请输入"
-                                    autocomplete="off" class="layui-input">
-                                <button type="submit" lay-filter="submitBtn" lay-submit=""
-                                    class="layui-btn layui-btn-primary">
-                                    <i class="layui-icon">&#xe615;</i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                    <form class="layui-form" action="">
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">单行输入框</label>
-                            <div class="layui-input-inline">
-                                <select class="layui-input-inline-select" name="selectDou" lay-verify="required"
-                                    lay-search="">
+    <div class="Realtime-main layui-row">
+        <div class="Realtime-left  layui-col-md2">
+            <div class="Realtime-left-top">
+                <div class="Realtime-left-top-title">
 
-                                </select>
-                                <button id="refresh" type="submit" lay-filter="submitDoubleBtn" lay-submit=""
-                                    class="layui-btn layui-btn-primary">
-                                    <i class="layui-icon">&#xe615;</i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
                 </div>
-                <div class="layui-btn-group demoTable">
-                    <button class="layui-btn" data-type="getCheckData">导出</button>
+                <div class="Realtime-left-top-content">
+
                 </div>
-                <table id="table" lay-filter="table"></table>
+                <div class="Realtime-left-top-bottom">
+
+                </div>
             </div>
-        </section>
-        <nav>
-            <p>统计：11</p>
-            <p>已巡检：11</p>
-            <p>未巡检：11</p>
-            <p>巡检率： 11</p>
-            <p>隐患数： 11</p>
-        </nav>
-        <div class="inspectList">
-            
+            <div class="Realtime-left-bottom">
+                <ul class="layui-nav layui-nav-tree layui-inline" lay-filter="demo" style="margin-right: 10px;">
+
+                </ul>
+            </div>
+        </div>
+        <div class="manage-main  layui-col-md10">
+            <section>
+                <div class="layui-tab-content">
+                    <div class="faultHand-main-header-right-search">
+                        <form class="layui-form" action="">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">单行输入框</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="searchInfo" lay-verify="required" placeholder="请输入"
+                                        autocomplete="off" class="layui-input">
+                                    <button type="submit" lay-filter="submitBtn" lay-submit=""
+                                        class="layui-btn layui-btn-primary">
+                                        <i class="layui-icon">&#xe615;</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <form class="layui-form" action="">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">单行输入框</label>
+                                <div class="layui-input-inline">
+                                    <select class="layui-input-inline-select" name="selectDou" lay-verify="required"
+                                        lay-search="">
+
+                                    </select>
+                                    <button id="refresh" type="submit" lay-filter="submitDoubleBtn" lay-submit=""
+                                        class="layui-btn layui-btn-primary">
+                                        <i class="layui-icon">&#xe615;</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="layui-btn-group demoTable">
+                        <button class="layui-btn" data-type="getCheckData">导出</button>
+                    </div>
+                    <table id="table" lay-filter="table"></table>
+                </div>
+            </section>
+            <div class="flow-default inspectList" id="flow_inspectList">
+
+            </div>
         </div>
     </div>
 </body>
