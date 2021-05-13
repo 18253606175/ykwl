@@ -1,11 +1,95 @@
 import {
     baseUrl
 } from '../js/params.js'
-layui.use(['element', 'layer', 'flow'], function () {
+layui.use(['element', 'layer', 'flow', 'tree'], function () {
     var flow = layui.flow;
     var form = layui.form
     var $ = layui.jquery
+    var tree = layui.tree
 
+
+
+    var data1 = [{
+        title: '江西'
+        , id: 1
+        , children: [{
+            title: '南昌'
+            , id: 1000
+            , children: [{
+                title: '青山湖区'
+                , id: 10001
+            }, {
+                title: '高新区'
+                , id: 10002
+            }]
+        }, {
+            title: '九江'
+            , id: 1001
+        }, {
+            title: '赣州'
+            , id: 1002
+        }]
+    }, {
+        title: '广西'
+        , id: 2
+        , children: [{
+            title: '南宁'
+            , id: 2000
+        }, {
+            title: '桂林'
+            , id: 2001
+        }]
+    }, {
+        title: '陕西'
+        , id: 3
+        , children: [{
+            title: '西安'
+            , id: 3000
+        }, {
+            title: '延安'
+            , id: 3001
+        }]
+    }]
+
+    //树形结构ajax
+    $.ajax({
+        url: baseUrl + '/inspecttype/listbypnumber?token=' + JSON.parse(localStorage.getItem("loginInfo")).token,
+        async: false,
+        success: function (res) {
+            data1 = res.rows.map(item => {
+                return {
+                    title: item.type,
+                    id: item.id,
+                    spread: true,
+                    children: item.inspectTypeVOS.map(i => {
+                    return {
+                            title: i.type,
+                            id: i.id,
+                            spread: true
+                        }
+                })
+                }
+            })
+            console.log(data1)
+        }
+    })
+    
+    //树形结构
+    tree.render({
+        elem: '#zreeList'
+        , data: data1
+        , showLine: false  //是否开启连接线
+        , click: function (obj) {
+            //节点高亮
+            var nodes = document.getElementsByClassName("layui-tree-txt");
+            for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].innerHTML === obj.data.title)
+                    nodes[i].style.color = "gray";
+                else
+                    nodes[i].style.color = "#a3c1b0";
+            }
+        }
+    });
     //头部内容
 
     var titleContent = {
@@ -45,7 +129,7 @@ layui.use(['element', 'layer', 'flow'], function () {
     $(".Realtime-left-top-title").html(`${titleContent.company}`);
 
 
-     var $span = `
+    var $span = `
             <div>
                 <p>
                     <span style="background-color: #1191da;"></span>
@@ -193,20 +277,20 @@ layui.use(['element', 'layer', 'flow'], function () {
     //流加载请求列表数据
     flow.load({
         elem: '#flow_inspectList' //流加载容器
-        ,scrollElem: '#flow_inspectList' //滚动条所在元素，一般不用填，此处只是演示需要。
-        ,done: function(page, next){ //执行下一页的回调
+        , scrollElem: '#flow_inspectList' //滚动条所在元素，一般不用填，此处只是演示需要。
+        , done: function (page, next) { //执行下一页的回调
             var lis = [];
-          //模拟数据插入
-          
+            //模拟数据插入
+
             $.ajax({
                 url: baseUrl + "/inspectadd/list?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
                 async: false
-                ,md: 100,
+                , md: 100,
                 data: {
                     pageNumber: page,
                     pageSize: 20
                 },
-                success: function(res){
+                success: function (res) {
                     layui.each(res.rows.rows, function (index, item) {
                         //这里遍历数据
                         lis.push(
@@ -224,7 +308,7 @@ layui.use(['element', 'layer', 'flow'], function () {
                                 </aside>
                             </div> 
                                    `
-                            );
+                        );
                     });
 
                     // const card = res.rows.rows.map(item=>{
@@ -246,12 +330,12 @@ layui.use(['element', 'layer', 'flow'], function () {
                     next(lis.join(''), page < res.rows.pageCount);
                 }
             })
-          
-        }
-      });
-   
 
-    if($(".location").height() > 40){
+        }
+    });
+
+
+    if ($(".location").height() > 40) {
         $(".location").css("overflow", "hidden")
     }
 

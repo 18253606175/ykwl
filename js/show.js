@@ -59,9 +59,11 @@ layui.use(['element'], function () {
         x.forEach(item=>{
             if(item.accessKey === 'alarm'){
                 item.classList.add('layui-this');
-                item.parentNode.className += ' layui-nav-itemed'
+                $(item).parent().parent().parent().addClass(' layui-nav-itemed')
             } else {
                 item.classList.remove('layui-this')
+                $(item).parent().parent().parent().removeClass('layui-this');
+                $(item).parent().removeClass('layui-this');
             }
         })
         $("#homeIframe").attr('src', '../alarm.html');

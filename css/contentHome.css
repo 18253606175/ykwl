@@ -48,9 +48,9 @@ body {
 .Homemain .Homeleft .home-left-top .home-left-top-title {
   color: #31e0f0;
   font-size: 16px;
-  padding: 10px 8%;
+  padding: 4px 8%;
   position: relative;
-  top: 5px;
+  top: 14px;
 }
 
 .Homemain .Homeleft .home-left-top .home-left-top-bottom {
@@ -132,7 +132,7 @@ body {
 .Homemain .Homeleft .home-left-center .home-left-center-title {
   color: #31e0f0;
   font-size: 16px;
-  padding: 2px 8%;
+  padding: 8px 8%;
   position: relative;
   top: 12px;
 }
@@ -146,6 +146,7 @@ body {
 .Homemain .Homeleft .home-left-center .home-left-center-bottom #home-left-center-bottom-left {
   flex: 1;
   height: 100%;
+  margin-top: 10px;
 }
 
 .Homemain .Homeleft .home-left-center .home-left-center-bottom .home-left-center-bottom-right {
@@ -158,8 +159,9 @@ body {
 
 .Homemain .Homeleft .home-left-center .home-left-center-bottom .home-left-center-bottom-right .home-left-center-bottom-right-top {
   flex: 1;
-  border-bottom: 1px solid #4e6061;
-  margin-bottom: 7%;
+  border-bottom: 1px dashed #4e6061;
+  margin-bottom: 9%;
+  margin-top: -4%;
   color: #565e47;
 }
 
@@ -172,18 +174,26 @@ body {
 }
 
 .Homemain .Homeleft .home-left-center .home-left-center-bottom .home-left-center-bottom-right .home-left-center-bottom-right-top:nth-of-type(2) .home-left-center-bottom-right-top-header > span:first-child {
-  background-color: yellow;
+  background-color: red;
 }
 
 .Homemain .Homeleft .home-left-center .home-left-center-bottom .home-left-center-bottom-right .home-left-center-bottom-right-top:nth-of-type(2) .home-left-center-bottom-right-top-header > span:nth-of-type(2) {
-  color: yellow;
+  color: red;
 }
 
 .Homemain .Homeleft .home-left-center .home-left-center-bottom .home-left-center-bottom-right .home-left-center-bottom-right-top:nth-of-type(3) .home-left-center-bottom-right-top-header > span:first-child {
-  background-color: grey;
+  background-color: yellow;
 }
 
 .Homemain .Homeleft .home-left-center .home-left-center-bottom .home-left-center-bottom-right .home-left-center-bottom-right-top:nth-of-type(3) .home-left-center-bottom-right-top-header > span:nth-of-type(2) {
+  color: yellow;
+}
+
+.Homemain .Homeleft .home-left-center .home-left-center-bottom .home-left-center-bottom-right .home-left-center-bottom-right-top:nth-of-type(4) .home-left-center-bottom-right-top-header > span:first-child {
+  background-color: grey;
+}
+
+.Homemain .Homeleft .home-left-center .home-left-center-bottom .home-left-center-bottom-right .home-left-center-bottom-right-top:nth-of-type(4) .home-left-center-bottom-right-top-header > span:nth-of-type(2) {
   color: grey;
 }
 

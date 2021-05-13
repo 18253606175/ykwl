@@ -174,62 +174,47 @@ body {
 .Realtime-main .Realtime-left {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 88%;
   margin-top: 20px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
-.Realtime-main .Realtime-left .Realtime-left-top {
-  height: 200px;
-  background: #1e2e3e;
-  padding-left: 10px;
-  padding-right: 10px;
-  border-bottom: 2px solid #18b1b6;
-  box-shadow: 0 2px 8px 0 #009688;
+.Realtime-main .Realtime-left::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background: transparent;
 }
 
-.Realtime-main .Realtime-left .Realtime-left-top .Realtime-left-top-title {
-  color: #18b1b6;
-  font-weight: 600;
-  font-size: 16px;
-  letter-spacing: .015em;
-  margin: 20px 0;
-  text-align: center;
+.Realtime-main .Realtime-left::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 4px;
 }
 
-.Realtime-main .Realtime-left .Realtime-left-top .Realtime-left-top-content {
-  margin-bottom: 20px;
-  color: rgba(97, 125, 131, 0.5);
+.Realtime-main .Realtime-left:hover::-webkit-scrollbar-thumb {
+  background: rgba(135, 135, 135, 0.4);
 }
 
-.Realtime-main .Realtime-left .Realtime-left-top .Realtime-left-top-bottom div {
-  margin-bottom: 20px;
+.Realtime-main .Realtime-left:hover::-webkit-scrollbar-track {
+  background: rgba(135, 135, 135, 0.1);
 }
 
-.Realtime-main .Realtime-left .Realtime-left-top .Realtime-left-top-bottom div > p {
-  display: inline;
-}
-
-.Realtime-main .Realtime-left .Realtime-left-top .Realtime-left-top-bottom div .first {
-  margin-right: 30px;
-}
-
-.Realtime-main .Realtime-left .Realtime-left-top .Realtime-left-top-bottom div span {
-  border-radius: 50%;
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-}
-
-.Realtime-main .Realtime-left .Realtime-left-bottom {
-  flex: 1;
-  box-shadow: 0 2px 8px 0 #009688;
-}
-
-.Realtime-main .Realtime-left .Realtime-left-bottom .layui-nav {
+.Realtime-main .Realtime-left #zreeList {
   background-color: #1e2e3e;
-  width: 100%;
   height: 100%;
-  padding-top: 10px;
+}
+
+.Realtime-main .Realtime-left #zreeList .layui-tree-txt {
+  color: #a3c1b0;
+  font-size: 16px;
+}
+
+.Realtime-main .Realtime-left #zreeList .layui-tree {
+  background-color: #1e2e3e;
+}
+
+.Realtime-main .Realtime-left #zreeList .layui-tree-entry:hover {
+  background-color: transparent;
 }
 
 .Realtime-main .layui-nav .layui-badge, .Realtime-main .layui-nav .layui-badge-dot {

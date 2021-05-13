@@ -190,234 +190,6 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
     //关闭弹层
 
 
-
-
-
-
-
-    //表格编辑删除
-    table.on('tool(tableTest)', function (obj) {
-        var data = obj.data;
-        //表格编辑删除
-        if (obj.event === 'del') {
-            layer.prompt({
-                title: '请输入密码', 
-                formType: 1,
-            }, 
-                function(pass, index){
-                    $.ajax({
-                        url: baseUrl + "/device/delete?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
-                        contentType: "application/json",
-                        data: JSON.stringify({
-                            id: data.id,
-                            password: pass
-                        }),
-                        type: 'post',
-                        // dataType: "json",
-                        success: function(res){
-                            if(res.code === 200){
-                                obj.del();
-                                layer.msg('删除成功',{
-									icon: 1,
-                                    closeBtn: 0,
-                                    anim: 0, //动画类型
-                                   time: 3000
-                                });
-                                
-                            } else {
-                                layer.msg(res.msg, {
-                                    icon: 2,
-                                    closeBtn: 0,
-                                    anim: 6, //动画类型
-									time: 4000
-                                    
-                                });
-                            }
-                        }
-                    })
-                layer.close(index);
-              });
-            // layer.confirm('真的删除行么', function (index) {
-            //     obj.del();
-            //     layer.close(index);
-            // });
-        } else if (obj.event === 'edit') {
-            layer.open({
-                type: 1,
-                offset: '180px',
-                title: '编辑设备',
-				skin: 'layui-layer-yingke',
-                area: ['900px','420px'],
-                content: $("#pop-up-add"),
-                success: function (layero, index) {
-                    $("#pop-up-add").html(
-                        `
-                <form class="layui-form" action="">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">所属单位</label>
-                    <div class="layui-input-block  layui-required">
-                        <select name="companyId" lay-verify="required" lay-search="">
-                        <option value="">请选择单位</option>
-                        ${selectList.map(item => {
-                            return `
-                                ${function () {
-                                    if (item.id === data.companyId) {
-                                        return `<option selected="true" value=${item.id}>${item.companyName}</option>`
-                                    } else {
-                                        return `<option value=${item.id}>${item.companyName}</option>`
-                                    }
-                                }()
-                                }
-                            `
-                        })}
-                        </select>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label layui-tips1">设备类型</label>
-                    <div id="tySign"  class="layui-input-block">
-                        <select name="typeSign" lay-verify="required" disabled lay-search="">
-                            <option value=""></option>
-                            ${deviceType.map(item => {
-                            return `
-                                    ${function () {
-                                    if (item.typeSign === data.typeSign) {
-                                        return `<option selected="true" value=${item.typeSign}>${item.typeName}</option>`
-                                    } else {
-                                        return `<option value=${item.typeSign}>${item.typeName}</option>`
-                                    }
-                                }()
-                                }
-                            `
-                        })}
-                            
-                        </select>
-						<i class="layui-icon layui-icon-tips layui-tips" lay-tips="如果类型选择错误，请联系管理员修改" ></i>
-                    </div>
-					
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">设备编号</label>
-                    <div class="layui-input-block  layui-required">
-                        <input type="text" name="imei" lay-verify="imei" required disabled placeholder="请输入" autocomplete="off"
-                            class="layui-input layui-disabled" value=${data.imei}>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">位置描述</label>
-                    <div class="layui-input-block  layui-required">
-                        <input type="text" name="location" lay-verify="address" required placeholder="请输入" autocomplete="off"
-                            class="layui-input" value=${data.location}>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">所属建筑</label>
-                    <div class="layui-input-block">
-                        <select name="architectureId" lay-search="">
-                            <option value=""></option>
-                            ${architecture.map(item => {
-                            // `<option value=${item.id} selected="true">${item.architectureName}</option>`
-                            return `
-                                    ${function () {
-                                    if (item.id === data.architectureId) {
-                                        return `<option selected="true" value=${item.id}>${item.architectureName}</option>`
-                                    } else {
-                                        return `<option value=${item.id}>${item.architectureName}</option>`
-                                    }
-                                }()}
-                                `
-                        })}
-                        </select>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">所属楼层</label>
-                    <div class="layui-input-block">
-                        <select name="floor" lay-search="">
-                            <option value=""></option>
-                            ${function () {
-                            var fllorNum = [] //楼层
-                            for (var i = -3; i <= 20; i++) {
-                                fllorNum.push(i)
-                            }
-                            return fllorNum.map(item => {
-                                return `
-                                    ${function () {
-                                        if (item === data.floor) {
-                                            return `<option selected="true" value=${item}>${item}</option>`
-                                        } else {
-                                            return `<option value=${item}>${item}</option>`
-                                        }
-                                    }()}
-                                `
-                            })
-                        }()
-                        }
-                        </select>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">SIM卡号</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="iccid" placeholder="请输入" autocomplete="off" class="layui-input" value=${data.iccid}>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">设备名称</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="deviceName" placeholder="请输入" autocomplete="off" class="layui-input" value=${data.deviceName}>
-                    </div>
-                </div>
-                <div class="layui-form-item" style="display: none">
-                    <div class="layui-input-block">
-                        <input type="text" name="id" placeholder="请输入" autocomplete="off" class="layui-input" value=${data.id}>
-                    </div>
-                </div>
-                <div class="layui-form-item  layui-form-item-submit">
-                    <div style="text-align:center">
-                        <button type="submit" class="layui-btn" lay-submit lay-filter="update">确认</button>
-						<button type="button" id="close-pop-up" class="layui-btn layui-btn-primary">取消</button>
-                    </div>
-                </div>
-            </form>
-            
-        `
-                    )
-                    form.render();
-                    $('*[lay-tips]').on('mouseenter', function(){
-						var content = $(this).attr('lay-tips');
-                        this.index = layer.tips(content, this,
-						{
-						time: -1
-						//,maxWidth: 200
-						,tips: [4, '#000']
-						});
-					}).mouseleave(function(){
-                        layer.closeAll('tips'); //关闭所有的tips层
-                    })
-                    //关闭弹层
-                    $("#close-pop-up").click(function () {
-                        layer.closeAll();
-                    })
-                    //验证
-                    form.verify({  
-                        imei: [  
-                        /^[\S]{15,15}$/  
-                        ,'IEMI必须是15位数字'  
-                        ],  
-                        address: function(value){  
-                        if(value.length < 5){  
-                        return '地址不够详细，至少得6个字';  
-                        }  
-                        }  
-                        }); 
-                }
-            });
-        }
-        
-    });
-
-
     //头部内容
 
     var titleContent = {
@@ -824,6 +596,220 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                 shadeClose: true,
                 anim: 0,
                 content: [`../demo.html?deviceId=${data.deviceId}`, 'no'], //iframe的url，no代表不显示滚动条
+            });
+        } else if (obj.event === 'del') {
+            layer.prompt({
+                title: '请输入密码', 
+                formType: 1,
+            }, 
+                function(pass, index){
+                    $.ajax({
+                        url: baseUrl + "/device/delete?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
+                        contentType: "application/json",
+                        data: JSON.stringify({
+                            id: data.id,
+                            password: pass
+                        }),
+                        type: 'post',
+                        // dataType: "json",
+                        success: function(res){
+                            if(res.code === 200){
+                                obj.del();
+                                layer.msg('删除成功',{
+									icon: 1,
+                                    closeBtn: 0,
+                                    anim: 0, //动画类型
+                                   time: 3000
+                                });
+                                
+                            } else {
+                                layer.msg(res.msg, {
+                                    icon: 2,
+                                    closeBtn: 0,
+                                    anim: 6, //动画类型
+									time: 4000
+                                    
+                                });
+                            }
+                        }
+                    })
+                layer.close(index);
+              });
+            // layer.confirm('真的删除行么', function (index) {
+            //     obj.del();
+            //     layer.close(index);
+            // });
+        } else if (obj.event === 'edit') {
+            layer.open({
+                type: 1,
+                offset: '180px',
+                title: '编辑设备',
+				skin: 'layui-layer-yingke',
+                area: ['900px','420px'],
+                content: $("#pop-up-add"),
+                success: function (layero, index) {
+                    $("#pop-up-add").html(
+                        `
+                <form class="layui-form" action="">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">所属单位</label>
+                    <div class="layui-input-block  layui-required">
+                        <select name="companyId" lay-verify="required" lay-search="">
+                        <option value="">请选择单位</option>
+                        ${selectList.map(item => {
+                            return `
+                                ${function () {
+                                    if (item.id === data.companyId) {
+                                        return `<option selected="true" value=${item.id}>${item.companyName}</option>`
+                                    } else {
+                                        return `<option value=${item.id}>${item.companyName}</option>`
+                                    }
+                                }()
+                                }
+                            `
+                        })}
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label layui-tips1">设备类型</label>
+                    <div id="tySign"  class="layui-input-block">
+                        <select name="typeSign" lay-verify="required" disabled lay-search="">
+                            <option value=""></option>
+                            ${deviceType.map(item => {
+                            return `
+                                    ${function () {
+                                    if (item.typeSign === data.typeSign) {
+                                        return `<option selected="true" value=${item.typeSign}>${item.typeName}</option>`
+                                    } else {
+                                        return `<option value=${item.typeSign}>${item.typeName}</option>`
+                                    }
+                                }()
+                                }
+                            `
+                        })}
+                            
+                        </select>
+						<i class="layui-icon layui-icon-tips layui-tips" lay-tips="如果类型选择错误，请联系管理员修改" ></i>
+                    </div>
+					
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">设备编号</label>
+                    <div class="layui-input-block  layui-required">
+                        <input type="text" name="imei" lay-verify="imei" required disabled placeholder="请输入" autocomplete="off"
+                            class="layui-input layui-disabled" value=${data.imei}>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">位置描述</label>
+                    <div class="layui-input-block  layui-required">
+                        <input type="text" name="location" lay-verify="address" required placeholder="请输入" autocomplete="off"
+                            class="layui-input" value=${data.location}>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">所属建筑</label>
+                    <div class="layui-input-block">
+                        <select name="architectureId" lay-search="">
+                            <option value=""></option>
+                            ${architecture.map(item => {
+                            // `<option value=${item.id} selected="true">${item.architectureName}</option>`
+                            return `
+                                    ${function () {
+                                    if (item.id === data.architectureId) {
+                                        return `<option selected="true" value=${item.id}>${item.architectureName}</option>`
+                                    } else {
+                                        return `<option value=${item.id}>${item.architectureName}</option>`
+                                    }
+                                }()}
+                                `
+                        })}
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">所属楼层</label>
+                    <div class="layui-input-block">
+                        <select name="floor" lay-search="">
+                            <option value=""></option>
+                            ${function () {
+                            var fllorNum = [] //楼层
+                            for (var i = -3; i <= 20; i++) {
+                                fllorNum.push(i)
+                            }
+                            return fllorNum.map(item => {
+                                return `
+                                    ${function () {
+                                        if (item === data.floor) {
+                                            return `<option selected="true" value=${item}>${item}</option>`
+                                        } else {
+                                            return `<option value=${item}>${item}</option>`
+                                        }
+                                    }()}
+                                `
+                            })
+                        }()
+                        }
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">SIM卡号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="iccid" placeholder="请输入" autocomplete="off" class="layui-input" value=${data.iccid}>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">设备名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="deviceName" placeholder="请输入" autocomplete="off" class="layui-input" value=${data.deviceName}>
+                    </div>
+                </div>
+                <div class="layui-form-item" style="display: none">
+                    <div class="layui-input-block">
+                        <input type="text" name="id" placeholder="请输入" autocomplete="off" class="layui-input" value=${data.id}>
+                    </div>
+                </div>
+                <div class="layui-form-item  layui-form-item-submit">
+                    <div style="text-align:center">
+                        <button type="submit" class="layui-btn" lay-submit lay-filter="update">确认</button>
+						<button type="button" id="close-pop-up" class="layui-btn layui-btn-primary">取消</button>
+                    </div>
+                </div>
+            </form>
+            
+        `
+                    )
+                    form.render();
+                    $('*[lay-tips]').on('mouseenter', function(){
+						var content = $(this).attr('lay-tips');
+                        this.index = layer.tips(content, this,
+						{
+						time: -1
+						//,maxWidth: 200
+						,tips: [4, '#000']
+						});
+					}).mouseleave(function(){
+                        layer.closeAll('tips'); //关闭所有的tips层
+                    })
+                    //关闭弹层
+                    $("#close-pop-up").click(function () {
+                        layer.closeAll();
+                    })
+                    //验证
+                    form.verify({  
+                        imei: [  
+                        /^[\S]{15,15}$/  
+                        ,'IEMI必须是15位数字'  
+                        ],  
+                        address: function(value){  
+                        if(value.length < 5){  
+                        return '地址不够详细，至少得6个字';  
+                        }  
+                        }  
+                        }); 
+                }
             });
         }
     });

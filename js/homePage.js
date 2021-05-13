@@ -194,17 +194,23 @@ layui.use(['element', 'layer'], function () {
 
                 deviceState = [{
                         name: "正常设备",
-                        percent: (company.deviceOnLine / company.deviceSum).toFixed(2),
+                        percent: (company.deviceOnLine / company.deviceSum *100).toFixed(2) + '%',
                         value: company.deviceOnLine
                     },
-                    {
+					{
                         name: "报警设备",
-                        percent: (company.deviceFault / company.deviceSum).toFixed(2),
-                        value: company.deviceFault
+                        percent: (company.deviceAlarm / company.deviceSum *100).toFixed(2) + '%',
+                        value: company.deviceAlarm
                     },
                     {
+                        name: "故障设备",
+                        percent: (company.deviceFault / company.deviceSum * 100).toFixed(2) + '%',
+                        value: company.deviceFault
+                    },
+					
+                    {
                         name: "离线设备",
-                        percent: (company.deviceOffLine / company.deviceSum).toFixed(2),
+                        percent: (company.deviceOffLine / company.deviceSum * 100).toFixed(2) + '%',
                         value: company.deviceOffLine
                     }
                 ]
@@ -214,8 +220,8 @@ layui.use(['element', 'layer'], function () {
                 deviceState.map(item => {
                     num += item.value
                 })
-                let colorPie = ['green', 'yellow', 'grey'];
-                let colorWrap = ["#1be5e7", "#1be5e7", "#1be5e7"];
+                let colorPie = ['green','red','yellow', 'grey'];
+                let colorWrap = ["#1be5e7",'#1be5e7', "#1be5e7"];
                 let baseDataPie = [],
                     baseDataWrap = [];
                 for (var i = 0; i < deviceState.length; i++) {
@@ -538,7 +544,7 @@ layui.use(['element', 'layer'], function () {
                     return {
                         title: item.location,
                         num: item.alarmTime,
-                        name: item.type_sign,
+                         name: item.alarmMessage+':'+item.alarmData+item.data_unit,
                         describe: item.isSolve === 0 ? '处理' : '未处理'
                     }
                 })

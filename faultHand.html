@@ -13,60 +13,65 @@
 
 <body>
     <!-- 故障列表 -->
-    <div class="faultHand-main">
-        <div class="faultHand-main-header">
-            <div class="faultHand-main-header-title">
-                故障列表
-            </div>
-            <div class="faultHand-main-header-right">
-                <div class="faultHand-main-header-right-search">
-                    <form class="layui-form" action="">
-                        <div class="layui-form-item">
-                            <div class="layui-input-inline">
-                                <input type="text" name="searchInfo" lay-verify="required" placeholder="请输入"
-                                    autocomplete="off" class="layui-input">
-                                <button type="submit" lay-filter="submitBtn" lay-submit=""
-                                    class="layui-btn layui-btn-primary">
-                                    <i class="layui-icon">&#xe615;</i>
-                                </button>
+    <div class="faultHand-main layui-row">
+        <!-- <div class="Realtime-left layui-col-md2">
+            <div id="zreeList" class="demo-tree-more"></div>
+        </div> -->
+        
+            <div class="faultHand-main-header">
+                <div class="faultHand-main-header-title">
+                    巡查隐患
+                </div>
+                <div class="faultHand-main-header-right">
+                    <div class="faultHand-main-header-right-search">
+                        <form class="layui-form" action="">
+                            <div class="layui-form-item">
+                                <div class="layui-input-inline">
+                                    <input type="text" name="searchInfo" lay-verify="required" placeholder="请输入"
+                                        autocomplete="off" class="layui-input">
+                                    <button type="submit" lay-filter="submitBtn" lay-submit=""
+                                        class="layui-btn layui-btn-primary">
+                                        <i class="layui-icon">&#xe615;</i>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    </form>
-                    <form class="layui-form" action="">
-                        <div class="layui-form-item">
-                            <div class="layui-input-inline">
-                                <select class="layui-input-inline-select" name="selectDou" lay-verify="required"
-                                    lay-search="">
+                        </form>
+                        <form class="layui-form" action="">
+                            <div class="layui-form-item">
+                                <div class="layui-input-inline">
+                                    <select class="layui-input-inline-select" name="selectDou" lay-verify="required"
+                                        lay-search="">
 
-                                </select>
-                                <button id="refresh" type="submit" lay-filter="submitDoubleBtn" lay-submit=""
-                                    class="layui-btn layui-btn-primary">
-                                    <i class="layui-icon">&#xe615;</i>
-                                </button>
+                                    </select>
+                                    <button id="refresh" type="submit" lay-filter="submitDoubleBtn" lay-submit=""
+                                        class="layui-btn layui-btn-primary">
+                                        <i class="layui-icon">&#xe615;</i>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
+                </div>
+                <button type="button" class="layui-btn refresh-btn">
+                    <i class="layui-icon layui-icon-refresh"></i>
+                </button>
+            </div>
+            <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">全部</li>
+                    <li>待处理</li>
+                    <li>处理中</li>
+                    <li>待确认</li>
+                    <li>已处理</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-btn-group demoTable">
+                        <button class="layui-btn" data-type="getCheckData">导出</button>
+                    </div>
+                    <table id="table" lay-filter="table"></table>
                 </div>
             </div>
-            <button type="button" class="layui-btn refresh-btn">
-                <i class="layui-icon layui-icon-refresh"></i>
-            </button>
-        </div>
-        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
-            <ul class="layui-tab-title">
-                <li class="layui-this">全部</li>
-                <li>待处理</li>
-                <li>处理中</li>
-                <li>待确认</li>
-                <li>已处理</li>
-            </ul>
-            <div class="layui-tab-content">
-                <div class="layui-btn-group demoTable">
-                    <button class="layui-btn" data-type="getCheckData">导出</button>
-                </div>
-                <table id="table" lay-filter="table"></table>
-            </div>
-        </div>
+        
     </div>
 </body>
 <script src="./node_modules/layui.js"></script>
