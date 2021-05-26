@@ -8,39 +8,31 @@
     <title>Document</title>
     <link rel="stylesheet" href="./node_modules/layui.css">
     <link rel="stylesheet" href="./css/inspectionPoint.css">
+    
 </head>
 
 <body>
     <!-- 巡检点列表 -->
     <div class="Realtime-main layui-row">
         <div class="Realtime-left  layui-col-md2">
-            <!-- <div class="Realtime-left-top">
-                <div class="Realtime-left-top-title">
-
-                </div>
-                <div class="Realtime-left-top-content">
-
-                </div>
-                <div class="Realtime-left-top-bottom">
-
-                </div>
+            <div class="title">
+                <p class="titleList">巡检点列表</p>
+                
             </div>
-            <div class="Realtime-left-bottom">
-                <ul class="layui-nav layui-nav-tree layui-inline" lay-filter="demo" style="margin-right: 10px;">
-
-                </ul>
-            </div> -->
             <div id="zreeList" class="demo-tree-more"></div>
         </div>
         <div class="manage-main  layui-col-md10">
+		<div class="main-content">
             <section>
                 <div class="layui-tab-content">
+                    <div class="wisdom-electricity-bottom-top-classify">
+                    </div>
                     <div class="faultHand-main-header-right-search">
                         <form class="layui-form" action="">
                             <div class="layui-form-item">
-                                <label class="layui-form-label">单行输入框</label>
+                                <label class="layui-form-label">位置搜索</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="searchInfo" lay-verify="required" placeholder="请输入"
+                                    <input type="text" name="locationDesc" placeholder="请输入"
                                         autocomplete="off" class="layui-input">
                                     <button type="submit" lay-filter="submitBtn" lay-submit=""
                                         class="layui-btn layui-btn-primary">
@@ -51,9 +43,9 @@
                         </form>
                         <form class="layui-form" action="">
                             <div class="layui-form-item">
-                                <label class="layui-form-label">单行输入框</label>
+                                <label class="layui-form-label">单位搜索</label>
                                 <div class="layui-input-inline">
-                                    <select class="layui-input-inline-select" name="selectDou" lay-verify="required"
+                                    <select class="layui-input-inline-select" name="companyId"
                                         lay-search="">
 
                                     </select>
@@ -64,16 +56,38 @@
                                 </div>
                             </div>
                         </form>
+                        <form class="layui-form" action="">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">日期搜索</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="reptime" placeholder="请选择日期"
+                                        autocomplete="off" class="layui-input" lay-verify="date" id="date">
+                                    <button type="submit" lay-filter="dateSubmitBtn" lay-submit=""
+                                        class="layui-btn layui-btn-primary">
+                                        <i class="layui-icon">&#xe615;</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <div class="layui-btn-group demoTable">
+                    <!-- <div class="layui-btn-group demoTable">
                         <button class="layui-btn" data-type="getCheckData">导出</button>
-                    </div>
-                    <table id="table" lay-filter="table"></table>
+                    </div> -->
+                    
                 </div>
             </section>
+			<hr class="layui-border-green">
             <div class="flow-default inspectList" id="flow_inspectList">
 
             </div>
+			
+        </div>
+		</div>
+        <div class="dialog" style="display: none;">
+
+        </div>
+        <div class="dialog-card" style="display: none; height: 100%;">
+            <table id="home" lay-filter="tableTest"></table>
         </div>
     </div>
 </body>

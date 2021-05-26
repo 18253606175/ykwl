@@ -17,16 +17,7 @@
             山东英科互联网有限公司
         </div>
         <div class="projectDes-main-content">
-			<p>单位等级：消防联网单位</p>
-            <p>行政区划：山东省,潍坊市,峡山生态经济开发区</p>
-            <p>详细位置：二七一接待中心</p>
-            <p>消防等级：消防安全重点单位</p>
-            <p>单位性质：企业</p>
-          
-            <p>单位类别：公众聚集场所</p>
-            <p>消防责任人：魏经理</p>
-            <p>消防电话：13188837227</p>
-			<p>创建时间：2021年5月13日</p>
+			
             
         </div>
 
@@ -34,12 +25,12 @@
             <legend>消防档案</legend>
             <div class="layui-field-box">
                 <div class="projectDes-main-device">
-                    <div>A列表</div>
-                    <div>B列表</div>
-                    <div>C列表</div>
-                    <div>D列表</div>
-                    <div>D列表</div>
-                    <div>D列表</div>
+                    <div class="record" index="0">单位公告</div>
+                    <div class="record" index="1">消防合法文书</div>
+                    <div class="record" index="2">消防平面图</div>
+                    <div class="record" index="3">消防预案</div>
+                    <div class="record" index="4">规章制度</div>
+                    <div class="record" index="5">消防培训</div>
                 </div>
             </div>
         </fieldset>
@@ -50,11 +41,12 @@
                     消防设备
                 </div>
                 <div class="projectDes-main-plate-left-bottom">
-                    <div>A</div>
-                    <div>B</div>
-                    <div>C</div>
-                    <div>D</div>
-                    <div>E</div>
+                    <div>智慧电气</div>
+                    <div>水压监测</div>
+                    <div>水位监测</div>
+                    <div>独立烟感</div>
+                    <div>视频监控</div>
+					<div>消防主机</div>
                 </div>
             </div>
             <div class="projectDes-main-plate-center">
@@ -75,18 +67,29 @@
                     消防巡查
                 </div>
                 <div class="projectDes-main-plate-right-bottom">
-                    <div>A</div>
-                    <div>B</div>
-                    <div>C</div>
-                    <div>D</div>
-                    <div>E</div>
+                    <div>巡查计划</div>
+					<div>巡查痕迹</div>
+					<div>重点部位</div>
+                    <div>巡查记录</div>
+                    <div>巡查隐患</div>
+                    <div>隐患处理</div>
+					
                 </div>
             </div>
         </div>
+        <div class="dialog" style="display: none;">
+            <table id="home" lay-filter="tableTest"></table>
+            
+        </div>
+        <div class="dialog-son" style="display: none;">
+            
+        </div>
     </div>
 </body>
-
+<script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.1.0/echarts.min.js"></script>
 <script src="./node_modules/layui.js"></script>
-<script src="./js/unitFiles.js"></script>
-
+<script type="module" src="./js/unitFiles.js"></script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="check">查看</a>
+</script>
 </html>

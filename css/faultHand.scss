@@ -1,161 +1,153 @@
 html,
 body {
-    height: 100%;
-    box-sizing: border-box;
-    overflow: hidden;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
-
 body {
-    padding: 20px;
+  padding: 20px;
 }
-
-Realtime-left {
+.faultHand-main {
+  padding-left: 10px;
+}
+.faultHand-main-header {
+  display: flex;
+  .faultHand-main-header-title {
+    font-size: 22px;
+    color: #43b3bb;
+  }
+  .faultHand-main-header-right-search {
     display: flex;
-    flex-direction: column;
-    height: 100%;
-    margin-top: 20px;  
-    #zreeList{
-      margin-top: 10px;
-      background-color: #1e2e3e;
-      height: 100%;
-      .layui-tree-txt{
-        color: #a3c1b0;
-        font-size: 16px;
+    display: flex;
+    position: absolute;
+    top: 30px;
+    left: 700px;
+    .layui-form {
+      .layui-form-selected {
+        dl {
+          background-color: #3d4959;
+          border: none;
+          color: #fff;
+          &::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+            background: transparent;
+          }
+          &::-webkit-scrollbar-thumb {
+            background: transparent;
+            border-radius: 4px;
+          }
+          &:hover {
+            &::-webkit-scrollbar-thumb {
+              background: rgba(135, 135, 135, 0.4);
+            }
+            &::-webkit-scrollbar-track {
+              background: rgba(135, 135, 135, 0.1);
+            }
+          }
+        }
       }
-      .layui-tree-entry {
-        &:hover {
-          background-color: transparent;
+      .layui-form-select {
+        dl {
+          dd {
+            &.layui-this {
+              background-color: #5f949a;
+            }
+            &:hover {
+              background-color: #5f949a;
+            }
+          }
+        }
+      }
+      .layui-input-inline {
+        display: flex;
+        .layui-edge {
+          top: 69%;
+        }
+        .layui-btn-primary {
+          border: none;
+        }
+        .layui-btn {
+          height: 30px;
+          line-height: 30px;
+          margin-top: 14px;
+          width: 30px;
+          padding: 0px 4px;
+          background: #1f2c3c;
+          border: none;
         }
       }
     }
   }
-
-.faultHand-main-header {
+  .refresh-btn {
+    position: absolute;
+    right: 50px;
+    top: 43px;
+    width: 46px;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+  }
+}
+.faultHand-main-header .faultHand-main-header-right-search .layui-input,
+.faultHand-main-header .faultHand-main-header-right-search .layui-textarea,
+.faultHand-main-header .faultHand-main-header-right-search .layui-select {
+  margin-top: 14px;
+  height: 30px;
+  background: #1f2c3c;
+  border: none;
+  color: #fff;
+}
+.dialog {
+  padding: 20px;
+  & > .layui-form {
     display: flex;
-
-    .faultHand-main-header-title {
-        font-size: 22px;
-        color: #43b3bb;
-    }
-
-
-    .faultHand-main-header-right-search {
-        display: flex;
-        display: flex;
-        position: absolute;
-        top: 30px;
-        left: 700px;
-
-
-        .layui-input,
-        .layui-textarea,
-        .layui-select {
-            margin-top: 14px;
-            height: 30px;
-            background: #1f2c3c;
-            border: none;
-            color: #fff;
+    flex-wrap: wrap;
+    & > .layui-form-item {
+      width: 100%;
+      & > .layui-input-block {
+        & > input {
+          width: 91%;
         }
-
-        .layui-form {
-
-            .layui-form-selected dl {
-                background-color: #3d4959;
-                border: none;
-                color: #fff;
-            }
-
-            .layui-form-select dl dd.layui-this {
-                background-color: #5f949a;
-            }
-
-            .layui-form-select dl dd:hover {
-                background-color: #5f949a;
-            }
-
-
-            .layui-input-inline {
-                display: flex;
-
-                .layui-edge {
-                    top: 69%;
-                }
-
-                .layui-btn-primary {
-                    border: none;
-                }
-
-                .layui-btn {
-                    height: 30px;
-                    line-height: 30px;
-                    margin-top: 14px;
-                    width: 30px;
-                    padding: 0px 4px;
-                    background: #1f2c3c;
-                    border: none;
-                }
-            }
-        }
+      }
+      .layui-form-select {
+        width: 70%;
+      }
     }
-
-    .refresh-btn {
-        position: absolute;
-        right: 50px;
-        top: 43px;
-        width: 46px;
-        height: 30px;
-        line-height: 30px;
-        padding: 0 10px;
+    & > .layui-form-item-submit {
+      margin: 0 auto;
+      margin-top: 30px;
+      width: 100%;
     }
+  }
 }
-
-
 .layui-border-box {
+  background: #1c2536;
+  color: #a5aeaf;
+  .layui-table {
     background: #1c2536;
-    color: #a5aeaf;
-
-    .layui-table {
-        background: #1c2536;
-
-        /* 偶数行背景色 */
-        tbody {
-            &>tr {
-                &:nth-child(even) {
-                    //  background-color: #aaffaa; 
-                    background-color: rgba(55, 136, 144, .2);
-                    ;
-                }
-
-                /* 鼠标指向表格时,奇数行背景颜色 */
-                &:hover,
-                .layui-table-hover {
-                    background-color: #3f3b3b;
-                }
-            }
+    tbody {
+      & > tr {
+        &:nth-child(even) {
+          background-color: rgba(55, 136, 144, 0.2);
         }
-
-
-
-        /* 表格头部工具栏背景色 */
-        .layui-table-tool {
-            background-color: yellow;
-        }
-
-        /* 表格头部背景色 */
-        th {
-            background-color: black;
-            /* MediumSeaGreen */
-            color: #fff;
-            font-weight: bold
-        }
+      }
     }
-
-
+    .layui-table-tool {
+      background-color: yellow;
+    }
+    th {
+      background-color: black;
+      color: #fff;
+      font-weight: bold;
+    }
+  }
 }
-
-
+.layui-border-box .layui-table tbody > tr:hover,
+.layui-border-box .layui-table tbody > tr .layui-table-hover {
+  background-color: #3f3b3b;
+}
 .layui-tab-title {
-    border-bottom: #555;
-    color: #a5aeaf;
+  border-bottom: #555;
+  color: #a5aeaf;
 }
-

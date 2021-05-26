@@ -39,6 +39,7 @@ layui.use(['element', 'layer'], function () {
 
     element.tabChange('test1', layid); //假设当前地址为：http://a.com#test1=222，那么选项卡会自动切换到“发送消息”这一项
 
+   
 
     var deviceState = []
 

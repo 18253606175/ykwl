@@ -84,6 +84,10 @@ body {
   height: 97%;
 }
 
+.userManage-main .userManage-main-content .layui-col-space15 {
+  padding-bottom: 60px;
+}
+
 .userManage-main .userManage-main-content .layui-col-space15 > * {
   padding: 25px;
 }
@@ -141,6 +145,8 @@ body {
 
 #pop-up-add .layui-form .layui-form-item {
   width: 480px;
+  margin-bottom: 25px;
+  margin-top: 10px;
 }
 
 #pop-up-add .layui-form .layui-form-item .layui-form-label {
@@ -151,16 +157,20 @@ body {
   margin-left: 150px;
 }
 
-#pop-up-add .layui-form > .layui-form-item-submit {
+#pop-up-add .layui-form .layui-form-item-img {
   position: absolute;
-  bottom: 0;
-  left: 270px;
+  top: 156px;
+  left: 520px;
+}
+
+#pop-up-add .layui-form > .layui-form-item-submit {
+  margin: 0 auto;
+  margin-top: 40px;
+  width: 100%;
 }
 
 #close-pop-up {
-  position: absolute;
-  bottom: 15px;
-  left: 500px;
+  margin-left: 30px;
 }
 
 .layui-badge-rim,

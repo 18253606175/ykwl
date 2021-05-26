@@ -1,0 +1,84 @@
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+}
+
+.layui-row {
+    background-color: #1e2e3e;
+    height: 100%;
+
+    .Realtime-left-bottom {
+        height: 90%;
+        margin: 20px 15px 15px;
+        box-shadow: 0 2px 8px 0 #009688;
+        .info {
+            height: 80px;
+            border-bottom: 1px solid #fff;
+            p{
+                margin-top: 10px;
+                padding-left: 10px;
+            }
+            .titleInfo {
+                font-size: 20px;
+                color: #eee;
+            }
+            .count{
+                font-size: 16px;
+                color: #eee;
+            }
+        }
+
+        .layui-nav {
+            background-color: #1e2e3e;
+            width: 100%;
+            height: 89%;
+            padding-top: 10px;
+        }
+    }
+}
+
+
+.timeline {
+    margin: 0 auto;
+    padding: 58px;
+    overflow: hidden;
+}
+
+h2 {
+        position: absolute;
+        left: 21%;
+        top: 3%;
+        color: #eee;
+        top: 2%;
+        width: 100%;
+        padding-top: 10px;
+        overflow: hidden;
+        background-color: #1e2e3e;
+        z-index: 999;
+}
+
+.layui-col-md10 {
+    width: 80% !important;
+    margin-top: 20px;
+    height: 90%;
+    box-shadow: 0 2px 8px 0 #009688;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+        background: transparent;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: transparent;
+        border-radius: 4px;
+      }
+      &:hover {
+        &::-webkit-scrollbar-thumb {
+          background: rgba(135, 135, 135, 0.4);
+        }
+        &::-webkit-scrollbar-track {
+          background: rgba(135, 135, 135, 0.1);
+        }
+      }
+}

@@ -35,12 +35,6 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
     })
 
 
-    //所属楼层
-    $.ajax({
-
-    })
-
-
     //所属建筑
     $.ajax({
         url: baseUrl + "/architecture/list?token=" + JSON.parse(localStorage.getItem("loginInfo")).token,
@@ -53,7 +47,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
 
 
 
-    
+
 
     $(".button-add").click(function () {
         $("#pop-up-add").html(
@@ -62,7 +56,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
             <div class="layui-form-item">
                 <label class="layui-form-label">所属单位</label>
                 <div class="layui-input-block  layui-required">
-                    <select name="companyId" lay-verify="required" lay-search="">
+                    <select name="companyId" lay-verify="required" lay-filter="companyId-select" lay-search="">
                         <option value="">请选择单位</option>
                         ${selectList.map(item => {
                 return `
@@ -100,13 +94,9 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
             <div class="layui-form-item">
                 <label class="layui-form-label">所属建筑</label>
                 <div class="layui-input-block">
-                    <select name="architectureId" lay-search="" lay-filter="buildingFilter">
-                        <option value=""></option>
-                        ${architecture.map((item, i) => {
-                $(".layui-form-select").accessKey = i
-                return `<option value=${item.id}>${item.architectureName}</option>`
-            })}
-                    </select>
+                <select name="architectureId" lay-filter="" id="architectureId-select">
+                    <option value="">请选择单位</option>
+                </select>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -140,15 +130,39 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">SIM卡号</label>
+                <label class="layui-form-label">物联网卡号</label>
                 <div class="layui-input-block">
                     <input type="text" name="iccid" placeholder="请输入" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">设备名称</label>
+			<div class="layui-form-item">
+                <label class="layui-form-label">设备验证码</label>
                 <div class="layui-input-block">
-                    <input type="text" name="deviceName" placeholder="请输入" autocomplete="off" class="layui-input">
+                    <input type="text" name="validateCode" placeholder="添加监控设备必填" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">水容器长度</label>
+				<div class="layui-input-block">
+					<input type="text" name="length" placeholder="水位设备必填" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">水容器宽度</label>
+				<div class="layui-input-block">
+					<input type="text" name="width" placeholder="水位设备必填" autocomplete="off" class="layui-input" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">水容器高度</label>
+				<div class="layui-input-block">
+					<input type="text" name="height" placeholder="水位设备必填" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">设备IOT-ID</label>
+                <div class="layui-input-block">
+                    <input type="text" name="deviceId" placeholder="请输入" autocomplete="off" class="layui-input">
                 </div>
             </div>
 			
@@ -174,17 +188,17 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
         })
 
 
-        form.verify({  
-            imei: [  
-            /^[\S]{15,15}$/  
-            ,'IEMI必须是15位数字'  
-            ],  
-            address: function(value){  
-            if(value.length < 5){  
-                return '地址不够详细，至少得6个字';  
-                }  
-            }  
-            }); 
+        form.verify({
+            imei: [
+                /^[\S]{11,15}$/
+                , 'IEMI可能错误，请核对'
+            ],
+            address: function (value) {
+                if (value.length < 5) {
+                    return '地址不够详细，至少得6个字';
+                }
+            }
+        });
     })
 
     //关闭弹层
@@ -438,17 +452,6 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
         }
     })
 
-
-
-
-
-
-
-
-
-
-
-
     $(".wisdom-electricity-bottom-top-classify").append(
         `
         <p class="classifyStyle typeScreen"><span style="background: #1191da;"></span>全部 </p>
@@ -511,7 +514,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
             state: state
         },
         limit: 15,
-        limits: [15, 30, 45],
+        limits: [15, 30, 50, 100, 200, 500, 1000],
         cellMinWidth: 85,
         page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档  
             groups: 5 //只显示 1 个连续页码
@@ -540,20 +543,28 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                     field: 'type',
                     title: '设备状态',
                     align: "center",
-                    width: 90,
-                    templet: "#sexTpl"
+                    width: 110,
+                    templet: "#sexTpl",
+                    sort: true
                 },
                 {
                     field: 'imei',
                     align: "center",
                     title: '设备编号',
+                    width: 150,
                     event: "rowClick"
                 },
                 {
                     field: 'type',
                     title: '设备类型',
                     align: "center",
+                    width: 150,
                     templet: "#typeSign"
+                },
+                {
+                    field: 'companyName',
+                    align: "center",
+                    title: '设备所属单位'
                 },
                 {
                     field: 'location',
@@ -563,25 +574,52 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                 {
                     field: 'installationTime',
                     align: "center",
-                    title: '设备安装时间'
+                    title: '安装时间',
+                    width: 120,
+                    sort: true
+                },
+                {
+                    field: 'toxfTime',
+                    align: "center",
+                    title: '上传消防时间',
+                    width: 150,
+                    sort: true
                 },
                 {
                     fixed: 'right',
                     title: '操作',
                     align: "center",
+                    width: 150,
                     toolbar: '#barDemo'
                 }
             ]
         ]
     });
 
-
-    //监听行单击事件（双击事件为：rowDouble）
-    table.on('tool(tableTest)', function (obj) {
-        var data = obj.data;
-        
-        // obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
-        if(obj.event === 'rowClick'){
+    table.on('rowDouble(tableTest)', function (obj) {
+        let data = obj.data;
+        console.log(data)
+        if (data.deviceSmallType === '05') {
+            $.ajax({
+                url: baseUrl + "/video/info?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
+                data: {
+                    deviceId: data.id
+                },
+                success: function (res) {
+                    layer.open({
+                        type: 1,
+                        shade: false,
+                        title: false, //不显示标题
+                        area: '880px', //宽高
+                        content: `
+                        <div id="video2" style="width: 100%; height: 500px;max-width: 880px;position: relative">
+                            <live-player id="live-player" video-url=${res.rows.flvUrl} live="true" stretch="true" aspect='fullscreen' controls="true" hide-big-play-button="true"></live-player>
+                        </div>
+                        `
+                    });
+                }
+            })
+        } else {
             layer.open({
                 type: 2,
                 id: "iframe",
@@ -590,19 +628,29 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                 closeBtn: 0, //不显示关闭按钮
                 title: '设备详情',
                 shade: [0],
+				offset:50,
                 scrollbar: true,
                 closeBtn: 1,
-                area: ['65%', '81%'],
+                area: ['70%', '81%'],
                 shadeClose: true,
                 anim: 0,
-                content: [`../demo.html?deviceId=${data.deviceId}`, 'no'], //iframe的url，no代表不显示滚动条
+                content: [`../demo.html?id=${data.id}`, 'no'], //iframe的url，no代表不显示滚动条
             });
-        } else if (obj.event === 'del') {
+        }
+
+
+    })
+    //监听行单击事件（双击事件为：rowDouble）
+    table.on('tool(tableTest)', function (obj) {
+        let data = obj.data;
+
+        // obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+        if (obj.event === 'del') {
             layer.prompt({
-                title: '请输入密码', 
+                title: '请输入密码进行权限验证',
                 formType: 1,
-            }, 
-                function(pass, index){
+            },
+                function (pass, index) {
                     $.ajax({
                         url: baseUrl + "/device/delete?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
                         contentType: "application/json",
@@ -612,29 +660,29 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                         }),
                         type: 'post',
                         // dataType: "json",
-                        success: function(res){
-                            if(res.code === 200){
+                        success: function (res) {
+                            if (res.code === 200) {
                                 obj.del();
-                                layer.msg('删除成功',{
-									icon: 1,
+                                layer.msg('删除成功', {
+                                    icon: 1,
                                     closeBtn: 0,
                                     anim: 0, //动画类型
-                                   time: 3000
+                                    time: 3000
                                 });
-                                
+
                             } else {
                                 layer.msg(res.msg, {
                                     icon: 2,
                                     closeBtn: 0,
                                     anim: 6, //动画类型
-									time: 4000
-                                    
+                                    time: 4000
+
                                 });
                             }
                         }
                     })
-                layer.close(index);
-              });
+                    layer.close(index);
+                });
             // layer.confirm('真的删除行么', function (index) {
             //     obj.del();
             //     layer.close(index);
@@ -644,8 +692,8 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                 type: 1,
                 offset: '180px',
                 title: '编辑设备',
-				skin: 'layui-layer-yingke',
-                area: ['900px','420px'],
+                skin: 'layui-layer-yingke',
+                area: ['900px', '500px'],
                 content: $("#pop-up-add"),
                 success: function (layero, index) {
                     $("#pop-up-add").html(
@@ -654,7 +702,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                 <div class="layui-form-item">
                     <label class="layui-form-label">所属单位</label>
                     <div class="layui-input-block  layui-required">
-                        <select name="companyId" lay-verify="required" lay-search="">
+                        <select name="companyId" lay-verify="required" lay-filter="companyId-select1" lay-search="">
                         <option value="">请选择单位</option>
                         ${selectList.map(item => {
                             return `
@@ -696,9 +744,10 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">设备编号</label>
-                    <div class="layui-input-block  layui-required">
+                    <div class="layui-input-block">
                         <input type="text" name="imei" lay-verify="imei" required disabled placeholder="请输入" autocomplete="off"
                             class="layui-input layui-disabled" value=${data.imei}>
+						<i class="layui-icon layui-icon-tips layui-tips" lay-tips="设备编号不允许修改，如果输入错误，请删除此设备后重新添加" ></i>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -711,20 +760,32 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                 <div class="layui-form-item">
                     <label class="layui-form-label">所属建筑</label>
                     <div class="layui-input-block">
-                        <select name="architectureId" lay-search="">
+                        <select name="architectureId" id="architectureId-select1" lay-search="">
                             <option value=""></option>
-                            ${architecture.map(item => {
-                            // `<option value=${item.id} selected="true">${item.architectureName}</option>`
-                            return `
-                                    ${function () {
-                                    if (item.id === data.architectureId) {
-                                        return `<option selected="true" value=${item.id}>${item.architectureName}</option>`
-                                    } else {
-                                        return `<option value=${item.id}>${item.architectureName}</option>`
+                            ${
+                                function () {
+                                    let mapData = null
+                                let url = baseUrl + "/architecture/list?token=" + JSON.parse(localStorage.getItem("loginInfo")).token + "&companyId=" + data.companyId;
+                                $.ajax({
+                                    url: url,
+                                    async: false,
+                                    success: function(res){
+                                        mapData =  res.rows.map(item => {
+                                            return `
+                                            ${function () {
+                                                if (item.id === data.architectureId) {
+                                                    return `<option selected="true" value=${item.id}>${item.architectureName}</option>`
+                                                } else {
+                                                    return `<option value=${item.id}>${item.architectureName}</option>`
+                                                }
+                                            }()}
+                                                        `
+                                        })
                                     }
-                                }()}
-                                `
-                        })}
+                                })
+                            return mapData.join("")
+                        }()
+                    }
                         </select>
                     </div>
                 </div>
@@ -755,15 +816,33 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">SIM卡号</label>
+                    <label class="layui-form-label">物联网卡号</label>
                     <div class="layui-input-block">
                         <input type="text" name="iccid" placeholder="请输入" autocomplete="off" class="layui-input" value=${data.iccid}>
                     </div>
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">设备名称</label>
+				<div class="layui-form-item">
+                    <label class="layui-form-label">水容器长度</label>
                     <div class="layui-input-block">
-                        <input type="text" name="deviceName" placeholder="请输入" autocomplete="off" class="layui-input" value=${data.deviceName}>
+                        <input type="text" name="length" placeholder="水位设备必填" autocomplete="off" class="layui-input" value=${data.length}>
+                    </div>
+                </div>
+				<div class="layui-form-item">
+                    <label class="layui-form-label">水容器宽度</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="width" placeholder="水位设备必填" autocomplete="off" class="layui-input" value=${data.width}>
+                    </div>
+                </div>
+				<div class="layui-form-item">
+                    <label class="layui-form-label">水容器高度</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="height" placeholder="水位设备必填" autocomplete="off" class="layui-input" value=${data.height}>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">设备IOT-ID</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="deviceId" placeholder="请输入" autocomplete="off" class="layui-input" value=${data.deviceId}>
                     </div>
                 </div>
                 <div class="layui-form-item" style="display: none">
@@ -782,15 +861,15 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
         `
                     )
                     form.render();
-                    $('*[lay-tips]').on('mouseenter', function(){
-						var content = $(this).attr('lay-tips');
+                    $('*[lay-tips]').on('mouseenter', function () {
+                        var content = $(this).attr('lay-tips');
                         this.index = layer.tips(content, this,
-						{
-						time: -1
-						//,maxWidth: 200
-						,tips: [4, '#000']
-						});
-					}).mouseleave(function(){
+                            {
+                                time: -1
+                                //,maxWidth: 200
+                                , tips: [4, '#000']
+                            });
+                    }).mouseleave(function () {
                         layer.closeAll('tips'); //关闭所有的tips层
                     })
                     //关闭弹层
@@ -798,20 +877,53 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                         layer.closeAll();
                     })
                     //验证
-                    form.verify({  
-                        imei: [  
-                        /^[\S]{15,15}$/  
-                        ,'IEMI必须是15位数字'  
-                        ],  
-                        address: function(value){  
-                        if(value.length < 5){  
-                        return '地址不够详细，至少得6个字';  
-                        }  
-                        }  
-                        }); 
+                    form.verify({
+                        imei: [
+                            /^[\S]{11,15}$/
+                            , 'IEMI输入可能不正确请核对'
+                        ],
+                        address: function (value) {
+                            if (value.length < 5) {
+                                return '地址不够详细，至少得6个字';
+                            }
+                        }
+                    });
                 }
             });
         }
+    });
+
+    //获取建筑
+    form.on('select(companyId-select)', function (data) {
+        //data.value 得到被选中的值
+        var url = baseUrl + "/architecture/list?token=" + JSON.parse(localStorage.getItem("loginInfo")).token + "&companyId=" + data.value;
+        $.get(url, function (data) {
+            $("#architectureId-select").empty();
+            $("#architectureId-select").append(new Option("请选择建筑", ""));
+            $.each(data.rows, function (index, item) {
+                $("#architectureId-select").append(new Option(item.architectureName, item.id));
+                console.log(item);
+                console.log(index);
+            });
+            layui.form.render("select");
+        });
+
+    });
+
+    form.on('select(companyId-select1)', function (data) {
+        //data.value 得到被选中的值
+        var url = baseUrl + "/architecture/list?token=" + JSON.parse(localStorage.getItem("loginInfo")).token + "&companyId=" + data.value;
+        $.get(url, function (data) {
+            $("#architectureId-select1").empty();
+            $("#architectureId-select1").append(new Option("请选择建筑", ""));
+            $.each(data.rows, function (index, item) {
+                $("#architectureId-select1").append(new Option(item.architectureName, item.id));
+                console.log(item);
+                console.log(index);
+            });
+            layui.form.render("select");
+        });
+
     });
 
 
@@ -827,7 +939,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
             layer.open({
                 type: 1,
                 offset: '180px',
-				skin: 'layui-layer-yingke',
+                skin: 'layui-layer-yingke',
                 title: '添加设备',
                 area: '900px',
                 content: $("#pop-up-add")
@@ -862,19 +974,23 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                     }
                 });
                 if (res.code === 200) {
-                    layer.msg('设备添加成功',{
-							icon: 1,
-							closeBtn: 0,
-							anim: 0, //动画类型
-							time: 3000
-						});
-                } else if (res.code === 500) {
-                    layer.msg(res.msg,{
-							icon: 1,
-							closeBtn: 0,
-							anim: 0, //动画类型
-						   time: 3000
-						});
+                    layer.msg('设备添加成功', {
+                        icon: 1,
+                        closeBtn: 0,
+                        shade: 0.5,
+                        shadeClose: true,
+                        anim: 0, //动画类型
+                        time: 2000
+                    }, function () {
+                        layer.closeAll();
+                    });
+                } else {
+                    layer.msg(res.msg, {
+                        icon: 5,
+                        closeBtn: 0,
+                        anim: 6, //动画类型
+                        time: 3000
+                    });
                 }
             }
         })
@@ -903,22 +1019,28 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                     },
                     where: {
                         state: state,
+                        deviceSmallType: typeId
                     }
                 });
                 if (res.code === 200) {
-                    layer.msg('修改设备成功',{
-									icon: 1,
-                                    closeBtn: 0,
-                                    anim: 0, //动画类型
-                                   time: 3000
-					});
+                    layer.msg('修改设备成功^_^', {
+                        icon: 1,
+                        closeBtn: 0,
+                        shade: 0.5,
+                        shadeClose: true,
+                        anim: 0, //动画类型
+                        time: 2000
+                    }, function () {
+                        layer.closeAll();
+                    });
+
                 } else {
-                    layer.msg(res.msg,{
-							icon: 1,
-							closeBtn: 0,
-							anim: 0, //动画类型
-						   time: 3000
-					});
+                    layer.msg(res.msg, {
+                        icon: 1,
+                        closeBtn: 0,
+                        anim: 6, //动画类型
+                        time: 3000
+                    });
                 }
             }
         })

@@ -8,6 +8,16 @@ html {
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAP0lEQVQImZ3LsRGAQAwDwTtDE6R08P3XhkWKP+QyzY687pX0AxZVxbczaZKgTYeJ1gGAFu5PlSAqOnGurf/4AsrpDpHqPjDnAAAAAElFTkSuQmCC);
 }
 
+#quanping {
+  margin-top: 4px;
+  margin-right: 15px;
+}
+
+#quanping-icon {
+  font-size: 20px !important;
+  cursor: pointer;
+}
+
 #warn > div {
   width: 20px;
   height: 20px;
@@ -16,6 +26,10 @@ html {
   position: absolute;
   right: -6px;
   top: 10px;
+}
+
+#warn .iconfont {
+  font-size: 30px;
 }
 
 .layui-logo img {

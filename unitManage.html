@@ -11,9 +11,12 @@
     <link rel="stylesheet" href="./css//table.css">
 </head>
 
-<body>
+<body class="layui-row">
     <!-- 单位管理列表 -->
-    <div class="unitManage-main">
+    <div class="layui-col-md2">
+        <div id="zreeList" class="demo-tree-more"></div>
+    </div>
+    <div class="unitManage-main  layui-col-md10">
         <div class="unitManage-main-header">
             <div class="unitManage-main-header-title">
                 单位管理
@@ -22,8 +25,7 @@
                 <form class="layui-form" action="">
                     <div class="layui-form-item">
                         <div class="layui-input-inline">
-                            <select class="layui-input-inline-select" name="selectDou" lay-verify="required"
-                                lay-search="">
+                            <select class="layui-input-inline-select" name="selectDou" lay-search="">
 
                             </select>
                             <button id="refresh" type="submit" lay-filter="submitDoubleBtn" lay-submit=""
@@ -40,142 +42,48 @@
                 </button>
             </div>
         </div>
-        <div class="unitManage-main-content">
-            <table class="layui-hide" id="unitTable"></table>
+        <div class="Realtime-main">
+            <div class="unitManage-main-content">
+                <table class="layui-hide" id="unitTable" lay-filter="unitTable"></table>
+            </div>
         </div>
-    </div>
 </body>
 
 <script src="./node_modules/layui.js"></script>
 <script type="module" src="./js/unitManage.js"></script>
 <script type="text/html" id="fireConLevel">
     {{#  if(d.fireConLevel === "01"){ }}
-    <div>重点</div>
+    <div>消防重点单位</div>
     {{#  }else if(d.fireConLevel === "02") { }}
-    <div>一般</div>
+    <div>消防一般单位</div>
     {{#  } }}
 </script>
 <script type="text/html" id="companyLevel">
     {{#  if(d.companyLevel === "admin"){ }}
-    <div>管理员</div>
-    {{#  }else if(d.companyLevel === "user") { }}
-    <div>用户</div>
+    <div>系统总管理</div>
+    {{#  }else if(d.companyLevel === "agent") { }}
+    <div  style="color:red">消防运营商</div>
+	{{#  }else if(d.companyLevel === "user") { }}
+    <div>消防联网单位</div>
     {{#  } }}
 </script>
+<script src="./js/Convert_Pinyin.js"></script>
+<script>
+function ConvertName(){
+  var keyword = document.getElementById('keyword').value;
+  var full = pinyin.getFullChars(keyword); //获取全写拼音
+  var simply = pinyin.getCamelChars(keyword); //获取简写拼音(提取首字母并大写)
+  simply=simply.toLowerCase();
+  //document.getElementById('full').value = full;
+  document.getElementById('simply').value = 'xf'+simply;//默认大写.可通过string.toLowerCase()转成小写
+}
+</script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
 <div id="pop-up-add" style="display: none;">
-    <form class="layui-form" action="">
-        <div class="layui-form-item">
-            <label class="layui-form-label layui-required">单位所属中心名称</label>
-            <div class="layui-input-block">
-                <select name="modules" lay-verify="required" lay-search="">
-                    <option value=""></option>
-                    <option value="0">北京</option>
-                    <option value="1">上海</option>
-                    <option value="2">广州</option>
-                    <option value="3">深圳</option>
-                    <option value="4">杭州</option>
-                </select>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label layui-required">单位名称</label>
-            <div class="layui-input-block">
-                <input type="text" name="title" lay-verify="required" placeholder="请输入" autocomplete="off"
-                    class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label layui-required">单位编号</label>
-            <div class="layui-input-block">
-                <input type="text" name="title" lay-verify="required" placeholder="请输入" autocomplete="off"
-                    class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label layui-required">联系电话</label>
-            <div class="layui-input-block">
-                <input type="text" name="title" lay-verify="required" placeholder="请输入" autocomplete="off"
-                    class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label layui-required">单位类别</label>
-            <div class="layui-input-block">
-                <select name="modules" lay-verify="required" lay-search="">
-                    <option value=""></option>
-                    <option value="0">北京</option>
-                    <option value="1">上海</option>
-                    <option value="2">广州</option>
-                    <option value="3">深圳</option>
-                    <option value="4">杭州</option>
-                </select>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label layui-required">详细地址</label>
-            <div class="layui-input-block">
-                <input type="text" name="title" lay-verify="required" placeholder="请输入" autocomplete="off"
-                    class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label layui-required">所属区域</label>
-            <div class="layui-input-block">
-                <select name="modules" lay-verify="required" lay-search="">
-                    <option value=""></option>
-                    <option value="0">北京</option>
-                    <option value="1">上海</option>
-                    <option value="2">广州</option>
-                    <option value="3">深圳</option>
-                    <option value="4">杭州</option>
-                </select>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label layui-required">消防控制室电话</label>
-            <div class="layui-input-block">
-                <input type="text" name="title" lay-verify="required" placeholder="请输入" autocomplete="off"
-                    class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">支队单位编码</label>
-            <div class="layui-input-block">
-                <input type="text" name="title" placeholder="请输入" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">上级主管单位名称</label>
-            <div class="layui-input-block">
-                <input type="text" name="title" placeholder="请输入" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">管理单位名称</label>
-            <div class="layui-input-block">
-                <input type="text" name="title" placeholder="请输入" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">监督等级</label>
-            <div class="layui-input-block">
-                <select name="modules" lay-search="">
-                    <option value=""></option>
-                    <option value="0">北京</option>
-                    <option value="1">上海</option>
-                    <option value="2">广州</option>
-                    <option value="3">深圳</option>
-                    <option value="4">杭州</option>
-                </select>
-            </div>
-        </div>
-        <div class="layui-form-item  layui-form-item-submit">
-            <div class="layui-input-block">
-                <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">确认</button>
-            </div>
-        </div>
-    </form>
-    <button id="close-pop-up" class="layui-btn">取消</button>
+
 </div>
 
 </html>

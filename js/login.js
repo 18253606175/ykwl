@@ -27,6 +27,19 @@ layui.use(['element', 'layer'], function () {
         }
     })
 
+    //键盘事件
+    document.onkeyup = function (event) {
+        var e = event || window.event;
+        var keyCode = e.keyCode || e.which;
+        switch (keyCode) {
+            case 13:
+                $("#btn-login").click();
+                break;
+            default:
+                break;
+        }
+    }
+
 
     $('#btn-login').click(function () {
         if ($('#username').val() === '') {

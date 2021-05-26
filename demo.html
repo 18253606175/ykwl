@@ -44,6 +44,9 @@
             <button id="alarm" type="button" class="layui-btn layui-btn-primary">报警信息</button>
         </div>
         <div class="chartShow">
+		 <div id="chartShow-aftercurrent">
+
+            </div>
             <div id="chartShow-temperature">
 
             </div>
@@ -53,9 +56,7 @@
             <div id="chartShow-voltage">
 
             </div>
-            <div id="chartShow-aftercurrent">
-
-            </div>
+           
             <div id="chartShow-liquidLevel">
 
             </div>
@@ -157,10 +158,6 @@
             , { field: 'sex', title: '性别' }
         ]
 
-
-
-
-
         var deviceId = null
 
         //历史数据表格回调
@@ -175,9 +172,9 @@
                 const { fieldlist, dataList } = res.rows
                 //历史信息表格
                 var tableTitle = fieldlist.map(item => {
-                    return { field: item.dataType, title: item.typeDes }
+                    return { field: item.dataType, title: item.typeDes,align:'center' }
                 })
-                tableTitle.unshift({ field: 'happen_time', title: '上报时间' })
+                tableTitle.unshift({ field: 'happen_time', title: '上报时间',width:110,align:'center'  })
 
                 
                 //渲染历史数据表格
@@ -194,7 +191,7 @@
                             , limitName: 'pageSize' //每页数据量的参数名，默认：limit
                         },
                         where: {
-                            deviceId: getUrl(window.location.href).deviceId
+                            id: getUrl(window.location.href).id
                         },
                         parseData: function (response) {
                             return {
@@ -204,7 +201,9 @@
                             }
                         }
                         , page: true
-                        , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+						, skin: 'line'
+						, even: true
+                        , cellMinWidth: 60 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
                         , cols: [tableTitle]
                     });
                 });
@@ -230,6 +229,7 @@
                     `
                     <p>${deviceInfo.imei}</p>
                         <div class="right-content">
+						<p>所属单位：${deviceInfo.companyName}</p>
                         <p>设备名称：${deviceInfo.location}</p>
                         <p>设备类型：${deviceInfo.typeSign}</p>
                         <p>设备状态：${(function () {
@@ -294,12 +294,27 @@
                             data: time
                         },
                         yAxis: {
-                            type: 'value'
+                            type: 'value',
+							show:true,//不显示坐标轴线、坐标轴刻度线和坐标轴上的文字
+							axisTick:{
+								  show:true//不显示坐标轴刻度线
+							},
+							axisLine: {
+								  show: true,//不显示坐标轴线
+							},
+							axisLabel: {
+								  show: true,//不显示坐标轴上的文字
+							}
                         },
                         series: [{
                             name: '液位',
                             type: 'line',
-                            data: liquidLevel
+                            data: liquidLevel,
+							markPoint: {
+							data: [
+								{type: 'max', name: '最高水位'},
+								]
+							}
                         }]
                     };
                     optionL && myChartL.setOption(optionL);
@@ -434,22 +449,60 @@
                             data: time
                         },
                         yAxis: {
-                            type: 'value'
+                            type: 'value',
+                            //max: function (value) { return value.max },
+							//max: function (value) { return '100' },
+							max: function (value) { return value.max >= 100 ? value.max : 100 },
+							show:true,//不显示坐标轴线、坐标轴刻度线和坐标轴上的文字
+							axisTick:{
+								  show:true//不显示坐标轴刻度线
+							},
+							axisLine: {
+								  show: true,//不显示坐标轴线
+							},
+							axisLabel: {
+								  show: true,//不显示坐标轴上的文字
+							}
                         },
                         series: [{
                             name: 'A相电流',
                             type: 'line',
-                            data: electricA
+                            data: electricA,
+							markPoint: {
+							data: [
+								{type: 'max', name: '最大值'},
+								]
+							},
+							markLine: {
+							symbol:"none", //表示没有箭头的直线
+							lineStyle:{
+							type:"dashed",
+							color:"red",
+						  },
+							data: [
+							{yAxis:'100',label: {position:'middle',formatter: '电流阀值:100A'}}
+							]
+							}
                         },
                         {
                             name: 'B相电流',
                             type: 'line',
-                            data: electricB
+                            data: electricB,
+							markPoint: {
+							data: [
+								{type: 'max', name: '最大值'},
+								]
+							}
                         },
                         {
                             name: 'C相电流',
                             type: 'line',
-                            data: electricC
+                            data: electricC,
+							markPoint: {
+							data: [
+								{type: 'max', name: '最大值'},
+								]
+							}
                         }
                         ]
                     };
@@ -478,22 +531,71 @@
                             data: time
                         },
                         yAxis: {
-                            type: 'value'
+                            type: 'value',
+                            //max: function (value) { return value.max },
+							//max: function (value) { return '300' },
+							max: function (value) { return value.max >= 264 ? value.max : 264 },
+							show:true,//不显示坐标轴线、坐标轴刻度线和坐标轴上的文字
+							axisTick:{
+								  show:true//不显示坐标轴刻度线
+							},
+							axisLine: {
+								  show: true,//不显示坐标轴线
+							},
+							axisLabel: {
+								  show: true,//不显示坐标轴上的文字
+							}
                         },
                         series: [{
                             name: 'A相电压',
                             type: 'line',
-                            data: voltageA
+                            data: voltageA,
+							markPoint: {
+							data: [
+								{type: 'max', name: '最大值'},
+								]
+							},
+							
+							markLine: {
+							symbol:"none", //表示没有箭头的直线
+							lineStyle:{
+							type:"dashed",
+							color:"green",
+						  },
+							data: [
+							{yAxis:'187',label: {position:'middle',formatter: '低压阀值:187V'}}
+							]
+							}
                         },
                         {
                             name: 'B相电压',
                             type: 'line',
-                            data: voltageB
+                            data: voltageB,
+							markPoint: {
+							data: [
+								{type: 'max', name: '最大值'},
+								]
+							},
+							markLine: {
+							symbol:"none", //表示没有箭头的直线
+							lineStyle:{
+							type:"dashed",
+							color:"red",
+						  },
+							data: [
+							{yAxis:'264',label: {position:'middle',formatter: '高压阀值:264V'}}
+							]
+							}
                         },
                         {
                             name: 'C相电压',
                             type: 'line',
-                            data: voltageC
+                            data: voltageC,
+							markPoint: {
+							data: [
+								{type: 'max', name: '最大值'},
+								]
+							},
                         }
                         ]
                     };
@@ -522,28 +624,70 @@
                             data: time
                         },
                         yAxis: {
-                            type: 'value'
+                            type: 'value',
+                            //max: function (value) { return value.max },
+							//max: function (value) { return '75' },
+							max: function (value) { return value.max >= 70 ? value.max : 70 },
+							show:true,//不显示坐标轴线、坐标轴刻度线和坐标轴上的文字
+							axisTick:{
+								  show:true//不显示坐标轴刻度线
+							},
+							axisLine: {
+								  show: true,//不显示坐标轴线
+							},
+							axisLabel: {
+								  show: true,//不显示坐标轴上的文字
+							}
                         },
+						
                         series: [{
                             name: 'A相温度',
                             type: 'line',
-                            data: temperatureA
+                            data: temperatureA,
+							markPoint: {
+							data: [
+								{type: 'max', name: '最大值'},
+								]
+							},
+							markLine: {
+							symbol:"none", //表示没有箭头的直线
+							lineStyle:{
+							type:"dashed",
+							color:"red",
+						  },
+							data: [
+							{yAxis:'70',label: {position:'middle',formatter: '温度阀值:70℃'}}
+							]
+							}
                         },
                         {
                             name: 'B相温度',
                             type: 'line',
-                            data: temperatureB
+                            data: temperatureB,
+							markPoint: {
+							data: [
+								{type: 'max', name: '最大值'},
+								]
+							}
                         },
                         {
                             name: 'C相温度',
                             type: 'line',
-                            data: temperatureC
+                            data: temperatureC,
+							markPoint: {
+							data: [
+								{type: 'max', name: '最大值'},
+								]
+							}
                         },
                         {
                             name: '环境温度',
                             type: 'line',
-                            data: temperatureE
-                        }
+                            data: temperatureE,
+							
+                        },
+						
+						
                         ]
                     };
                     //剩余电流
@@ -572,12 +716,39 @@
                         },
                         yAxis: {
                             type: 'value',
-                            max: function (value) { return value.max }
+                            max: function (value) 
+							{ return value.max >= 300 ? value.max : 300 },
+							show:true,//不显示坐标轴线、坐标轴刻度线和坐标轴上的文字
+							axisTick:{
+								  show:true//不显示坐标轴刻度线
+							},
+							axisLine: {
+								  show: true,//不显示坐标轴线
+							},
+							axisLabel: {
+								  show: true,//不显示坐标轴上的文字
+							}
                         },
                         series: [{
                             name: '剩余电流',
                             type: 'line',
-                            data: electricRA
+                            data: electricRA,
+							markPoint: {
+							data: [
+								{type: 'max', name: '最大值'},
+								]
+							},
+							markLine: {
+							symbol:"none", //表示没有箭头的直线
+							  //警示线的样式，虚实  颜色
+							  lineStyle:{
+								type:"dashed",
+								color:"red",
+							  },
+							data: [
+								{yAxis:'300',label: {position:'middle',formatter: '漏电阀值:300Ma'}}
+								]
+							}
                         }]
                     };
                     optionA && myChartA.setOption(optionA);
@@ -636,7 +807,7 @@
                         renderer: 'svg'
                     });
 
-                    //液位
+                    //水压
                     var optionP = {
                         tooltip: {
                             trigger: 'axis'
@@ -661,12 +832,39 @@
                             data: time
                         },
                         yAxis: {
-                            type: 'value'
+                            type: 'value',
+							//max: function (value) { return value.max },
+							max: function (value) { return value.max >= 1 ? value.max : 1 },
+							show:true,//不显示坐标轴线、坐标轴刻度线和坐标轴上的文字
+							axisTick:{
+								  show:true//不显示坐标轴刻度线
+							},
+							axisLine: {
+								  show: true,//不显示坐标轴线
+							},
+							axisLabel: {
+								  show: true,//不显示坐标轴上的文字
+							}
                         },
                         series: [{
                             name: '压力',
                             type: 'line',
-                            data: pressure
+                            data: pressure,
+							markPoint: {
+							data: [
+								{type: 'max', name: '最大值'},
+								]
+							},
+							markLine: {
+							symbol:"none", //表示没有箭头的直线
+							lineStyle:{
+							type:"dashed",
+							color:"red",
+						  },
+							data: [
+							{yAxis:'1',label: {position:'middle',formatter: '阀值:1Mpa'}}
+							]
+							}
                         }]
                     };
                     optionP && myChartP.setOption(optionP);
@@ -759,12 +957,40 @@
                             data: time
                         },
                         yAxis: {
-                            type: 'value'
+                            type: 'value',
+							//max: function (value) { return value.max },
+							max: function (value) { return '3.5' },
+							show:true,//不显示坐标轴线、坐标轴刻度线和坐标轴上的文字
+							axisTick:{
+								  show:true//不显示坐标轴刻度线
+							},
+							axisLine: {
+								  show: true,//不显示坐标轴线
+							},
+							axisLabel: {
+								  show: true,//不显示坐标轴上的文字
+							}
+							
                         },
                         series: [{
-                            name: '压力',
+                            name: '电池电压',
                             type: 'line',
-                            data: smokeDetector
+                            data: smokeDetector,
+							markPoint: {
+							data: [
+								{type: 'min', name: '最低电压'},
+								]
+							},
+							markLine: {
+							symbol:"none", //表示没有箭头的直线
+							lineStyle:{
+							type:"dashed",
+							color:"red",
+						  },
+							data: [
+							{yAxis:'2.8',label: {position:'middle',formatter: '电池低压阀值:2.8V'}}
+							]
+							}
                         }]
                     };
                     optionS && myChartS.setOption(optionS);
@@ -1334,7 +1560,7 @@
                                     type: 'value'
                                 },
                                 series: [{
-                                    name: '压力',
+                                    name: '电池电压',
                                     type: 'line',
                                     data: smokeDetector
                                 }]
@@ -1874,7 +2100,7 @@
                                     type: 'value'
                                 },
                                 series: [{
-                                    name: '压力',
+                                    name: '电池电压',
                                     type: 'line',
                                     data: smokeDetector
                                 }]
@@ -2333,7 +2559,8 @@
                                 series: [{
                                     name: '压力',
                                     type: 'line',
-                                    data: pressure
+                                    data: pressure,
+									
                                 }]
                             };
                             optionP && myChartP.setOption(optionP);
@@ -2412,7 +2639,7 @@
                                     type: 'value'
                                 },
                                 series: [{
-                                    name: '压力',
+                                    name: '电池电压',
                                     type: 'line',
                                     data: smokeDetector
                                 }]

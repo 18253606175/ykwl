@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./node_modules/layui.css">
+    <link rel="stylesheet" href="./css/unitInfoSetting.css">
+    <link rel="stylesheet" href="./css/table.css">
+
+</head>
+
+<body>
+    <!-- 设备列表 -->
+    <div class="Realtime-main layui-row">
+        <div class="Realtime-left layui-col-md2">
+            <div class="Realtime-left-bottom">
+                <ul class="layui-nav layui-nav-tree layui-inline" lay-filter="demo" style="margin-right: 10px;">
+                    <li class="layui-nav-item select-li layui-this" id="1"><a href="javaScript:;">基本信息</a></li>
+                    <li class="layui-nav-item select-li" id="2" index="1"><a href="javaScript:;">消防合法文书</a></li>
+                    <li class="layui-nav-item select-li" id="3" index="2"><a href="javaScript:;">消防平面图</a></li>
+                    <li class="layui-nav-item select-li" id="4" index="3"><a href="javaScript:;">消防预案</a></li>
+                    <li class="layui-nav-item select-li" id="5" index="4"><a href="javaScript:;">规章制度</a></li>
+                    <li class="layui-nav-item select-li" id="6" index="5"><a href="javaScript:;">消防培训</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="Realtime-right layui-col-md10">
+            <div class="iframeBox" style="height: 100%; ">
+                <iframe src="./basicInfo.html" frameborder="0"></iframe>
+            </div>
+            <div class="tableBox" style="display: none">
+                <div class="buttonBox">
+                    <button class="layui-btn button-add">新增</button>
+                </div>
+                <table id="home" lay-filter="tableTest"></table>
+            </div>
+        </div>
+        <div class="dialog" style="display: none;">
+
+        </div>
+    </div>
+
+
+    <script src="./node_modules/layui.js"></script>
+    <script type="module" src="./js/unitInfoSetting.js"></script>
+    <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-xs" lay-event="check">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+</body>
+
+
+</html>

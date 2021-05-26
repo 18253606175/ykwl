@@ -1,0 +1,37 @@
+body {
+    height: 100%;
+    width: 100%;
+    background-color: #1e2e3e;
+}
+.title {
+    height: 50px;
+    font-size: 30px;
+    text-align: center;
+    color: #fff;
+    border-bottom: 1px solid;
+    padding-top: 15px;
+    padding-bottom: 10px;
+}
+
+.layui-form {
+    display: flex;
+    flex-wrap: wrap;
+    padding-right: 15px;
+    padding-left: 20px;
+    .layui-form-item {
+        margin-top: 20px;
+        width: 45%;
+        label {
+            color: white;
+        }
+        .layui-btn-primary{
+            color: #fff;
+        }
+        input{
+            background-color: #b1b1b1;
+        }
+    }
+    .layui-form-item-line{
+        width: 90%;
+    }
+}

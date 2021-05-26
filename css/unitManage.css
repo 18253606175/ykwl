@@ -9,31 +9,32 @@ body {
   box-shadow: 0 2px 8px 0 #009688;
   border-radius: 5px;
   padding: 20px;
+  height: 95%;
 }
 
 .unitManage-main .unitManage-main-header {
-  height: 50px;
+  height: 30px;
 }
 
 .unitManage-main .unitManage-main-header .unitManage-main-header-title {
   font-weight: 600;
-  font-size: 22px;
+  font-size: 20px;
   color: #43b3bb;
-  line-height: 50px;
   display: inline-block;
+  margin-top: -7px;
 }
 
 .unitManage-main .unitManage-main-header .unitManage-main-header-add {
   display: inline-block;
   float: right;
-  line-height: 50px;
+  margin-top: -7px;
 }
 
 .unitManage-main .unitManage-main-header .faultHand-main-header-right-search {
   display: flex;
   position: absolute;
-  top: 35px;
-  left: 160px;
+  top: 0px;
+  left: 19%;
 }
 
 .unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-form {
@@ -117,31 +118,94 @@ body {
   color: #fff;
 }
 
-#pop-up-add .layui-form {
+#pop-up-add {
+  padding: 20px;
+}
+
+#pop-up-add > .layui-form {
   display: flex;
   flex-wrap: wrap;
 }
 
-#pop-up-add .layui-form .layui-form-item {
-  width: 480px;
+#pop-up-add > .layui-form > .layui-form-item {
+  width: 50%;
 }
 
-#pop-up-add .layui-form .layui-form-item .layui-form-label {
-  width: 112px;
+#pop-up-add > .layui-form > .layui-form-item > .layui-input-block > input {
+  width: 80%;
 }
 
-#pop-up-add .layui-form .layui-form-item .layui-input-block {
-  margin-left: 150px;
+#pop-up-add > .layui-form > .layui-form-item .layui-form-select {
+  width: 80%;
 }
 
-#pop-up-add .layui-form > .layui-form-item-submit {
-  position: absolute;
-  bottom: 0;
-  left: 270px;
+#pop-up-add > .layui-form > .layui-form-item-submit {
+  margin: 0 auto;
+  margin-top: 40px;
+  width: 100%;
 }
 
 #close-pop-up {
+  margin-left: 30px;
+}
+
+.layui-input-block .layui-tips {
+  color: red;
   position: absolute;
-  bottom: 16px;
-  left: 500px;
+  top: 10px;
+  right: 14%;
+}
+
+.Realtime-main {
+  height: 97%;
+}
+
+.Realtime-main .layui-col-md10 {
+  float: right;
+}
+
+.layui-col-md2 {
+  height: 95%;
+  margin-right: 20px;
+  width: 15%;
+  overflow: hidden;
+  background: #1e2e3e;
+  overflow-y: scroll;
+  box-shadow: 0 2px 8px 0 #009688;
+}
+
+.layui-col-md2 #zreeList .layui-tree-txt {
+  color: #a3c1b0;
+  font-size: 14px;
+}
+
+.layui-col-md2 #zreeList .layui-tree-entry:hover {
+  background-color: transparent;
+}
+
+.layui-col-md2 #zreeList .layui-tree-entry .layui-icon-file:before {
+  content: "";
+}
+
+.layui-col-md2::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background: transparent;
+}
+
+.layui-col-md2::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.layui-col-md2:hover::-webkit-scrollbar-thumb {
+  background: rgba(135, 135, 135, 0.4);
+}
+
+.layui-col-md2:hover::-webkit-scrollbar-track {
+  background: rgba(135, 135, 135, 0.1);
+}
+.layui-tree-icon .layui-icon {
+    font-size: 12px;
+    color: #ff5722;
 }

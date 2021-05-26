@@ -20,33 +20,9 @@ body {
   margin-left: 20px;
 }
 
-.Realtime-main .Realtime-left {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  margin-top: 20px;
-}
-
-.Realtime-main .Realtime-left #zreeList {
-  margin-top: 10px;
-  background-color: #1e2e3e;
-  height: 100%;
-}
-
-.Realtime-main .Realtime-left #zreeList .layui-tree-txt {
-  color: #a3c1b0;
-  font-size: 16px;
-}
-
-.Realtime-main .Realtime-left #zreeList .layui-tree-entry:hover {
-  background-color: transparent;
-}
-
 .Realtime-main .Realtime-right {
   padding: 20px 40px 20px 30px;
-  position: absolute;
   top: 0px;
-  left: 17%;
 }
 
 .Realtime-main .Realtime-right::-webkit-scrollbar {
@@ -94,7 +70,6 @@ body {
   height: 40px;
   background-color: #1c2536;
   display: flex;
-  justify-content: space-between;
   align-items: center;
 }
 
@@ -331,7 +306,7 @@ body {
 }
 
 .dialog > .layui-form > .layui-form-item {
-  width: 50%;
+  width: 100%;
 }
 
 .dialog > .layui-form > .layui-form-item > .layui-input-block > input {
@@ -378,4 +353,10 @@ input::-webkit-inner-spin-button {
 
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+.exportBtn {
+  position: absolute;
+  right: 48px;
+  top: 26px;
 }

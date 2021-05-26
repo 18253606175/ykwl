@@ -1,0 +1,80 @@
+html,
+body {
+  height: 100%;
+}
+.layui-row {
+  height: 100%;
+  .video-left {
+    height: 100%;
+    .Realtime-left {
+      display: flex;
+      flex-direction: column;
+      height: 90%;
+      margin-top: 20px;
+      margin-left: 20px;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      background-color: #1e2e3e;
+      box-shadow: 0 2px 8px 0 #009688;
+      border-radius: 5px;
+      &::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+        background: transparent;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: transparent;
+        border-radius: 4px;
+      }
+      &:hover {
+        &::-webkit-scrollbar-thumb {
+          background: rgba(135, 135, 135, 0.4);
+        }
+        &::-webkit-scrollbar-track {
+          background: rgba(135, 135, 135, 0.1);
+        }
+      }
+      #zreeList {
+        .layui-tree-txt {
+          color: #a3c1b0;
+          font-size: 16px;
+        }
+        .layui-tree-entry {
+          &:hover {
+            background-color: transparent;
+          }
+        }
+      }
+    }
+    .Realtime-left-bottom {
+      height: 100%;
+      .layui-nav {
+        height: 90%;
+        margin-right: 10px;
+        margin-left: 10px;
+        margin-top: 17px;
+        background-color: #192231;
+      }
+    }
+  }
+  .video-center {
+    margin-top: 20px;
+    #video {
+      margin: 20px;
+    }
+  }
+  .video-right {
+    margin-top: 20px;
+    height: 100%;
+  }
+}
+.layui-tree-iconClick {
+  .layui-icon {
+    font-size: 16px;
+  }
+}
+.layui-icon-file {
+  &:before {
+    content: "\e623";
+  }
+}

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./node_modules/layui.css">
+    <link rel="stylesheet" href="./css/basicInfo.css">
+</head>
+
+<body>
+
+</body>
+<script src="./node_modules/layui.js"></script>
+<script type="module">
+    import {
+        baseUrl
+    } from '../js/params.js'
+    layui.use(['element', 'layer', 'laydate','form'], function () {
+        var $ = layui.jquery
+        var laydate = layui.laydate;
+        var form = layui.form;
+        laydate.render({
+            elem: '#date'
+        });
+
+        function getData() {
+            $.ajax({
+                url: baseUrl + "/company/info?token=" + JSON.parse(localStorage.getItem('loginInfo')).token + "&companyId=" + JSON.parse(localStorage.getItem('loginInfo')).companyId,
+                async: false,
+                success: function (res) {
+                    const { rows } = res
+                    $('body').html(`
+                    <p class="title">${JSON.parse(localStorage.getItem('loginInfo')).companyName}</p>
+                    <form class="layui-form" action="">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">消防ID</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="comID" lay-verify="title" disabled autocomplete="off" placeholder="请输入标题"
+                                    class="layui-input" value=${rows.comID}>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">单位名称</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="companyName" lay-verify="title" autocomplete="off" placeholder="请输入标题"
+                                    class="layui-input" value=${rows.companyName}>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">单位等级</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="companyLevel" lay-verify="title" autocomplete="off" placeholder="请输入标题"
+                                    class="layui-input" disabled value=${function () {
+                                if (rows.companyLevel === 'admin') {
+                                    return `总管理`
+                                } else if (rows.companyLevel === 'agent') {
+                                    return `经销商`
+                                } else if (rows.companyLevel === 'user ') {
+                                    return `普通用户单位`
+                                }
+                            }()}>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">消防等级</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="fireConLevel" lay-verify="title" autocomplete="off" placeholder="请输入标题"
+                                    class="layui-input" value=${rows.fireConLevel}>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">单位性质</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="companyType" lay-verify="title" autocomplete="off" placeholder="请输入标题"
+                                    class="layui-input" value=${rows.companyType}>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">消防负责人</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="fireconperson" lay-verify="title" autocomplete="off" placeholder="请输入标题"
+                                    class="layui-input" value=${rows.fireconperson}>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">消防电话</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="alarmTel" lay-verify="title" autocomplete="off" placeholder="请输入标题"
+                                    class="layui-input" value=${rows.alarmTel}>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">经纬度</label>
+                            <div class="layui-input-block">
+                                <input type="text" id="areaCode" name="areasCode" lay-verify="title" autocomplete="off" placeholder="请输入标题"
+                                    class="layui-input" value=${rows.areasCode}>
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-form-item-line">
+                            <label class="layui-form-label">行政区域</label>
+                            <div class="layui-input-block">
+                                <input type="text" id="area" name="companyArea" lay-verify="title" autocomplete="off" placeholder="请输入标题"
+                                    class="layui-input" value=${rows.companyArea}>
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-form-item-line">
+                            <label class="layui-form-label">详细位置</label>
+                            <div class="layui-input-block">
+                                <input type="text" id="map" name="companyAddress" lay-verify="title" autocomplete="off" placeholder="请输入标题"
+                                    class="layui-input" value=${rows.companyAddress}>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button type="submit" class="layui-btn saveBtn" lay-submit lay-filter="update">保存</button>
+                                <button type="button" class="layui-btn layui-btn-primary refresBtn">重置</button>
+                            </div>
+                        </div>
+                    </form>
+                `)
+                    //百度地图
+                    $("#map").focus(function () {
+                        layer.open({
+                            id: "HomeForm",
+                            type: 2,
+                            title: '百度地图',
+                            shadeClose: true,
+                            shade: 0.8,
+                            area: ['50%', '70%'],
+                            content: '../map.html', //iframe的url
+                        });
+                    })
+                }
+            })
+        }
+
+        getData();
+
+        //保存
+        form.on('submit(update)', function (data) {
+            console.log(data)
+            
+            $.ajax({
+                url: baseUrl + "/company/update?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
+                data: JSON.stringify(data.field),
+                contentType: "json/application",
+                type: 'post',
+                dataType: "json",
+                success: function (res) {
+                    getData();
+                    if (res.code === 200) {
+                        layer.msg('保存成功', {
+                            icon: 1,
+                            closeBtn: 0,
+                            shade: 0.5,
+                            shadeClose: true,
+                            anim: 0, //动画类型
+                            time: 2000
+                        }, function () {
+                            layer.closeAll();
+                        });
+
+                    } else {
+                        layer.msg(res.msg, {
+                            icon: 1,
+                            closeBtn: 0,
+                            anim: 6, //动画类型
+                            time: 3000
+                        });
+                    }
+                }
+            })
+            return false;
+        });
+        //重置
+        $(".refresBtn").click(function () {
+            getData();
+        })
+    })
+
+
+</script>
+
+</html>

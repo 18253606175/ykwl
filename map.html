@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>地图单击拾取经纬度</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		body,
+		html,
+		#container {
+			overflow: hidden;
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			font-family: "微软雅黑";
+		}
+	</style>
+	<!-- <script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=k2r3HsXXDf0NNM6AgVifp2oDDO3seNTb&s=1"></script> -->
+	<!-- <script src="//api.map.baidu.com/api?type=webgl&v=3.0&ak=k2r3HsXXDf0NNM6AgVifp2oDDO3seNTb"></script> -->
+	<script type="text/javascript"
+		src="https://api.map.baidu.com/api?v=1.4&ak=k2r3HsXXDf0NNM6AgVifp2oDDO3seNTb"></script>
+	<script src="./js/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+	<div id="container"></div>
+</body>
+
+</html>
+<script src="./node_modules/layui.js"></script>
+<script>
+	layui.use(['element', 'layer'], function () {
+		var map = new BMap.Map('container');
+		var geolocation = new BMap.Geolocation();
+		var geoc = new BMap.Geocoder();
+		geolocation.getCurrentPosition(function (r) {
+			if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+				var mk = new BMap.Marker(r.point);
+				map.addOverlay(mk);
+				map.panTo(r.point);
+				map.enableScrollWheelZoom(true);
+			}
+			else {
+				// alert('failed' + this.getStatus());
+			}
+		}, { enableHighAccuracy: true })
+		map.centerAndZoom(new BMap.Point(119.109, 36.709), 15);
+		map.enableScrollWheelZoom(true);
+		map.addEventListener('click', function (e) {
+			geoc.getLocation(e.point, function (rs) {
+				var addComp = rs.addressComponents;
+				var address = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+				var title = addComp.province + addComp.city + addComp.district;
+				$("#map", window.parent.document).val(address);
+				$("#area", window.parent.document).val(title);
+				$("#areaCode", window.parent.document).val(rs.point.lng.toFixed(2) + ',' + rs.point.lat.toFixed(2));
+
+			});
+			var index = parent.layer.getFrameIndex("HomeForm"); //先得到当前iframe层的索引
+			if(index >= '1'){
+				parent.layer.close(index);
+			}
+			
+		});
+
+		function G(id) {
+			return document.getElementById(id);
+		}
+		// 定义一个控件类,即function
+		function ZoomControl() {
+			this.defaultAnchor = BMAP_ANCHOR_TOP_LEFT;
+			this.defaultOffset = new BMap.Size(10, 10);
+
+		}
+		// 通过JavaScript的prototype属性继承于BMap.Control
+		ZoomControl.prototype = new BMap.Control();
+
+		// 自定义控件必须实现自己的initialize方法,并且将控件的DOM元素返回
+		// 在本方法中创建个div元素作为控件的容器,并将其添加到地图容器中
+		ZoomControl.prototype.initialize = function (map) {
+			// 创建一个DOM元素
+			var div = document.createElement("div");
+			div.innerHTML = '<div id="r-result">搜索地址:<input type="text" id="suggestId" size="20" value="百度" style="width:150px;" /></div><div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>';
+
+			// 添加DOM元素到地图中
+			map.getContainer().appendChild(div);
+			// 将DOM元素返回
+			return div;
+		}
+
+		// 创建控件
+		var myZoomCtrl = new ZoomControl();
+		// 添加到地图当中
+		map.addControl(myZoomCtrl);
+
+
+		var ac = new BMap.Autocomplete( //建立一个自动完成的对象
+			{
+				"input": "suggestId"
+				, "location": map
+			});
+
+		ac.addEventListener("onhighlight", function (e) { //鼠标放在下拉列表上的事件
+			var str = "";
+			var _value = e.fromitem.value;
+			var value = "";
+			if (e.fromitem.index > -1) {
+				value = _value.province + _value.city + _value.district + _value.street + _value.business;
+			}
+			str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+
+			value = "";
+			if (e.toitem.index > -1) {
+				_value = e.toitem.value;
+				value = _value.province + _value.city + _value.district + _value.street + _value.business;
+			}
+			str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+			G("searchResultPanel").innerHTML = str;
+		});
+
+		var myValue;
+		ac.addEventListener("onconfirm", function (e) { //鼠标点击下拉列表后的事件
+			var _value = e.item.value;
+			myValue = _value.province + _value.city + _value.district + _value.street + _value.business;
+			G("searchResultPanel").innerHTML = "onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+
+			setPlace();
+		});
+
+		function setPlace() {
+			map.clearOverlays(); //清除地图上所有覆盖物
+			function myFun() {
+				var pp = local.getResults().getPoi(0).point; //获取第一个智能搜索的结果
+				map.centerAndZoom(pp, 14);
+				map.addOverlay(new BMap.Marker(pp)); //添加标注
+			}
+			var local = new BMap.LocalSearch(map, { //智能搜索
+				onSearchComplete: myFun
+			});
+			local.search(myValue);
+		}
+	})
+</script>

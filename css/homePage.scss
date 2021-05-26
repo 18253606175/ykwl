@@ -1,99 +1,109 @@
 html {
-    overflow-y: hidden !important;
+  overflow-y: hidden !important;
+}
+.layui-layout-body {
+  background-color: transparent;
+  overflow: hidden;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAP0lEQVQImZ3LsRGAQAwDwTtDE6R08P3XhkWKP+QyzY687pX0AxZVxbczaZKgTYeJ1gGAFu5PlSAqOnGurf/4AsrpDpHqPjDnAAAAAElFTkSuQmCC);
+}
+#quanping {
+  margin-top: 4px;
+  margin-right: 15px;
+}
+#quanping-icon {
+  font-size: 20px !important;
+  cursor: pointer;
+}
+#warn {
+  & > div {
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    border-radius: 50%;
+    position: absolute;
+    right: -6px;
+    top: 10px;
   }
-  .layui-layout-body {
-    background-color: transparent;
-    overflow: hidden;
-    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAP0lEQVQImZ3LsRGAQAwDwTtDE6R08P3XhkWKP+QyzY687pX0AxZVxbczaZKgTYeJ1gGAFu5PlSAqOnGurf/4AsrpDpHqPjDnAAAAAElFTkSuQmCC);
+  .iconfont {
+    font-size: 30px;
   }
-  #warn {
-    & > div {
-      width: 20px;
-      height: 20px;
-      background-color: red;
-      border-radius: 50%;
-      position: absolute;
-      right: -6px;
-      top: 10px;
+}
+.layui-logo {
+  img {
+    width: 180px;
+    height: 60px;
+  }
+}
+.layui-nav-tree {
+  .layui-nav-child {
+    a {
+      text-decoration: none;
     }
   }
-  .layui-logo {
-    img {
-      width: 180px;
-      height: 60px;
+  .layui-nav-item {
+    a {
+      text-decoration: none;
     }
   }
-  .layui-nav-tree {
-    .layui-nav-child {
-      a {
-        text-decoration: none;
-      }
-    }
-    .layui-nav-item {
-      a {
-        text-decoration: none;
-      }
-    }
-  }
-  .layui-nav-item-title {
-    position: relative;
-    top: 14px;
-    left: 0px;
-    font-size: 22px;
-  }
-  .layui-nav {
-    .layui-nav-item {
-      a {
-        text-decoration: none;
-      }
+}
+.layui-nav-item-title {
+  position: relative;
+  top: 14px;
+  left: 0px;
+  font-size: 22px;
+}
+.layui-nav {
+  .layui-nav-item {
+    a {
+      text-decoration: none;
     }
   }
-  .layui-nav-item-range {
-    width: 30px;
-  }
-  .layui-layout-admin {
-    .layui-body {
-      bottom: 0;
-      top: 50px;
-      height: 100%;
-      padding-bottom: 0;
-    }
-  }
+}
+.layui-nav-item-range {
+  width: 30px;
+}
+.layui-layout-admin {
   .layui-body {
-    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAP0lEQVQImZ3LsRGAQAwDwTtDE6R08P3XhkWKP+QyzY687pX0AxZVxbczaZKgTYeJ1gGAFu5PlSAqOnGurf/4AsrpDpHqPjDnAAAAAElFTkSuQmCC);
-    background-color: #1b2535;
-    overflow-y: hidden;
-    .layui-tab {
-      height: 91%;
-      .layui-tab-content {
+    bottom: 0;
+    top: 50px;
+    height: 100%;
+    padding-bottom: 0;
+  }
+}
+.layui-body {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAP0lEQVQImZ3LsRGAQAwDwTtDE6R08P3XhkWKP+QyzY687pX0AxZVxbczaZKgTYeJ1gGAFu5PlSAqOnGurf/4AsrpDpHqPjDnAAAAAElFTkSuQmCC);
+  background-color: #1b2535;
+  overflow-y: hidden;
+  .layui-tab {
+    height: 91%;
+    .layui-tab-content {
+      height: 100%;
+      padding: 0;
+      .layui-tab-item {
         height: 100%;
-        padding: 0;
-        .layui-tab-item {
-          height: 100%;
-          & > div {
-            display: none;
-            &.current {
-              display: block;
-              height: 100%;
-            }
+        & > div {
+          display: none;
+          &.current {
+            display: block;
+            height: 100%;
           }
         }
       }
     }
-    .layui-tab-title {
-      border-bottom: 1px solid rgba(67, 101, 137, 0.3);
-      box-shadow: 0 1px 3px 2px #231933;
-      .layui-this {
-        color: white;
-        &:after {
-          border: 1px solid rgba(67, 101, 137, 0.3);
-          border-radius: 8px 8px 0 0;
-        }
+  }
+  .layui-tab-title {
+    border-bottom: 1px solid rgba(67, 101, 137, 0.3);
+    box-shadow: 0 1px 3px 2px #231933;
+    .layui-this {
+      color: white;
+      &:after {
+        border: 1px solid rgba(67, 101, 137, 0.3);
+        border-radius: 8px 8px 0 0;
       }
     }
   }
-  .current {
-    display: block;
-    height: 100%;
-  }
-  
+}
+.current {
+  display: block;
+  height: 100%;
+}

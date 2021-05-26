@@ -5,31 +5,81 @@ body {
 }
 
 .manage-main {
-  height: 94%;
+  height: 100%;
   padding: 20px;
   padding-top: 0;
 }
 
+.manage-main .main-content {
+  background-color: #1e2e3e;
+  margin-top: 20px;
+  box-shadow: 0 2px 8px 0 #009688;
+  border-radius: 5px;
+  height: 92%;
+}
+
+.manage-main .layui-border-green {
+  border-color: #009688 !important;
+  color: #009688 !important;
+  width: 98%;
+  margin: 10px auto;
+}
+
 .manage-main section .layui-tab-content {
   text-align: right;
-  height: 54px;
+  height: 10px;
+}
+
+.manage-main section .layui-tab-content .wisdom-electricity-bottom-top-classify {
+  align-items: center;
+  border: 1px solid #3d4959;
+  height: 30px;
+  display: flex;
+  width: 140px;
+  justify-content: space-between;
+  margin-left: 10px;
+  margin-top: -5px;
+}
+
+.manage-main section .layui-tab-content .wisdom-electricity-bottom-top-classify > p {
+  display: inline-block;
+  cursor: pointer;
+  width: 65px;
+  height: 30px;
+  display: flex;
+  color: #555;
+  align-items: center;
+  padding-left: 4px;
+}
+
+.manage-main section .layui-tab-content .wisdom-electricity-bottom-top-classify > p > span {
+  border-radius: 50%;
+  background: chocolate;
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 10px;
 }
 
 .manage-main section .layui-tab-content .layui-btn-group {
   position: relative;
-  top: -40px;
+  top: -8px;
+  right: 20px;
 }
 
 .manage-main section .layui-tab-content .layui-disabled {
   text-align: center;
 }
 
+.manage-main section .layui-tab-content .classifyStyle {
+  border: 1px solid #5f949a;
+}
+
 .manage-main section .layui-tab-content .faultHand-main-header-right-search {
   display: flex;
-  display: flex;
-  position: inherit;
-  top: 24px;
-  left: 90px;
+  position: absolute;
+  top: 18px;
+  left: 310px;
 }
 
 .manage-main section .layui-tab-content .faultHand-main-header-right-search .layui-form {
@@ -40,6 +90,29 @@ body {
   background-color: #3d4959;
   border: none;
   color: #fff;
+}
+
+.manage-main section .layui-tab-content .faultHand-main-header-right-search .layui-form .layui-form-selected dl::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background: transparent;
+}
+
+.manage-main section .layui-tab-content .faultHand-main-header-right-search .layui-form .layui-form-selected dl::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.manage-main section .layui-tab-content .faultHand-main-header-right-search .layui-form .layui-form-selected dl:hover::-webkit-scrollbar-thumb {
+  background: rgba(135, 135, 135, 0.4);
+}
+
+.manage-main section .layui-tab-content .faultHand-main-header-right-search .layui-form .layui-form-selected dl:hover::-webkit-scrollbar-track {
+  background: rgba(135, 135, 135, 0.1);
+}
+
+.manage-main section .layui-tab-content .faultHand-main-header-right-search .layui-form .layui-form-selected dl dd {
+  text-align: left;
 }
 
 .manage-main section .layui-tab-content .faultHand-main-header-right-search .layui-form .layui-form-select dl dd.layui-this {
@@ -80,52 +153,59 @@ body {
   border: none;
 }
 
-.manage-main > div {
+.manage-main > div > div {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   overflow-y: scroll;
-  height: 91%;
+  height: 90%;
+  padding: 5px 15px 10px 15px;
 }
 
-.manage-main > div::-webkit-scrollbar {
+.manage-main > div > div::-webkit-scrollbar {
   width: 6px;
   height: 6px;
   background: transparent;
 }
 
-.manage-main > div::-webkit-scrollbar-thumb {
+.manage-main > div > div::-webkit-scrollbar-thumb {
   background: transparent;
   border-radius: 4px;
 }
 
-.manage-main > div:hover::-webkit-scrollbar-thumb {
+.manage-main > div > div:hover::-webkit-scrollbar-thumb {
   background: rgba(135, 135, 135, 0.4);
 }
 
-.manage-main > div:hover::-webkit-scrollbar-track {
+.manage-main > div > div:hover::-webkit-scrollbar-track {
   background: rgba(135, 135, 135, 0.1);
 }
 
-.manage-main > div > div {
-  width: 280px;
+.manage-main > div > div > div {
+  width: 300px;
   margin: 0 0 20px 0;
   height: 135px;
   display: inline-block;
-  border: 1px solid #28374a;
+  border: 1px solid #009688;
   position: relative;
   background: #353f4b;
+  box-shadow: 0 0px 8px 0 #009688;
 }
 
-.manage-main > div > div section {
+.manage-main > div > div > div:hover {
+  border: 1px solid #d81e06;
+}
+
+.manage-main > div > div > div section {
   position: absolute;
   top: 105px;
-  color: #97c9e9;
+  color: #d2bf90;
   width: 45%;
+  font-weight: 800;
   text-align: center;
 }
 
-.manage-main > div > div div {
+.manage-main > div > div > div div {
   position: absolute;
   width: 100px;
   height: 100px;
@@ -136,7 +216,7 @@ body {
   margin-right: 2px;
 }
 
-.manage-main > div > div > aside {
+.manage-main > div > div > div > aside {
   color: #97c9e9;
   height: 100%;
   display: flex;
@@ -146,13 +226,13 @@ body {
   left: 45%;
 }
 
-.manage-main > div > div > aside article {
+.manage-main > div > div > div > aside article {
   position: absolute;
   top: 0;
   right: 0;
 }
 
-.manage-main > div > div > aside p {
+.manage-main > div > div > div > aside p {
   margin-bottom: 5px;
 }
 
@@ -161,7 +241,7 @@ body {
 .manage-main section .layui-tab-content .faultHand-main-header-right-search .layui-select {
   margin-top: 14px;
   height: 30px;
-  background: #1f2c3c;
+  background: #393d49;
   border: none;
   color: #fff;
 }
@@ -174,10 +254,30 @@ body {
 .Realtime-main .Realtime-left {
   display: flex;
   flex-direction: column;
-  height: 88%;
+  height: 90%;
   margin-top: 20px;
   overflow-y: scroll;
   overflow-x: hidden;
+  background-color: #1e2e3e;
+  box-shadow: 0 2px 8px 0 #009688;
+  border-radius: 5px;
+}
+
+.Realtime-main .Realtime-left .title {
+  border-bottom: 1px solid #eee;
+}
+
+.Realtime-main .Realtime-left .title .titleList {
+  color: #eee;
+  text-align: center;
+  font-size: 20px;
+}
+
+.Realtime-main .Realtime-left .title .count {
+  text-align: center;
+  color: #eee;
+  margin-top: 18px;
+  margin-bottom: 10px;
 }
 
 .Realtime-main .Realtime-left::-webkit-scrollbar {
@@ -199,25 +299,17 @@ body {
   background: rgba(135, 135, 135, 0.1);
 }
 
-.Realtime-main .Realtime-left #zreeList {
-  background-color: #1e2e3e;
-  height: 100%;
-}
-
 .Realtime-main .Realtime-left #zreeList .layui-tree-txt {
   color: #a3c1b0;
   font-size: 16px;
-}
-
-.Realtime-main .Realtime-left #zreeList .layui-tree {
-  background-color: #1e2e3e;
 }
 
 .Realtime-main .Realtime-left #zreeList .layui-tree-entry:hover {
   background-color: transparent;
 }
 
-.Realtime-main .layui-nav .layui-badge, .Realtime-main .layui-nav .layui-badge-dot {
+.Realtime-main .layui-nav .layui-badge,
+.Realtime-main .layui-nav .layui-badge-dot {
   top: 50%;
   right: 10px;
   width: 25px;

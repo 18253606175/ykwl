@@ -1,0 +1,156 @@
+html,
+body {
+  height: 97%;
+  padding: 10px;
+}
+
+.unitManage-main {
+  background-color: #1c2536;
+  box-shadow: 0 2px 8px 0 #009688;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.unitManage-main .unitManage-main-header {
+  height: 50px;
+}
+
+.unitManage-main .unitManage-main-header .unitManage-main-header-title {
+  font-weight: 600;
+  font-size: 22px;
+  color: #43b3bb;
+  line-height: 50px;
+  display: inline-block;
+}
+
+.unitManage-main .unitManage-main-header .unitManage-main-header-add {
+  display: inline-block;
+  float: right;
+  line-height: 50px;
+}
+
+.unitManage-main .unitManage-main-header .faultHand-main-header-right-search {
+  display: flex;
+  position: absolute;
+  top: 35px;
+  left: 160px;
+}
+
+.unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-form {
+  margin-right: 50px;
+}
+
+.unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-form .layui-form-selected dl {
+  background-color: #3d4959;
+  border: none;
+  color: #fff;
+}
+
+.unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-form .layui-form-selected dl::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background: transparent;
+}
+
+.unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-form .layui-form-selected dl::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-form .layui-form-selected dl:hover::-webkit-scrollbar-thumb {
+  background: rgba(135, 135, 135, 0.4);
+}
+
+.unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-form .layui-form-selected dl:hover::-webkit-scrollbar-track {
+  background: rgba(135, 135, 135, 0.1);
+}
+
+.unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-form .layui-form-select dl dd.layui-this {
+  background-color: #5f949a;
+}
+
+.unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-form .layui-form-select dl dd:hover {
+  background-color: #5f949a;
+}
+
+.unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-form .layui-form-label {
+  padding: 0;
+  padding-top: 20px;
+  padding-right: 20px;
+  color: #fff;
+  text-align: center;
+}
+
+.unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-form .layui-input-inline {
+  display: flex;
+}
+
+.unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-form .layui-input-inline .layui-edge {
+  top: 69%;
+}
+
+.unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-form .layui-input-inline .layui-btn-primary {
+  border: none;
+}
+
+.unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-form .layui-input-inline .layui-btn {
+  height: 30px;
+  line-height: 30px;
+  margin-top: 14px;
+  width: 30px;
+  padding: 0px 4px;
+  background: #1f2c3c;
+  border: none;
+}
+
+.unitManage-main .unitManage-main-content {
+  height: 97%;
+}
+
+.unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-input,
+.unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-textarea,
+.unitManage-main .unitManage-main-header .faultHand-main-header-right-search .layui-select {
+  margin-top: 14px;
+  height: 30px;
+  background: #1f2c3c;
+  border: none;
+  color: #fff;
+}
+
+#pop-up-add {
+  padding: 20px;
+}
+
+#pop-up-add > .layui-form {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#pop-up-add > .layui-form > .layui-form-item {
+  width: 50%;
+}
+
+#pop-up-add > .layui-form > .layui-form-item > .layui-input-block > input {
+  width: 80%;
+}
+
+#pop-up-add > .layui-form > .layui-form-item .layui-form-select {
+  width: 80%;
+}
+
+#pop-up-add > .layui-form > .layui-form-item-submit {
+  margin: 0 auto;
+  margin-top: 40px;
+  width: 100%;
+}
+
+#close-pop-up {
+  margin-left: 30px;
+}
+
+.layui-input-block .layui-tips {
+  color: red;
+  position: absolute;
+  top: 10px;
+  right: 14%;
+}

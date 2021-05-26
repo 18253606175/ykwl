@@ -223,21 +223,25 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                 })
                 }
             });
-        } else if(obj.event === 'setSign'){
-            layer.prompt({
-              formType: 2
-              ,title: `${data.alarmMessage}的处理建议`
-              ,value: data.sign
-            }, function(value, index){
-              layer.close(index);
-              
-              //这里一般是发送修改的Ajax请求
-              
-              //同步更新表格和缓存对应的值
-              obj.update({
-                sign: value
-              });
+        } else if(obj.event === 'check'){
+            layer.alert("见到你很高兴", {
+                icon: 6,
+                title: `${data.alarmMessage}的处理建议`
             });
+            // layer.prompt({
+            //   formType: 2
+            //   ,title: `${data.alarmMessage}的处理建议`
+            //   ,value: data.sign
+            // }, function(value, index){
+            //   layer.close(index);
+              
+            //   //这里一般是发送修改的Ajax请求
+              
+            //   //同步更新表格和缓存对应的值
+            //   obj.update({
+            //     sign: value
+            //   });
+            // });
           }
     });
 
@@ -337,6 +341,12 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                 },
                 {
                     fixed: 'right',
+                    title: '处理建议',
+                    align: "center",
+                    toolbar: '#look'
+                },
+                {
+                    fixed: 'right',
                     title: '操作',
                     align: "center",
                     toolbar: '#barDemo'
@@ -344,7 +354,25 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
             ]
         ]
     });
-
+table.on('rowDouble(tableTest)',function(obj){
+        let data = obj.data;
+            layer.open({
+                type: 2,
+                id: "iframe",
+                skin: 'layui-layer-yingke',
+                title: false,
+                closeBtn: 0, //不显示关闭按钮
+                title: '设备详情',
+                shade: [0],
+                scrollbar: true,
+                closeBtn: 1,
+				offset:50,
+                area: ['70%', '81%'],
+                shadeClose: true,
+                anim: 0,
+                content: [`../demo.html?id=${data.ykDeviceId}`, 'no'], //iframe的url，no代表不显示滚动条
+            });
+    })
      //左侧分类
      $.ajax({
         url :baseUrl + '/alarm/alarmnumgroupbytype?token=' + JSON.parse(localStorage.getItem('loginInfo')).token,

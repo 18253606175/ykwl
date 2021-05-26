@@ -15,23 +15,18 @@
             <div class="layoutCon" style="width: 65%; margin: 0 auto;padding: 30px">
 
                 <!-- ----------第一页----------- -->
-                <br/>
-                <br/>
-                <br/>
-                <br/>
+                
                 <p style="font-size: 32px; font-family: '华文楷体'; text-align: center;"></p>
                 <br/>
-                <br/>
-                <br/>
+				<br/>
                 <br/>
                 <p style="font-size: 40px; font-family: '华文楷体'; text-align: center;">潍坊市社会消防安全服务系统</p>
+				<br/>
+                
+				<p style="font-size: 44px; font-family: '华文楷体'; text-align: center;">设备运行情况报告</p>
                 <br/>
                 <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
+				<br/>
                 <span style="display: none" id="display-p">{{RepostType1}}</span>
                 <p style="font-size: 24px; font-family: '华文楷体'; text-align: center;"><span>项目名称 ：</span><span
                         id="project-name">{{CompanySite}}</span></p>
@@ -40,8 +35,10 @@
                 <p style="font-size: 24px; font-family: '华文楷体'; text-align: center;"><span>出具单位 ：</span><span
                         id="project-company">山东英科物联网技术有限公司</span></p>
 
-
-                <br style="page-break-before:always"></br>
+				<p style="font-size: 44px; font-family: '华文楷体'; text-align: center;"></p>
+				<br/>
+                <br/>
+				<span style="font-size: 13.5000pt;"><br clear=all style="page-break-before:always"></span>
                 <p style="font-size: 21.3px; font-family: '华文楷体'; font-weight: bold; text-align: center;">
                     英科物联运维管理平台设备运行情况报告</p>
 
@@ -63,33 +60,35 @@
                         <td>安装终端设备列表</td>
                         <td>
                             <p>
-                                <span v-if="HaveMeter==1"
-                                      style="font-family:'Wingdings 2';font-size:12.0000pt; mso-font-kerning:0.0000pt;">R</span>
+                                <!-- <span v-if="HaveMeter==1" -->
+                                      <!-- style="font-family:Wingdings;font-size:13.5000pt;mso-font-kerning:0.0000pt;" >&#254;</span> -->
+								<span v-if="HaveMeter==1"
+										style="font-family:Wingdings;font-size:13.5000pt;mso-font-kerning:0.0000pt;" >&#254;</span>	  
                                 <span v-if="HaveMeter==0"
-                                      style="font-family:'Wingdings 2';font-size:12.0000pt; mso-font-kerning:0.0000pt;">&#163;</span>
+                                      style="font-family:Wingdings;font-size:13.5000pt;mso-font-kerning:0.0000pt;" >&#168;</span>	
                                 智慧用电监测系统
                                 <span v-if="HaveWater==1"
-                                      style="font-family:'Wingdings 2';font-size:12.0000pt; mso-font-kerning:0.0000pt;">R</span>
+                                      style="font-family:Wingdings;font-size:13.5000pt;mso-font-kerning:0.0000pt;" >&#254;</span>
                                 <span v-if="HaveWater==0"
-                                      style="font-family:'Wingdings 2';font-size:12.0000pt; mso-font-kerning:0.0000pt;">&#163;</span>
+                                      style="font-family:Wingdings;font-size:13.5000pt;mso-font-kerning:0.0000pt;" >&#168;</span>
                                 消防用水监测系统
                             </p>
                             <p>
                                 <span v-if="HaveWater==1"
-                                      style="font-family:'Wingdings 2';font-size:12.0000pt; mso-font-kerning:0.0000pt;">R</span>
+                                      style="font-family:Wingdings;font-size:13.5000pt;mso-font-kerning:0.0000pt;" >&#254;</span>
                                 <span v-if="HaveWater==0"
-                                      style="font-family:'Wingdings 2';font-size:12.0000pt; mso-font-kerning:0.0000pt;">&#163;</span>
+                                      style="font-family:Wingdings;font-size:13.5000pt;mso-font-kerning:0.0000pt;" >&#168;</span>
                                 隐患视频识别系统
                                 <span v-if="HaveXuncha==1"
-                                      style="font-family:'Wingdings 2';font-size:12.0000pt; mso-font-kerning:0.0000pt;">R</span>
+                                      style="font-family:Wingdings;font-size:13.5000pt;mso-font-kerning:0.0000pt;" >&#254;</span>
                                 <span v-if="HaveXuncha==0"
-                                      style="font-family:'Wingdings 2';font-size:12.0000pt; mso-font-kerning:0.0000pt;">&#163;</span>
+                                      style="font-family:Wingdings;font-size:13.5000pt;mso-font-kerning:0.0000pt;" >&#168;</span>
                                 安全隐患巡查系统
                             </p>
                             <span v-if="HaveSmoke==1"
-                                  style="font-family:'Wingdings 2';font-size:12.0000pt; mso-font-kerning:0.0000pt;">R</span>
+                                  style="font-family:Wingdings;font-size:13.5000pt;mso-font-kerning:0.0000pt;" >&#254;</span>
                             <span v-if="HaveSmoke==0"
-                                  style="font-family:'Wingdings 2';font-size:12.0000pt; mso-font-kerning:0.0000pt;">&#163;</span>
+                                  style="font-family:Wingdings;font-size:13.5000pt;mso-font-kerning:0.0000pt;" >&#168;</span>
                             智慧型独立烟感系统
                         </td>
                     </tr>
@@ -215,9 +214,15 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
+                    <tr v-for="item in dwlist" style="line-height: 20px;">
+                        <td>{{item.serviceTime}}</td>
+                        <td>{{item.serviceContent}}</td>
+                        <td>{{item.remark}}</td>
+                    </tr>
+
+                    <!-- <tr style="line-height: 20px;">
                         <td></td>
-                        <td>（上门检修、参与火灾处置等）</td>
+                        <td></td>
                         <td></td>
                     </tr>
 
@@ -225,13 +230,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                    </tr>
-
-                    <tr style="line-height: 20px;">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                    </tr> -->
                     </tbody>
                 </table>
             </div>

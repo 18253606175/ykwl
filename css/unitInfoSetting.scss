@@ -1,0 +1,128 @@
+.layui-body {
+  .layui-tab {
+    height: 100%;
+  }
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+.layui-form {
+  .layui-form-item {
+    .layui-icon {
+      color: #fff;
+
+      &:hover {
+        color: #c2c2c2;
+      }
+    }
+  }
+}
+
+.wisdom-electricity-bottom-top-add {
+  margin-left: 50px;
+}
+
+.button-add {
+  height: 30px;
+  line-height: 30px;
+  margin-top: 3px;
+}
+
+.Realtime-main {
+  height: 100%;
+  margin-left: 20px;
+
+  .Realtime-left {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin-top: 20px;
+
+    .Realtime-left-top {
+      height: 200px;
+      background: #1e2e3e;
+      padding-left: 10px;
+      padding-right: 10px;
+      border-bottom: 2px solid #18b1b6;
+      box-shadow: 0 2px 8px 0 #009688;
+
+      .Realtime-left-top-title {
+        color: #18b1b6;
+        font-weight: 600;
+        font-size: 16px;
+        letter-spacing: .015em;
+        margin: 20px 0;
+        text-align: center;
+      }
+
+      .Realtime-left-top-content {
+        margin-bottom: 20px;
+        color: rgba(97, 125, 131, 0.5);
+      }
+
+      .Realtime-left-top-bottom {
+        div {
+          margin-bottom: 20px;
+
+          &>p {
+            display: inline;
+          }
+
+          .first {
+            margin-right: 30px;
+          }
+
+          span {
+            border-radius: 50%;
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+          }
+        }
+      }
+    }
+
+    .Realtime-left-bottom {
+      flex: 1;
+      box-shadow: 0 2px 8px 0 #009688;
+
+      .layui-nav {
+        background-color: #1e2e3e;
+        width: 100%;
+        height: 100%;
+        padding-top: 10px;
+      }
+    }
+  }
+
+  .Realtime-right {
+    height: 100%;
+    padding-top: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    iframe {
+      height: 100%;
+      width: 100%;
+    }
+    .buttonBox {
+      text-align: right;
+    }
+  }
+}
+
+.layui-form {
+  padding-top: 15px;
+  .layui-form-item{
+    width: 74%;
+  }
+  .layui-form-item-submit{
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+  }
+}

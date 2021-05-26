@@ -1,0 +1,37 @@
+
+ <!DOCTYPE html>
+ <html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+      <title>天气</title>
+      <script src="./js/jquery-3.6.0.min.js" type="text/javascript"></script>
+      <script type="text/javascript">
+          $(function () {
+              $.ajax({
+                 url: "http://api.k780.com:88/?app=weather.today&weaid=1&appkey=10003&sign=b59bc3ef6191eb9f747dd4e83c99f2a4&format=json&jsoncallback=?",
+                 dataType: "jsonp",
+                 type:"Post",
+                 jsonpCallback: "jsonpCallback",
+                 success: function (data) {
+                     var $ul = $("<ul></ul>");
+                     $.each(data, function (i, v) {
+                         if (i=="success") {
+                           
+                         } else {
+                             $("#dvWeather").html("weaid:" + v.weaid + "<br/>" + "days:" + v.days + "<br/>" + "week:" + v.week + "<br/>" + "cityno:" + v.cityno + "<br/>" + "citynm:" + v.citynm + "<br/>" + "cityid:" + v.cityid + "<br/>" + "temperature:" + v.temperature + "<br/>" + "humidity:" + v.humidity + "<br/>" + "weather:" + "<br/>" + "weather_icon:" + "<img src='" + v.weather_icon + "'></img>" + "<br/>" + "weather_icon1:" + "<img src='" + v.weather_icon1 + "'></img><br/>" + "wind:" + v.wind + "<br/>" + "winp:" + v.winp + "<br/>" + "temp_high:" + v.temp_high + "<br/>temp_low:" + v.temp_low + "<br/>humi_high:" + v.humi_high + "<br/>humi_low:" + v.humi_low + "<br/>weatid:" + v.weatid + "<br/>weatid1" + v.weatid1 + "<br/>windid:" + v.windid + "<br/>winpid:" + v.winpid);
+                         }
+                        
+                     });
+                 },
+                 error: function (responseText, textStatus, XMLHttpRequest) {
+                     alert(textStatus);
+                 }
+             });
+         });
+       
+     </script>
+ </head>
+ <body>
+     <div id="dvWeather"></div>
+ </body>
+ </html>
