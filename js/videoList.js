@@ -16,24 +16,40 @@ layui.use(['element', 'layer', 'table',  'laydate', 'tree'], function () {
         url: baseUrl + '/company/listbydevicedmalltype?token=' + JSON.parse(localStorage.getItem("loginInfo")).token,
         async: false,
         success: function (res) {
-            treeData = res.rows.map(item => {
-                return {
-                    title: item.companyName,
-                    id: item.id,
-                    spread: true,
-                    children: item.videoUrlVOS.map(i => {
-                        return {
-                            title: i.location,
-                            id: i.id,
-                            url: i.flvUrl,
-                            spread: true
-                        }
-                    })
-                }
-            })
+            if(res.code === 20001){
+                layer.alert('登录已过期请重新登陆', {
+                    skin: 'layui-layer-yingke' //样式类名
+                    ,closeBtn: 0
+                    }, function(){
+                        parent.location.href = './index.html'
+                    });
+            } 
+            else if(res.code === 200){
+                treeData = res.rows.map(item => {
+                    return {
+                        title: item.companyName,
+                        id: item.id,
+                        spread: true,
+                        children: item.videoUrlVOS.map(i => {
+                            return {
+                                title: i.location,
+                                id: i.id,
+                                url: i.flvUrl,
+                                spread: true
+                            }
+                        })
+                    }
+                })
+            }else {
+                layer.msg(res.msg, {
+                    icon: 2,
+                    closeBtn: 0,
+                    anim: 6, //动画类型
+                    time: 3000
+                });
+            }
         }
     })
-    console.log(treeData)
     var videourl = null;
     var title = null;
     $("#video2").html(`

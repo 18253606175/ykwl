@@ -18,23 +18,12 @@
             <div class="layui-tab-content">
                 <div class="faultHand-main-header-right-search">
                     <form class="layui-form" action="">
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">单行输入框</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="searchInfo" lay-verify="required" placeholder="请输入"
-                                    autocomplete="off" class="layui-input">
-                                <button type="submit" lay-filter="submitBtn" lay-submit=""
-                                    class="layui-btn layui-btn-primary">
-                                    <i class="layui-icon">&#xe615;</i>
-                                </button>
-                            </div>
-                        </div>
                     </form>
-                    <form class="layui-form" action="">
+                    <form class="layui-form" style="visibility:hidden" action="">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">单行输入框</label>
+                            <label class="layui-form-label">单位搜索</label>
                             <div class="layui-input-inline">
-                                <select class="layui-input-inline-select" name="selectDou" lay-verify="required"
+                                <select class="layui-input-inline-select" name="submitDoubleBtn" lay-verify="required"
                                     lay-search="">
 
                                 </select>
@@ -47,7 +36,7 @@
                     </form>
                 </div>
                 <div class="layui-btn-group demoTable">
-                    <button class="layui-btn button-add" data-type="getCheckData">添加</button>
+                    <button style="visibility:hidden" class="layui-btn button-add" data-type="getCheckData">添加</button>
                 </div>
             </div>
         </section>

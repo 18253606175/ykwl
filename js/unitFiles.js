@@ -12,30 +12,48 @@ layui.use(['element', 'layer', 'upload'], function () {
     $.ajax({
         url: baseUrl + "/company/info?token=" + JSON.parse(localStorage.getItem('loginInfo')).token + "&companyId=" + JSON.parse(localStorage.getItem('loginInfo')).companyId,
         success: function (res) {
-            const {
-                rows
-            } = res
-            $(".projectDes-main-content").html(`
-                <p>单位等级：${function(){
-                    if(rows.companyLevel === "admin"){
-                        return `总管理`
-                    } else if(rows.companyLevel === "agent"){
-                        return `
-                经销商 `
-                    } else if(rows.companyLevel === "user"){
-                        return `
-                普通用户单位 `
-                    }
-                }()}</p>
-                <p>消防等级：${rows.fireConLevel}</p>
-                <p>单位性质：${rows.companyType}</p>
-                <p>经纬度${rows.areasCode}</p>
-                <p>行政区划：${rows.companyArea}</p>
-                <p>详细位置：${rows.companyAddress}</p>
-                <p>消防责任人：${rows.fireconperson}</p>
-                <p>消防电话：${rows.alarmTel}</p>
-                <p>创建时间：${rows.createTime}</p>
-            `)
+            if(res.code === 20001){
+                layer.alert('登录已过期请重新登陆', {
+                    skin: 'layui-layer-yingke' //样式类名
+                    ,closeBtn: 0
+                    }, function(){
+                        parent.location.href = './index.html'
+                    });
+            } 
+            else if(res.code === 200){
+                const {
+                    rows
+                } = res
+                $('.projectDes-main-title').html(`${rows.companyName}`)
+                $(".projectDes-main-content").html(`
+                    <p>单位等级：${function(){
+                        if(rows.companyLevel === "admin"){
+                            return `总管理`
+                        } else if(rows.companyLevel === "agent"){
+                            return `
+                    经销商 `
+                        } else if(rows.companyLevel === "user"){
+                            return `
+                    普通用户单位 `
+                        }
+                    }()}</p>
+                    <p>消防等级：${rows.fireConLevel === '01' ? '重点消防单位' : '一般消防单位'}</p>
+                    <p>单位性质：${rows.companyType}</p>
+                    <p>经纬度${rows.areasCode}</p>
+                    <p>行政区划：${rows.companyArea}</p>
+                    <p>详细位置：${rows.companyAddress}</p>
+                    <p>消防责任人：${rows.fireconperson}</p>
+                    <p>消防电话：${rows.alarmTel}</p>
+                    <p>创建时间：${rows.createTime}</p>
+                `)
+            }else {
+                layer.msg(res.msg, {
+                    icon: 2,
+                    closeBtn: 0,
+                    anim: 6, //动画类型
+                    time: 3000
+                });
+            }
         }
     })
     //消防评估图
@@ -84,7 +102,6 @@ layui.use(['element', 'layer', 'upload'], function () {
     option && myChart.setOption(option);
     function getTableList(url, indexId, flag){
         function getData(indexId){
-            console.log(indexId)
             if(indexId === '0'){
                 return {
                     companyId: JSON.parse(localStorage.getItem('loginInfo')).companyId,
@@ -189,38 +206,54 @@ layui.use(['element', 'layer', 'upload'], function () {
                 id: id
             },
             success: function(res){
-                console.log(res)
-                const { rows } = res
-                $(".dialog-son").html(`
-                    <form class="layui-form" action="">
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">标题</label>
-                            <div class="layui-input-block">
-                                <input type="text" name=${flag ? 'articleTitle' : 'title'} value=${flag ? rows.articleTitle : rows.title} required disabled placeholder="请输入" autocomplete="off"
-                                class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">时间</label>
-                            <div class="layui-input-block">
-                                <input type="text" name='createTime' value=${rows.createTime} required disabled placeholder="请输入" autocomplete="off"
-                                class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-form-item-img">
-                                <label class="layui-form-label layui-required">内容</label>
+                if(res.code === 20001){
+                    layer.alert('登录已过期请重新登陆', {
+                        skin: 'layui-layer-yingke' //样式类名
+                        ,closeBtn: 0
+                        }, function(){
+                            parent.location.href = './index.html'
+                        });
+                } 
+                else if(res.code === 200){
+                    const { rows } = res
+                    $(".dialog-son").html(`
+                        <form class="layui-form" action="">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">标题</label>
                                 <div class="layui-input-block">
-                                    ${flag ? `<textarea placeholder="请输入内容" disabled class="layui-textarea">${flag ? rows.articleContent : rows.content}</textarea>` : 
-                                    `<div class="layui-upload-drag" id="test10">
-                                        <img src=${rows.fileUrl} alt="图片未上传或加载失败" style="max-width: 196px">
-                                    </div>`}
+                                    <input style="border: none" type="text" name=${flag ? 'articleTitle' : 'title'} value=${flag ? rows.articleTitle : rows.title} required disabled placeholder="请输入" autocomplete="off"
+                                    class="layui-input">
                                 </div>
-                        </div>
-                    </form>`)
-                    form.render();
-                    $("#close-pop-up").click(function () {
-                        layer.closeAll();
-                    })
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">时间</label>
+                                <div class="layui-input-block">
+                                    <input style="border: none" type="text" name='createTime' value=${rows.createTime} required disabled placeholder="请输入" autocomplete="off"
+                                    class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item-img">
+                                    <label class="layui-form-label layui-required">内容</label>
+                                    <div class="layui-input-block">
+                                        ${flag ? `<textarea placeholder="请输入内容" disabled class="layui-textarea">${flag ? rows.articleContent : rows.content}</textarea>` : 
+                                        `<div class="layui-upload-drag" id="test10">
+                                            <img src=${rows.fileUrl} alt="图片未上传或加载失败" style="max-width: 196px">
+                                        </div>`}
+                                    </div>
+                            </div>
+                        </form>`)
+                        form.render();
+                        $("#close-pop-up").click(function () {
+                            layer.closeAll();
+                        })
+                }else {
+                    layer.msg(res.msg, {
+                        icon: 2,
+                        closeBtn: 0,
+                        anim: 6, //动画类型
+                        time: 3000
+                    });
+                }
             }
         })
     }

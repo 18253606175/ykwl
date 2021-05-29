@@ -83,7 +83,15 @@ layui.use(['element', 'layer'], function () {
       url: baseUrl + '/company/listtree?token=' + JSON.parse(localStorage.getItem("loginInfo")).token,
       async: false,
       success: function (res) {
-        console.log(res)
+        if(res.code === 20001){
+          layer.alert('登录已过期请重新登陆', {
+              skin: 'layui-layer-yingke' //样式类名
+              ,closeBtn: 0
+              }, function(){
+                  parent.location.href = './index.html'
+              });
+      } 
+       else if(res.code === 200){
         treeData = function(){
           return [{
             title: res.rows.companyName,
@@ -105,8 +113,14 @@ layui.use(['element', 'layer'], function () {
             })
           }]
         }()
-          
-          console.log(treeData)
+       }else {
+        layer.msg(res.msg, {
+            icon: 2,
+            closeBtn: 0,
+            anim: 6, //动画类型
+            time: 3000
+        });
+    }
       }
   })
   
@@ -152,22 +166,39 @@ layui.use(['element', 'layer'], function () {
     traditional: true,
     dataType:"json",
     success: function (res) {
-      var selectDate1 = res.rows.map(item => {
-        return {
-          title: item.companyName,
-          value: item.id
-        }
-      })
-      selectDate = selectDate.concat(selectDate1)
-      selectList = res.rows
-      var selectMap = selectDate.map(item => {
-        return `
-              <option value=${item.value}>${item.title}</option>
-          `
-      })
-
-      $(".layui-input-inline-select").html(selectMap.join(''));
-      form.render();
+      if(res.code === 20001){
+        layer.alert('登录已过期请重新登陆', {
+            skin: 'layui-layer-yingke' //样式类名
+            ,closeBtn: 0
+            }, function(){
+                parent.location.href = './index.html'
+            });
+    } 
+      else if(res.code === 200){
+        var selectDate1 = res.rows.map(item => {
+          return {
+            title: item.companyName,
+            value: item.id
+          }
+        })
+        selectDate = selectDate.concat(selectDate1)
+        selectList = res.rows
+        var selectMap = selectDate.map(item => {
+          return `
+                <option value=${item.value}>${item.title}</option>
+            `
+        })
+  
+        $(".layui-input-inline-select").html(selectMap.join(''));
+        form.render();
+      }else {
+        layer.msg(res.msg, {
+            icon: 2,
+            closeBtn: 0,
+            anim: 6, //动画类型
+            time: 3000
+        });
+    }
     }
   })
   $.ajax({
@@ -179,8 +210,25 @@ layui.use(['element', 'layer'], function () {
       type: 1
     },
     success: function (res) {
-      selectList1 = res.rows
-      form.render();
+      if(res.code === 20001){
+        layer.alert('登录已过期请重新登陆', {
+            skin: 'layui-layer-yingke' //样式类名
+            ,closeBtn: 0
+            }, function(){
+                parent.location.href = './index.html'
+            });
+    } 
+      else if(res.code === 200){
+        selectList1 = res.rows
+        form.render();
+      }else {
+        layer.msg(res.msg, {
+            icon: 2,
+            closeBtn: 0,
+            anim: 6, //动画类型
+            time: 3000
+        });
+    }
     }
   })
 
@@ -266,7 +314,7 @@ layui.use(['element', 'layer'], function () {
         title: '操作',
         align: "center",
         toolbar: '#barDemo',
-		width:140
+		    width:170
       }
       ]
     ]
@@ -274,7 +322,6 @@ layui.use(['element', 'layer'], function () {
 
   //监听搜索提交
   form.on('submit(submitDoubleBtn)', function (data) {
-    console.log(data)
     table.reload('tableReload', {
       page: {
         curr: 1 //重新从第 1 页开始
@@ -285,7 +332,6 @@ layui.use(['element', 'layer'], function () {
     });
     return false;
   });
-
 
   for (var i = 0; i < $('.button-add').length; i++) {
     $('.button-add')[i].onclick = function () {
@@ -480,7 +526,15 @@ layui.use(['element', 'layer'], function () {
           type: 'post',
           // dataType: "json",
           success: function (res) {
-            if (res.code === 200) {
+            if(res.code === 20001){
+              layer.alert('登录已过期请重新登陆', {
+                  skin: 'layui-layer-yingke' //样式类名
+                  ,closeBtn: 0
+                  }, function(){
+                      parent.location.href = './index.html'
+                  });
+          } 
+           else if (res.code === 200) {
               obj.del();
               layer.msg('删除成功', {
                 icon: 1,
@@ -694,9 +748,24 @@ layui.use(['element', 'layer'], function () {
           })
         }
       });
+    } else if (obj.event === 'check') {
+      var x = window.parent.document.querySelectorAll("a[accessKey]");
+      x.forEach(item => {
+        if (item.accessKey === 'deviceList') {
+          item.classList.add('layui-this');
+      } else {
+          item.classList.remove('layui-this')
+          $(item).parent().parent().parent().removeClass('layui-this');
+          $(item).parent().removeClass('layui-this');
+      }
+    })
+      localStorage.setItem('companyId', data.id)
+      parent.$("#homeIframe").attr('src',`../deviceList.html`)
+     
     }
+    
   });
-
+  
   //编辑设备提交
   form.on('submit(update)', function (data) {
 
@@ -719,7 +788,15 @@ layui.use(['element', 'layer'], function () {
           },
         
         });
-        if (res.code === 200) {
+        if(res.code === 20001){
+          layer.alert('登录已过期请重新登陆', {
+              skin: 'layui-layer-yingke' //样式类名
+              ,closeBtn: 0
+              }, function(){
+                  parent.location.href = './index.html'
+              });
+      } 
+       else if (res.code === 200) {
           layer.msg('修改单位成功^_^', {
             icon: 1,
             closeBtn: 0,
@@ -767,7 +844,15 @@ layui.use(['element', 'layer'], function () {
             curr: 1 //重新从第 1 页开始
           }
         });
-        if (res.code === 200) {
+        if(res.code === 20001){
+          layer.alert('登录已过期请重新登陆', {
+              skin: 'layui-layer-yingke' //样式类名
+              ,closeBtn: 0
+              }, function(){
+                  parent.location.href = './index.html'
+              });
+      } 
+       else if (res.code === 200) {
           layer.msg('单位添加成功', {
             icon: 1,
             closeBtn: 0,
@@ -793,5 +878,6 @@ layui.use(['element', 'layer'], function () {
   $("#close-pop-up").click(function () {
     layer.closeAll();
   })
+
 
 })

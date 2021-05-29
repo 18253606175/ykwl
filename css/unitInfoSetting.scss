@@ -118,7 +118,12 @@ body {
 .layui-form {
   padding-top: 15px;
   .layui-form-item{
-    width: 74%;
+    width: 85%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .layui-form-item-img{
+    width: 85%;
   }
   .layui-form-item-submit{
     margin-top: 20px;

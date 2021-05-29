@@ -70,7 +70,6 @@ body {
 
 .Realtime-main .Realtime-left #zreeList .layui-tree-txt {
   color: #a3c1b0;
-  font-size: 16px;
 }
 
 .Realtime-main .Realtime-left #zreeList .layui-tree-entry:hover {
@@ -399,4 +398,14 @@ input[type="number"] {
   position: absolute;
   right: 48px;
   top: 26px;
+}
+.layui-tree-iconClick .layui-icon {
+    font-size: 14px;
+}
+.layui-icon-file:before {
+    content: "\e623";
+}
+.layui-tree-icon .layui-icon {
+    color: #ff5722;
+	font-size: 12px;
 }

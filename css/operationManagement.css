@@ -28,11 +28,13 @@ body {
 .layui-row .Realtime-left-bottom .info .titleInfo {
   font-size: 20px;
   color: #eee;
+  text-align: center;
 }
 
 .layui-row .Realtime-left-bottom .info .count {
   font-size: 16px;
   color: #eee;
+  text-align: center;
 }
 
 .layui-row .Realtime-left-bottom .layui-nav {

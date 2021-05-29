@@ -11,7 +11,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
     var selectDate = [
         {
             title: "没有选项",
-            value: ""
+            value: "0"
         }
     ]
 
@@ -30,7 +30,24 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
         url: baseUrl + "/prodect/list?token=" + JSON.parse(localStorage.getItem("loginInfo")).token,
         async: false,
         success: function (res) {
-            deviceType = res.rows
+            if(res.code === 20001){
+                layer.alert('登录已过期请重新登陆', {
+                    skin: 'layui-layer-yingke' //样式类名
+                    ,closeBtn: 0
+                    }, function(){
+                        parent.location.href = './index.html'
+                    });
+            } 
+            else if(res.code === 200){
+                deviceType = res.rows
+            }else {
+                layer.msg(res.msg, {
+                    icon: 2,
+                    closeBtn: 0,
+                    anim: 6, //动画类型
+                    time: 3000
+                });
+            }
         }
     })
 
@@ -40,7 +57,24 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
         url: baseUrl + "/architecture/list?token=" + JSON.parse(localStorage.getItem("loginInfo")).token,
         async: false,
         success: function (res) {
-            architecture = res.rows
+            if(res.code === 20001){
+                layer.alert('登录已过期请重新登陆', {
+                    skin: 'layui-layer-yingke' //样式类名
+                    ,closeBtn: 0
+                    }, function(){
+                        parent.location.href = './index.html'
+                    });
+            } 
+            else if(res.code === 200){
+                architecture = res.rows
+            }else {
+                layer.msg(res.msg, {
+                    icon: 2,
+                    closeBtn: 0,
+                    anim: 6, //动画类型
+                    time: 3000
+                });
+            }
 
         }
     })
@@ -224,12 +258,29 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
         url: baseUrl + '/company/infoanddevicetype?token=' + JSON.parse(localStorage.getItem('loginInfo')).token + '&companyId=' + JSON.parse(localStorage.getItem('loginInfo')).companyId,
         async: false,
         success: function (res) {
-            const { company } = res.rows
-            titleBottom = company
+            if(res.code === 20001){
+                layer.alert('登录已过期请重新登陆', {
+                    skin: 'layui-layer-yingke' //样式类名
+                    ,closeBtn: 0
+                    }, function(){
+                        parent.location.href = './index.html'
+                    });
+            } 
+            else if(res.code === 200){
+                const { company } = res.rows
+                titleBottom = company
 
-            titleContent.company = JSON.parse(localStorage.getItem("loginInfo")).companyName
-            titleContent.user = JSON.parse(localStorage.getItem("loginInfo")).phone
-            titleContent.address = company.companyAdress
+                titleContent.company = JSON.parse(localStorage.getItem("loginInfo")).companyName
+                titleContent.user = JSON.parse(localStorage.getItem("loginInfo")).phone
+                titleContent.address = company.companyAdress
+            }else {
+                layer.msg(res.msg, {
+                    icon: 2,
+                    closeBtn: 0,
+                    anim: 6, //动画类型
+                    time: 3000
+                });
+            }
         }
     })
 
@@ -247,22 +298,38 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
         url: baseUrl + "/company/ztreelist?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
         async: false,
         success: function (res) {
-            var selectDate1 = res.rows.map(item => {
-                return {
-                    title: item.companyName,
-                    value: item.id
-                }
-            })
-            selectDate = selectDate.concat(selectDate1)
-            selectList = res.rows
-            var selectMap = selectDate.map(item => {
-                return `
-                    <option value=${item.value}>${item.title}</option>
-                `
-            })
-
-            $(".layui-input-inline-select").html(selectMap.join(''));
-            form.render();
+            if(res.code === 20001){
+                layer.alert('登录已过期请重新登陆', {
+                    skin: 'layui-layer-yingke' //样式类名
+                    ,closeBtn: 0
+                    }, function(){
+                        parent.location.href = './index.html'
+                    });
+            } 
+           else if(res.code === 200){
+                var selectDate1 = res.rows.map(item => {
+                    return {
+                        title: item.companyName,
+                        value: item.id
+                    }
+                })
+                selectDate = selectDate.concat(selectDate1)
+                selectList = res.rows
+                var selectMap = selectDate.map(item => {
+                    return `
+                        <option value=${item.value}>${item.title}</option>
+                    `
+                })
+                $(".layui-input-inline-select").html(selectMap.join(''));
+                form.render();
+           }else {
+            layer.msg(res.msg, {
+                icon: 2,
+                closeBtn: 0,
+                anim: 6, //动画类型
+                time: 3000
+            });
+        }
         }
     })
 
@@ -343,6 +410,16 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
     $.ajax({
         url: baseUrl + '/device/devicetypewithnum?token=' + JSON.parse(localStorage.getItem('loginInfo')).token,
         success: function (res) {
+            if(res.code === 20001){
+                layer.alert('登录已过期请重新登陆', {
+                    skin: 'layui-layer-yingke' //样式类名
+                    ,closeBtn: 0
+                    }, function(){
+                        parent.location.href = './index.html'
+                    });
+            } 
+            else if(res.code === 200){
+                
             const {
                 rows
             } = res
@@ -351,9 +428,6 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                 typeCount.push(item.count)
                 return item.type_sign
             })
-
-
-
             var leftTypeDate = rows.map((item, index) => {
 
                 return `
@@ -372,9 +446,6 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                     //     $(".wisdom-electricity-bottom > div")[j].className = "";
                     // }
                     typeId = this.getAttribute('id')
-
-
-
                     table.reload('tableReload', {
                         page: {
                             curr: 1 //重新从第 1 页开始
@@ -384,11 +455,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                             deviceSmallType: typeId
                         }
                     });
-
-
-
                     // $(".wisdom-electricity-bottom > div")[Number(this.getAttribute("index")) + 1].className = "current";
-
                     //小类型状态筛选
                     for (var i = 0; i < document.getElementsByClassName("typeScreen").length; i++) {
                         $(".typeScreen")[i].setAttribute("index", i)
@@ -425,30 +492,19 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                         }
                     }
                 }
-
-
             }
-
-
-
             $(".select-li").on('click', function () {
                 $(this).addClass("layui-this");
                 $(this).siblings('li').removeClass('layui-this');
             });
-
-
-            // 视频监控
-
-            // $(".Realtime-left-bottom > .layui-nav li a").on('click', function () {
-            //     if ($(this).context.innerHTML) {
-            //         $(".wisdom-electricity-bottom-video iframe").attr("src", '../video.html');
-            //         var frame = $("#video");
-
-            //         var frameheight = $(window).height();
-
-            //         // frame.css("height", 100%);
-            //     }
-            // })
+            }else {
+                layer.msg(res.msg, {
+                    icon: 2,
+                    closeBtn: 0,
+                    anim: 6, //动画类型
+                    time: 3000
+                });
+            }
         }
     })
 
@@ -511,7 +567,8 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
         height: 780,
         url: baseUrl + "/device/tablelist?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
         where: {
-            state: state
+            state: state,
+            companyId: localStorage.getItem('companyId')
         },
         limit: 15,
         limits: [15, 30, 50, 100, 200, 500, 1000],
@@ -585,20 +642,19 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                     width: 150,
                     sort: true
                 },
-                {
+                JSON.parse(localStorage.getItem('loginInfo')).companyLevel !== 'user' ? {
                     fixed: 'right',
                     title: '操作',
                     align: "center",
-                    width: 150,
+                    width: 170,
                     toolbar: '#barDemo'
-                }
+                } : ''
             ]
         ]
     });
 
     table.on('rowDouble(tableTest)', function (obj) {
         let data = obj.data;
-        console.log(data)
         if (data.deviceSmallType === '05') {
             $.ajax({
                 url: baseUrl + "/video/info?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
@@ -606,6 +662,15 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                     deviceId: data.id
                 },
                 success: function (res) {
+                    if(res.code === 20001){
+                        layer.alert('登录已过期请重新登陆', {
+                            skin: 'layui-layer-yingke' //样式类名
+                            ,closeBtn: 0
+                            }, function(){
+                                parent.location.href = './index.html'
+                            });
+                    } 
+                   else if(res.code === 200){
                     layer.open({
                         type: 1,
                         shade: false,
@@ -617,6 +682,14 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                         </div>
                         `
                     });
+                   }else {
+                    layer.msg(res.msg, {
+                        icon: 2,
+                        closeBtn: 0,
+                        anim: 6, //动画类型
+                        time: 3000
+                    });
+                }
                 }
             })
         } else {
@@ -661,7 +734,15 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                         type: 'post',
                         // dataType: "json",
                         success: function (res) {
-                            if (res.code === 200) {
+                            if(res.code === 20001){
+                                layer.alert('登录已过期请重新登陆', {
+                                    skin: 'layui-layer-yingke' //样式类名
+                                    ,closeBtn: 0
+                                    }, function(){
+                                        parent.location.href = './index.html'
+                                    });
+                            } 
+                            else if (res.code === 200) {
                                 obj.del();
                                 layer.msg('删除成功', {
                                     icon: 1,
@@ -770,17 +851,34 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                                     url: url,
                                     async: false,
                                     success: function(res){
-                                        mapData =  res.rows.map(item => {
-                                            return `
-                                            ${function () {
-                                                if (item.id === data.architectureId) {
-                                                    return `<option selected="true" value=${item.id}>${item.architectureName}</option>`
-                                                } else {
-                                                    return `<option value=${item.id}>${item.architectureName}</option>`
-                                                }
-                                            }()}
-                                                        `
-                                        })
+                                        if(res.code === 20001){
+                                            layer.alert('登录已过期请重新登陆', {
+                                                skin: 'layui-layer-yingke' //样式类名
+                                                ,closeBtn: 0
+                                                }, function(){
+                                                    parent.location.href = './index.html'
+                                                });
+                                        } 
+                                        else if(res.code ===200){
+                                            mapData =  res.rows.map(item => {
+                                                return `
+                                                ${function () {
+                                                    if (item.id === data.architectureId) {
+                                                        return `<option selected="true" value=${item.id}>${item.architectureName}</option>`
+                                                    } else {
+                                                        return `<option value=${item.id}>${item.architectureName}</option>`
+                                                    }
+                                                }()}
+                                                            `
+                                            })
+                                        }else {
+                                            layer.msg(res.msg, {
+                                                icon: 2,
+                                                closeBtn: 0,
+                                                anim: 6, //动画类型
+                                                time: 3000
+                                            });
+                                        }
                                     }
                                 })
                             return mapData.join("")
@@ -890,9 +988,40 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                     });
                 }
             });
+        } else if (obj.event === 'sync') {
+                    $.ajax({
+                        url: 'http://newxf.yk-iot.cn/ctwing/auto_update_device.php?imei=' + data.imei,
+                        success: function (res) {
+                            if(res.code === 20001){
+                                layer.alert('登录已过期请重新登陆', {
+                                    skin: 'layui-layer-yingke' //样式类名
+                                    ,closeBtn: 0
+                                    }, function(){
+                                        parent.location.href = './index.html'
+                                    });
+                            } 
+                                else if(res.code === 200){
+                                    layer.alert(res.msg, {
+                                        skin: 'layui-layer-yingke' //样式类名
+                                        ,closeBtn: 0
+                                      })
+                                }else {
+                                    layer.alert(res.msg, {
+                                        icon: 2,
+										skin: 'layui-layer-yingke', //样式类名
+                                        title: "设备实时状态检测",
+                                        anim: 6, //动画类型
+										//closeBtn: 0,
+                                       // time: 3000
+                                    });
+                                }
+                        }
+                    })
         }
     });
 
+
+    
     //获取建筑
     form.on('select(companyId-select)', function (data) {
         //data.value 得到被选中的值
@@ -902,8 +1031,6 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
             $("#architectureId-select").append(new Option("请选择建筑", ""));
             $.each(data.rows, function (index, item) {
                 $("#architectureId-select").append(new Option(item.architectureName, item.id));
-                console.log(item);
-                console.log(index);
             });
             layui.form.render("select");
         });
@@ -918,8 +1045,6 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
             $("#architectureId-select1").append(new Option("请选择建筑", ""));
             $.each(data.rows, function (index, item) {
                 $("#architectureId-select1").append(new Option(item.architectureName, item.id));
-                console.log(item);
-                console.log(index);
             });
             layui.form.render("select");
         });
@@ -950,7 +1075,6 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
     //新增设备提交
     form.on('submit(demo1)', function (data) {
 
-        console.log(Object.keys(data.field).length)
         for (var i = 0; i < Object.keys(data.field).length; i++) {
 
             if (data.field[Object.keys(data.field)[i]].length === 0) {
@@ -973,7 +1097,15 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                         state: state,
                     }
                 });
-                if (res.code === 200) {
+                if(res.code === 20001){
+                    layer.alert('登录已过期请重新登陆', {
+                        skin: 'layui-layer-yingke' //样式类名
+                        ,closeBtn: 0
+                        }, function(){
+                            parent.location.href = './index.html'
+                        });
+                } 
+                else if (res.code === 200) {
                     layer.msg('设备添加成功', {
                         icon: 1,
                         closeBtn: 0,
@@ -986,7 +1118,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                     });
                 } else {
                     layer.msg(res.msg, {
-                        icon: 5,
+                        icon: 2,
                         closeBtn: 0,
                         anim: 6, //动画类型
                         time: 3000
@@ -1022,7 +1154,15 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                         deviceSmallType: typeId
                     }
                 });
-                if (res.code === 200) {
+                if(res.code === 20001){
+                    layer.alert('登录已过期请重新登陆', {
+                        skin: 'layui-layer-yingke' //样式类名
+                        ,closeBtn: 0
+                        }, function(){
+                            parent.location.href = './index.html'
+                        });
+                } 
+                else if (res.code === 200) {
                     layer.msg('修改设备成功^_^', {
                         icon: 1,
                         closeBtn: 0,
@@ -1036,7 +1176,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
 
                 } else {
                     layer.msg(res.msg, {
-                        icon: 1,
+                        icon: 2,
                         closeBtn: 0,
                         anim: 6, //动画类型
                         time: 3000

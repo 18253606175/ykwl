@@ -37,26 +37,43 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree', 'dtree'], fun
         url: baseUrl + '/inspecttype/listbypnumber?token=' + JSON.parse(localStorage.getItem("loginInfo")).token,
         async: false,
         success: function (res) {
-            treeData = res.rows.map(item => {
-                return {
-                    title: item.type,
-                    parentId: item.number,
-                    id: item.id,
-                    spread: true,
-                    children: item.inspectTypeVOS.map(i => {
-                        return {
-                            title: i.type,
-                            id: i.number,
-                            parentId: i.pNumber,
-                            spread: true
-                        }
-                    })
-                }
-            })
+            if(res.code === 20001){
+                layer.alert('登录已过期请重新登陆', {
+                    skin: 'layui-layer-yingke' //样式类名
+                    ,closeBtn: 0
+                    }, function(){
+                        parent.location.href = './index.html'
+                    });
+            } 
+            else if(res.code === 200){
+                treeData = res.rows.map(item => {
+                    return {
+                        title: item.type,
+                        id: item.number,
+                        spread: true,
+                        children: item.inspectTypeVOS.map(i => {
+                            return {
+                                title: i.type,
+                                id: i.number,
+                                parentId: i.pNumber,
+                                spread: true
+                            }
+                        })
+                    }
+                })
+            }else {
+                layer.msg(res.msg, {
+                    icon: 2,
+                    closeBtn: 0,
+                    anim: 6, //动画类型
+                    time: 3000
+                });
+            }
         }
     })
 
-    var title = null;
+    var id = null;
+    var pid = null;
     //树形结构
     tree.render({
         elem: '#zreeList'
@@ -77,13 +94,15 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree', 'dtree'], fun
                 }
 
             }
-            title = obj.data.title;
+            id = obj.data.id
+            pid = obj.data.parentId
             table.reload('tableReload', {
                 page: {
                     curr: 1 //重新从第 1 页开始
                 },
                 where: {
-                    inspectType: title
+                    smallTypeNumber: id,
+                    bigTypeNumber: pid,
                 }
             });
         }
@@ -103,22 +122,39 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree', 'dtree'], fun
         url: baseUrl + "/company/ztreelist?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
         async: false,
         success: function (res) {
-            var selectDate1 = res.rows.map(item => {
-                return {
-                    title: item.companyName,
-                    value: item.id
-                }
-            })
-            selectDate = selectDate.concat(selectDate1)
-            selectList = res.rows
-            var selectMap = selectDate.map(item => {
-                return `
-                    <option value=${item.value}>${item.title}</option>
-                `
-            })
-
-            $(".layui-input-inline-select").html(selectMap.join(''));
-            form.render();
+            if(res.code === 20001){
+                layer.alert('登录已过期请重新登陆', {
+                    skin: 'layui-layer-yingke' //样式类名
+                    ,closeBtn: 0
+                    }, function(){
+                        parent.location.href = './index.html'
+                    });
+            } 
+            else if(res.code === 200){
+                var selectDate1 = res.rows.map(item => {
+                    return {
+                        title: item.companyName,
+                        value: item.id
+                    }
+                })
+                selectDate = selectDate.concat(selectDate1)
+                selectList = res.rows
+                var selectMap = selectDate.map(item => {
+                    return `
+                        <option value=${item.value}>${item.title}</option>
+                    `
+                })
+    
+                $(".layui-input-inline-select").html(selectMap.join(''));
+                form.render();
+            }else {
+                layer.msg(res.msg, {
+                    icon: 2,
+                    closeBtn: 0,
+                    anim: 6, //动画类型
+                    time: 3000
+                });
+            }
         }
     })
 
@@ -151,7 +187,15 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree', 'dtree'], fun
                     },
 
                 });
-                if (res.code === 200) {
+                if(res.code === 20001){
+                    layer.alert('登录已过期请重新登陆', {
+                        skin: 'layui-layer-yingke' //样式类名
+                        ,closeBtn: 0
+                        }, function(){
+                            parent.location.href = './index.html'
+                        });
+                } 
+                else if (res.code === 200) {
                     layer.msg('编辑成功^_^', {
                         icon: 1,
                         closeBtn: 0,
@@ -181,6 +225,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree', 'dtree'], fun
         var data = obj.data;
         if (obj.event === 'del') {
             layer.confirm('您确定要删除吗？', {
+                skin: 'layui-layer-yingke',
                 btn: ['确定','取消'] //按钮
               }, function(){
                 $.ajax({
@@ -192,7 +237,15 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree', 'dtree'], fun
                     type: 'post',
                     // dataType: "json",
                     success: function (res) {
-                        if (res.code === 200) {
+                        if(res.code === 20001){
+                            layer.alert('登录已过期请重新登陆', {
+                                skin: 'layui-layer-yingke' //样式类名
+                                ,closeBtn: 0
+                                }, function(){
+                                    parent.location.href = './index.html'
+                                });
+                        } 
+                        else if (res.code === 200) {
                             obj.del();
                             layer.msg('删除成功', {
                                 icon: 1,
@@ -280,17 +333,34 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree', 'dtree'], fun
                                             url: url,
                                             async: false,
                                             success: function(res){
-                                                mapData =  res.rows.map(item => {
-                                                    return `
-                                                    ${function () {
-                                                        if (item.id === data.architectureId) {
-                                                            return `<option selected="true" value=${item.id}>${item.architectureName}</option>`
-                                                        } else {
-                                                            return `<option value=${item.id}>${item.architectureName}</option>`
-                                                        }
-                                                    }()}
-                                                                `
-                                                })
+                                                if(res.code === 20001){
+                                                    layer.alert('登录已过期请重新登陆', {
+                                                        skin: 'layui-layer-yingke' //样式类名
+                                                        ,closeBtn: 0
+                                                        }, function(){
+                                                            parent.location.href = './index.html'
+                                                        });
+                                                } 
+                                                else if(res.code === 200){
+                                                    mapData =  res.rows.map(item => {
+                                                        return `
+                                                        ${function () {
+                                                            if (item.id === data.architectureId) {
+                                                                return `<option selected="true" value=${item.id}>${item.architectureName}</option>`
+                                                            } else {
+                                                                return `<option value=${item.id}>${item.architectureName}</option>`
+                                                            }
+                                                        }()}
+                                                                    `
+                                                    })
+                                                }else {
+                                                    layer.msg(res.msg, {
+                                                        icon: 2,
+                                                        closeBtn: 0,
+                                                        anim: 6, //动画类型
+                                                        time: 3000
+                                                    });
+                                                }
                                             }
                                         })
                                     return mapData.join("")
@@ -363,7 +433,15 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree', 'dtree'], fun
                         curr: 1 //重新从第 1 页开始
                     }
                 });
-                if (res.code === 200) {
+                if(res.code === 20001){
+                    layer.alert('登录已过期请重新登陆', {
+                        skin: 'layui-layer-yingke' //样式类名
+                        ,closeBtn: 0
+                        }, function(){
+                            parent.location.href = './index.html'
+                        });
+                } 
+                else if (res.code === 200) {
                     layer.msg('巡检点添加成功',{
 							icon: 1,
 							closeBtn: 0,
@@ -477,8 +555,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree', 'dtree'], fun
             ]
         ],
         done: function(res){
-            console.log(res)
-            $(".title").append(`<p class="count">共: ${res.count}个巡检点</p>`)
+            $(".count").html(`共: ${res.count}个巡检点`)
             exportData= res.data;
         }
     });
@@ -607,8 +684,6 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree', 'dtree'], fun
             $("#architectureId-select").append(new Option("请选择建筑", ""));
             $.each(data.rows, function (index, item) {
                 $("#architectureId-select").append(new Option(item.architectureName, item.id));
-                console.log(item);
-                console.log(index);
             });
             layui.form.render("select");
         });
@@ -623,8 +698,6 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree', 'dtree'], fun
             $("#architectureId-select1").append(new Option("请选择建筑", ""));
             $.each(data.rows, function (index, item) {
                 $("#architectureId-select1").append(new Option(item.architectureName, item.id));
-                console.log(item);
-                console.log(index);
             });
             layui.form.render("select");
         });
@@ -641,7 +714,8 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree', 'dtree'], fun
             },
             where: {
                 locationDesc: data.field.locationDesc,
-                inspectType: title,
+                smallTypeNumber: id,
+                bigTypeNumber: pid,
             }
         });
 
@@ -664,7 +738,8 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree', 'dtree'], fun
                 },
                 where: {
                     companyId: data.field.companyId,
-                    inspectType: title,
+                    smallTypeNumber: id,
+                    bigTypeNumber: pid,
                 }
             });
         }

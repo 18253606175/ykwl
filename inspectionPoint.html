@@ -17,7 +17,7 @@
         <div class="Realtime-left  layui-col-md2">
             <div class="title">
                 <p class="titleList">巡检点列表</p>
-                
+                <p class="count"></p>
             </div>
             <div id="zreeList" class="demo-tree-more"></div>
         </div>
@@ -94,5 +94,11 @@
 
 <script src="./node_modules/layui.js"></script>
 <script type="module" src="./js/inspectionPoint.js"></script>
-
+<script type="text/html" id="typeSign">
+    {{#  if(d.status === 1){ }}
+    <div style="color: red;">未巡检</div>
+    {{#  } else if(d.status === 2) { }}
+    <div style="color: green;">已巡检</div>
+    {{#  }  }}
+</script>
 </html>

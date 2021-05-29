@@ -17,20 +17,37 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree'], function () 
         url: baseUrl + '/inspecttype/listbypnumber?token=' + JSON.parse(localStorage.getItem("loginInfo")).token,
         async: false,
         success: function (res) {
-            treeData = res.rows.map(item => {
-                return {
-                    title: item.type,
-                    id: item.id,
-                    spread: true,
-                    children: item.inspectTypeVOS.map(i => {
+            if(res.code === 20001){
+                layer.alert('登录已过期请重新登陆', {
+                    skin: 'layui-layer-yingke' //样式类名
+                    ,closeBtn: 0
+                    }, function(){
+                        parent.location.href = './index.html'
+                    });
+            } 
+            else if(res.code === 200){
+                treeData = res.rows.map(item => {
                     return {
-                            title: i.type,
-                            id: i.id,
-                            spread: true
-                        }
+                        title: item.type,
+                        id: item.id,
+                        spread: true,
+                        children: item.inspectTypeVOS.map(i => {
+                        return {
+                                title: i.type,
+                                id: i.id,
+                                spread: true
+                            }
+                    })
+                    }
                 })
-                }
-            })
+            }else {
+                layer.msg(res.msg, {
+                    icon: 2,
+                    closeBtn: 0,
+                    anim: 6, //动画类型
+                    time: 3000
+                });
+            }
         }
     })
     
@@ -83,6 +100,15 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree'], function () 
         url: baseUrl + "/company/ztreelist?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
         async: false,
         success: function (res) {
+            if(res.code === 20001){
+                layer.alert('登录已过期请重新登陆', {
+                    skin: 'layui-layer-yingke' //样式类名
+                    ,closeBtn: 0
+                    }, function(){
+                        parent.location.href = './index.html'
+                    });
+            } 
+           else if(res.code === 200){
             var selectDate1 = res.rows.map(item => {
                 return {
                     title: item.companyName,
@@ -99,6 +125,14 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree'], function () 
 
             $(".layui-input-inline-select").html(selectMap.join(''));
             form.render();
+           }else {
+            layer.msg(res.msg, {
+                icon: 2,
+                closeBtn: 0,
+                anim: 6, //动画类型
+                time: 3000
+            });
+        }
         }
     })
 
@@ -177,7 +211,15 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree'], function () 
           },
         
         });
-        if (res.code === 200) {
+        if(res.code === 20001){
+            layer.alert('登录已过期请重新登陆', {
+                skin: 'layui-layer-yingke' //样式类名
+                ,closeBtn: 0
+                }, function(){
+                    parent.location.href = './index.html'
+                });
+        } 
+        else if (res.code === 200) {
           layer.msg('提交成功^_^', {
             icon: 1,
             closeBtn: 0,
@@ -191,7 +233,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree'], function () 
 
         } else {
           layer.msg(res.msg, {
-            icon: 1,
+            icon: 2,
             closeBtn: 0,
             anim: 6, //动画类型
             time: 3000
@@ -299,8 +341,6 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree'], function () 
             },
             where: {
                 locationDesc: data.field.locationDesc,
-                inspectType: title,
-                state: state
             }
         });
 
@@ -323,8 +363,6 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree'], function () 
                 },
                 where: {
                     companyId: data.field.companyId,
-                    inspectType: title,
-                    state: state
                 }
             });
         }

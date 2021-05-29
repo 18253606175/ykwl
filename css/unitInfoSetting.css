@@ -113,7 +113,13 @@ body {
 }
 
 .layui-form .layui-form-item {
-  width: 74%;
+  width: 85%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.layui-form .layui-form-item-img {
+  width: 85%;
 }
 
 .layui-form .layui-form-item-submit {

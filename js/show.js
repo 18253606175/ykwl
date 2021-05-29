@@ -73,7 +73,6 @@ layui.use(['element'], function () {
         url: "https://www.tianqiapi.com/free/day?appid=15729155&appsecret=Lk9ha0e9&city=潍坊",
         success: function (v) {
             var date = new Date()
-            console.log(v)
 
             $(".layui-layout-right").prepend(`<li class="layui-nav-item" style="margin-right: 36px;color: #fff">${v.tem}℃ ${v.wea} <img src=${function(){
                 return `../img/${v.wea_img}.gif`
@@ -104,6 +103,8 @@ layui.use(['element'], function () {
 
     for (var i = 0; i < $(".site-demo-active").length; i++) {
         $(".site-demo-active")[i].onclick = function () {
+            
+            localStorage.setItem('companyId', 0)
             var bSrc = $(this).attr('accessKey')
             $("#homeIframe").attr('src', `${bSrc}.html`)
             if (bSrc === 'contentHome') {

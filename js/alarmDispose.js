@@ -42,14 +42,30 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
         url: baseUrl + '/company/infoanddevicetype?token=' + JSON.parse(localStorage.getItem('loginInfo')).token + '&companyId=' + JSON.parse(localStorage.getItem('loginInfo')).companyId,
         async: false,
         success: function (res) {
-            const {
-                company
-            } = res.rows
-            titleBottom = company
-
-            titleContent.company = JSON.parse(localStorage.getItem("loginInfo")).companyName
-            titleContent.user = JSON.parse(localStorage.getItem("loginInfo")).phone
-            titleContent.address = company.companyAdress
+            if(res.code === 20001){
+                layer.alert('登录已过期请重新登陆', {
+                    skin: 'layui-layer-yingke' //样式类名
+                    ,closeBtn: 0
+                    }, function(){
+                        parent.location.href = './index.html'
+                    });
+            } else if(res.code === 200){
+                const {
+                    company
+                } = res.rows
+                titleBottom = company
+    
+                titleContent.company = JSON.parse(localStorage.getItem("loginInfo")).companyName
+                titleContent.user = JSON.parse(localStorage.getItem("loginInfo")).phone
+                titleContent.address = company.companyAdress
+            } else {
+                layer.msg(res.msg, {
+                    icon: 2,
+                    closeBtn: 0,
+                    anim: 6, //动画类型
+                    time: 3000
+                });
+            }
         }
     })
 
@@ -67,22 +83,39 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
         url: baseUrl + "/company/ztreelist?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
         async: false,
         success: function (res) {
-            var selectDate1 = res.rows.map(item => {
-                return {
-                    title: item.companyName,
-                    value: item.id
-                }
-            })
-            selectDate = selectDate.concat(selectDate1)
-            selectList = res.rows
-            var selectMap = selectDate.map(item => {
-                return `
-                    <option value=${item.value}>${item.title}</option>
-                `
-            })
-
-            $(".layui-input-inline-select").html(selectMap.join(''));
-            form.render();
+            if(res.code === 20001){
+                layer.alert('登录已过期请重新登陆', {
+                    skin: 'layui-layer-yingke' //样式类名
+                    ,closeBtn: 0
+                    }, function(){
+                        parent.location.href = './index.html'
+                    });
+            }
+            else if(res.code === 200){
+                var selectDate1 = res.rows.map(item => {
+                    return {
+                        title: item.companyName,
+                        value: item.id
+                    }
+                })
+                selectDate = selectDate.concat(selectDate1)
+                selectList = res.rows
+                var selectMap = selectDate.map(item => {
+                    return `
+                        <option value=${item.value}>${item.title}</option>
+                    `
+                })
+    
+                $(".layui-input-inline-select").html(selectMap.join(''));
+                form.render();
+            }else {
+                layer.msg(res.msg, {
+                    icon: 2,
+                    closeBtn: 0,
+                    anim: 6, //动画类型
+                    time: 3000
+                });
+            }
         }
     })
 
@@ -135,7 +168,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
             layer.open({
                 type: 1,
                 offset: '180px',
-                title: '处理设备',
+                title: '详情',
                 skin: 'layui-layer-yingke',
                 area: '900px',
                 content: $(".dialog"),
@@ -144,21 +177,21 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                     <div class="layui-form-item">
                         <label class="layui-form-label">上报时间</label>
                         <div class="layui-input-block">
-                            <input type="text" name="imei" lay-verify="imei" required disabled placeholder="请输入" autocomplete="off"
+                            <input style="border: none" type="text" name="imei" lay-verify="imei" required disabled placeholder="请输入" autocomplete="off"
                             class="layui-input" value=${data.alarmTime}>
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">报警类别</label>
                         <div class="layui-input-block">
-                            <input type="text" name="imei" lay-verify="imei" required disabled placeholder="请输入" autocomplete="off"
+                            <input style="border: none" type="text" name="imei" lay-verify="imei" required disabled placeholder="请输入" autocomplete="off"
                             class="layui-input" value=${data.alarmMessage}>
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">处理方式</label>
                         <div class="layui-input-block">
-                            <input type="text" name="dispose_type" lay-verify="imei" required disabled placeholder="请输入" autocomplete="off"
+                            <input style="border: none" type="text" name="dispose_type" lay-verify="imei" required disabled placeholder="请输入" autocomplete="off"
                             class="layui-input" value=${function(){
                                 if(data.dispose_type === 1){
                                     return `正常报警`
@@ -175,7 +208,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                     <div class="layui-form-item">
                         <label class="layui-form-label">上报方式</label>
                         <div id="tySign"  class="layui-input-block">
-                            <input type="text" name="imei" lay-verify="imei" required disabled placeholder="请输入" autocomplete="off"
+                            <input style="border: none" type="text" name="imei" lay-verify="imei" required disabled placeholder="请输入" autocomplete="off"
                             class="layui-input" value="自动上报">
                             </select>
                         </div>
@@ -183,21 +216,21 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                     <div class="layui-form-item">
                         <label class="layui-form-label">设备位置</label>
                         <div class="layui-input-block">
-                            <input type="text" name="imei" lay-verify="imei" required disabled placeholder="请输入" autocomplete="off"
+                            <input style="border: none" type="text" name="imei" lay-verify="imei" required disabled placeholder="请输入" autocomplete="off"
                                 class="layui-input" value=${data.location}>
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">设备编号</label>
                         <div class="layui-input-block">
-                            <input type="text" name="location" lay-verify="address" disabled required placeholder="请输入" autocomplete="off"
+                            <input style="border: none" type="text" name="location" lay-verify="address" disabled required placeholder="请输入" autocomplete="off"
                                 class="layui-input" value=${data.imei}>
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">处理状态</label>
                         <div class="layui-input-block">
-                            <input type="text" name="imei" lay-verify="imei" required disabled placeholder="请输入" autocomplete="off"
+                            <input style="border: none" type="text" name="imei" lay-verify="imei" required disabled placeholder="请输入" autocomplete="off"
                             class="layui-input" value=${function(){
                                 if(data.isSolve === 1){
                                     return `未处理`
@@ -211,30 +244,30 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                     <div class="layui-form-item">
                         <label class="layui-form-label">处理时间</label>
                         <div class="layui-input-block">
-                            <input type="text" name="alarmTime" placeholder="请输入" disabled autocomplete="off" class="layui-input" value=${data.alarmTime}></input>
+                            <input style="border: none" type="text" name="alarmTime" placeholder="请输入" disabled autocomplete="off" class="layui-input" value=${data.alarmTime}></input>
                         </div>
                      </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">处理人</label>
                         <div class="layui-input-block">
-                            <input type="text" name="disposer" placeholder="请输入" disabled autocomplete="off" class="layui-input" value=${data.disposer}></input>
+                            <input style="border: none" type="text" name="disposer" placeholder="请输入" disabled autocomplete="off" class="layui-input" value=${data.disposer}></input>
                         </div>
                     </div>
                     <div class="layui-form-item" style="width: 100%">
                         <label class="layui-form-label">处理办法</label>
                         <div class="layui-input-block">
-                            <input type="text" name="dispose_method" placeholder="请输入" disabled autocomplete="off" class="layui-input" value=${data.dispose_method}></input>
+                            <input style="border: none" style="width: 96%" type="text" name="dispose_method" placeholder="请输入" disabled autocomplete="off" class="layui-input" value=${data.dispose_method}></input>
                         </div>
                     </div>
                     <div class="layui-form-item" style="display: none">
                         <div class="layui-input-block">
-                            <input type="text" name="id" placeholder="请输入" autocomplete="off" class="layui-input" value=${data.id}>
+                            <input style="border: none" type="text" name="id" placeholder="请输入" autocomplete="off" class="layui-input" value=${data.id}>
                         </div>
                     </div>
                     <div class="layui-form-item  layui-form-item-submit">
                         <div style="text-align: center;">
-                            <button type="submit" class="layui-btn" lay-submit lay-filter="update">确认</button>
-                            <button type="button" id="close-pop-up" class="layui-btn layui-btn-primary">取消</button>
+                            <button type="button" id="close-pop-up" class="layui-btn">确认</button>
+                            
                         </div>
                     </div>
                 </form>`)
@@ -261,7 +294,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
         $(this).siblings('p').removeClass('classifyStyle');
     });
 
-    var typeId = null;
+    
     var state = 0;
 
     
@@ -375,35 +408,58 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
         url :baseUrl + '/alarm/alarmnumgroupbytype?token=' + JSON.parse(localStorage.getItem('loginInfo')).token,
         async: false,
         success: function(res){
-            const {
-                rows
-            } = res
-            var leftType = rows.map(item => {
-                typeSum.push(item.type)
-                typeCount.push(item.count)
-                return item.type_sign
-            })
-
-            var leftTypeDate = rows.map((item, index) => {
-
-                return `
-                        <li class="layui-nav-item select-li" id=${item.type}><a href="javaScript:;">${item.name}<blockquote class="layui-elem-quote layui-quote-nm"><span class="layui-badge">${typeCount[index]}</span></blockquote> </a></li>
-                    `
-
-            })
-            $(".Realtime-left-bottom > .layui-nav").append(leftTypeDate.join(''));
+            if(res.code === 20001){
+                layer.alert('登录已过期请重新登陆', {
+                    skin: 'layui-layer-yingke' //样式类名
+                    ,closeBtn: 0
+                    }, function(){
+                        parent.location.href = './index.html'
+                    });
+            } 
+            else if(res.code === 200){
+                const {
+                    rows
+                } = res
+                var leftType = rows.map(item => {
+                    typeSum.push(item.type)
+                    typeCount.push(item.count)
+                    return item.type_sign
+                })
+    
+                var leftTypeDate = rows.map((item, index) => {
+    
+                    return `
+                            <li class="layui-nav-item select-li" id=${item.type}><a href="javaScript:;">${item.name}<blockquote class="layui-elem-quote layui-quote-nm"><span class="layui-badge">${typeCount[index]}</span></blockquote> </a></li>
+                        `
+    
+                })
+                $(".Realtime-left-bottom > .layui-nav").append(leftTypeDate.join(''));
+            }else {
+                layer.msg(res.msg, {
+                    icon: 2,
+                    closeBtn: 0,
+                    anim: 6, //动画类型
+                    time: 3000
+                });
+            }
         }
     })
 
 
-    //初始化渲染全部类型
-    for (var i = 0; i < document.getElementsByClassName("select-li").length; i++) {
-        $(".Realtime-left-bottom > .layui-nav > li")[i].setAttribute("index", i)
-        $(".Realtime-left-bottom > .layui-nav > li")[i].onclick = function () {
-            // for (var j = 0; j < $(".Realtime-left-bottom > .layui-nav > li").length - 1; j++) {
-            //     $(".wisdom-electricity-bottom > div")[j].className = "";
-            // }
-            typeId = this.getAttribute('id')
+    //小类型状态筛选
+    for (var i = 0; i < document.getElementsByClassName("typeScreen").length; i++) {
+        $(".typeScreen")[i].setAttribute("index", i)
+        $(".typeScreen")[i].onclick = function () {
+            if (Number(this.getAttribute("index")) === 0) {
+                state = '0'
+            }
+            if (Number(this.getAttribute("index")) === 1) {
+                state = '1'
+            }
+            if (Number(this.getAttribute("index")) === 2) {
+                state = '2'
+            }
+           
 
             table.reload('tableReload', {
                 page: {
@@ -412,47 +468,11 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                 where: {
                     type: state,
                     isSolve: 2,
-                    alarmType: typeId
                 }
             });
 
-            // $(".wisdom-electricity-bottom > div")[Number(this.getAttribute("index")) + 1].className = "current";
-            //小类型状态筛选
-            for (var i = 0; i < document.getElementsByClassName("typeScreen").length; i++) {
-                $(".typeScreen")[i].setAttribute("index", i)
-                $(".typeScreen")[i].onclick = function () {
-                    if (Number(this.getAttribute("index")) === 0) {
-                        state = '0'
-                    }
-                    if (Number(this.getAttribute("index")) === 1) {
-                        state = '1'
-                    }
-                    if (Number(this.getAttribute("index")) === 2) {
-                        state = '2'
-                    }
-                   
-        
-                    table.reload('tableReload', {
-                        page: {
-                            curr: 1 //重新从第 1 页开始
-                        },
-                        where: {
-                            type: state,
-                            isSolve: 2,
-                            alarmType: typeId
-                        }
-                    });
-        
-        
-                }
-            }
-            $(".select-li").on('click', function () {
-                $(this).addClass("layui-this");
-                $(this).siblings('li').removeClass('layui-this');
-            });
+
         }
-
-
     }
 
     
@@ -465,7 +485,6 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
             },
             where: {
                 location: data.field.location,
-                alarmType: typeId,
                 type: state,
                 isSolve: 2
             }
@@ -483,7 +502,6 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
             },
             where: {
                 companyId: data.field.companyId,
-                alarmType: typeId,
                 type: state,
                 isSolve: 2
             }
@@ -500,52 +518,6 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
 
     
     
-    //设备提交
-    form.on('submit(update)', function (data) {
-
-        for (var i = 0; i < Object.keys(data.field).length; i++) {
-            if (data.field[Object.keys(data.field)[i]].length === 0) {
-                delete data.field[Object.keys(data.field)[i]]
-            }
-        }
-
-        $.ajax({
-            url: baseUrl + "/alarm/update?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
-            data: JSON.stringify({
-                id: Number(data.field.id),
-                dispose_type: Number(data.field.dispose_type),
-                dispose_method: data.field.dispose_method
-            }),
-            contentType: "json/application",
-            type: 'post',
-            dataType: "json",
-            success: function (res) {
-                table.reload('tableReload', {
-                    page: {
-                        curr: 1 //重新从第 1 页开始
-                    }
-                });
-                if (res.code === 200) {
-                    layer.msg('设备处理成功', {
-                        icon: 1,
-                        closeBtn: 0,
-                        anim: 0, //动画类型
-                        time: 3000
-                    });
-                } else {
-                    layer.msg(res.msg, {
-                        icon: 2,
-                        closeBtn: 0,
-                        anim: 6, //动画类型
-                        time: 3000
-                    });
-                }
-            }
-        })
-        return false;
-    });
-
-
     //弹窗样式
     layer.config({
         //anim: 2, //出场动画

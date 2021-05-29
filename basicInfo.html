@@ -25,6 +25,61 @@
         laydate.render({
             elem: '#date'
         });
+        //消防等级
+  var fireConLevel = [
+    {
+      title: '消防重点单位',
+      value: '01'
+    },
+    {
+      title: '消防一般单位',
+      value: '02'
+    }
+  ]
+
+   //单位类别
+   var companyType = [
+    {
+      title: '企业',
+      value: '企业'
+    },
+	{
+      title: '医院',
+      value: '医院'
+    },
+    {
+      title: '学校',
+      value: '学校'
+    },
+	{
+      title: '加油站',
+      value: '加油站'
+    },
+	{
+      title: '机关单位',
+      value: '机关单位'
+    },
+	{
+      title: '娱乐场所',
+      value: '娱乐场所'
+    }
+	
+  ]
+  //单位等级
+  var companyLevel = [
+	{
+      title: '消防联网单位',
+      value: 'user'
+    },
+	{
+      title: '消防运营商',
+      value: 'agent'
+    },
+	{
+      title: '系统管理员',
+      value: 'admin'
+    }	
+  ]
 
         function getData() {
             $.ajax({
@@ -32,84 +87,114 @@
                 async: false,
                 success: function (res) {
                     const { rows } = res
-                    $('body').html(`
+                    if(res.code === 200){
+                        $('body').html(`
                     <p class="title">${JSON.parse(localStorage.getItem('loginInfo')).companyName}</p>
                     <form class="layui-form" action="">
+                        <div class="layui-form-item" style="display:none">
+                            <label class="layui-form-label">公司Id</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="id" disabled autocomplete="off" placeholder="请输入标题"
+                                    class="layui-input" value=${JSON.parse(localStorage.getItem('loginInfo')).companyId}>
+                            </div>
+                        </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">消防ID</label>
                             <div class="layui-input-block">
-                                <input type="text" name="comID" lay-verify="title" disabled autocomplete="off" placeholder="请输入标题"
+                                <input type="text" name="comID" disabled autocomplete="off" placeholder="请输入标题"
                                     class="layui-input" value=${rows.comID}>
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">单位名称</label>
                             <div class="layui-input-block">
-                                <input type="text" name="companyName" lay-verify="title" autocomplete="off" placeholder="请输入标题"
+                                <input type="text" name="companyName" autocomplete="off" placeholder="请输入标题"
                                     class="layui-input" value=${rows.companyName}>
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label">单位等级</label>
+                            <label class="layui-form-label layui-required" >单位等级</label>
                             <div class="layui-input-block">
-                                <input type="text" name="companyLevel" lay-verify="title" autocomplete="off" placeholder="请输入标题"
-                                    class="layui-input" disabled value=${function () {
-                                if (rows.companyLevel === 'admin') {
-                                    return `总管理`
-                                } else if (rows.companyLevel === 'agent') {
-                                    return `经销商`
-                                } else if (rows.companyLevel === 'user ') {
-                                    return `普通用户单位`
-                                }
-                            }()}>
+                                <select name="companyLevel" lay-search="" disabled lay-verify="required">
+                                    <option value=""></option>
+                                    ${companyLevel.map(item=>{
+                                    return `${function(){
+                                        if (item.value === rows.companyLevel) {
+                                        return `<option style="color: #000" selected="true" value=${item.value}>${item.title}</option>`
+                                    } else {
+                                        return `<option style="color: #000" value=${item.value}>${item.title}</option>`
+                                    }
+                                    }()}`
+                                    })}
+                                </select>
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label">消防等级</label>
+                            <label class="layui-form-label layui-required">消防等级</label>
                             <div class="layui-input-block">
-                                <input type="text" name="fireConLevel" lay-verify="title" autocomplete="off" placeholder="请输入标题"
-                                    class="layui-input" value=${rows.fireConLevel}>
+                                <select name="fireConLevel" lay-search="">
+                                    <option value=""></option>
+                                    ${fireConLevel.map(item=>{
+                                    return `${function(){
+                                        if (item.value === rows.fireConLevel) {
+                                        return `<option selected="true" value=${item.value}>${item.title}</option>`
+                                    } else {
+                                        return `<option value=${item.value}>${item.title}</option>`
+                                    }
+                                    }()}`
+                                    })}
+                                </select>
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label">单位性质</label>
-                            <div class="layui-input-block">
-                                <input type="text" name="companyType" lay-verify="title" autocomplete="off" placeholder="请输入标题"
-                                    class="layui-input" value=${rows.companyType}>
-                            </div>
+                        <label class="layui-form-label layui-required">单位类别</label>
+                        <div class="layui-input-block">
+                            <select name="companyType" lay-search="">
+                                <option value=""></option>
+                                ${companyType.map(item=>{
+                                  return `${function(){
+                                    if (item.value === rows.companyType) {
+                                      return `<option selected="true" value=${item.value}>${item.title}</option>`
+                                  } else {
+                                      return `<option value=${item.value}>${item.title}</option>`
+                                  }
+                                  }()}`
+                                })}
+                            </select>
                         </div>
+                    </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">消防负责人</label>
                             <div class="layui-input-block">
-                                <input type="text" name="fireconperson" lay-verify="title" autocomplete="off" placeholder="请输入标题"
+                                <input type="text" name="fireconperson" autocomplete="off" placeholder="请输入标题"
                                     class="layui-input" value=${rows.fireconperson}>
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">消防电话</label>
                             <div class="layui-input-block">
-                                <input type="text" name="alarmTel" lay-verify="title" autocomplete="off" placeholder="请输入标题"
+                                <input type="text" name="alarmTel" autocomplete="off" placeholder="请输入标题"
                                     class="layui-input" value=${rows.alarmTel}>
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">经纬度</label>
                             <div class="layui-input-block">
-                                <input type="text" id="areaCode" name="areasCode" lay-verify="title" autocomplete="off" placeholder="请输入标题"
+                                <input type="text" id="areaCode" name="areasCode" autocomplete="off" placeholder="请输入标题"
                                     class="layui-input" value=${rows.areasCode}>
                             </div>
                         </div>
                         <div class="layui-form-item layui-form-item-line">
                             <label class="layui-form-label">行政区域</label>
                             <div class="layui-input-block">
-                                <input type="text" id="area" name="companyArea" lay-verify="title" autocomplete="off" placeholder="请输入标题"
+                                <input type="text" id="area" name="companyArea" autocomplete="off" placeholder="请输入标题"
                                     class="layui-input" value=${rows.companyArea}>
                             </div>
                         </div>
                         <div class="layui-form-item layui-form-item-line">
                             <label class="layui-form-label">详细位置</label>
                             <div class="layui-input-block">
-                                <input type="text" id="map" name="companyAddress" lay-verify="title" autocomplete="off" placeholder="请输入标题"
+                                <input type="text" id="map" name="companyAddress" autocomplete="off" placeholder="请输入标题"
                                     class="layui-input" value=${rows.companyAddress}>
                             </div>
                         </div>
@@ -121,6 +206,22 @@
                         </div>
                     </form>
                 `)
+                    } else if(res.code === 20001){
+                        layer.alert('登录已过期请重新登陆', {
+                            skin: 'layui-layer-yingke' //样式类名
+                            ,closeBtn: 0
+                            }, function(){
+                                parent.location.href = './index.html'
+                            });
+                    }else {
+                        layer.msg(res.msg, {
+                            icon: 2,
+                            closeBtn: 0,
+                            anim: 6, //动画类型
+                            time: 3000
+                        });
+                    }
+                    form.render();
                     //百度地图
                     $("#map").focus(function () {
                         layer.open({
@@ -141,7 +242,6 @@
 
         //保存
         form.on('submit(update)', function (data) {
-            console.log(data)
             
             $.ajax({
                 url: baseUrl + "/company/update?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
@@ -163,9 +263,16 @@
                             layer.closeAll();
                         });
 
+                    } else if(res.code === 20001){
+                        layer.alert('登录已过期请重新登陆', {
+                            skin: 'layui-layer-yingke' //样式类名
+                            ,closeBtn: 0
+                            }, function(){
+                                parent.location.href = './index.html'
+                            });
                     } else {
                         layer.msg(res.msg, {
-                            icon: 1,
+                            icon: 2,
                             closeBtn: 0,
                             anim: 6, //动画类型
                             time: 3000

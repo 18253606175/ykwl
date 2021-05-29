@@ -1,0 +1,66 @@
+.layui-col-md2 {
+    position: fixed;
+    height: 92%;
+    margin-right: 20px;
+    width: 16%;
+    overflow: hidden;
+    background: #1e2e3e;
+    overflow-y: scroll;
+    box-shadow: 0 2px 8px 0 #009688;
+    padding-top: 10px;
+    #zreeList {
+      .layui-tree-txt {
+        color: #a3c1b0;
+        font-size: 14px;
+      }
+      .layui-tree-entry {
+        &:hover {
+          background-color: transparent;
+        }
+     .layui-icon-file:before {
+        content: "";
+  } }
+    }
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: transparent;
+      border-radius: 4px;
+    }
+    &:hover {
+      &::-webkit-scrollbar-thumb {
+        background: rgba(135, 135, 135, 0.4);
+      }
+      &::-webkit-scrollbar-track {
+        background: rgba(135, 135, 135, 0.1);
+      }
+    }
+  }
+
+  .wisdom-electricity-bottom-top-search{
+      position: fixed;
+      padding-top: 15px;
+      left: 17%;
+      width: 83%;
+      z-index: 999;
+      display: flex;
+      background-color: #cccccc;
+      justify-content: center;
+      .layui-form {
+        width: 400px;
+        .layui-input-inline {
+            display: flex;
+            .layui-input-input {
+                width: 200px;
+            }
+            .layui-select-title{
+                input {
+                    width: 200px;
+                }
+            }
+        }
+      }
+  }

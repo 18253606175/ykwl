@@ -78,22 +78,39 @@ import {
       traditional: true,
       dataType:"json",
       success: function (res) {
-        var selectDate1 = res.rows.map(item => {
-          return {
-            title: item.companyName,
-            value: item.id
-          }
-        })
-        selectDate = selectDate.concat(selectDate1)
-        selectList = res.rows
-        var selectMap = selectDate.map(item => {
-          return `
-                <option value=${item.value}>${item.title}</option>
-            `
-        })
-  
-        $(".layui-input-inline-select").html(selectMap.join(''));
-        form.render();
+        if(res.code === 20001){
+          layer.alert('登录已过期请重新登陆', {
+              skin: 'layui-layer-yingke' //样式类名
+              ,closeBtn: 0
+              }, function(){
+                  parent.location.href = './index.html'
+              });
+      } 
+        else if(res.code === 200){
+          var selectDate1 = res.rows.map(item => {
+            return {
+              title: item.companyName,
+              value: item.id
+            }
+          })
+          selectDate = selectDate.concat(selectDate1)
+          selectList = res.rows
+          var selectMap = selectDate.map(item => {
+            return `
+                  <option value=${item.value}>${item.title}</option>
+              `
+          })
+    
+          $(".layui-input-inline-select").html(selectMap.join(''));
+          form.render();
+        }else {
+          layer.msg(res.msg, {
+              icon: 2,
+              closeBtn: 0,
+              anim: 6, //动画类型
+              time: 3000
+          });
+      }
       }
     })
     $.ajax({
@@ -105,8 +122,25 @@ import {
         type: 1
       },
       success: function (res) {
+        if(res.code === 20001){
+          layer.alert('登录已过期请重新登陆', {
+              skin: 'layui-layer-yingke' //样式类名
+              ,closeBtn: 0
+              }, function(){
+                  parent.location.href = './index.html'
+              });
+      } 
+       else if(res.code === 200){
         selectList1 = res.rows
         form.render();
+       }else {
+        layer.msg(res.msg, {
+            icon: 2,
+            closeBtn: 0,
+            anim: 6, //动画类型
+            time: 3000
+        });
+    }
       }
     })
   
@@ -209,7 +243,6 @@ import {
   
     //监听搜索提交
     form.on('submit(submitDoubleBtn)', function (data) {
-      console.log(data)
       table.reload('tableReload', {
         page: {
           curr: 1 //重新从第 1 页开始
@@ -385,7 +418,6 @@ import {
     //监听行单击事件（双击事件为：rowDouble）
     table.on('tool(unitTable)', function (obj) {
       var data = obj.data;
-      console.log(obj)
       // obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
       if (obj.event === 'del') {
         layer.prompt({
@@ -403,7 +435,15 @@ import {
               type: 'post',
               // dataType: "json",
               success: function (res) {
-                if (res.code === 200) {
+                if(res.code === 20001){
+                  layer.alert('登录已过期请重新登陆', {
+                      skin: 'layui-layer-yingke' //样式类名
+                      ,closeBtn: 0
+                      }, function(){
+                          parent.location.href = './index.html'
+                      });
+              } 
+                else if (res.code === 200) {
                   obj.del();
                   layer.msg('删除成功', {
                     icon: 1,
@@ -638,7 +678,15 @@ import {
             },
           
           });
-          if (res.code === 200) {
+          if(res.code === 20001){
+            layer.alert('登录已过期请重新登陆', {
+                skin: 'layui-layer-yingke' //样式类名
+                ,closeBtn: 0
+                }, function(){
+                    parent.location.href = './index.html'
+                });
+        } 
+          else if (res.code === 200) {
             layer.msg('修改单位成功^_^', {
               icon: 1,
               closeBtn: 0,
@@ -652,7 +700,7 @@ import {
   
           } else {
             layer.msg(res.msg, {
-              icon: 1,
+              icon: 2,
               closeBtn: 0,
               anim: 6, //动画类型
               time: 3000
@@ -686,7 +734,15 @@ import {
               curr: 1 //重新从第 1 页开始
             }
           });
-          if (res.code === 200) {
+          if(res.code === 20001){
+            layer.alert('登录已过期请重新登陆', {
+                skin: 'layui-layer-yingke' //样式类名
+                ,closeBtn: 0
+                }, function(){
+                    parent.location.href = './index.html'
+                });
+        } 
+         else if (res.code === 200) {
             layer.msg('单位添加成功', {
               icon: 1,
               closeBtn: 0,
@@ -695,9 +751,9 @@ import {
             }, function () {
               layer.closeAll()
             });
-          } else if (res.code === 500) {
+          } else {
             layer.msg(res.msg, {
-              icon: 5,
+              icon: 2,
               closeBtn: 0,
               anim: 6, //动画类型
               time: 3000

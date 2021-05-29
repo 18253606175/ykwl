@@ -41,32 +41,32 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
     $.ajax({
         url: baseUrl + '/company/infoanddevicetype?token=' + JSON.parse(localStorage.getItem('loginInfo')).token + '&companyId=' + JSON.parse(localStorage.getItem('loginInfo')).companyId,
         async: false,
-        success: function (res) {
-           if(res.code === 200){
-                const {
-                    company
-                } = res.rows
-                if(res.code)
-                titleBottom = company
-
-                titleContent.company = JSON.parse(localStorage.getItem("loginInfo")).companyName
-                titleContent.user = JSON.parse(localStorage.getItem("loginInfo")).phone
-                titleContent.address = company.companyAdress
-           } else if(res.code === 20001){
+        success: function (res) {         
+            if(res.code === 20001){
                 layer.alert('登录已过期请重新登陆', {
                     skin: 'layui-layer-yingke' //样式类名
                     ,closeBtn: 0
                     }, function(){
                         parent.location.href = './index.html'
                     });
-            } else {
-                layer.msg(res.msg, {
-                    icon: 1,
-                    closeBtn: 0,
-                    anim: 6, //动画类型
-                    time: 3000
-                });
-            }
+            } 
+           else if(res.code === 200){
+                const {
+                    company
+                } = res.rows
+                titleBottom = company
+
+                titleContent.company = JSON.parse(localStorage.getItem("loginInfo")).companyName
+                titleContent.user = JSON.parse(localStorage.getItem("loginInfo")).phone
+                titleContent.address = company.companyAdress
+           }else {
+            layer.msg(res.msg, {
+                icon: 2,
+                closeBtn: 0,
+                anim: 6, //动画类型
+                time: 3000
+            });
+        }
         }
     })
 
@@ -84,7 +84,15 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
         url: baseUrl + "/company/ztreelist?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
         async: false,
         success: function (res) {
-           if(res.code === 200){
+            if(res.code === 20001){
+                layer.alert('登录已过期请重新登陆', {
+                    skin: 'layui-layer-yingke' //样式类名
+                    ,closeBtn: 0
+                    }, function(){
+                        parent.location.href = './index.html'
+                    });
+            } 
+           else if(res.code === 200){
                 var selectDate1 = res.rows.map(item => {
                     return {
                         title: item.companyName,
@@ -101,21 +109,14 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
 
                 $(".layui-input-inline-select").html(selectMap.join(''));
                 form.render();
-           }else if(res.code === 20001){
-                layer.alert('登录已过期请重新登陆', {
-                    skin: 'layui-layer-yingke' //样式类名
-                    ,closeBtn: 0
-                    }, function(){
-                        parent.location.href = './index.html'
-                    });
-            } else {
-                layer.msg(res.msg, {
-                    icon: 1,
-                    closeBtn: 0,
-                    anim: 6, //动画类型
-                    time: 3000
-                });
-            }
+           }else {
+            layer.msg(res.msg, {
+                icon: 2,
+                closeBtn: 0,
+                anim: 6, //动画类型
+                time: 3000
+            });
+        }
         }
     })
 
@@ -256,21 +257,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                 })
                 }
             });
-        } else if(obj.event === 'check'){
-            // $.ajax({
-            //     url: baseUrl + "/disposesuggest/info?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
-            //     data: {
-            //         suggestType: 2001
-            //     },
-            //     success: function(res){
-            //         console.log(res)
-            //     }
-            // })
-            layer.alert(data.suggestContent, {
-                icon: 6,
-                title: `${data.alarmMessage}的处理建议`
-            });
-          }
+        }
     });
 
 
@@ -332,7 +319,6 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                     field: 'alarmMessage',
                     title: '报警类别',
                     align: "center",
-                    event: 'setSign'
                 },
                 {
                     field: 'imei',
@@ -369,12 +355,6 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                 },
                 {
                     fixed: 'right',
-                    title: '处理建议',
-                    align: "center",
-                    toolbar: '#look'
-                },
-                {
-                    fixed: 'right',
                     title: '操作',
                     align: "center",
                     toolbar: '#barDemo'
@@ -382,31 +362,21 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
             ]
         ]
     });
-table.on('rowDouble(tableTest)',function(obj){
-        let data = obj.data;
-            layer.open({
-                type: 2,
-                id: "iframe",
-                skin: 'layui-layer-yingke',
-                title: false,
-                closeBtn: 0, //不显示关闭按钮
-                title: '设备详情',
-                shade: [0],
-                scrollbar: true,
-                closeBtn: 1,
-				offset:50,
-                area: ['70%', '81%'],
-                shadeClose: true,
-                anim: 0,
-                content: [`../demo.html?id=${data.ykDeviceId}`, 'no'], //iframe的url，no代表不显示滚动条
-            });
-    })
+
      //左侧分类
      $.ajax({
         url :baseUrl + '/alarm/alarmnumgroupbytype?token=' + JSON.parse(localStorage.getItem('loginInfo')).token,
         async: false,
         success: function(res){
-            if(res.code === 200){
+            if(res.code === 20001){
+                layer.alert('登录已过期请重新登陆', {
+                    skin: 'layui-layer-yingke' //样式类名
+                    ,closeBtn: 0
+                    }, function(){
+                        parent.location.href = './index.html'
+                    });
+            } 
+            else if(res.code === 200){
                 const {
                     rows
                 } = res
@@ -424,16 +394,9 @@ table.on('rowDouble(tableTest)',function(obj){
     
                 })
                 $(".Realtime-left-bottom > .layui-nav").append(leftTypeDate.join(''));
-            }else if(res.code === 20001){
-                layer.alert('登录已过期请重新登陆', {
-                    skin: 'layui-layer-yingke' //样式类名
-                    ,closeBtn: 0
-                    }, function(){
-                        parent.location.href = './index.html'
-                    });
-            } else {
+            }else {
                 layer.msg(res.msg, {
-                    icon: 1,
+                    icon: 2,
                     closeBtn: 0,
                     anim: 6, //动画类型
                     time: 3000
@@ -499,8 +462,6 @@ table.on('rowDouble(tableTest)',function(obj){
 
 
     }
-
-
 
     
     //监听提交搜索
@@ -570,23 +531,24 @@ table.on('rowDouble(tableTest)',function(obj){
                         curr: 1 //重新从第 1 页开始
                     }
                 });
-                if (res.code === 200) {
-                    layer.msg('设备处理成功', {
-                        icon: 1,
-                        closeBtn: 0,
-                        anim: 0, //动画类型
-                        time: 3000
-                    });
-                } else if(res.code === 20001){
+                if(res.code === 20001){
                     layer.alert('登录已过期请重新登陆', {
                         skin: 'layui-layer-yingke' //样式类名
                         ,closeBtn: 0
                         }, function(){
                             parent.location.href = './index.html'
                         });
+                } 
+                else if (res.code === 200) {
+                    layer.msg('设备处理成功', {
+                        icon: 1,
+                        closeBtn: 0,
+                        anim: 0, //动画类型
+                        time: 3000
+                    });
                 } else {
                     layer.msg(res.msg, {
-                        icon: 1,
+                        icon: 2,
                         closeBtn: 0,
                         anim: 6, //动画类型
                         time: 3000

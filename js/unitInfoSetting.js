@@ -9,10 +9,20 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'upload'], function (
     var laydate = layui.laydate;
     var upload = layui.upload
 
+    //去除空参
+    function dealObjectValue(obj){
+        var param = {};
+        if ( obj === null || obj === undefined || obj === "" ) return param;
+        for ( var key in obj ){
+            if(  obj[key] !== null && obj[key] !== undefined && obj[key] !== ""  ){
+                param[key] = obj[key];
+            }
+        }
+        return param;
+      };
 
     for (var i = 0; i < document.getElementsByClassName("select-li").length; i++) {
         $(".select-li")[i].onclick = function () {
-            // console.log($(this).attr('id'))
             if ($(this).attr('id') === "1") {
                 $(".iframeBox").css("display", "block")
                 $(".tableBox").css("display", "none")
@@ -78,14 +88,15 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'upload'], function (
                     field: 'createTime',
                     align: "center",
                     title: '时间'
-                },
-                {
-                    fixed: 'right',
-                    title: '操作',
-                    align: "center",
-                    toolbar: '#barDemo'
-                    // width: 150
                 }
+                // ,
+                // {
+                //     fixed: 'right',
+                //     title: '操作',
+                //     align: "center",
+                //     toolbar: '#barDemo'
+                //     // width: 150
+                // }
             ]
         ],
     });
@@ -93,39 +104,67 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'upload'], function (
 
     //新增
     $(".button-add").click(function () {
-        console.log("111")
         layer.open({
             type: 1,
             offset: '180px',
             title: '添加信息',
             skin: 'layui-layer-yingke',
-            area: ['500px', '400px'],
+            area: ['600px', '500px'],
             content: $(".dialog"),
             success: function () {
                 $(".dialog").html(`<form class="layui-form" action="">
+                <div class="layui-form-item" style="display: none">
+                    <label class="layui-form-label">公司Id</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="companyId" required placeholder="请输入" autocomplete="off"
+                        class="layui-input" value=${JSON.parse(localStorage.getItem('loginInfo')).companyId}>
+                    </div>
+                </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">标题</label>
                     <div class="layui-input-block">
-                        <input type="text" name="imei" lay-verify="imei" required placeholder="请输入" autocomplete="off"
+                        <input type="text" name="title" required placeholder="请输入" autocomplete="off"
+                        class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">档案类型</label>
+                    <div class="layui-input-block">
+                        <select name="fireType" lay-verify="required" lay-search="">
+                                <option value="">请选择公告类型</option>
+                                <option value="1">消防合法文书</option>
+                                <option value="2">消防平面图</option>
+                                <option value="3">消防预案</option>
+                                <option value="4">规章制度</option>
+                                <option value="5">消防培训</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">内容</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="content" required placeholder="请输入" autocomplete="off"
                         class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item-img">
-                        <label class="layui-form-label layui-required">头像</label>
-                        <div class="layui-input-block">
-                            <div class="layui-upload-drag" id="test10">
-                                <i class="layui-icon"></i>
-                                <p>点击上传，或将文件拖拽到此处</p>
-                                <div class="layui-hide" id="uploadDemoView">
-                                <hr>
-                                <img src="" alt="上传成功后渲染" style="max-width: 196px">
-                                </div>
+                    <label class="layui-form-label layui-required">附件</label>
+                    <div class="layui-input-block">
+                        <div class="layui-upload-drag" id="test10">
+                            <i class="layui-icon"></i>
+                            <p>点击上传，或将文件拖拽到此处</p>
+                            <div class="layui-hide" id="uploadDemoView">
+                            <hr>
+                            <img src="" alt="上传成功后渲染" style="max-width: 196px">
+                            <input type="text" name="fileUrl" style="display: none" placeholder="请输入" autocomplete="off"
+                            class="layui-input" value="">
                             </div>
                         </div>
                     </div>
+                </div>
                 <div class="layui-form-item  layui-form-item-submit">
                     <div style="text-align: center;">
-                        <button type="submit" class="layui-btn" lay-submit lay-filter="update">确认</button>
+                        <button type="submit" class="layui-btn" lay-submit lay-filter="save">确认</button>
                         <button type="button" id="close-pop-up" class="layui-btn layui-btn-primary">取消</button>
                     </div>
                 </div>
@@ -137,11 +176,12 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'upload'], function (
                 //拖拽上传
                 upload.render({
                     elem: '#test10',
-                    url: 'https://httpbin.org/post' //改成您自己的上传接口
+                    url: baseUrl + '/image/uploadimage?token=' + JSON.parse(localStorage.getItem('loginInfo')).token //改成您自己的上传接口
                     ,
                     done: function (res) {
                         layer.msg('上传成功');
                         layui.$('#uploadDemoView').removeClass('layui-hide').find('img').attr('src', res.rows);
+                        layui.$('#uploadDemoView').find('input').val(res.rows);
                     }
                 });
             }
@@ -159,6 +199,16 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'upload'], function (
                     id: data.id
                 },
                 success: function(res){
+                    if(res.code === 20001){
+                        layer.alert('登录已过期请重新登陆', {
+                            skin: 'layui-layer-yingke' //样式类名
+                            ,closeBtn: 0
+                            }, function(){
+                                parent.location.href = './index.html'
+                            });
+                    } 
+                    else if(res.code === 200){
+                        
                     const { rows } = res
                     layer.open({
                         type: 1,
@@ -220,10 +270,19 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'upload'], function (
                         });
                         }
                     })
+                    }else {
+                        layer.msg(res.msg, {
+                            icon: 2,
+                            closeBtn: 0,
+                            anim: 6, //动画类型
+                            time: 3000
+                        });
+                    }
                 }
             })
           } else if(obj.event === 'del'){
             layer.confirm('您确定要删除吗？', {
+                skin: 'layui-layer-yingke',
                 btn: ['确定','取消'] //按钮
               }, function(){
                 $.ajax({
@@ -235,7 +294,15 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'upload'], function (
                     type: 'post',
                     // dataType: "json",
                     success: function (res) {
-                        if (res.code === 200) {
+                        if(res.code === 20001){
+                            layer.alert('登录已过期请重新登陆', {
+                                skin: 'layui-layer-yingke' //样式类名
+                                ,closeBtn: 0
+                                }, function(){
+                                    parent.location.href = './index.html'
+                                });
+                        } 
+                        else if (res.code === 200) {
                             obj.del();
                             layer.msg('删除成功', {
                                 icon: 1,
@@ -246,7 +313,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'upload'], function (
 
                         } else {
                             layer.msg(res.msg, {
-                                icon: 1,
+                                icon: 2,
                                 closeBtn: 0,
                                 anim: 6, //动画类型
                                 time: 4000
@@ -264,9 +331,48 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'upload'], function (
 
 
 
-    //编辑设备提交
-    form.on('submit(update)', function (data) {
-        layer.closeAll();
+    //新增提交
+    form.on('submit(save)', function (data) {
+      $.ajax({
+        url: baseUrl + "/fireFle/save?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
+        data: JSON.stringify(dealObjectValue(data.field)),
+        contentType: "json/application",
+        type: 'post',
+        dataType: "json",
+        success: function (res) {
+          table.reload('tableReload', {
+            page: {
+              curr: 1 //重新从第 1 页开始
+            }
+          });
+          if(res.code === 20001){
+            layer.alert('登录已过期请重新登陆', {
+                skin: 'layui-layer-yingke' //样式类名
+                ,closeBtn: 0
+                }, function(){
+                    parent.location.href = './index.html'
+                });
+        } 
+         else if (res.code === 200) {
+            layer.msg('用户添加成功', {
+              icon: 1,
+              closeBtn: 0,
+              anim: 0, //动画类型
+              time: 3000
+            }, function () {
+              layer.closeAll()
+            });
+          } else{
+            layer.msg(res.msg, {
+              icon: 2,
+              closeBtn: 0,
+              anim: 6, //动画类型
+              time: 3000
+            });
+          }
+        }
+      })
+      return false;
     });
 
     //弹窗样式

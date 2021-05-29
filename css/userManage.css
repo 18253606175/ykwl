@@ -42,6 +42,29 @@ body {
   color: #fff;
 }
 
+.userManage-main section .layui-tab-content .faultHand-main-header-right-search .layui-form .layui-form-selected dl::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background: transparent;
+}
+
+.userManage-main section .layui-tab-content .faultHand-main-header-right-search .layui-form .layui-form-selected dl::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.userManage-main section .layui-tab-content .faultHand-main-header-right-search .layui-form .layui-form-selected dl:hover::-webkit-scrollbar-thumb {
+  background: rgba(135, 135, 135, 0.4);
+}
+
+.userManage-main section .layui-tab-content .faultHand-main-header-right-search .layui-form .layui-form-selected dl:hover::-webkit-scrollbar-track {
+  background: rgba(135, 135, 135, 0.1);
+}
+
+.userManage-main section .layui-tab-content .faultHand-main-header-right-search .layui-form .layui-form-selected dl dd {
+  text-align: left;
+}
+
 .userManage-main section .layui-tab-content .faultHand-main-header-right-search .layui-form .layui-form-select dl dd.layui-this {
   background-color: #5f949a;
 }

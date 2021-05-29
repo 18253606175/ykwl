@@ -44,10 +44,10 @@
                                     <div class="wisdom-electricity-bottom-top-classify">
                                     </div>
                                     <div class="wisdom-electricity-bottom-top-search" style="display: flex;">
-                                        <form class="layui-form" action="">
-                                            <div class="layui-form-item">
+                                        <form class="layui-form" style="width: 50%;" action="">
+                                            <div class="layui-form-item" style="display: flex;">
 											<label class="layui-form-label" style="margin-top:18px;color:#ddd;padding: 5px 10px;">位置搜索</label>
-                                                <div class="layui-input-inline">
+                                                <div class="layui-input-inline" style="width: 50%;">
                                                     <input type="text" name="location" 
                                                         placeholder="请输入" autocomplete="off" class="layui-input">
                                                     <button type="submit" lay-filter="submitBtn" lay-submit=""
@@ -57,10 +57,10 @@
                                                 </div>
                                             </div>
                                         </form>
-                                        <form class="layui-form" action="">
-                                            <div class="layui-form-item">
+                                        <form class="layui-form" style="width: 50%;" action="">
+                                            <div class="layui-form-item" style="display: flex;">
 											<label class="layui-form-label" style="margin-top:18px;color:#ddd;padding: 5px 10px;">单位搜索</label>
-                                                <div class="layui-input-inline">
+                                                <div class="layui-input-inline" style="width: 50%;">
                                                     <select class="layui-input-inline-select" name="companyId"
                                                          lay-search="">
 
@@ -78,10 +78,10 @@
                                             添加设备
                                         </button>
                                     </div>
-                                    <div class="wisdom-electricity-bottom-top-type">
+                                    <!-- <div class="wisdom-electricity-bottom-top-type">
                                         <span class="classifyStyle">表格模式</span>
                                         <span>阵列模式</span>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <div>
                                     <div class="wisdom-electricity-bottom-bottom">
@@ -113,6 +113,7 @@
     <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="sync">同步</a>
       </script>
     <script type="text/html" id="sexTpl">
         {{#  if(d.state === 1){ }}

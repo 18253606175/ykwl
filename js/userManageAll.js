@@ -23,6 +23,15 @@ import {
       traditional: true,
       dataType:"json",
       success: function (res) {
+        if(res.code === 20001){
+          layer.alert('登录已过期请重新登陆', {
+              skin: 'layui-layer-yingke' //样式类名
+              ,closeBtn: 0
+              }, function(){
+                  parent.location.href = './index.html'
+              });
+      } 
+       else if(res.code === 200){
         var selectDate1 = res.rows.map(item => {
           return {
             title: item.companyName,
@@ -39,9 +48,43 @@ import {
   
         $(".layui-input-inline-select").html(selectMap.join(''));
         form.render();
+       }else {
+        layer.msg(res.msg, {
+            icon: 2,
+            closeBtn: 0,
+            anim: 6, //动画类型
+            time: 3000
+        });
+    }
       }
     })
   
+    //角色下拉
+    var role = []
+    $.ajax({
+      url: baseUrl + "/role/list?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
+      async: false,
+      success: function(res){
+        if(res.code === 20001){
+          layer.alert('登录已过期请重新登陆', {
+              skin: 'layui-layer-yingke' //样式类名
+              ,closeBtn: 0
+              }, function(){
+                  parent.location.href = './index.html'
+              });
+      } 
+        else if(res.code === 200){
+          role = res.rows
+        }else {
+          layer.msg(res.msg, {
+              icon: 2,
+              closeBtn: 0,
+              anim: 6, //动画类型
+              time: 3000
+          });
+      }
+      }
+    })
     //去除空参
     function dealObjectValue(obj){
       var param = {};
@@ -188,8 +231,14 @@ import {
                 <div class="layui-form-item">
                     <label class="layui-form-label layui-required">角色</label>
                     <div class="layui-input-block">
-                        <input type="text" name="role" lay-verify="required" placeholder="请输入" autocomplete="off"
-                            class="layui-input">
+                    <select name="role" lay-verify="required" lay-search="">
+                          <option value="">请选择角色</option>
+                          ${role.map(item => {
+                            return `
+                                                    <option value=${item.id}>${item.name}</option>
+                                                `
+                        })}
+                    </select>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -256,42 +305,51 @@ import {
       var data = obj.data;
       // obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
       if (obj.event === 'del') {
-        layer.prompt({
-          title: '请输入密码进行权限验证',
-          formType: 1,
-        },
-          function (pass, index) {
-            $.ajax({
-              url: baseUrl + "/user/delete?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
-              contentType: "application/json",
-              data: JSON.stringify({
-                id: data.id,
-              }),
-              type: 'post',
-              // dataType: "json",
-              success: function (res) {
-                if (res.code === 200) {
-                  obj.del();
-                  layer.msg('删除成功', {
-                    icon: 1,
-                    closeBtn: 0,
-                    anim: 0, //动画类型
-                    time: 3000
-                  });
-  
-                } else {
-                  layer.msg(res.msg, {
-                    icon: 2,
-                    closeBtn: 0,
-                    anim: 6, //动画类型
-                    time: 4000
-  
-                  });
-                }
+        layer.confirm('您确定要删除吗？', {
+          skin: 'layui-layer-yingke',
+          btn: ['确定','取消'] //按钮
+        }, function(){
+          $.ajax({
+            url: baseUrl + "/user/delete?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
+            contentType: "application/json",
+            data: JSON.stringify({
+              id: data.id,
+              sign: data.sign
+            }),
+            type: 'post',
+            // dataType: "json",
+            success: function (res) {
+              if(res.code === 20001){
+                layer.alert('登录已过期请重新登陆', {
+                    skin: 'layui-layer-yingke' //样式类名
+                    ,closeBtn: 0
+                    }, function(){
+                      parent.location.href = './index.html'
+                    });
+            } 
+            else if (res.code === 200) {
+                obj.del();
+                layer.msg('删除成功', {
+                  icon: 1,
+                  closeBtn: 0,
+                  anim: 0, //动画类型
+                  time: 3000
+                });
+
+              } else {
+                layer.msg(res.msg, {
+                  icon: 2,
+                  closeBtn: 0,
+                  anim: 6, //动画类型
+                  time: 4000
+
+                });
               }
-            })
-            layer.close(index);
-          });
+            }
+          })
+        }, function(){
+          
+        });
       } else if (obj.event === 'edit') {
         layer.open({
           type: 1,
@@ -304,6 +362,13 @@ import {
             $("#pop-up-add").html(
               `
               <form class="layui-form" action="">
+                <div class="layui-form-item" style="display: none">
+                  <label class="layui-form-label layui-required">id</label>
+                  <div class="layui-input-block">
+                      <input type="text" name="id" placeholder="请输入" autocomplete="off"
+                          class="layui-input" value=${data.id} >
+                  </div>
+              </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">所属单位</label>
                     <div class="layui-input-block  layui-required">
@@ -341,8 +406,21 @@ import {
                 <div class="layui-form-item">
                     <label class="layui-form-label layui-required">角色</label>
                     <div class="layui-input-block">
-                        <input type="text" name="role" lay-verify="required" placeholder="请输入" autocomplete="off"
-                            class="layui-input" value=${data.role}>
+                    <select name="role" lay-verify="required" lay-search="">
+                          <option value="">请选择角色</option>
+                    ${role.map(item => {
+                      return `
+                                ${function () {
+                                    if (item.id === data.role) {
+                                        return `<option selected="true" value=${item.id}>${item.name}</option>`
+                                    } else {
+                                        return `<option value=${item.id}>${item.name}</option>`
+                                    }
+                                }()
+                                }
+                            `
+                  })}
+                  </select>
                     </div>
                 </div>
                 <div class="layui-form-item" style="margin-top: -60px">
@@ -383,7 +461,7 @@ import {
             $("#close-pop-up").click(function () {
               layer.closeAll();
             })
-
+            layui.$('#uploadDemoView').removeClass('layui-hide')
             //拖拽上传
             upload.render({
                 elem: '#test10',
@@ -403,11 +481,6 @@ import {
     //编辑设备提交
     form.on('submit(update)', function (data) {
   
-      for (var i = 0; i < Object.keys(data.field).length; i++) {
-        if (data.field[Object.keys(data.field)[i]].length === 0) {
-          delete data.field[Object.keys(data.field)[i]]
-        }
-      }
   
       $.ajax({
         url: baseUrl + "/user/update?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
@@ -422,8 +495,16 @@ import {
             },
           
           });
-          if (res.code === 200) {
-            layer.msg('修改单位成功^_^', {
+          if(res.code === 20001){
+            layer.alert('登录已过期请重新登陆', {
+                skin: 'layui-layer-yingke' //样式类名
+                ,closeBtn: 0
+                }, function(){
+                    parent.location.href = './index.html'
+                });
+        } 
+         else if (res.code === 200) {
+            layer.msg('修改用户成功^_^', {
               icon: 1,
               closeBtn: 0,
               shade: 0.5,
@@ -436,7 +517,7 @@ import {
   
           } else {
             layer.msg(res.msg, {
-              icon: 1,
+              icon: 2,
               closeBtn: 0,
               anim: 6, //动画类型
               time: 3000
@@ -446,19 +527,10 @@ import {
       })
       return false;
     });
-  
-  
-    //弹窗样式
-    layer.config({
-      //anim: 2, //出场动画
-      extend: 'layskin/style.css',
-      //skin: 'layui-layer-yingke' //英科专用弹窗样式
-    });
-  
-  
+
+
     //新增提交
     form.on('submit(save)', function (data) {
-      console.log(dealObjectValue(data.field))
       $.ajax({
         url: baseUrl + "/user/save?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
         data: JSON.stringify(dealObjectValue(data.field)),
@@ -471,8 +543,16 @@ import {
               curr: 1 //重新从第 1 页开始
             }
           });
-          if (res.code === 200) {
-            layer.msg('单位添加成功', {
+          if(res.code === 20001){
+            layer.alert('登录已过期请重新登陆', {
+                skin: 'layui-layer-yingke' //样式类名
+                ,closeBtn: 0
+                }, function(){
+                    parent.location.href = './index.html'
+                });
+        } 
+         else if (res.code === 200) {
+            layer.msg('用户添加成功', {
               icon: 1,
               closeBtn: 0,
               anim: 0, //动画类型
@@ -480,9 +560,9 @@ import {
             }, function () {
               layer.closeAll()
             });
-          } else if (res.code === 500) {
+          } else{
             layer.msg(res.msg, {
-              icon: 5,
+              icon: 2,
               closeBtn: 0,
               anim: 6, //动画类型
               time: 3000
@@ -497,5 +577,12 @@ import {
     $("#close-pop-up").click(function () {
       layer.closeAll();
     })
+
+     //弹窗样式
+     layer.config({
+      //anim: 2, //出场动画
+      extend: 'layskin/style.css',
+      // skin: 'layui-layer-yingke' //英科专用弹窗样式
+  });
   
   })

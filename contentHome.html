@@ -114,8 +114,8 @@
 <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.1.0/echarts.min.js"></script>
 <script src="./node_modules/layui.js"></script>
 <script type="module" src="./js/homePage.js"></script>
+<script src="./js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
-
 
 
     var mapStyleBrown = [
@@ -150,20 +150,44 @@
         },
     ]
 
-    var pointArr = [
-        {
-            title: "A",
-            lng: 119.107,
-            lat: 36.709
-        },
-        {
-            title: "A",
-            lng: 119.105,
-            lat: 36.705
+    var pointArr = []
+    var pointObj = []
+    $.ajax({
+        url: "https://api.yk-iot.cn/rest/company/companyisalarm?token="+ JSON.parse(localStorage.getItem("loginInfo")).token,
+        async: false,
+        success: function(res){
+                if(res.code === 20001){
+                    layer.alert('登录已过期请重新登陆', {
+                        skin: 'layui-layer-yingke' //样式类名
+                        ,closeBtn: 0
+                        }, function(){
+                            window.open('./index.html', '_self')
+                        });
+                }else if(res.code === 200){
+                    pointObj={}
+                    pointArr=[]
+                    const { rows } = res
+                    rows.map(item=>{
+                        if(item.state === 3){
+                            pointObj.title = item.companyName
+                            pointObj.lng = Number(item.areasCode.split(',')[0])
+                            pointObj.lat = Number(item.areasCode.split(',')[1])
+                            pointArr.push(pointObj)
+                        }
+                    })
+                }else {
+                        layer.msg(res.msg, {
+                            icon: 2,
+                            closeBtn: 0,
+                            anim: 6, //动画类型
+                            time: 3000
+                        });
+                    }
         }
-    ]
+    })
+   
     var map = new BMap.Map("allmap");
-    var point = new BMap.Point(119.107, 36.709);
+    var point = new BMap.Point(pointArr[0].lng, pointArr[0].lat);
     // 119.17, 36.77
     // var marker = new BMap.Marker(point);
     // var label = new BMap.Label("", { offset: new BMap.Size(20, -10) });//标注标签  
@@ -309,9 +333,11 @@
     // var circles0 = new CircleShow(50, 4, pointCenter0, {fillColor:'red',fillOpacity:1});
     // circles1.start(1500,5000);
     // circles0.start(1500,5000);
+    
+    
         for (let i = 0; i < pointArr.length; i++) {
             let pointCenter = new BMap.Point(pointArr[i].lng, pointArr[i].lat);
-            let circles = new CircleShow(100, 4, pointCenter, {fillColor:'red',fillOpacity:1});
+            let circles = new CircleShow(50, 4, pointCenter, {fillColor:'red',fillOpacity:1});
             circles.start(1000,3000);
             addMarker(pointCenter)
         }

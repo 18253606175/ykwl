@@ -63,6 +63,16 @@ layui.use(['element', 'layer'], function () {
     $.ajax({
         url: baseUrl + '/alarm/alarmnumwithsevendate?token=' + JSON.parse(localStorage.getItem('loginInfo')).token,
         success: function (res) {
+            if(res.code === 20001){
+                layer.alert('登录已过期请重新登陆', {
+                    skin: 'layui-layer-yingke' //样式类名
+                    ,closeBtn: 0
+                    }, function(){
+                        parent.location.href = './index.html'
+                    });
+            }                            
+            else if(res.code === 200){
+                
             const {
                 rows
             } = res
@@ -160,13 +170,15 @@ layui.use(['element', 'layer'], function () {
 					
                 ]
             };
-
-
-
             optionS && myChartS.setOption(optionS);
-
-
-
+            }else {
+                layer.msg(res.msg, {
+                    icon: 2,
+                    closeBtn: 0,
+                    anim: 6, //动画类型
+                    time: 3000
+                });
+            }
         }
     })
 
@@ -180,6 +192,16 @@ layui.use(['element', 'layer'], function () {
         $.ajax({
             url: baseUrl + '/company/infoanddevicetype?token=' + JSON.parse(localStorage.getItem('loginInfo')).token + '&companyId=' + JSON.parse(localStorage.getItem('loginInfo')).companyId,
             success: function (res) {
+                if(res.code === 20001){
+                    layer.alert('登录已过期请重新登陆', {
+                        skin: 'layui-layer-yingke' //样式类名
+                        ,closeBtn: 0
+                        }, function(){
+                            parent.location.href = './index.html'
+                        });
+                } 
+                else if(res.code = 200){
+                    
                 const {
                     deviceTypeNum,
                     company
@@ -508,6 +530,14 @@ layui.use(['element', 'layer'], function () {
                 })
 
                 document.getElementsByClassName("home-left-center-bottom-right")[0].innerHTML = device.join('');
+                }else {
+                    layer.msg(res.msg, {
+                        icon: 2,
+                        closeBtn: 0,
+                        anim: 6, //动画类型
+                        time: 3000
+                    });
+                }
             }
         })
 
@@ -537,35 +567,46 @@ layui.use(['element', 'layer'], function () {
         $.ajax({
             url: baseUrl + '/alarm/listwithmonth?token=' + JSON.parse(localStorage.getItem('loginInfo')).token,
             success: function (res) {
-                const {
-                    rows
-                } = res
-
-                alertData = rows.map(item => {
-                    return {
-                        title: item.location,
-                        num: item.alarmTime,
-                         name: item.alarmMessage+':'+item.alarmData+item.data_unit,
-                        describe: item.isSolve === 0 ? '处理' : '未处理'
-                    }
-                })
-
-
-                const alert = alertData.map(item => {
-                    return `
-                        <li>
-                            <span class="mess-span-index">${item.title}</span>
-                            <span class="time-span-index">${item.num}</span>
-                            <br />
-                            <span class="cause-span-index">${item.name}</span>
-                            <span class="state-span-index">${item.describe}</span>
-                        </li>
-                    `
-                })
-
-
-
-                document.getElementsByClassName("home-center-bottom-bottom-content")[0].innerHTML = alert.join('');
+                if(res.code === 20001){
+                    layer.alert('登录已过期请重新登陆', {
+                        skin: 'layui-layer-yingke' //样式类名
+                        ,closeBtn: 0
+                        }, function(){
+                            parent.location.href = './index.html'
+                        });
+                } 
+                else if(res.code === 200){  
+                    const {
+                        rows
+                    } = res
+                    alertData = rows.map(item => {
+                        return {
+                            title: item.location,
+                            num: item.alarmTime,
+                            name: item.alarmMessage+':'+item.alarmData+item.data_unit,
+                            describe: item.isSolve === 0 ? '处理' : '未处理'
+                        }
+                    })
+                    const alert = alertData.map(item => {
+                        return `
+                            <li>
+                                <span class="mess-span-index">${item.title}</span>
+                                <span class="time-span-index">${item.num}</span>
+                                <br />
+                                <span class="cause-span-index">${item.name}</span>
+                                <span class="state-span-index">${item.describe}</span>
+                            </li>
+                        `
+                    })
+                    document.getElementsByClassName("home-center-bottom-bottom-content")[0].innerHTML = alert.join('');
+                }else {
+                    layer.msg(res.msg, {
+                        icon: 2,
+                        closeBtn: 0,
+                        anim: 6, //动画类型
+                        time: 3000
+                    });
+                }
             }
         })
 
@@ -575,62 +616,73 @@ layui.use(['element', 'layer'], function () {
         $.ajax({
             url: baseUrl + '/alarm/numbyalarmtype?token=' + JSON.parse(localStorage.getItem('loginInfo')).token + '&companyId=' + JSON.parse(localStorage.getItem('loginInfo')).companyId,
             success: function (res) {
-                const {
-                    rows
-                } = res
-                // backwardData = rows.map((item, index, arr)=>{
-                //     return {
-                //         name: Object.keys(arr)[index],
-                //         value
-                //     }
-                // })
-
-                for (var i in rows) {
-                    var pre = rows[i] / rows[Object.keys(rows).pop()] * 100
-                    var backwardObj = {
-                        name: i,
-                        value: rows[i],
-                        percent: pre.toFixed(2) + '%'
+                
+                if(res.code === 20001){
+                    layer.alert('登录已过期请重新登陆', {
+                        skin: 'layui-layer-yingke' //样式类名
+                        ,closeBtn: 0
+                        }, function(){
+                            parent.location.href = './index.html'
+                        });
+                } 
+                else if(res.code === 200){
+                    const {
+                        rows
+                    } = res
+                    for (var i in rows) {
+                        var pre = rows[i] / rows[Object.keys(rows).pop()] * 100
+                        var backwardObj = {
+                            name: i,
+                            value: rows[i],
+                            percent: pre.toFixed(2) + '%'
+                        }
+                        backwardData.push(backwardObj)
+    
                     }
-                    backwardData.push(backwardObj)
-
-                }
-                backwardData.pop()
-
-                var compare = function (obj1, obj2) {
-                    var val1 = obj1.value;
-                    var val2 = obj2.value;
-                    if (val1 < val2) {
-                        return 1;
-                    } else if (val1 > val2) {
-                        return -1;
-                    } else {
-                        return 0;
+                    backwardData.pop()
+    
+                    var compare = function (obj1, obj2) {
+                        var val1 = obj1.value;
+                        var val2 = obj2.value;
+                        if (val1 < val2) {
+                            return 1;
+                        } else if (val1 > val2) {
+                            return -1;
+                        } else {
+                            return 0;
+                        }
                     }
-                }
-                backwardData.sort(compare)
-
-                const backward = backwardData.map(item => {
-                    return `
-                        <div class="home-left-center-bottom-right-top">
-                            <div class="home-left-center-bottom-right-top-header">
-                                <span></span>
-                                <span>${item.name}</span>
-                                <span>占比</span>
-                            </div>
-                            <div class="home-left-center-bottom-right-top-footer">
-                                <span>${item.value}</span>
-                                <span>${item.percent}</span>
-                            </div>
-                            <div class="progressBar">
-                                <div class="progress-bar" style="width: ${item.percent}">
-        
+                    backwardData.sort(compare)
+    
+                    const backward = backwardData.map(item => {
+                        return `
+                            <div class="home-left-center-bottom-right-top">
+                                <div class="home-left-center-bottom-right-top-header">
+                                    <span></span>
+                                    <span>${item.name}</span>
+                                    <span>占比</span>
+                                </div>
+                                <div class="home-left-center-bottom-right-top-footer">
+                                    <span>${item.value}</span>
+                                    <span>${item.percent}</span>
+                                </div>
+                                <div class="progressBar">
+                                    <div class="progress-bar" style="width: ${item.percent}">
+            
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    `
-                })
-                document.getElementsByClassName("home-right-top-bottom")[0].innerHTML = backward.join('');
+                        `
+                    })
+                    document.getElementsByClassName("home-right-top-bottom")[0].innerHTML = backward.join('');
+                }else {
+                    layer.msg(res.msg, {
+                        icon: 2,
+                        closeBtn: 0,
+                        anim: 6, //动画类型
+                        time: 3000
+                    });
+                }
 
             }
         })
