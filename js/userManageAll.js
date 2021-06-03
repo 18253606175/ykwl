@@ -6,6 +6,91 @@ import {
     var form = layui.form
     var table = layui.table;
     var upload = layui.upload
+    var tree = layui.tree;
+
+  //树形列表
+  var treeData = []
+
+  //树形结构ajax
+  $.ajax({
+      url: baseUrl + '/company/listtree?token=' + JSON.parse(localStorage.getItem("loginInfo")).token,
+      async: false,
+      success: function (res) {
+        if(res.code === 20001){
+          layer.alert('登录已过期请重新登陆', {
+              skin: 'layui-layer-yingke' //样式类名
+              ,closeBtn: 0
+              }, function(){
+                  parent.location.href = './index.html'
+              });
+      } 
+       else if(res.code === 200){
+        treeData = function(){
+          return [{
+            title: res.rows.companyName,
+            id: res.rows.id,
+            spread: true,
+            children: res.rows.companyVOS.map(item => {
+              return {
+                  title: item.companyName,
+                  id: item.id,
+                  spread: false,//节点关闭
+                  children: item.companyVOS.length !==0 ? item.companyVOS.map(value => {
+                    return {
+                        title: value.companyName,
+                        id: value.id,
+                        spread: true,
+                      }
+                  }) : []
+              }
+            })
+          }]
+        }()
+       }else {
+        layer.msg(res.msg, {
+            icon: 2,
+            closeBtn: 0,
+            anim: 6, //动画类型
+            time: 3000
+        });
+    }
+      }
+  })
+  
+  var id = null;
+  //树形结构
+  tree.render({
+      elem: '#zreeList'
+      , data: treeData
+      , showLine: true  //是否开启连接线
+      , click: function (obj) {
+          //节点高亮
+          var nodes = document.getElementsByClassName("layui-tree-txt");
+          for (var i = 0; i < nodes.length; i++) {
+              if (nodes[i].innerHTML === obj.data.title)
+      {
+        nodes[i].style.color = "red";
+        nodes[i].style.fontWeight="Bold";
+      }
+         
+              else
+      {
+        nodes[i].style.color = "#a3c1b0";
+        nodes[i].style.fontWeight="normal";
+      }
+                  
+          }
+          id = obj.data.id;
+          table.reload('tableReload', {
+              page: {
+                  curr: 1 //重新从第 1 页开始
+              },
+              where: {
+                companyId: id
+              }
+          });
+      }
+  })
     //下拉框value
     var selectDate = [
       {
@@ -101,7 +186,7 @@ import {
       elem: '#unitTable',
       id: 'tableReload',
       url: baseUrl + "/user/list?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
-      height: 770,
+      height: 750,
       limit: 15,
       limits: [15, 20, 30,40,50,60,70,80,90,100,200,500],
       cellMinWidth: 85,
@@ -164,7 +249,7 @@ import {
           title: '操作',
           align: "center",
           toolbar: '#barDemo',
-          width:140
+          width:190
         }
         ]
       ]
@@ -172,14 +257,23 @@ import {
 
     //监听搜索提交
     form.on('submit(submitDoubleBtn)', function (data) {
-      table.reload('tableReload', {
-        page: {
-          curr: 1 //重新从第 1 页开始
-        },
-        where: {
-          companyId: data.field.selectDou,
-        }
-      });
+      if (data.field.selectDou.length === 0) {
+        layer.msg("请选择单位", {
+            icon: 2,
+            closeBtn: 0,
+            anim: 6, //动画类型
+            time: 3000
+        });
+    } else {
+        table.reload('tableReload', {
+          page: {
+            curr: 1 //重新从第 1 页开始
+          },
+          where: {
+            companyId: data.field.selectDou,
+          }
+        });
+    } 
       return false;
     });
   
@@ -475,6 +569,46 @@ import {
             });
           }
         });
+      } else if(obj.event === 'reset'){
+        layer.confirm('您确定重置到默认密码(zhxf@ykwl)吗？', {
+          btn: ['确定','取消'] //按钮，
+          ,skin: 'layui-layer-yingke'
+        }, function(){
+          $.ajax({
+            url: baseUrl + '/user/reset?token=' + JSON.parse(localStorage.getItem('loginInfo')).token,
+            type: 'post',
+            dataType: 'json',
+            contentType: "application/json",
+            data:JSON.stringify({
+              userCode: data.userCode
+            }),
+            success: function(res){
+              if (res.code === 200) {
+                layer.msg('重置密码成功', {
+                  icon: 1,
+                  closeBtn: 0,
+                  shade: 0.5,
+                  shadeClose: true,
+                  anim: 0, //动画类型
+                  time: 2000
+                }, function () {
+                  layer.closeAll();
+                });
+      
+              } else {
+                layer.msg(res.msg, {
+                  icon: 2,
+                  closeBtn: 0,
+                  anim: 6, //动画类型
+                  time: 3000
+                });
+              }
+            }
+          })
+        }, function(){
+         layer.closeAll();
+        });
+        
       }
     });
   

@@ -109,10 +109,10 @@ body {
 #pop-up-add {
   padding: 20px;
   & > .layui-form {
-    display: flex;
+    // display: flex;
     flex-wrap: wrap;
     & > .layui-form-item {
-      width: 50%;
+      // width: 50%;
       & > .layui-input-block {
         & > input {
           width: 80%;

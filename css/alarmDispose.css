@@ -427,3 +427,9 @@ input[type="number"] {
 .layui-form input[type=radio] {
   display: block;
 }
+
+.exportBtn {
+  position: relative;
+  right: 10px;
+  top: 6px;
+}

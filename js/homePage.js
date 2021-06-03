@@ -9,37 +9,49 @@ layui.use(['element', 'layer'], function () {
     var layid = location.hash.replace(/^#test1=/, '');
     var projectView = {
         first: [{
-                title: "项目总数",
+                title: "单位总数",
                 value: 1
             },
             {
-                title: "设备总数",
+                title: "报警总数",
                 value: 1
-            },
+            },    
             {
-                title: "巡检次数",
+                title: "巡检点总数",
                 value: 1
             }
         ],
         second: [{
-                title: "报警总数",
+                title: "设备总数",
                 value: 1
             },
             {
-                title: "已解决总数",
+                title: "已处理总数",
                 value: 1
             },
             {
-                title: "未解决总数",
+                title: "已巡检总数",
                 value: 1
             }
         ]
     }
 
+    //设备统计请求
+    $.ajax({
+        url: baseUrl + '/company/statistics?token=' + JSON.parse(localStorage.getItem('loginInfo')).token,
+        async:false,
+        success: function(res){
+            const { rows } = res;
+            sessionStorage.setItem('alarmNum', rows.alarmNum)
+            projectView.first[0].value = rows.companyNum;
+            projectView.first[1].value = rows.alarmNum;
+            projectView.first[2].value = rows.inspectAddNum;
+            projectView.second[0].value = rows.deviceNum;
+        }
+    })
+
 
     element.tabChange('test1', layid); //假设当前地址为：http://a.com#test1=222，那么选项卡会自动切换到“发送消息”这一项
-
-   
 
     var deviceState = []
 
@@ -686,17 +698,8 @@ layui.use(['element', 'layer'], function () {
 
             }
         })
-
-
-
-
-
         document.getElementsByClassName("home-left-top-bottom-top")[0].innerHTML = first.join('');
         document.getElementsByClassName("home-left-top-bottom-bottom")[0].innerHTML = second.join('');
-
-
-
-
     }
     circulation()
 
@@ -709,16 +712,6 @@ layui.use(['element', 'layer'], function () {
         location.hash = 'test1=' + this.getAttribute('lay-id');
 
     });
-
-
-
-
-
-
-    // 标题隐藏与显示
-
-
-
 
     // 传入的 t 为滚动快慢的时间
     let ul1 = document.getElementById("ul1");

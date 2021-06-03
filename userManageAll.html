@@ -11,9 +11,12 @@
     <link rel="stylesheet" href="./css//table.css">
 </head>
 
-<body>
-    <!-- 单位管理列表 -->
-    <div class="unitManage-main">
+<body class="layui-row">
+    <div class="layui-col-md2">
+        <div id="zreeList" class="demo-tree-more"></div>
+    </div>
+    <!-- 用户管理列表 -->
+    <div class="unitManage-main layui-col-md10">
         <div class="unitManage-main-header">
             <div class="unitManage-main-header-title">
                 用户管理
@@ -66,6 +69,7 @@
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="reset">重置密码</a>
 </script>
 <div id="pop-up-add" style="display: none;">
 

@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>绑定消防平台账号</title>
+    <link rel="stylesheet" href="http://yw.yk-iot.cn/node_modules/layui.css">
+    <link rel="stylesheet" href="http://yw.yk-iot.cn/css/emsLogin.css">
+</head>
+<body>
+<div style="overflow:hidden;display: flex;justify-content: center;"> <img style="float:left;width:65px;height:65px;border-radius:50%;margin-top:5px;" class="img" src="<?=$uinfo[headimgurl]?>" alt=""> <img  style="float:right;width:180px;margin-left:50px"  src="http://yw.yk-iot.cn/img/esco_logo.png" alt=""></div>
+   
+    <div class="content">
+        <form class="layui-form" action="" method="post">
+		<input type="hidden" name="form_submit" value="ok" />
+            <div class="layui-form-item">
+                <!-- <label class="layui-form-label layui-required">id</label> -->
+                <div class="layui-input-block">
+                    <input type="text" name="uid" lay-verify="uid" placeholder="请输入账号" autocomplete="off"
+                        class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <!-- <label class="layui-form-label layui-required">id</label> -->
+                <div class="layui-input-block">
+                    <input type="text" id="pwd" name="pwd" placeholder="请输入密码" autocomplete="off"
+                        class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item  layui-form-item-submit">
+                <div style='text-align: center'>
+                    <button type="submit" class="layui-btn" lay-submit="" lay-filter="login">登录</button>
+                </div>
+            </div>
+        </form>
+    </div>
+	<script src="https://cdn.bootcdn.net/ajax/libs/layui/2.6.5/layui.min.js"></script>
+	<script>
+  
+ 
+
+  
+
+
+  
+ layui.define(function(){
+ 
+	var $ = layui.$; 
+ var layer = layui.layer
+  ,form = layui.form;
+//自定义验证规则,要放在form.on前面，千万不能放在提交步骤中，否则会不触发
+  form.verify({
+    uid: function(value){
+      if(value.length < 2){
+        return '请填写正确账号';
+      }
+    }
+  });
+	
+form.on('submit(login)', function(data){
+	if($("#pwd").val()=="")
+	{
+		layer.msg("请输入密码");
+		$("#pwd").focus();
+		return false;
+	}
+
+	//layer.confirm('确认提交?', {icon: 3, title:'提示'}, function(index){
+	//	layer.close(index);
+	//	$("#txform").submit();
+	//});
+	//return false; 
+      });
+	
+
+  });
+  </script>
+</body>   
+</html>

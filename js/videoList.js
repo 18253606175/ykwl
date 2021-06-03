@@ -25,21 +25,30 @@ layui.use(['element', 'layer', 'table',  'laydate', 'tree'], function () {
                     });
             } 
             else if(res.code === 200){
-                treeData = res.rows.map(item => {
-                    return {
-                        title: item.companyName,
-                        id: item.id,
-                        spread: true,
-                        children: item.videoUrlVOS.map(i => {
-                            return {
-                                title: i.location,
-                                id: i.id,
-                                url: i.flvUrl,
-                                spread: true
-                            }
-                        })
-                    }
-                })
+                if(res.rows.length === 0){
+                    layer.alert('该单位暂无视频监控', {
+                        skin: 'layui-layer-yingke' //样式类名
+                        ,closeBtn: 0
+                      }, function(){
+                        layer.closeAll();
+                      });
+                }else{
+                    treeData = res.rows.map(item => {
+                        return {
+                            title: item.companyName,
+                            id: item.id,
+                            spread: true,
+                            children: item.videoUrlVOS.map(i => {
+                                return {
+                                    title: i.location,
+                                    id: i.id,
+                                    url: i.flvUrl,
+                                    spread: true
+                                }
+                            })
+                        }
+                    })
+                }
             }else {
                 layer.msg(res.msg, {
                     icon: 2,

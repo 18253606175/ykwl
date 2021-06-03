@@ -95,9 +95,9 @@
 <script src="./node_modules/layui.js"></script>
 <script type="module" src="./js/inspectionPoint.js"></script>
 <script type="text/html" id="typeSign">
-    {{#  if(d.status === 1){ }}
+    {{#  if(d.state === 2){ }}
     <div style="color: red;">未巡检</div>
-    {{#  } else if(d.status === 2) { }}
+    {{#  } else if(d.state === 1) { }}
     <div style="color: green;">已巡检</div>
     {{#  }  }}
 </script>

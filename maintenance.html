@@ -19,13 +19,24 @@
                 运维管理
             </div>
             <div class="faultHand-main-header-right-search">
-                <form class="layui-form" action="">
+                <form class="layui-form" action="" >
                     <div class="layui-form-item">
                         <div class="layui-input-inline">
                             <select class="layui-input-inline-select" name="selectDou" lay-search="">
 
                             </select>
                             <button id="refresh" type="submit" lay-filter="submitDoubleBtn" lay-submit=""
+                                class="layui-btn layui-btn-primary">
+                                <i class="layui-icon">&#xe615;</i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <form class="layui-form" action="" >
+                    <div class="layui-form-item">
+                        <div class="layui-input-inline">
+                            <input type="text" name="serviceTime" id="date" lay-verify="date" placeholder="请选择日期" autocomplete="off" class="layui-input">
+                            <button id="submitDate" type="submit" lay-filter="submitDate" lay-submit=""
                                 class="layui-btn layui-btn-primary">
                                 <i class="layui-icon">&#xe615;</i>
                             </button>

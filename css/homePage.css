@@ -26,6 +26,7 @@ html {
   position: absolute;
   right: -6px;
   top: 10px;
+  line-height: 20px;
 }
 
 #warn .iconfont {

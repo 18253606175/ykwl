@@ -135,7 +135,7 @@ layui.use(['element', 'layer', 'flow', 'tree', 'laydate', 'table'], function () 
     })
 
     //流加载请求列表数据
-    function flowReload(param, parentParam, location, companyId, reptime) {
+    function flowReload(param, parentParam, location, companyId, reptime, state) {
 
 
         flow.load({
@@ -157,7 +157,8 @@ layui.use(['element', 'layer', 'flow', 'tree', 'laydate', 'table'], function () 
                         bigTypeNumber: parentParam,
                         locationDesc: location,
                         companyId: companyId,
-                        reptime: reptime
+                        reportTime: reptime,
+                        status: state
                     },
                     success: function (res) {
                         if(res.code === 20001){
@@ -179,8 +180,8 @@ layui.use(['element', 'layer', 'flow', 'tree', 'laydate', 'table'], function () 
                                 //这里遍历数据
                                 lis.push(
                                     `
-                                        <div class="pollingCard" index=${item.companyId}>
-                                            <div>
+                                        <div class="pollingCard" index=${item.nfcid}>
+                                            <div style="background: ${item.status === 2 ? 'url(../img/green1.png) no-repeat center 50%;': 'url(../img/nocheck.png) no-repeat center 50%;'}">
                         
                                             </div>
                                             <section>${item.inspectType}</section>
@@ -188,7 +189,7 @@ layui.use(['element', 'layer', 'flow', 'tree', 'laydate', 'table'], function () 
                                                 <article>${item.status === 2 ? '<span class="layui-badge layui-bg-green">已巡检</span>' : '<span class="layui-badge layui-bg-red">未巡检</span>'}</article>
                                                 <p>NFC卡号: ${item.nfcid}</p>
                                                 <p class="location">位置: ${item.locationDesc}</p>
-                                                <p>巡检时间：${item.reptime ? item.reptime : '--'}</p>
+                                                <p>巡检时间：${item.reportTime ? item.reportTime : '--'}</p>
                                             </aside>
                                         </div> 
                                     `
@@ -203,21 +204,21 @@ layui.use(['element', 'layer', 'flow', 'tree', 'laydate', 'table'], function () 
 
                         for (var i = 0; i < document.getElementsByClassName("pollingCard").length; i++) {
                             $(".pollingCard")[i].onclick = function () {
-                                let id = $(this).attr("index")
+                                let nfcid = $(this).attr("index")
                                 //点击弹出详情  ajax回调
                                 layer.open({
                                     type: 1,
                                     offset: '180px',
                                     title: '详情',
                                     skin: 'layui-layer-yingke',
-                                    area: ['800px', '550px'],
+                                    area: ['1000px', '550px'],
                                     content: $(".dialog-card"),
                                     success: function (layero, index) {
                                         //表格
                                         table.render({
                                             elem: '#home',
                                             id: 'tableReload',
-                                            url: baseUrl + "/inspectadd/list?token=" + JSON.parse(localStorage.getItem('loginInfo'))
+                                            url: baseUrl + "/inspectrecort/listbyncfid?token=" + JSON.parse(localStorage.getItem('loginInfo'))
                                                 .token
                                             , request: {
                                                 pageName: 'pageNumber' //页码的参数名称，默认：page
@@ -225,7 +226,7 @@ layui.use(['element', 'layer', 'flow', 'tree', 'laydate', 'table'], function () 
                                             },
                                             height: 470,
                                             where: {
-                                                companyId: id
+                                                nfcId: nfcid
                                             },
                                             parseData: function (response) {
                                                 return {
@@ -238,9 +239,10 @@ layui.use(['element', 'layer', 'flow', 'tree', 'laydate', 'table'], function () 
                                             cellMinWidth: 85,
                                             cols: [
                                                 [{
-                                                    field: 'companyName',
+                                                    field: 'nfcid',
                                                     align: "center",
-                                                    title: '公司名称'
+                                                    title: 'NFC卡号',
+                                                    width: 150
                                                 }, {
                                                     field: 'inspectType',
                                                     align: "center",
@@ -250,14 +252,18 @@ layui.use(['element', 'layer', 'flow', 'tree', 'laydate', 'table'], function () 
                                                     align: "center",
                                                     title: '位置描述'
                                                 }, {
-                                                    field: 'status',
+                                                    field: 'state',
                                                     align: "center",
                                                     title: '状态',
                                                     templet: "#typeSign"
-                                                }, {
-                                                    field: 'createTime',
+                                                },{
+                                                    field: 'reportPerson',
                                                     align: "center",
-                                                    title: '创建时间'
+                                                    title: '巡检人'
+                                                }, {
+                                                    field: 'reportTime',
+                                                    align: "center",
+                                                    title: '巡检时间'
                                                 }
                                                 ]
                                             ]
@@ -322,157 +328,7 @@ layui.use(['element', 'layer', 'flow', 'tree', 'laydate', 'table'], function () 
             if (Number(this.getAttribute("index")) === 1) {
                 state = '2'
             }
-            
-
-
-        flow.load({
-            elem: '#flow_inspectList' //流加载容器
-            ,
-            scrollElem: '#flow_inspectList' //滚动条所在元素，一般不用填，此处只是演示需要。
-            ,
-            done: function (page, next) { //执行下一页的回调
-                var lis = [];
-                //模拟数据插入
-                $.ajax({
-                    url: baseUrl + "/inspectadd/list?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
-                    async: false,
-                    md: 100,
-                    data: {
-                        pageNumber: page,
-                        pageSize: 20,
-                        smallTypeNumber: id,
-                        bigTypeNumber: pid,
-                        status: state
-                    },
-                    success: function (res) {
-                        if(res.code === 20001){
-                            layer.alert('登录已过期请重新登陆', {
-                                skin: 'layui-layer-yingke' //样式类名
-                                ,closeBtn: 0
-                                }, function(){
-                                    parent.location.href = './index.html'
-                                });
-                        } 
-                        else if(res.code === 200){
-                            
-                        $(".count").html(`共: ${res.rows.total}个巡检点`)
-                        if (res.rows.rows.length === 0) {
-                            $(".layui-flow-more").css('display', 'none')
-                            $("#flow_inspectList").html('<p id="empty" style="color:#fff">无数据</p>')
-                        } else {
-                            layui.each(res.rows.rows, function (index, item) {
-                                //这里遍历数据
-                                lis.push(
-                                    `
-                                        <div class="pollingCard" index=${item.id}>
-                                            <div>
-                        
-                                            </div>
-                                            <section>${item.inspectType}</section>
-                                            <aside>
-                                                <article>${item.status === 2 ? '<span class="layui-badge layui-bg-green">已巡检</span>' : '<span class="layui-badge layui-bg-red">未巡检</span>'}</article>
-                                                <p>NFC卡号: ${item.nfcid}</p>
-                                                <p class="location">位置: ${item.locationDesc}</p>
-                                                <p>巡检时间：${item.reptime ? item.reptime : '--'}</p>
-                                            </aside>
-                                        </div> 
-                                    `
-                                );
-                            });
-                        }
-
-                        next(lis.join(''), page < res.rows.pageCount);
-                        $("#empty").remove();
-                        $(".layui-flow-more").hide();
-
-
-                        for (var i = 0; i < document.getElementsByClassName("pollingCard").length; i++) {
-                            $(".pollingCard")[i].onclick = function () {
-                                //点击弹出详情  ajax回调
-                                layer.open({
-                                    type: 1,
-                                    offset: '180px',
-                                    title: '详情',
-                                    skin: 'layui-layer-yingke',
-                                    area: ['800px', '550px'],
-                                    content: $(".dialog-card"),
-                                    success: function (layero, index) {
-
-
-                                        //表格
-                                        table.render({
-                                            elem: '#home',
-                                            id: 'tableReload',
-                                            url: baseUrl + "/inspectadd/list?token=" + JSON.parse(localStorage.getItem('loginInfo'))
-                                                .token
-                                            , request: {
-                                                pageName: 'pageNumber' //页码的参数名称，默认：page
-                                                , limitName: 'pageSize' //每页数据量的参数名，默认：limit
-                                            },
-                                            where: {
-                                                id: $(this).attr("index")
-                                            },
-                                            parseData: function (response) {
-                                                return {
-                                                    "data": response.rows.rows,
-                                                    "code": 0,
-                                                    "count": response.rows.total,
-                                                }
-                                            }
-                                            , page: true,
-                                            cellMinWidth: 85,
-                                            cols: [
-                                                [{
-                                                    field: 'companyName',
-                                                    align: "center",
-                                                    title: '公司名称'
-                                                }, {
-                                                    field: 'inspectType',
-                                                    align: "center",
-                                                    title: '巡检点类型'
-                                                }, {
-                                                    field: 'locationDesc',
-                                                    align: "center",
-                                                    title: '位置描述'
-                                                }, {
-                                                    field: 'status',
-                                                    align: "center",
-                                                    title: '状态',
-                                                    templet: "#typeSign"
-                                                }, {
-                                                    field: 'createTime',
-                                                    align: "center",
-                                                    title: '创建时间'
-                                                }
-                                                ]
-                                            ]
-                                        })
-
-
-                                        form.render();
-                                        //关闭弹层
-                                        $("#close-pop-up").click(function () {
-                                            layer.closeAll();
-                                        })
-
-                                    }
-                                });
-
-                            }
-                        }
-                        }else {
-                            layer.msg(res.msg, {
-                                icon: 2,
-                                closeBtn: 0,
-                                anim: 6, //动画类型
-                                time: 3000
-                            });
-                        }
-                    }
-                })
-
-            }
-        });
+            flowReload(id, pid, 0, 0, 0, state)
         }
     }
 

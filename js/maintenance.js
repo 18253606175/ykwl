@@ -2,9 +2,10 @@ import {
     baseUrl
   } from '../js/params.js'
   layui.use(['element', 'layer'], function () {
-    var $ = layui.jquery
-    var form = layui.form
+    var $ = layui.jquery;
+    var form = layui.form;
     var table = layui.table;
+    var laydate = layui.laydate;
     //下拉框value
     var selectDate = [
       {
@@ -148,8 +149,8 @@ import {
     table.render({
       elem: '#unitTable',
       id: 'tableReload',
-      url: baseUrl + "/company/list?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
-      height: 770,
+      url: baseUrl + "/serve/list?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
+      height: 730,
       limit: 15,
       limits: [15, 20, 30,40,50,60,70,80,90,100,200,500],
       cellMinWidth: 85,
@@ -176,79 +177,68 @@ import {
       },
       cols: [
         [{
-          field: 'id',
+          field: 'serviceType',
           align: "center",
-          title: '公司ID',
-          width:100,
-          sort: true
+          title: '服务类型'
         },  {
-          field: 'companyPId',
+          field: 'serviceContent',
           align: "center",
-          title: '运营商ID',
-          width:120,
-          sort: true
+          title: '服务内容内容'
         },{
-          field: 'comID',
+          field: 'serviceTime',
           align: "center",
-          title: '消防平台ID',
-          width:120,
-          sort: true
+          title: '服务时间'
         }, {
-          field: 'companyName',
+          field: 'serviceResult',
           align: "center",
-          title: '公司名称'
+          title: '服务结果'
         }, {
-          field: 'companyAddress',
+          field: 'person',
           align: "center",
-          title: '单位地址'
-        }, {
-          field: 'companyType',
-          align: "center",
-          title: '单位类别',
-          width:140,
-        }, {
-          field: 'fireConLevel',
-          align: "center",
-          title: '消防等级',
-          width:140,
-          templet: "#fireConLevel"
-        }, {
-          field: 'companyLevel',
-          title: '单位等级',
-          align: "center",
-          width:140,
-          templet: "#companyLevel"
-        } //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
-          , {
-          field: 'companyScore',
-          align: "center",
-          title: '消防评分',
-          width:120,
-          sort: true
-        }, {
-          field: 'alarmTel',
-          align: "center",
-          title: '电话',
-          width:130
-        }, {
-          fixed: 'right',
-          title: '操作',
-          align: "center",
-          toolbar: '#barDemo',
-          width:140
+          title: '填写人'
         }
+        // , {
+        //   fixed: 'right',
+        //   title: '操作',
+        //   align: "center",
+        //   toolbar: '#barDemo',
+        //   width:140
+        // }
         ]
       ]
     });
   
     //监听搜索提交
     form.on('submit(submitDoubleBtn)', function (data) {
+      if (data.field.selectDou.length === 0) {
+        layer.msg("请选择单位", {
+            icon: 2,
+            closeBtn: 0,
+            anim: 6, //动画类型
+            time: 3000
+        });
+    } else {
       table.reload('tableReload', {
         page: {
           curr: 1 //重新从第 1 页开始
         },
         where: {
           companyId: data.field.selectDou,
+        }
+      });
+    }
+      
+      return false;
+    });
+
+    //监听搜索提交
+    form.on('submit(submitDate)', function (data) {
+      table.reload('tableReload', {
+        page: {
+          curr: 1 //重新从第 1 页开始
+        },
+        where: {
+          serviceTime: data.field.serviceTime,
         }
       });
       return false;
@@ -261,8 +251,8 @@ import {
           type: 1,
           offset: '180px',
           skin: 'layui-layer-yingke',
-          title: '添加设备',
-          area: '900px',
+          title: '添加日志',
+          area: '600px',
           content: $("#pop-up-add")
         });
       }
@@ -272,131 +262,54 @@ import {
       $("#pop-up-add").html(
         `
           <form class="layui-form" action="">
-          <div class="layui-form-item">
-              <label class="layui-form-label layui-required">所属经销商</label>
-              <div class="layui-input-block">
-                  <select name="companyPId" lay-search="" lay-verify="required">
-                    <option value="">请选择单位</option>
-                    ${selectList1.map(item => {
-                          return `
-                                    <option value=${item.id}>${item.companyName}</option>
-                                  `
-                      })}
-                  </select>
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label class="layui-form-label layui-required">单位等级</label>
-              <div class="layui-input-block">
-                  <select name="companyLevel" lay-search="" lay-verify="required">
-                      <option value=""></option>
-                       ${companyLevel.map(item=>{
-                          return `${function(){
-                           
-                              return `<option value=${item.value}>${item.title}</option>`
-                          
-                          }()}`
-                        })}
-                  </select>
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label class="layui-form-label layui-required">单位名称</label>
-              <div class="layui-input-block">
-                  <input id="keyword" type="text" name="companyName" lay-verify="required" placeholder="请输入单位名称" autocomplete="off"
-                      class="layui-input" onBlur="ConvertName()">
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label class="layui-form-label layui-required">初始用户</label>
-              <div class="layui-input-block">
-                  <input type="text" name="userName" placeholder="根据单位名称可自动获得" autocomplete="off"
-                      class="layui-input"  id="simply">
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label class="layui-form-label layui-required">消防等级</label>
-              <div class="layui-input-block">
-                  <select name="fireConLevel" lay-search="">
-                      <option value=""></option>
-                      ${fireConLevel.map(item=>{
-                          return `${function(){                                 
-                              return `<option value=${item.value}>${item.title}</option>`
-                          }()}`
-                        })}
-                  </select>
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label class="layui-form-label layui-required">单位类别</label>
-              <div class="layui-input-block">
-                  <select name="companyType" lay-search="">
-                      <option value=""></option>
-                      ${companyType.map(item=>{
-                          return `${function(){                              
-                              return `<option value=${item.value}>${item.title}</option>`
-                          }()}`
-                        })}
-                  </select>
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label class="layui-form-label layui-required">单位地址</label>
-              <div class="layui-input-block">
-                  <input id="map" type="text" name="companyAddress" placeholder="请选择" autocomplete="off"
-                      class="layui-input">
-              </div>
-          </div>
            <div class="layui-form-item">
-              <label class="layui-form-label layui-required">单位坐标</label>
+              <label class="layui-form-label">公告类型</label>
               <div class="layui-input-block">
-                  <input id="areaCode" type="text" name="areasCode" readonly placeholder="根据地址自动获取" autocomplete="off"
-                      class="layui-input">
+                  <select name="articleType" lay-verify="required" lay-search="">
+                          <option value="">请选择公告类型</option>
+                          <option value="1">消防合法文书</option>
+                          <option value="2">消防平面图</option>
+                          <option value="3">消防预案</option>
+                          <option value="4">规章制度</option>
+                          <option value="5">消防培训</option>
+                  </select>
               </div>
-          </div>
-          
-          <div class="layui-form-item" style="display: none">
-              <label class="layui-form-label layui-required">单位区域</label>
-              <div class="layui-input-block">
-                  <input id="area" type="text" name="companyArea" placeholder="请输入" autocomplete="off"
-                      class="layui-input">
-              </div>
-          </div>
-          
-         
-          <div class="layui-form-item">
-              <label class="layui-form-label layui-required">消防负责人</label>
-              <div class="layui-input-block">
-                  <input type="text" name="fireconperson" placeholder="请输入" autocomplete="off"
-                      class="layui-input">
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label class="layui-form-label layui-required">负责人电话</label>
-              <div class="layui-input-block">
-                  <input type="text" name="AlarmTel" placeholder="请输入" autocomplete="off"
-                      class="layui-input">
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label class="layui-form-label layui-required">消防支队ID</label>
-              <div class="layui-input-block">
-                  <input type="text" name="ComID" placeholder="请输入" autocomplete="off"
-                      class="layui-input">
-              </div>
-          </div>
-          <div class="layui-form-item  layui-form-item-submit">
-              <div class="layui-input-block" style="text-align:center; margin-left: 0;">
-                  <button type="submit" class="layui-btn" lay-submit="" lay-filter="save">确认</button>
-                  <button type="button" id="close-pop-up" class="layui-btn layui-btn-primary">取消</button>
-              </div>
-          </div>
-      </form>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">标题</label>
+                <div class="layui-input-block">
+                    <input type="text" name="articleTitle" required placeholder="请输入" autocomplete="off"
+                    class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">内容</label>
+                <div class="layui-input-block">
+                    <input type="text" name="articleContent" required placeholder="请输入" autocomplete="off"
+                    class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">服务时间</label>
+                <div class="layui-input-block">
+                <input type="text" name="serviceTime" id="date1" lay-verify="date" placeholder="请选择日期" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item  layui-form-item-submit">
+                <div class="layui-input-block" style="text-align:center; margin-left: 0;">
+                    <button type="submit" class="layui-btn" lay-submit="" lay-filter="save">确认</button>
+                    <button type="button" id="close-pop-up" class="layui-btn layui-btn-primary">取消</button>
+                </div>
+            </div>
+        </form>
      
           `
       )
-      
+      laydate.render({
+        elem: '#date1'
+      });
       form.render()
+      
   
       $("#close-pop-up").click(function () {
         layer.closeAll();
@@ -469,161 +382,59 @@ import {
         layer.open({
           type: 1,
           offset: '180px',
-          title: '编辑设备',
+          title: '编辑日志',
           skin: 'layui-layer-yingke',
           area: '900px',
           content: $("#pop-up-add"),
           success: function (layero, index) {
             $("#pop-up-add").html(
-              `
-                    <form class="layui-form" action="">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label layui-required">所属经销商</label>
-                        <div class="layui-input-block">
-                          <select name="companyPId" lay-search="" lay-verify="required">
-                            <option value="">请选择单位</option>
-                            ${selectList1.map(item => {
-                              return `
-                                  ${function () {
-                                      if (item.id === data.companyPId) {
-                                          return `<option selected="true" value=${item.id}>${item.companyName}</option>`
-                                      } else {
-                                          return `<option value=${item.id}>${item.companyName}</option>`
-                                      }
-                                  }()
-                                  }
-                              `
-                          })}
-                          </select>
-                        </div>
-                    </div>
-                     <div class="layui-form-item">
-                        <label class="layui-form-label layui-required">单位等级</label>
-                        <div class="layui-input-block">
-                            <select name="companyLevel" lay-search="" lay-verify="required">
-                                <option value=""></option>
-                                ${companyLevel.map(item=>{
-                                  return `${function(){
-                                    if (item.value === data.companyLevel) {
-                                      return `<option selected="true" value=${item.value}>${item.title}</option>`
-                                  } else {
-                                      return `<option value=${item.value}>${item.title}</option>`
-                                  }
-                                  }()}`
-                                })}
-                            </select>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label layui-required">单位名称</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="companyName" lay-verify="required" placeholder="请输入" autocomplete="off"
-                                class="layui-input" value=${data.companyName}>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                      <label class="layui-form-label layui-required">初始用户</label>
-                      <div class="layui-input-block">
-                          <input type="text" name="userName" value=${data.userName} placeholder="请输入" autocomplete="off"
-                              class="layui-input">
-                      </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label layui-required">单位地址</label>
-                        <div class="layui-input-block">
-                            <input id="map" type="text" name="companyAddress" placeholder="请选择" autocomplete="off"
-                                class="layui-input" value=${data.companyAddress}>
-                        </div>
-                    </div>
-                   <div class="layui-form-item">
-                        <label class="layui-form-label layui-required">单位坐标</label>
-                        <div class="layui-input-block">
-                            <input id="areaCode" type="text" name="areasCode" readonly placeholder="根据地址自动获取" autocomplete="off"
-                                class="layui-input" value=${data.areasCode}>
-                          <i class="layui-icon layui-icon-tips layui-tips" lay-tips="请在地图选择单位地址 自动获取经纬度" ></i>	  
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label layui-required">消防等级</label>
-                        <div class="layui-input-block">
-                            <select name="fireConLevel" lay-search="">
-                                <option value=""></option>
-                                ${fireConLevel.map(item=>{
-                                  return `${function(){
-                                    if (item.value === data.fireConLevel) {
-                                      return `<option selected="true" value=${item.value}>${item.title}</option>`
-                                  } else {
-                                      return `<option value=${item.value}>${item.title}</option>`
-                                  }
-                                  }()}`
-                                })}
-                            </select>
-                        </div>
-                    </div>
-                    <div class="layui-form-item" style="display:none">
-                        <label class="layui-form-label layui-required">单位区域</label>
-                        <div class="layui-input-block">
-                            <input id="area" type="text" name="companyArea" placeholder="请输入" autocomplete="off"
-                                class="layui-input" value=${data.companyArea}>
-                        </div>
-                    </div>
-                    <div class="layui-form-item" style="display:none">
-                        <label class="layui-form-label layui-required">单位ID</label>
-                        <div class="layui-input-block">
-                            <input  type="text" name="id" placeholder="请输入" autocomplete="off"
-                                class="layui-input" value=${data.id}>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label layui-required">单位类别</label>
-                        <div class="layui-input-block">
-                            <select name="companyType" lay-search="">
-                                <option value=""></option>
-                                ${companyType.map(item=>{
-                                  return `${function(){
-                                    if (item.value === data.companyType) {
-                                      return `<option selected="true" value=${item.value}>${item.title}</option>`
-                                  } else {
-                                      return `<option value=${item.value}>${item.title}</option>`
-                                  }
-                                  }()}`
-                                })}
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="layui-form-item">
-                        <label class="layui-form-label layui-required">消防负责人</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="fireconperson" placeholder="请输入" autocomplete="off"
-                                class="layui-input" value=${data.fireconperson}>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label layui-required">负责人电话</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="AlarmTel" placeholder="请输入" autocomplete="off"
-                                class="layui-input" value=${data.alarmTel}>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label layui-required">消防支队ID</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="ComID" placeholder="请输入" autocomplete="off"
-                                class="layui-input" value=${data.comID}>
-                        </div>
-                    </div>
-                    <div class="layui-form-item  layui-form-item-submit">
-                        <div class="layui-input-block" style="text-align:center; margin-left: 0;">
-                            <button type="submit" class="layui-btn" lay-submit="" lay-filter="update">确认</button>
-                            <button type="button" id="close-pop-up" class="layui-btn layui-btn-primary">取消</button>
-                        </div>
-                    </div>
-                </form>
-        
+              `<form class="layui-form" action="">
+              <div class="layui-form-item">
+                 <label class="layui-form-label">公告类型</label>
+                 <div class="layui-input-block">
+                     <select name="articleType" lay-verify="required" lay-search="">
+                             <option value="">请选择公告类型</option>
+                             <option value="1">消防合法文书</option>
+                             <option value="2">消防平面图</option>
+                             <option value="3">消防预案</option>
+                             <option value="4">规章制度</option>
+                             <option value="5">消防培训</option>
+                     </select>
+                 </div>
+               </div>
+               <div class="layui-form-item">
+                   <label class="layui-form-label">标题</label>
+                   <div class="layui-input-block">
+                       <input type="text" name="articleTitle" required placeholder="请输入" autocomplete="off"
+                       class="layui-input">
+                   </div>
+               </div>
+               <div class="layui-form-item">
+                   <label class="layui-form-label">内容</label>
+                   <div class="layui-input-block">
+                       <input type="text" name="articleContent" required placeholder="请输入" autocomplete="off"
+                       class="layui-input">
+                   </div>
+               </div>
+               <div class="layui-form-item">
+                   <label class="layui-form-label">服务时间</label>
+                   <div class="layui-input-block">
+                   <input type="text" name="serviceTime" id="date2" lay-verify="date" placeholder="请选择日期" autocomplete="off" class="layui-input">
+                   </div>
+               </div>
+               <div class="layui-form-item  layui-form-item-submit">
+                   <div class="layui-input-block" style="text-align:center; margin-left: 0;">
+                       <button type="submit" class="layui-btn" lay-submit="" lay-filter="update">确认</button>
+                       <button type="button" id="close-pop-up" class="layui-btn layui-btn-primary">取消</button>
+                   </div>
+               </div>
+           </form>
     `
             )
             form.render();
+            laydate.render({
+              elem: '#date2'
+            });
             //关闭弹层
             $('*[lay-tips]').on('mouseenter', function(){
                   var content = $(this).attr('lay-tips');
@@ -655,7 +466,9 @@ import {
         });
       }
     });
-  
+    laydate.render({
+      elem: '#date'
+    });
     //编辑设备提交
     form.on('submit(update)', function (data) {
   
@@ -666,7 +479,7 @@ import {
       }
   
       $.ajax({
-        url: baseUrl + "/company/update?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
+        url: baseUrl + "/serve/update?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
         data: JSON.stringify(data.field),
         contentType: "json/application",
         type: 'post',
@@ -687,7 +500,7 @@ import {
                 });
         } 
           else if (res.code === 200) {
-            layer.msg('修改单位成功^_^', {
+            layer.msg('日志单位成功^_^', {
               icon: 1,
               closeBtn: 0,
               shade: 0.5,
@@ -723,7 +536,7 @@ import {
     //监听提交
     form.on('submit(save)', function (data) {
       $.ajax({
-        url: baseUrl + "/company/save?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
+        url: baseUrl + "/serve/save?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
         data: JSON.stringify(data.field),
         contentType: "json/application",
         type: 'post',
@@ -743,7 +556,7 @@ import {
                 });
         } 
          else if (res.code === 200) {
-            layer.msg('单位添加成功', {
+            layer.msg('日志添加成功', {
               icon: 1,
               closeBtn: 0,
               anim: 0, //动画类型
@@ -770,3 +583,4 @@ import {
     })
   
   })
+

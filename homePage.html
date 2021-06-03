@@ -32,15 +32,16 @@
                     <i id="quanping-icon" onclick= "fullScreen('homeIframe')" class="iconfont icon-quanping"></i>
                 </li>
                 <li class="layui-nav-item" id="warn">
-                    <div id="red"></div>
+                    <div id="red" style="text-align: center;"></div>
                     <i id="icon" class="iconfont icon-bj"></i>
                 </li>
                 <li class="layui-nav-item">
                     <a href="javascript:;">
-                        <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                        <img class="layui-nav-img">
                     </a>
                     <dl class="layui-nav-child">
-                        <dd><a href="./index.html">退出登录</a></dd>
+                        <dd><a class="change" style="cursor: pointer;">修改密码</a></dd>
+                        <dd><a class="quit" style="cursor: pointer;">退出登录</a></dd>
                     </dl>
                 </li>
 
@@ -80,7 +81,7 @@
     <script src="./node_modules/layui.js"></script>
     <!-- <script src="./js/homePage.js"></script> -->
     <script src="./js/deviceList.js"></script>
-    <script src="./js/show.js"></script>
+    <script type="module" src="./js/show.js"></script>
     <script src="./js/electric.js"></script>
     <script src="./js/jquery-3.6.0.min.js"></script>
     <script>

@@ -49,9 +49,9 @@
                             </form>
                         </div>
                     </div>
-                    <button type="button" class="layui-btn refresh-btn">
-                        <i class="layui-icon layui-icon-refresh"></i>
-                    </button>
+                    <div class="layui-btn-group demoTable exportBtn">
+                        <button class="layui-btn" data-type="getCheckData">导出</button>
+                    </div>
                 </div>
                 <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
                     <ul class="layui-tab-title">
@@ -60,9 +60,7 @@
                         <li class="disposeFlag">已处理</li>
                     </ul>
                     <div class="layui-tab-content">
-                        <div class="layui-btn-group demoTable exportBtn">
-                            <button class="layui-btn" data-type="getCheckData">导出</button>
-                        </div>
+                        
                         <table id="table" lay-filter="table"></table>
                     </div>
                 </div>
@@ -74,13 +72,17 @@
 <script src="./node_modules/layui.js"></script>
 <script type="module" src="./js/faultHand.js"></script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="dispose">处理</a>
+    {{#  if(d.disposeState !== 2 && d.state ===2){ }}
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="dispose">处理</a>
+        {{#  } else { }}
+        <a class="layui-btn layui-btn-xs" lay-event="check">查看</a>
+        {{#  }  }}
 </script>
 <script type="text/html" id="typeSign">
-    {{#  if(d.state === 1){ }}
-    <div style="color: green;">正常</div>
-    {{#  } else if(d.state === 2) { }}
-    <div style="color: red;">隐患</div>
+    {{#  if(d.disposeState === 1){ }}
+    <div style="color: red;">未处理</div>
+    {{#  } else if(d.disposeState === 2) { }}
+    <div style="color: green;">已处理</div>
     {{#  }  }}
 </script>
 

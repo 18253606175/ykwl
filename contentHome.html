@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="./node_modules/layui.css">
     <link rel="stylesheet" href="./css/contentHome.css">
     <link rel="stylesheet" href="./css/public.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_2557294_u42a6giwv0p.css">
     <style>
         .iw_poi_title {
             color: #CC5522;
@@ -73,8 +74,11 @@
             </div>
         </div>
         <div class="Homecenter">
-            <div class="home-center-top">
-                <div style="height: 100%;" id="allmap"></div>
+            <div class="home-center-top"  style="position: relative;">
+                <i id="quanping-icon" onclick="showFull()" class="iconfont icon-quanping"></i>
+                <div style="height: 100%;" id="allmap">
+                    
+                </div>
             </div>
             <div class="home-center-bottom">
                 <div class="home-center-bottom-title">
@@ -151,7 +155,7 @@
     ]
 
     var pointArr = []
-    var pointObj = []
+    
     $.ajax({
         url: "https://api.yk-iot.cn/rest/company/companyisalarm?token="+ JSON.parse(localStorage.getItem("loginInfo")).token,
         async: false,
@@ -161,20 +165,33 @@
                         skin: 'layui-layer-yingke' //样式类名
                         ,closeBtn: 0
                         }, function(){
-                            window.open('./index.html', '_self')
+                            parent.location.href = './index.html'
                         });
                 }else if(res.code === 200){
                     pointObj={}
                     pointArr=[]
                     const { rows } = res
                     rows.map(item=>{
-                        if(item.state === 3){
-                            pointObj.title = item.companyName
-                            pointObj.lng = Number(item.areasCode.split(',')[0])
-                            pointObj.lat = Number(item.areasCode.split(',')[1])
-                            pointArr.push(pointObj)
-                        }
+                        
+                            if(item.areasCode.length !== 0){
+                                let pointObj = {}
+                                pointObj.id = item.id
+                                pointObj.title = item.companyName
+                                pointObj.companyAddress = item.companyAddress
+                                pointObj.alarmTel = item.alarmTel
+                                pointObj.deviceSum = item.deviceSum
+                                pointObj.deviceOnLine = item.deviceOnLine
+                                pointObj.deviceAlarm = item.deviceAlarm
+                                pointObj.deviceOffLine = item.deviceOffLine
+                                pointObj.state = item.state
+                                pointObj.lng = Number(item.areasCode.split(',')[0])
+                                pointObj.lat = Number(item.areasCode.split(',')[1])
+                                pointArr.push(pointObj)
+
+                            }
+                        
                     })
+                    
                 }else {
                         layer.msg(res.msg, {
                             icon: 2,
@@ -185,10 +202,8 @@
                     }
         }
     })
-   
     var map = new BMap.Map("allmap");
-    var point = new BMap.Point(pointArr[0].lng, pointArr[0].lat);
-    // 119.17, 36.77
+    var point = pointArr.length !==0 ? new BMap.Point(pointArr[0].lng, pointArr[0].lat) : new BMap.Point('119.17','36.77');
     // var marker = new BMap.Marker(point);
     // var label = new BMap.Label("", { offset: new BMap.Size(20, -10) });//标注标签  
     // marker.setLabel(label)//设置标注说明
@@ -197,7 +212,7 @@
     //     // alert(e.point.lng + ", " + e.point.lat);//打印拖动结束坐标  
     // });
     // map.addOverlay(marker);
-    map.centerAndZoom(point, 15);
+    map.centerAndZoom(point, 12);
     map.enableScrollWheelZoom();
     map.setMapStyle({ styleJson: eval("mapStyleBrown") });
 
@@ -214,7 +229,7 @@
      * @constructor
      */
 
-    function CircleShow(radius, level, point, color) {
+    function CircleShow(radius, level, point, color, sign) {
         if (!window.map || !window.BMap || !window.BMap.Circle) {
             return undefined;
         }
@@ -229,8 +244,8 @@
 
         if (!this.color || !this.color.fillColor) {
             this.color = {
-                fillColor: "blue",//默认蓝色
-                fillOpacity: 0.5	 //默认初始透明度0.5
+                fillColor: "",   //默认蓝色
+                fillOpacity: 0.9	 //默认初始透明度0.5
             }
         }
 
@@ -240,11 +255,11 @@
 
         //先加一层白色的覆盖物，加在图片上表示覆盖范围
         this.circle0 = new BMap.Circle(this.point, this.radius, {
-            fillColor: "red",
-            fillOpacity: 0.2,
+            fillColor: "",
+            fillOpacity: 0.1,
             strokeWeight: 1,
-            strokeColor: "red",
-            strokeOpacity: 0.2,
+            strokeColor:'#eee',
+            strokeOpacity: 0.001,
             enableEditing: false
         });
         map.addOverlay(this.circle0);
@@ -333,13 +348,35 @@
     // var circles0 = new CircleShow(50, 4, pointCenter0, {fillColor:'red',fillOpacity:1});
     // circles1.start(1500,5000);
     // circles0.start(1500,5000);
+
+        let pointArr3 = pointArr.filter(item=>{
+            if(item.deviceAlarm > 0) {
+                return true
+            }
+        })
+
+        let pointArr0 = pointArr.filter(item=>{
+            if(item.deviceAlarm === 0) {
+                return true
+            }
+        })
+
+
+        console.log(pointArr0)
     
-    
-        for (let i = 0; i < pointArr.length; i++) {
-            let pointCenter = new BMap.Point(pointArr[i].lng, pointArr[i].lat);
-            let circles = new CircleShow(50, 4, pointCenter, {fillColor:'red',fillOpacity:1});
+        for (let i = 0; i < pointArr3.length; i++) {
+            let pointCenter = new BMap.Point(pointArr3[i].lng, pointArr3[i].lat);
+            let circles = new CircleShow(1500, 4, pointCenter, {fillColor: pointArr3[i].deviceAlarm > 0 ?'red' : '',fillOpacity:1});
             circles.start(1000,3000);
-            addMarker(pointCenter)
+            addMarker(pointCenter, pointArr3[i].deviceAlarm)
+            addInfoWindow( addMarker(pointCenter, pointArr3[i].deviceAlarm), pointArr3[i])   
+        }
+        for (let i = 0; i < pointArr0.length; i++) {
+            let pointCenter = new BMap.Point(pointArr0[i].lng, pointArr0[i].lat);
+            let circles = new CircleShow(0, 0, pointCenter, {fillColor: '',fillOpacity:1});
+            circles.start(1000,3000);
+            addMarker(pointCenter, pointArr0[i].deviceAlarm)
+            addInfoWindow( addMarker(pointCenter, pointArr0[i].deviceAlarm), pointArr0[i])   
         }
     }
 
@@ -355,10 +392,10 @@
     // map.addOverlay(marker4);
 
     // 添加标注
-    function addMarker(point, index) {
-        var myIcon = new BMap.Icon("./img/black.png",
+    function addMarker(point,flag) {
+        var myIcon = new BMap.Icon(flag > 0 ? "./img/red.png" : "./img/green.png",
             new BMap.Size(23, 25), {
-            // offset: new BMap.Size(10, 25),
+            offset: new BMap.Size(23, 25),
             // imageOffset: new BMap.Size(0, 0 - index * 25)
         });
         var marker = new BMap.Marker(point, {
@@ -369,33 +406,110 @@
     }
 
     // 添加信息窗口
-    // function addInfoWindow(marker, poi) {
-    //     //pop弹窗标题
-    //     var title = '<div style="font-weight:bold;color:#CE5521;font-size:14px">' + poi.title + '</div>';
-    //     //pop弹窗信息
-    //     var html = [];
-    //     html.push('<table cellspacing="0" style="table-layout:fixed;width:100%;font:12px arial,simsun,sans-serif"><tbody>');
-    //     html.push('<tr>');
-    //     html.push('<td style="vertical-align:top;line-height:16px;width:38px;white-space:nowrap;word-break:keep-all">地址:</td>');
-    //     html.push('<td style="vertical-align:top;line-height:16px">' + poi.address + ' </td>');
-    //     html.push('</tr>');
-    //     html.push('</tbody></table>');
-    //     var infoWindow = new BMap.InfoWindow(html.join(""), {
-    //         title: title,
-    //         width: 200
-    //     });
+    function addInfoWindow(marker, poi) {
+        //pop弹窗标题
+        var title = '<div style="font-weight:bold;color:#CE5521;font-size:14px">' + poi.title + '</div>';
+        //pop弹窗信息
+        // var html = [];
+        // html.push('<table cellspacing="0" style="table-layout:fixed;width:100%;font:12px arial,simsun,sans-serif"><tbody>');
+        // html.push('<tr>');
+        // html.push('<td style="vertical-align:top;line-height:16px;width:38px;white-space:nowrap;word-break:keep-all">地址:</td>');
+        // html.push('<td style="vertical-align:top;line-height:16px">' + poi.address + ' </td>');
+        // html.push('</tr>');
+        // html.push('</tbody></table>');
+        html=`
+                <div>电话：${poi.alarmTel}</div>
+                <div>单位地址：${poi.companyAddress}</div>
+                <div class='sum' index=${poi.id} style="display:inline-block;color: green;cursor: pointer; margin-right: 60px">设备总数：${poi.deviceSum}</div>
+                <div style="display:inline-block">设备在线：${poi.deviceOnLine}</div>
+                <div class='alarm' index=${poi.id} style="display:inline-block;color: red;cursor: pointer; margin-right: 60px">设备报警：${poi.deviceAlarm}</div>
+                <div style="display:inline-block">设备离线：${poi.deviceOffLine}</div>
+                `
+        var infoWindow = new BMap.InfoWindow(html, {
+            title: title,
+            width: 300
+        });
 
-    //     var openInfoWinFun = function () {
-    //         marker.openInfoWindow(infoWindow);
-    //     };
-    //     marker.addEventListener("click", openInfoWinFun);
-    //     return openInfoWinFun;
-    // }
-
+        var openInfoWinFun = function () {
+            marker.openInfoWindow(infoWindow);
+            var x = parent.document.querySelectorAll("a[accessKey]");
+            $(".sum").click(function(){
+                localStorage.setItem('companyId', $(".sum").attr('index'))
+                x.forEach(item => {
+                    if (item.accessKey === 'deviceList') {
+                        item.classList.add('layui-this');
+                        $(item).parent().parent().parent().addClass(' layui-nav-itemed')
+                    } else {
+                        item.classList.remove('layui-this')
+                        $(item).parent().parent().parent().removeClass('layui-this');
+                        $(item).parent().removeClass('layui-this');
+                    }
+                })
+                window.open('./deviceList.html', '_self')
+                $('.layui-body').css('top', '50px')
+            })
+            $(".alarm").click(function(){
+                localStorage.setItem('companyId', $(".alarm").attr('index'))
+                x.forEach(item => {
+                    if (item.accessKey === 'alarm') {
+                        item.classList.add('layui-this');
+                        $(item).parent().parent().parent().addClass(' layui-nav-itemed')
+                    } else {
+                        item.classList.remove('layui-this')
+                        $(item).parent().parent().parent().removeClass('layui-this');
+                        $(item).parent().removeClass('layui-this');
+                    }
+                })
+                window.open('./alarm.html', '_self')
+            })
+        };
+        marker.addEventListener("click", openInfoWinFun);
+        
+        return openInfoWinFun;
+    }
+   
+    //跳转设备页面
     
-
+   
     
     flag();
+
+    function showFull(){
+        var full=document.getElementById("allmap");
+        launchIntoFullscreen(full);
+    }
+
+    function delFull() {
+        exitFullscreen();
+    }
+
+
+    function launchIntoFullscreen(element) {
+        if(element.requestFullscreen){
+            element.requestFullscreen();
+        }
+        else if(element.mozRequestFullScreen) {
+            element.mozRequestFullScreen();
+        }
+        else if(element.webkitRequestFullscreen) {
+            element.webkitRequestFullscreen();
+        }
+        else if(element.msRequestFullscreen) {
+            element.msRequestFullscreen();
+        }
+    }
+
+    function exitFullscreen() {
+        if(document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if(document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if(document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        }
+    }
+
+    
 </script>
 
 </html>

@@ -150,7 +150,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree'], function () 
             layer.open({
                 type: 1,
                 offset: '180px',
-                title: '处理设备',
+                title: '处理隐患',
                 skin: 'layui-layer-yingke',
                 area: '700px',
                 content: $(".dialog"),
@@ -189,6 +189,56 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree'], function () 
                 })
                 }
             });
+        }else if(obj.event === 'check'){
+            layer.open({
+                type: 1,
+                offset: '180px',
+                title: '巡查详情',
+                skin: 'layui-layer-yingke',
+                area: '700px',
+                content: $(".dialog"),
+                success: function () {
+                    $(".dialog").html(`<form class="layui-form" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">NFC卡号</label>
+                        <div class="layui-input-block">
+                            <input type="text" style="border: none" name="id" lay-verify="imei" required disabled placeholder="请输入" autocomplete="off"
+                            class="layui-input" value=${data.nfcid}>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">隐患描述</label>
+                        <div class="layui-input-block">
+                            <input type="text" style="border: none" name="disposePerson" lay-verify="imei"disabled required placeholder="请输入" autocomplete="off"
+                            class="layui-input" value=${data.dangerDetails}>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">位置</label>
+                        <div class="layui-input-block">
+                            <input type="text" style="border: none" name="disposePerson" lay-verify="imei" disabled required placeholder="请输入" autocomplete="off"
+                            class="layui-input" value=${data.locationDesc}>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">上报时间</label>
+                        <div class="layui-input-block">
+                            <input type="text" style="border: none" name="disposePerson" lay-verify="imei" disabled required placeholder="请输入" autocomplete="off"
+                            class="layui-input" value=${data.reportTime}>
+                        </div>
+                    </div>
+                    <div class="layui-form-item  layui-form-item-submit">
+                        <div style="text-align: center;">
+                            <button type="button" id="close-pop-up" class="layui-btn layui-xs">确认</button>
+                        </div>
+                    </div>
+                </form>`)
+				form.render();
+                $("#close-pop-up").click(function(){
+                    layer.closeAll();
+                })
+                }
+            });
         }
     });
 
@@ -203,7 +253,10 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree'], function () 
 
     $.ajax({
       url: baseUrl + "/inspectrecort/update?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
-      data: data.field,
+      data: JSON.stringify(data.field),
+      contentType: "json/application",
+      type: 'post',
+      dataType: "json",
       success: function (res) {
         table.reload('tableReload', {
           page: {
@@ -278,26 +331,24 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree'], function () 
         },
         cols: [
             [ //表头
-                {
-                    field: 'dangerDetails',
+				{
+                    field: 'nfcid',
                     align: "center",
-                    title: '隐患描述'
+                    title: '巡查卡号',
                 },
+                
                 {
                     field: 'inspectType',
                     align: "center",
-                    title: '巡检类型',
+                    title: '巡查点类型',
                 },
                 {
                     field: 'locationDesc',
                     align: "center",
                     title: '巡检点位置',
+					width: 250
                 },
-                {
-                    field: 'nfcid',
-                    align: "center",
-                    title: 'NFC卡号',
-                },
+               
                 {
                     field: 'reportPerson',
                     align: "center",
@@ -313,6 +364,11 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree'], function () 
                     align: "center",
                     title: '巡检状态',
                     templet: "#typeSign"
+                },
+				{
+                    field: 'dangerDetails',
+                    align: "center",
+                    title: '巡检状态描述'
                 },
                 {
                     fixed: 'right',

@@ -88,8 +88,16 @@ layui.use(['element', 'layer', 'form'], function () {
           }
     });
     form.on('submit(submitDoubleBtn)', function (data) {
-
-        vm.unify(data.field.companyId);
+        if (data.field.companyId.length === 0) {
+            layer.msg("请选择单位", {
+                icon: 2,
+                closeBtn: 0,
+                anim: 6, //动画类型
+                time: 3000
+            });
+        } else {
+            vm.unify(data.field.companyId);
+        }
         return false;
     });
 
@@ -125,6 +133,8 @@ var vm = new Vue({
     data: {
         companyId: JSON.parse(localStorage.getItem('loginInfo')).companyId,
         CompanySite: "",
+		yinzhangurl: "",
+		CompanyPName: "",
         RepostType1: "",
         DailyReportData: "",
         CompanyAdress: "",
@@ -183,6 +193,9 @@ var vm = new Vue({
                     var result = data.rows;
                     vm.CompanySite = result.companyName;
                     vm.CompanyAdress = result.companyAddress;
+					// vm.CompanyPid = result.companyPId;
+					vm.CompanyPName = result.companyPName;
+					vm.yinzhangurl=`http://firecontrol.yk-iot.cn/img/yinzhang_${result.companyPId ?result.companyPId:1}.png`
                    }else {
                     layer.msg(data.msg, {
                         icon: 2,
@@ -330,7 +343,7 @@ var vm = new Vue({
                     vm.CardPatrolNumber = result.cardPatrolNumber;
                     vm.CardNOTPatrolNumber = result.cardNOTPatrolNumber;
                     if (result.CardNumber > 0) {
-                        vm.HaveXuncha = 1;
+                       // vm.HaveXuncha = 1;
                         vm.CardPatrolRate = Math.round(result.cardPatrolNumber / result.cardNumber * 10000) / 100 + "%";
                     } else {
                         vm.CardPatrolRate = '';
@@ -353,6 +366,7 @@ var vm = new Vue({
             vm.HaveWater = 0;
             vm.HaveVideo = 0;
             vm.HaveSmoke = 0;
+			vm.HaveXuncha = 0;
             var data = {
                 "token": vm.token,
                 "companyId": id
@@ -391,6 +405,9 @@ var vm = new Vue({
                             }
                             if (result[i].type == '06') {
                                 vm.HaveSmoke = 1;
+                            }
+							if (result[i].type == '07') {
+                                vm.HaveXuncha = 1;
                             }
                         }
                     }

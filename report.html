@@ -83,7 +83,7 @@ mso-font-kerning:0.0000pt;" ><o:p>&nbsp;</o:p></span></p><p class=p  align=justi
 margin-left:0.0000pt;mso-pagination:widow-orphan;text-align:justify;
 text-justify:inter-ideograph;" ><span style="mso-spacerun:'yes';font-family:华文楷体;font-size:18.0000pt;
 mso-font-kerning:0.0000pt;" ><o:p>&nbsp;</o:p></span></p><p class=p  align=center  style="margin-top:0.0000pt;margin-right:0.0000pt;margin-bottom:0.0000pt;
-margin-left:0.0000pt;mso-pagination:widow-orphan;text-align:center;" ><img width="590"    src="http://firecontrol.yk-iot.cn/img/yinzhang_yingke.png" ><span style="mso-spacerun:'yes';font-family:华文楷体;font-size:18.0000pt;
+margin-left:0.0000pt;mso-pagination:widow-orphan;text-align:center;" ><img width="590"    v-bind:src="yinzhangurl" ><span style="mso-spacerun:'yes';font-family:华文楷体;font-size:18.0000pt;
 mso-font-kerning:0.0000pt;" ><o:p>&nbsp;</o:p></span></p>
 					
                     <p style="font-size: 44px; font-family: '华文楷体'; text-align: center;"></p>
@@ -91,7 +91,7 @@ mso-font-kerning:0.0000pt;" ><o:p>&nbsp;</o:p></span></p>
                     <br/>
                     <span style="font-size: 13.5000pt;"><br clear=all style="page-break-before:always"></span>
                     <p style="font-size: 21.3px; font-family: '华文楷体'; font-weight: bold; text-align: center;">
-                        英科物联运维管理平台设备运行情况报告</p>
+                       <span> {{CompanyPName}}</span>运维管理平台设备运行情况报告</p>
     
                     <!-- -----------第二页--------------- -->
                     <p style="font-size: 18.6px; font-family: '华文楷体';">编号：</p>
@@ -118,19 +118,19 @@ mso-font-kerning:0.0000pt;" ><o:p>&nbsp;</o:p></span></p>
                                     <span v-else
                                           style="font-family:Wingdings;font-size:13.5000pt;mso-font-kerning:0.0000pt;" >&#168;</span>	
                                     智慧用电监测系统
-                                    <span v-if="$data.HaveWater==1"
+                                    <span v-if="HaveWater==1"
                                           style="font-family:Wingdings;font-size:13.5000pt;mso-font-kerning:0.0000pt;" >&#254;</span>
                                     <span v-else
                                           style="font-family:Wingdings;font-size:13.5000pt;mso-font-kerning:0.0000pt;" >&#168;</span>
                                     消防用水监测系统
                                 </p>
                                 <p>
-                                    <span v-if="$data.HaveVideo==1"
+                                    <span v-if="HaveVideo==1"
                                           style="font-family:Wingdings;font-size:13.5000pt;mso-font-kerning:0.0000pt;" >&#254;</span>
                                     <span v-else
                                           style="font-family:Wingdings;font-size:13.5000pt;mso-font-kerning:0.0000pt;" >&#168;</span>
                                     隐患视频识别系统
-                                    <span v-if="$data.HaveXuncha==1"
+                                    <span v-if="HaveXuncha==1"
                                           style="font-family:Wingdings;font-size:13.5000pt;mso-font-kerning:0.0000pt;" >&#254;</span>
                                     <span v-else
                                           style="font-family:Wingdings;font-size:13.5000pt;mso-font-kerning:0.0000pt;" >&#168;</span>

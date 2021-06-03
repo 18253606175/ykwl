@@ -237,6 +237,14 @@ body {
       background-color: green;
       margin: 4px 0 15px;
       box-shadow: 0 2px 8px 0 #009688;
+      .icon-quanping{
+        position: absolute;
+        z-index: 999;
+        font-size: 20px;
+        color: #fff;
+        right: 10px;
+        top: 4px;
+      }
     }
     .home-center-bottom {
       height: 310px;
@@ -448,5 +456,12 @@ body {
         flex: 1;
       }
     }
+  }
+}
+.BMap_Marker{
+  img{
+    width: 70%;
+    margin-left: 3px!important;
+    margin-top: 4px!important;
   }
 }

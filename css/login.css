@@ -58,9 +58,20 @@ input:-internal-autofill-selected {
 .login-main .login-main-content .login-main-content-left .login-main-content-left-bottom > div {
   width: 90px;
   height: 90px;
-  margin: 65px 30px 30px 30px;
+  margin: 65px 25px 30px 25px;
   background: chocolate;
   display: inline-block;
+}
+
+.login-main .login-main-content .login-main-content-left .login-main-content-left-bottom > div img {
+  width: 100%;
+}
+
+.login-main .login-main-content .login-main-content-left .login-main-content-left-bottom > div p {
+  text-align: center;
+  margin-top: 5px;
+  font-size: 16px;
+  color: #fff;
 }
 
 .login-main .login-main-content .login-main-content-right {
@@ -200,5 +211,5 @@ input:-internal-autofill-selected {
   padding-right: 37px;
   text-align: center;
   color: #10eaf0;
-  font-size: 16px;
+  font-size: 14px;
 }

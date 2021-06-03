@@ -299,7 +299,8 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
 
     
 
-    table.render({
+    var exportData = []
+    var tableE = table.render({
         elem: '#home',
         id: 'tableReload',
         height: 780,
@@ -400,9 +401,14 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                     toolbar: '#barDemo'
                 }
             ]
-        ]
+        ],
+        done: function(res){
+            exportData= res.data;
+        }
     });
-
+    $(".exportButton").click(function(){
+        table.exportFile(tableE.config.id,exportData, 'xls');
+    })
      //左侧分类
      $.ajax({
         url :baseUrl + '/alarm/alarmnumgroupbytype?token=' + JSON.parse(localStorage.getItem('loginInfo')).token,
@@ -495,17 +501,25 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
 
     //下拉搜索
     form.on('submit(submitDoubleBtn)', function (data) {
-
-        table.reload('tableReload', {
-            page: {
-                curr: 1 //重新从第 1 页开始
-            },
-            where: {
-                companyId: data.field.companyId,
-                type: state,
-                isSolve: 2
-            }
-        });
+        if (data.field.companyId.length === 0) {
+            layer.msg("请选择单位", {
+                icon: 2,
+                closeBtn: 0,
+                anim: 6, //动画类型
+                time: 3000
+            });
+        } else {
+            table.reload('tableReload', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                },
+                where: {
+                    companyId: data.field.companyId,
+                    type: state,
+                    isSolve: 2
+                }
+            });
+        }
         return false;
     });
 

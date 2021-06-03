@@ -322,6 +322,14 @@ layui.use(['element', 'layer'], function () {
 
   //监听搜索提交
   form.on('submit(submitDoubleBtn)', function (data) {
+    if (data.field.selectDou.length === 0) {
+      layer.msg("请选择单位", {
+          icon: 2,
+          closeBtn: 0,
+          anim: 6, //动画类型
+          time: 3000
+      });
+  } else {
     table.reload('tableReload', {
       page: {
         curr: 1 //重新从第 1 页开始
@@ -330,6 +338,8 @@ layui.use(['element', 'layer'], function () {
         companyId: data.field.selectDou,
       }
     });
+  }
+    
     return false;
   });
 

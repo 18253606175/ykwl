@@ -139,7 +139,8 @@ body {
 }
 
 .userManage-main .userManage-main-content .layui-card-body img {
-  width: 12%;
+  width: 15%;
+  height: 50px;
 }
 
 .userManage-main .userManage-main-content .layui-card-body div {

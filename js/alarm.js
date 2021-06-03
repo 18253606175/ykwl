@@ -273,26 +273,27 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
           }
     });
 
+    //筛选
+    // $(".wisdom-electricity-bottom-top-classify").append(
+    //     `
+    //     <p class="classifyStyle typeScreen"><span style="background: #1191da;"></span>全部</p>
+    //     <p class="typeScreen"><span style="background: #c82c1f"></span> 报警</p> 
+    //     <p class="typeScreen"><span style="background: #bf671d"></span> 故障</p> 
+    //     `
+    // )
 
-    $(".wisdom-electricity-bottom-top-classify").append(
-        `
-        <p class="classifyStyle typeScreen"><span style="background: #1191da;"></span>全部</p>
-        <p class="typeScreen"><span style="background: #c82c1f"></span> 报警</p> 
-        <p class="typeScreen"><span style="background: #bf671d"></span> 故障</p> 
-        `
-    )
-
-    $(".wisdom-electricity-bottom-top-classify > p").on("click", function () {
-        $(this).addClass("classifyStyle");
-        $(this).siblings('p').removeClass('classifyStyle');
-    });
+    // $(".wisdom-electricity-bottom-top-classify > p").on("click", function () {
+    //     $(this).addClass("classifyStyle");
+    //     $(this).siblings('p').removeClass('classifyStyle');
+    // });
 
     var typeId = null;
     var state = 0;
 
     
 
-    table.render({
+    var exportData = []
+    var tableE = table.render({
         elem: '#home',
         id: 'tableReload',
         height: 780,
@@ -309,6 +310,9 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
         even: true,
         limit: 15,
         skin: 'row',
+        where: {
+            companyId: localStorage.getItem('companyId')
+        },
         parseData: function (res) { //res 即为原始返回的数据
             return {
                 "code": 0, //解析接口状态
@@ -354,34 +358,46 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                 {
                     field: 'alarmTime',
                     align: "center",
-                    title: '设备报警时间'
+                    title: '设备报警时间',
+					width: 160,
                 },
                 {
                     field: 'alarmData',
                     align: "center",
-                    title: '报警值'
+                    title: '报警值',
+					width: 100,
                 },
                 {
                     field: 'isSolve',
                     align: "center",
                     title: '处理状态',
-                    templet: "#isSolve"
+                    templet: "#isSolve",
+					width: 100,
                 },
                 {
                     fixed: 'right',
                     title: '处理建议',
                     align: "center",
-                    toolbar: '#look'
+                    toolbar: '#look',
+					width: 90,
                 },
                 {
                     fixed: 'right',
                     title: '操作',
                     align: "center",
-                    toolbar: '#barDemo'
+                    toolbar: '#barDemo',
+					width: 80,
                 }
             ]
-        ]
+        ],
+        done: function(res){
+            exportData= res.data;
+        }
     });
+    $(".exportButton").click(function(){
+        table.exportFile(tableE.config.id,exportData, 'xls');
+    })
+
 table.on('rowDouble(tableTest)',function(obj){
         let data = obj.data;
             layer.open({
@@ -522,17 +538,26 @@ table.on('rowDouble(tableTest)',function(obj){
 
     //下拉搜索
     form.on('submit(submitDoubleBtn)', function (data) {
+        if (data.field.companyId.length === 0) {
+            layer.msg("请选择单位", {
+                icon: 2,
+                closeBtn: 0,
+                anim: 6, //动画类型
+                time: 3000
+            });
+        } else {
+            table.reload('tableReload', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                },
+                where: {
+                    companyId: data.field.companyId,
+                    alarmType: typeId,
+                    type: state
+                }
+            });
+        }
 
-        table.reload('tableReload', {
-            page: {
-                curr: 1 //重新从第 1 页开始
-            },
-            where: {
-                companyId: data.field.companyId,
-                alarmType: typeId,
-                type: state
-            }
-        });
         return false;
     });
 

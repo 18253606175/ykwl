@@ -418,3 +418,9 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+.exportBtn {
+  position: relative;
+  right: 10px;
+  top: 6px;
+}

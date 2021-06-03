@@ -8,6 +8,7 @@ body {
   box-shadow: 0 2px 8px 0 #009688;
   border-radius: 5px;
   padding: 20px;
+  height: 95%;
   .unitManage-main-header {
     height: 50px;
     .unitManage-main-header-title {
@@ -25,7 +26,7 @@ body {
     .faultHand-main-header-right-search {
       display: flex;
       position: absolute;
-      top: 35px;
+      top: 16px;
       left: 160px;
       .layui-form {
         margin-right: 50px;
@@ -137,4 +138,44 @@ body {
 }
 #close-pop-up {
   margin-left: 30px;
+}
+
+.layui-col-md2 {
+  height: 95%;
+  margin-right: 20px;
+  width: 15%;
+  overflow: hidden;
+  background: #1e2e3e;
+  overflow-y: scroll;
+  box-shadow: 0 2px 8px 0 #009688;
+  #zreeList {
+    .layui-tree-txt {
+      color: #a3c1b0;
+      font-size: 14px;
+    }
+    .layui-tree-entry {
+      &:hover {
+        background-color: transparent;
+      }
+   .layui-icon-file:before {
+      content: "";
+} }
+  }
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 4px;
+  }
+  &:hover {
+    &::-webkit-scrollbar-thumb {
+      background: rgba(135, 135, 135, 0.4);
+    }
+    &::-webkit-scrollbar-track {
+      background: rgba(135, 135, 135, 0.1);
+    }
+  }
 }

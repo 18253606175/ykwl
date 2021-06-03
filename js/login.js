@@ -78,4 +78,16 @@ layui.use(['element', 'layer'], function () {
             })
         }
     })
+
+    //忘记密码
+    $('.forget-password').click(function(){
+        layer.alert(`请联系管理员修改密码 <br/>
+                     联系电话：05367716889            
+        `, {
+            skin: 'layui-layer-molv' //样式类名
+            ,closeBtn: 0
+          }, function(){
+            layer.closeAll();
+          });
+    })
 })

@@ -483,17 +483,27 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
 
     //下拉搜索
     form.on('submit(submitDoubleBtn)', function (data) {
+        if (data.field.companyId.length === 0) {
+            layer.msg("请选择单位", {
+                icon: 2,
+                closeBtn: 0,
+                anim: 6, //动画类型
+                time: 3000
+            });
+        } else {
+            table.reload('tableReload', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                },
+                where: {
+                    companyId: data.field.companyId,
+                    alarmType: typeId,
+                    type: state
+                }
+            });
+        }
 
-        table.reload('tableReload', {
-            page: {
-                curr: 1 //重新从第 1 页开始
-            },
-            where: {
-                companyId: data.field.companyId,
-                alarmType: typeId,
-                type: state
-            }
-        });
+       
         return false;
     });
 

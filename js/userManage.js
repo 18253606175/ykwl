@@ -18,7 +18,7 @@ layui.use(['element', 'layer', 'laydate', 'form', 'upload'], function () {
         }
         return param;
       };
-
+      //角色
     var role = []
     $.ajax({
       url: baseUrl + "/role/list?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
@@ -114,88 +114,112 @@ layui.use(['element', 'layer', 'laydate', 'form', 'upload'], function () {
         layer.open({
             type: 1,
             offset: '180px',
-            title: '添加单位',
+            title: '添加用户',
             skin: 'layui-layer-yingke',
-            area: ['1000px', '450px'],
+            area: ['1000px', '500px'],
             content: $("#pop-up-add"),
-            success: function () {
-                $("#pop-up-add").html(`
-                <form class="layui-form" action="">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label layui-required">昵称</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="userName" lay-verify="required" placeholder="请输入" autocomplete="off"
-                                class="layui-input">
+            success: function () {$("#pop-up-add").html(
+                `
+                    <form class="layui-form" action="">
+                      <div class="layui-form-item">
+                          <label class="layui-form-label">所属单位</label>
+                          <div class="layui-input-block  layui-required">
+                              <select name="companyId" lay-verify="required" lay-search="">
+                                  <option value="">请选择单位</option>
+                                  ${selectList.map(item => {
+                          return `
+                                                  <option value=${item.id}>${item.companyName}</option>
+                                              `
+                      })}
+                              </select>
+                          </div>
+                      </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-required">姓名</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="userName" placeholder="请输入" autocomplete="off"
+                                    class="layui-input">
+                            </div>
                         </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label layui-required">账号</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="userCode" lay-verify="required" placeholder="请输入" autocomplete="off"
-                                class="layui-input">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-required">账号</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="userCode" lay-verify="required" placeholder="请输入" autocomplete="off"
+                                    class="layui-input">
+                            </div>
                         </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label layui-required">角色</label>
-                        <div class="layui-input-block">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-required">角色</label>
+                            <div class="layui-input-block">
                             <select name="role" lay-verify="required" lay-search="">
-                                <option value=""></option>
-                                <option value="0">北京</option>
-                                <option value="1">上海</option>
+                                  <option value="">请选择角色</option>
+                                  ${role.map(item => {
+                                    return `
+                                                            <option value=${item.id}>${item.name}</option>
+                                                        `
+                                })}
                             </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label layui-required">密码</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="password" lay-verify="required" placeholder="请输入" autocomplete="off"
-                                class="layui-input">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-required">密码</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="password" placeholder="请输入" autocomplete="off"
+                                    class="layui-input">
+                            </div>
                         </div>
-                    </div>
-                    <div class="layui-form-item" style="margin-bottom: 120px">
-                        <label class="layui-form-label layui-required">电话</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="phone" lay-verify="required" placeholder="请输入" autocomplete="off"
-                                class="layui-input">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-required">电话</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="phone" placeholder="请输入" autocomplete="off"
+                                    class="layui-input">
+                            </div>
                         </div>
-                    </div>
-                    <div class="layui-form-item-img">
-                        <label class="layui-form-label layui-required">头像</label>
-                        <div class="layui-input-block">
-                            <div class="layui-upload-drag" id="test10">
-                                <i class="layui-icon"></i>
-                                <p>点击上传，或将文件拖拽到此处</p>
-                                <div class="layui-hide" id="uploadDemoView">
-                                <hr>
-                                <img src="" alt="上传成功后渲染" style="max-width: 196px">
+                        <div class="layui-form-item-img" style="position: relative;
+                        top: 0;
+                        left: 38px;">
+                            <label class="layui-form-label layui-required">头像</label>
+                            <div class="layui-input-block">
+                                <div class="layui-upload-drag" id="test10">
+                                    <i class="layui-icon"></i>
+                                    <p>点击上传，或将文件拖拽到此处</p>
+                                    <div class="layui-hide" id="uploadDemoView">
+                                    <hr>
+                                    <img src="" alt="上传成功后渲染" style="max-width: 196px">
+                                    <input type="text" name="imgurl" style="display: none" placeholder="请输入" autocomplete="off"
+                                      class="layui-input" value="">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-            
-                    <div class="layui-form-item  layui-form-item-submit">
-                        <div style='text-align: center'>
-                            <button type="submit" class="layui-btn" lay-submit="" lay-filter="save">确认</button>
-                            <button type='button' id="close-pop-up" class="layui-btn">取消</button>
+                
+                        <div class="layui-form-item  layui-form-item-submit">
+                            <div style='text-align: center'>
+                                <button type="submit" class="layui-btn" lay-submit="" lay-filter="save">确认</button>
+                                <button type='button' id="close-pop-up" class="layui-btn">取消</button>
+                            </div>
                         </div>
-                    </div>
-                </form>
-            
-                `)
-                form.render();
-                $("#close-pop-up").click(function () {
-                    layer.closeAll();
-                })
-                //拖拽上传
-                upload.render({
-                    elem: '#test10',
-                    url: 'https://httpbin.org/post' //改成您自己的上传接口
-                        ,
-                    done: function (res) {
-                        layer.msg('上传成功');
-                        layui.$('#uploadDemoView').removeClass('layui-hide').find('img').attr('src', res.files.file);
-                    }
-                });
+                    </form>
+             
+                  `
+              )
+          
+              form.render()
+          
+              $("#close-pop-up").click(function () {
+                layer.closeAll();
+              })
+              //拖拽上传
+              upload.render({
+                elem: '#test10',
+                url:  baseUrl + '/image/uploadimage?token=' + JSON.parse(localStorage.getItem('loginInfo')).token //改成您自己的上传接口
+                ,
+                done: function (res) {
+                    layer.msg('上传成功');
+                    layui.$('#uploadDemoView').removeClass('layui-hide').find('img').attr('src', res.rows);
+                    layui.$('#uploadDemoView').find('input').val(res.rows);
+                }
+            });
             }
         });
     })
@@ -230,7 +254,11 @@ layui.use(['element', 'layer', 'laydate', 'form', 'upload'], function () {
                         <div class="layui-panel">
                             <div class="layui-card">
                                 <div class="layui-card-header">
-                                    <p>${item.role}</p>
+                                    <p>${role.map(i => {
+                                        if(i.id === item.role){
+                                            return i.name
+                                        }
+                                    }).join('')}</p>
                                     <div class="handle-btn">
                                         <button id=${item.id}  type="button" class="layui-btn edit-btn">
                                             <i class="layui-icon layui-icon-edit"></i>
@@ -241,7 +269,7 @@ layui.use(['element', 'layer', 'laydate', 'form', 'upload'], function () {
                                     </div>
                                 </div>
                                 <div class="layui-card-body">
-                                    <img src="./img/green.png" alt="">
+                                    <img src=${item.imgurl ? item.imgurl : 'http://t.cn/RCzsdCq'} alt="">
                                     <div>
                                         <p>${item.userName}</p>
                                         <p>${item.userCode}</p>
@@ -423,7 +451,7 @@ layui.use(['element', 'layer', 'laydate', 'form', 'upload'], function () {
                                 anim: 0, //动画类型
                                 time: 3000
                             });
-            
+                            getData();
                             } else {
                             layer.msg(res.msg, {
                                 icon: 2,
@@ -451,6 +479,8 @@ layui.use(['element', 'layer', 'laydate', 'form', 'upload'], function () {
    }
 
    getData();
+
+   
 
     //添加提交save
     form.on('submit(save)', function (data) {
@@ -485,6 +515,7 @@ layui.use(['element', 'layer', 'laydate', 'form', 'upload'], function () {
                         anim: 0, //动画类型
                         time: 2000
                     }, function () {
+                        getData();
                         layer.closeAll();
                     });
                 } else {

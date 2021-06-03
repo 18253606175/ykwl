@@ -101,7 +101,12 @@ layui.use(['element', 'layer', 'flow'], function () {
                         else if(res.code === 200){            
                         if (res.rows.length === 0) {
                             $(".layui-flow-more").css('display', 'none')
-                            $("#flow_inspectList").html('<p id="empty" style="color:#fff">无数据</p>')
+                            layer.alert('暂无数据', {
+                                skin: 'layui-layer-yingke' //样式类名
+                                ,closeBtn: 0
+                              }, function(){
+                                layer.closeAll();
+                              });
                         } else {
                             layui.each(res.rows, function (index, item) {
                                 //这里遍历数据
@@ -151,6 +156,11 @@ layui.use(['element', 'layer', 'flow'], function () {
     }
     flowReload();
    
-
+    //弹窗样式
+    layer.config({
+        //anim: 2, //出场动画
+        extend: 'layskin/style.css',
+        // skin: 'layui-layer-yingke' //英科专用弹窗样式
+    });
 })
    

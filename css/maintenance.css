@@ -122,12 +122,7 @@ body {
 }
 
 #pop-up-add > .layui-form {
-  display: flex;
   flex-wrap: wrap;
-}
-
-#pop-up-add > .layui-form > .layui-form-item {
-  width: 50%;
 }
 
 #pop-up-add > .layui-form > .layui-form-item > .layui-input-block > input {

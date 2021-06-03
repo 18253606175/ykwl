@@ -65,16 +65,6 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
     var tableData = []
 
 
-
-    //点击刷新按钮
-    $(".refresh-btn").on('click', function () {
-        table.reload('tableReload', {
-            page: {
-                curr: 1 //重新从第 1 页开始
-            }
-        });
-    })
-
     var typeId = 0
 
     //初始化加载表格数据
@@ -233,6 +223,56 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
                     })
                 }
             });
+        }else if(obj.event === 'check'){
+            layer.open({
+                type: 1,
+                offset: '180px',
+                title: '处理隐患',
+                skin: 'layui-layer-yingke',
+                area: '700px',
+                content: $(".dialog"),
+                success: function () {
+                    $(".dialog").html(`<form class="layui-form" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">NFC卡号</label>
+                        <div class="layui-input-block">
+                            <input type="text" style="border: none" name="id" lay-verify="imei" required disabled placeholder="请输入" autocomplete="off"
+                            class="layui-input" value=${data.nfcid}>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">隐患描述</label>
+                        <div class="layui-input-block">
+                            <input type="text" style="border: none" name="disposePerson" lay-verify="imei"disabled required placeholder="请输入" autocomplete="off"
+                            class="layui-input" value=${data.dangerDetails}>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">位置</label>
+                        <div class="layui-input-block">
+                            <input type="text" style="border: none" name="disposePerson" lay-verify="imei" disabled required placeholder="请输入" autocomplete="off"
+                            class="layui-input" value=${data.locationDesc}>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">上报时间</label>
+                        <div class="layui-input-block">
+                            <input type="text" style="border: none" name="disposePerson" lay-verify="imei" disabled required placeholder="请输入" autocomplete="off"
+                            class="layui-input" value=${data.reportTime}>
+                        </div>
+                    </div>
+                    <div class="layui-form-item  layui-form-item-submit">
+                        <div style="text-align: center;">
+                            <button type="button" id="close-pop-up" class="layui-btn layui-xs">确认</button>
+                        </div>
+                    </div>
+                </form>`)
+				form.render();
+                $("#close-pop-up").click(function(){
+                    layer.closeAll();
+                })
+                }
+            });
         }
     });
 
@@ -288,7 +328,9 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
 
         $.ajax({
             url: baseUrl + "/inspectrecort/update?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
-            data: data.field,
+            type: 'post',
+            contentType: "json/application",
+            data: JSON.stringify(data.field),
             success: function (res) {
                 table.reload('tableReload', {
                     page: {
