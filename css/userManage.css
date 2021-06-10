@@ -5,14 +5,18 @@ body {
 }
 
 .userManage-main {
-  height: 97%;
+  height: 94%;
+  background-color: #1c2536;
+  box-shadow: #009688 0px 2px 8px 0px;
+  border-radius: 5px;
+  padding: 0 20px;
 }
 
 .userManage-main section p {
   font-weight: 600;
   font-size: 22px;
   color: #43b3bb;
-  line-height: 50px;
+  line-height: 60px;
   display: inline-block;
   position: absolute;
 }
@@ -112,12 +116,20 @@ body {
 }
 
 .userManage-main .userManage-main-content .layui-col-space15 > * {
-  padding: 25px;
+  padding: 20px;
 }
 
 .userManage-main .userManage-main-content .layui-card {
   height: 150px;
   background-color: #353f4b;
+  border: 1px solid #009688;
+  position: relative;
+  background: #353f4b;
+  box-shadow: 0 0px 8px 0 #009688;
+}
+
+.userManage-main .userManage-main-content .layui-card:hover {
+  border: 1px solid red;
 }
 
 .userManage-main .userManage-main-content .layui-card .layui-card-header {
@@ -139,14 +151,14 @@ body {
 }
 
 .userManage-main .userManage-main-content .layui-card-body img {
-  width: 15%;
-  height: 50px;
+  width: 85px;
+  height: 85px;
 }
 
 .userManage-main .userManage-main-content .layui-card-body div {
   position: absolute;
   color: #fff;
-  left: 22%;
+  left: 130px;
   top: 5px;
 }
 
@@ -169,7 +181,6 @@ body {
 
 #pop-up-add .layui-form .layui-form-item {
   width: 480px;
-  margin-bottom: 25px;
   margin-top: 10px;
 }
 
@@ -182,14 +193,14 @@ body {
 }
 
 #pop-up-add .layui-form .layui-form-item-img {
-  position: absolute;
-  top: 156px;
-  left: 520px;
+  position: absolute !important;
+  top: 260px !important;
+  left: 40px !important;
 }
 
 #pop-up-add .layui-form > .layui-form-item-submit {
   margin: 0 auto;
-  margin-top: 40px;
+  margin-top: 155px;
   width: 100%;
 }
 

@@ -13,14 +13,24 @@ body {
   line-height: 30px;
   margin-top: 3px;
 }
+.layui-form {
+  .layui-form-item {
+    .layui-icon {
+      color: #fff;
+      &:hover {
+        color: #c2c2c2;
+      }
+    }
+  }
+}
 .Realtime-main {
   height: 100%;
   margin-left: 20px;
   .Realtime-right {
-    padding: 20px 40px 20px 30px;
-    // position: absolute;
+    padding: 20px;
+    padding-left: 0;
+    height: 94%;
     top: 0px;
-    // left: 17%;
     &::-webkit-scrollbar {
       width: 6px;
       height: 6px;
@@ -134,6 +144,7 @@ body {
               }
               .layui-input-inline {
                 display: flex;
+                margin-top: 4px;
                 .layui-edge {
                   top: 70%;
                 }
@@ -306,7 +317,7 @@ body {
   }
 }
 .layui-input, .layui-textarea {
-  width: 96%;
+  width: 100%;
 }
 #close-pop-up {
   margin-left: 30px;

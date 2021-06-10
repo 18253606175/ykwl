@@ -8,7 +8,9 @@ body {
   padding: 20px;
 }
 .faultHand-main {
-  padding-left: 10px;
+  height: 94%;
+  background-color: #1c2536;
+  box-shadow: 0 2px 8px 0 #009688;
 }
 .faultHand-main-header {
   display: flex;
@@ -21,7 +23,7 @@ body {
     display: flex;
     position: absolute;
     top: 30px;
-    left: 700px;
+    left: 35%;
     .layui-form {
       .layui-form-selected {
         dl {
@@ -89,10 +91,10 @@ body {
     padding: 0 10px;
   }
 }
-.layui-btn-group{
+.layui-btn-group {
   position: absolute;
-    right: 20px;
-    top: 40px;
+  right: 20px;
+  top: 40px;
 }
 .faultHand-main-header .faultHand-main-header-right-search .layui-input,
 .faultHand-main-header .faultHand-main-header-right-search .layui-textarea,
@@ -126,15 +128,18 @@ body {
     }
   }
 }
+/* .layui-border-box { */
+/* background: #1c2536; */
+/* color: #a5aeaf; */
+/* } */
 .layui-border-box {
-  background: #1c2536;
-  color: #a5aeaf;
   .layui-table {
     background: #1c2536;
+    color: #d2d2d2;
     tbody {
       & > tr {
         &:nth-child(even) {
-          background-color: rgba(55, 136, 144, 0.2);
+          background-color: rgba(55, 136, 144, 0.13);
         }
       }
     }
@@ -142,15 +147,49 @@ body {
       background-color: yellow;
     }
     th {
-      background-color: black;
+      background: rgba(55, 136, 144, 0.33);
       color: #fff;
       font-weight: bold;
     }
   }
 }
+/* 偶数行背景色 */
+/* 鼠标经过颜色 */
 .layui-border-box .layui-table tbody > tr:hover,
 .layui-border-box .layui-table tbody > tr .layui-table-hover {
   background-color: #3f3b3b;
+}
+/* 表格头部工具栏背景色 */
+/* 表格头部背景色 */
+/* 鼠标经过颜色 */
+.layui-table tbody tr:hover,
+.layui-table thead tr,
+.layui-table-click,
+.layui-table-header,
+.layui-table-hover,
+.layui-table-mend,
+.layui-table-patch,
+.layui-table-tool,
+.layui-table-total,
+.layui-table-total tr,
+.layui-table[lay-even] tr:nth-child(even) {
+  background: #1c2536;
+}
+/* 表格边框颜色 */
+.layui-table td,
+.layui-table th,
+.layui-table-col-set,
+.layui-table-fixed-r,
+.layui-table-grid-down,
+.layui-table-header,
+.layui-table-page,
+.layui-table-tips-main,
+.layui-table-tool,
+.layui-table-total,
+.layui-table-view,
+.layui-table[lay-skin=line],
+.layui-table[lay-skin=row] {
+  border-color: rgba(255, 255, 255, 0.06);
 }
 .layui-tab-title {
   border-bottom: #555;

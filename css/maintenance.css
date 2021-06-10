@@ -1,6 +1,6 @@
 html,
 body {
-  height: 97%;
+  height: 95%;
   padding: 10px;
 }
 
@@ -9,6 +9,7 @@ body {
   box-shadow: 0 2px 8px 0 #009688;
   border-radius: 5px;
   padding: 20px;
+  height: 95%;
 }
 
 .unitManage-main .unitManage-main-header {
@@ -119,18 +120,24 @@ body {
 
 #pop-up-add {
   padding: 20px;
+  padding-right: 40px;
 }
 
 #pop-up-add > .layui-form {
+  display: flex;
   flex-wrap: wrap;
 }
 
+#pop-up-add > .layui-form > .layui-form-item {
+  width: 50%;
+}
+
 #pop-up-add > .layui-form > .layui-form-item > .layui-input-block > input {
-  width: 80%;
+  width: 100%;
 }
 
 #pop-up-add > .layui-form > .layui-form-item .layui-form-select {
-  width: 80%;
+  width: 100%;
 }
 
 #pop-up-add > .layui-form > .layui-form-item-submit {

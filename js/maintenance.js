@@ -9,7 +9,7 @@ import {
     //下拉框value
     var selectDate = [
       {
-        title: "没有选项",
+        title: "请选择单位",
         value: ""
       }
     ]
@@ -150,7 +150,7 @@ import {
       elem: '#unitTable',
       id: 'tableReload',
       url: baseUrl + "/serve/list?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
-      height: 730,
+      height: 750,
       limit: 15,
       limits: [15, 20, 30,40,50,60,70,80,90,100,200,500],
       cellMinWidth: 85,
@@ -166,8 +166,7 @@ import {
       parseData: function (res) { //res 即为原始返回的数据
         return {
           "code": 0, //解析接口状态
-          "data": res.rows.rows, //解析数据列表
-          "count": res.rows.total,
+          "data": res.rows, //解析数据列表
         };
       },
       request: {
@@ -252,7 +251,7 @@ import {
           offset: '180px',
           skin: 'layui-layer-yingke',
           title: '添加日志',
-          area: '600px',
+          area: '800px',
           content: $("#pop-up-add")
         });
       }
@@ -262,30 +261,44 @@ import {
       $("#pop-up-add").html(
         `
           <form class="layui-form" action="">
-           <div class="layui-form-item">
-              <label class="layui-form-label">公告类型</label>
-              <div class="layui-input-block">
-                  <select name="articleType" lay-verify="required" lay-search="">
-                          <option value="">请选择公告类型</option>
-                          <option value="1">消防合法文书</option>
-                          <option value="2">消防平面图</option>
-                          <option value="3">消防预案</option>
-                          <option value="4">规章制度</option>
-                          <option value="5">消防培训</option>
-                  </select>
-              </div>
+          <div class="layui-form-item">
+                <label class="layui-form-label">所谓单位</label>
+                <div class="layui-input-block  layui-required">
+                      <select name="companyId" lay-verify="required" lay-search="">
+                          <option value="">请选择单位</option>
+                          ${selectList.map(item => {
+                  return `
+                                          <option value=${item.id}>${item.companyName}</option>
+                                      `
+              })}
+                      </select>
+                  </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">标题</label>
+                <label class="layui-form-label">服务类型</label>
                 <div class="layui-input-block">
-                    <input type="text" name="articleTitle" required placeholder="请输入" autocomplete="off"
+                    <input type="text" name="serviceType" required placeholder="请输入" autocomplete="off"
                     class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">内容</label>
+                <label class="layui-form-label">服务结果</label>
                 <div class="layui-input-block">
-                    <input type="text" name="articleContent" required placeholder="请输入" autocomplete="off"
+                    <input type="text" name="serviceResult" required placeholder="请输入" autocomplete="off"
+                    class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">服务人</label>
+                <div class="layui-input-block">
+                    <input type="text" name="person" required placeholder="请输入" autocomplete="off"
+                    class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">对接人</label>
+                <div class="layui-input-block">
+                    <input type="text" name="dockingPeople" required placeholder="请输入" autocomplete="off"
                     class="layui-input">
                 </div>
             </div>
@@ -293,6 +306,18 @@ import {
                 <label class="layui-form-label">服务时间</label>
                 <div class="layui-input-block">
                 <input type="text" name="serviceTime" id="date1" lay-verify="date" placeholder="请选择日期" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item " style="width: 100%">
+                <label class="layui-form-label">服务内容</label>
+                <div class="layui-input-block">
+                <textarea style="height: 80px" name="serviceContent" placeholder="请输入" autocomplete="off" class="layui-input"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item" style="width: 100%">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-block">
+                <textarea style="height: 80px" name="remark" placeholder="请输入" autocomplete="off" class="layui-input"></textarea>
                 </div>
             </div>
             <div class="layui-form-item  layui-form-item-submit">

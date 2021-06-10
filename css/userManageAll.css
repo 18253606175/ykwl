@@ -8,7 +8,6 @@ body {
   background-color: #1c2536;
   box-shadow: 0 2px 8px 0 #009688;
   border-radius: 5px;
-  padding: 20px;
   height: 95%;
 }
 
@@ -33,7 +32,7 @@ body {
 .unitManage-main .unitManage-main-header .faultHand-main-header-right-search {
   display: flex;
   position: absolute;
-  top: 16px;
+  top: 0px;
   left: 160px;
 }
 
@@ -195,4 +194,9 @@ body {
 
 .layui-col-md2:hover::-webkit-scrollbar-track {
   background: rgba(135, 135, 135, 0.1);
+}
+
+.layui-tree-icon .layui-icon {
+  font-size: 12px;
+  color: #ff5722;
 }

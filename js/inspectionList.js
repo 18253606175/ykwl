@@ -303,7 +303,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree'], function () 
     var tableE = table.render({
         elem: '#home',
         id: 'tableReload',
-        height: 780,
+        height: 750,
         url: baseUrl + "/inspectrecort/list?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
         limits: [15, 30, 45],
         cellMinWidth: 85,
@@ -385,7 +385,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree'], function () 
     });
 
     $(".exportBtn").click(function(){
-        table.exportFile(tableE.config.id,exportData, 'xls');
+        table.exportFile(tableE.config.id,exportData, 'xls', '巡检记录');
     })
 
     //监听提交搜索

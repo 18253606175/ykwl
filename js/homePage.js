@@ -42,7 +42,6 @@ layui.use(['element', 'layer'], function () {
         async:false,
         success: function(res){
             const { rows } = res;
-            sessionStorage.setItem('alarmNum', rows.alarmNum)
             projectView.first[0].value = rows.companyNum;
             projectView.first[1].value = rows.alarmNum;
             projectView.first[2].value = rows.inspectAddNum;

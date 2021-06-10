@@ -1,6 +1,6 @@
 html,
 body {
-  height: 97%;
+  height: 95%;
   padding: 10px;
 }
 .unitManage-main {
@@ -8,6 +8,7 @@ body {
   box-shadow: 0 2px 8px 0 #009688;
   border-radius: 5px;
   padding: 20px;
+  height: 95%;
   .unitManage-main-header {
     height: 50px;
     .unitManage-main-header-title {
@@ -108,18 +109,19 @@ body {
 }
 #pop-up-add {
   padding: 20px;
+  padding-right: 40px;
   & > .layui-form {
-    // display: flex;
+    display: flex;
     flex-wrap: wrap;
     & > .layui-form-item {
-      // width: 50%;
+      width: 50%;
       & > .layui-input-block {
         & > input {
-          width: 80%;
+          width: 100%;
         }
       }
       .layui-form-select {
-        width: 80%;
+        width: 100%;
       }
     }
     & > .layui-form-item-submit {

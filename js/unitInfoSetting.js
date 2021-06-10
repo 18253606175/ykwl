@@ -43,7 +43,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'upload'], function (
     table.render({
         elem: '#home',
         id: 'tableReload',
-        height: 780,
+        height: 750,
         url:baseUrl + `/fireFle/list?token=` + JSON.parse(localStorage.getItem('loginInfo')).token,
         limits: [15, 30, 45],
         where: {

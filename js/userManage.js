@@ -113,7 +113,7 @@ layui.use(['element', 'layer', 'laydate', 'form', 'upload'], function () {
     $('.button-add').click(function () {
         layer.open({
             type: 1,
-            offset: '180px',
+            offset: '150px',
             title: '添加用户',
             skin: 'layui-layer-yingke',
             area: ['1000px', '500px'],
@@ -138,6 +138,13 @@ layui.use(['element', 'layer', 'laydate', 'form', 'upload'], function () {
                             <label class="layui-form-label layui-required">姓名</label>
                             <div class="layui-input-block">
                                 <input type="text" name="userName" placeholder="请输入" autocomplete="off"
+                                    class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-required">职务</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="duties" placeholder="请输入" autocomplete="off"
                                     class="layui-input">
                             </div>
                         </div>
@@ -250,11 +257,11 @@ layui.use(['element', 'layer', 'laydate', 'form', 'upload'], function () {
 
                 var userList = res.rows.map(item => {
                     return `
-                    <div class="layui-col-md4">
+                    <div class="layui-col-md3">
                         <div class="layui-panel">
                             <div class="layui-card">
                                 <div class="layui-card-header">
-                                    <p>${role.map(i => {
+                                    <p>角色：${role.map(i => {
                                         if(i.id === item.role){
                                             return i.name
                                         }
@@ -271,9 +278,10 @@ layui.use(['element', 'layer', 'laydate', 'form', 'upload'], function () {
                                 <div class="layui-card-body">
                                     <img src=${item.imgurl ? item.imgurl : 'http://t.cn/RCzsdCq'} alt="">
                                     <div>
-                                        <p>${item.userName}</p>
-                                        <p>${item.userCode}</p>
-                                        <p>${item.phone}</p>
+                                        <p>用户名：${item.userCode}</p>
+										<p>姓&nbsp;&nbsp;&nbsp;名：${item.userName}</p>
+                                        <p>职&nbsp;&nbsp;&nbsp;务：${item.duties}</p>
+                                        <p>电&nbsp;&nbsp;&nbsp;话：${item.phone}</p>
                                     </div>
                                 </div>
                             </div>
@@ -304,10 +312,10 @@ layui.use(['element', 'layer', 'laydate', 'form', 'upload'], function () {
 
                                 layer.open({
                                     type: 1,
-                                    offset: '180px',
-                                    title: '编辑单位',
+                                    offset: '150px',
+                                    title: '编辑用户',
                                     skin: 'layui-layer-yingke',
-                                    area: ['1000px', '450px'],
+                                    area: ['1000px', '550px'],
                                     content: $("#pop-up-add"),
                                     success: function (response) {
                                         $("#pop-up-add").html(`
@@ -319,6 +327,13 @@ layui.use(['element', 'layer', 'laydate', 'form', 'upload'], function () {
                                         class="layui-input" value=${res.rows.id} >
                                 </div>
                             </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label layui-required">职务</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="duties" placeholder="请输入" autocomplete="off"
+                                            class="layui-input" value=${res.rows.duties}>
+                                    </div>
+                                </div>
                                 <div class="layui-form-item">
                                     <label class="layui-form-label layui-required">昵称</label>
                                     <div class="layui-input-block">
@@ -353,7 +368,7 @@ layui.use(['element', 'layer', 'laydate', 'form', 'upload'], function () {
                             </select>
                                     </div>
                                 </div>
-                                <div class="layui-form-item" style="margin-bottom: 120px">
+                                <div class="layui-form-item">
                                     <label class="layui-form-label layui-required">电话</label>
                                     <div class="layui-input-block">
                                         <input type="text" name="phone" lay-verify="required" placeholder="请输入" autocomplete="off"
@@ -361,7 +376,7 @@ layui.use(['element', 'layer', 'laydate', 'form', 'upload'], function () {
                                     </div>
                                 </div>
             
-                                <div class="layui-form-item-img">
+                                <div class="layui-form-item-img" style="top: 200px!important">
                                     <label class="layui-form-label layui-required">头像</label>
                                     <div class="layui-input-block">
                                         <div class="layui-upload-drag" id="test10">

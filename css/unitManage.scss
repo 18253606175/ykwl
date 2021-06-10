@@ -7,26 +7,28 @@ body {
   background-color: #1c2536;
   box-shadow: 0 2px 8px 0 #009688;
   border-radius: 5px;
-  padding: 20px;
-  height: 97%;
+  padding: 20px 0;
+  height: 95%;
   .unitManage-main-header {
-    height: 50px;
+    height: 30px;
     .unitManage-main-header-title {
       font-weight: 600;
-      font-size: 22px;
+      font-size: 20px;
       color: #43b3bb;
-      line-height: 50px;
       display: inline-block;
+      margin-top: -7px;
+      margin-left: 20px;
     }
     .unitManage-main-header-add {
       display: inline-block;
-      float: right;
-      line-height: 50px;
+      margin-top: -7px;
+      position: absolute;
+      right: 20px;
     }
     .faultHand-main-header-right-search {
       display: flex;
       position: absolute;
-      top: 15px;
+      top: 0px;
       left: 19%;
       .layui-form {
         margin-right: 50px;
@@ -141,15 +143,14 @@ body {
     right: 14%;
   }
 }
-.Realtime-main{
+.Realtime-main {
   height: 97%;
-  
   .layui-col-md10 {
     float: right;
   }
 }
 .layui-col-md2 {
-  height: 96%;
+  height: 95%;
   margin-right: 20px;
   width: 15%;
   overflow: hidden;
@@ -165,9 +166,12 @@ body {
       &:hover {
         background-color: transparent;
       }
-   .layui-icon-file:before {
-      content: "";
-} }
+      .layui-icon-file {
+        &:before {
+          content: "";
+        }
+      }
+    }
   }
   &::-webkit-scrollbar {
     width: 6px;
@@ -185,5 +189,11 @@ body {
     &::-webkit-scrollbar-track {
       background: rgba(135, 135, 135, 0.1);
     }
+  }
+}
+.layui-tree-icon {
+  .layui-icon {
+    font-size: 12px;
+    color: #ff5722;
   }
 }

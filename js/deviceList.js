@@ -10,7 +10,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
     //下拉框value
     var selectDate = [
         {
-            title: "没有选项",
+            title: "请选择单位",
             value: ""
         }
     ]
@@ -418,7 +418,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
     table.render({
         elem: '#home',
         id: 'tableReload',
-        height: 780,
+        height: 750,
         url: baseUrl + "/device/tablelist?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
         where: {
             state: state,

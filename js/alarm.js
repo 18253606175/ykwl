@@ -257,19 +257,20 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                 }
             });
         } else if(obj.event === 'check'){
-            // $.ajax({
-            //     url: baseUrl + "/disposesuggest/info?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
-            //     data: {
-            //         suggestType: 2001
-            //     },
-            //     success: function(res){
-            //         console.log(res)
-            //     }
-            // })
-            layer.alert(data.suggestContent, {
-                icon: 6,
-                title: `${data.alarmMessage}的处理建议`
-            });
+            $.ajax({
+                url: baseUrl + "/disposesuggest/info?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
+                data: {
+                    alarmType: data.alarmType
+                },
+                success: function(res){
+                    layer.alert(res.rows !== null ? res.rows.alarmExamine :'此类问题请联系英科客服。<br/>联系电话: 05367716889', {
+                        offset: '200px',
+                        skin: 'layui-layer-yingke',
+                        area: '500px',
+                        title: `${data.alarmMessage}的处理建议`
+                    });
+                }
+            })
           }
     });
 
@@ -296,7 +297,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
     var tableE = table.render({
         elem: '#home',
         id: 'tableReload',
-        height: 780,
+        height: 750,
         url: baseUrl + "/alarm/list?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
         limits: [15, 30, 45],
         cellMinWidth: 85,
@@ -318,7 +319,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                 "code": 0, //解析接口状态
                 "data": function(){
                     res.rows.rows.map(item=>{
-                        item.alarmData = item.alarmData + " " + item.data_unit
+                        item.alarmData = item.alarmData + "" + item.data_unit
                     })
                     return res.rows.rows
                 }(), //解析数据列表
@@ -336,29 +337,43 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                     field: 'alarmMessage',
                     title: '报警类别',
                     align: "center",
-                    event: 'setSign'
+					width: 120,
+                    event: 'setSign',
+					sort: true
                 },
                 {
                     field: 'imei',
                     align: "center",
-                    title: '设备编号'
+                    title: '设备编号',
+					sort: true,
+					width: 150,
                 },
                 {
                     field: 'type_sign',
                     title: '设备类型',
                     align: "center",
-                    templet: "#typeSign"
+					width: 120,
+                    templet: "#typeSign",
+					sort: true
+                },
+				{
+                    field: 'companyName',
+                    title: '单位名称',
+                    align: "center",
+					sort: true
                 },
                 {
                     field: 'location',
                     align: "center",
                     width: 230,
-                    title: '设备报警地点'
+                    title: '设备报警地点',
+					sort: true
                 },
                 {
                     field: 'alarmTime',
                     align: "center",
                     title: '设备报警时间',
+					sort: true,
 					width: 160,
                 },
                 {
@@ -366,13 +381,15 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                     align: "center",
                     title: '报警值',
 					width: 100,
+					sort: true
                 },
                 {
                     field: 'isSolve',
                     align: "center",
                     title: '处理状态',
                     templet: "#isSolve",
-					width: 100,
+					width: 90,
+					
                 },
                 {
                     fixed: 'right',
@@ -395,7 +412,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
         }
     });
     $(".exportButton").click(function(){
-        table.exportFile(tableE.config.id,exportData, 'xls');
+        table.exportFile(tableE.config.id,exportData, 'xls', '报警列表' );
     })
 
 table.on('rowDouble(tableTest)',function(obj){
@@ -596,11 +613,14 @@ table.on('rowDouble(tableTest)',function(obj){
                     }
                 });
                 if (res.code === 200) {
-                    layer.msg('设备处理成功', {
+                    layer.msg('报警处理成功^_^', {
                         icon: 1,
+                        shade: 1,
                         closeBtn: 0,
                         anim: 0, //动画类型
-                        time: 3000
+                        time: 2000
+                    }, function () {
+                        layer.closeAll();
                     });
                 } else if(res.code === 20001){
                     layer.alert('登录已过期请重新登陆', {

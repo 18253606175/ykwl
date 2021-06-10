@@ -28,13 +28,12 @@ body {
     border-radius: 5px;
     .title {
       border-bottom: 1px solid #eee;
-
       .titleList {
         color: #eee;
         text-align: center;
         font-size: 20px;
       }
-      .count{
+      .count {
         text-align: center;
         color: #eee;
         margin-top: 18px;
@@ -70,8 +69,9 @@ body {
     }
   }
   .Realtime-right {
-    padding: 20px 40px 20px 30px;
+    padding: 20px;
     top: 0px;
+    height: 94%;
     &::-webkit-scrollbar {
       width: 6px;
       height: 6px;
@@ -145,6 +145,7 @@ body {
               border: 1px solid #5f949a;
             }
             .wisdom-electricity-bottom-top-search {
+              margin-top: 10px;
               .layui-form {
                 .layui-form-selected {
                   dl {
@@ -381,4 +382,9 @@ input[type="number"] {
   position: absolute;
   right: 48px;
   top: 26px;
+}
+.layui-icon-file {
+  &:before {
+    content: "";
+  }
 }

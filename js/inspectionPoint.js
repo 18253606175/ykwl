@@ -184,12 +184,13 @@ layui.use(['element', 'layer', 'flow', 'tree', 'laydate', 'table'], function () 
                                             <div style="background: ${item.status === 2 ? 'url(../img/green1.png) no-repeat center 50%;': 'url(../img/nocheck.png) no-repeat center 50%;'}">
                         
                                             </div>
+											<article>${item.status === 2 ? '<span class="layui-badge layui-bg-green">已巡检</span>' : '<span class="layui-badge layui-bg-red">未巡检</span>'}</article>
                                             <section>${item.inspectType}</section>
                                             <aside>
-                                                <article>${item.status === 2 ? '<span class="layui-badge layui-bg-green">已巡检</span>' : '<span class="layui-badge layui-bg-red">未巡检</span>'}</article>
-                                                <p>NFC卡号: ${item.nfcid}</p>
+                                                
+                                                <p>卡号: ${item.nfcid}</p>
                                                 <p class="location">位置: ${item.locationDesc}</p>
-                                                <p>巡检时间：${item.reportTime ? item.reportTime : '--'}</p>
+                                                <p>最近巡检时间：${item.reportTime ? item.reportTime : '-----'}</p>
                                             </aside>
                                         </div> 
                                     `
@@ -306,8 +307,8 @@ layui.use(['element', 'layer', 'flow', 'tree', 'laydate', 'table'], function () 
 
     $(".wisdom-electricity-bottom-top-classify").append(
         `
-        <p class="typeScreen"><span style="background: #c82c1f"></span> 未巡检</p> 
-        <p class="typeScreen"><span style="background: #bf671d"></span> 已巡检</p> 
+        <p class="typeScreen"><span style="background: red"></span> 未巡检</p> 
+        <p class="typeScreen"><span style="background: green"></span> 已巡检</p> 
         `
     )
 

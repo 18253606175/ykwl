@@ -276,7 +276,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree', 'dtree'], fun
         var tableE = table.render({
         elem: '#home',
         id: 'tableReload',
-        height: 780,
+        height: 750,
         url: baseUrl + "/inspectadd/list?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
         limits: [15, 20, 30,40,50,100,200,500],
         cellMinWidth: 85,
@@ -357,7 +357,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate', 'tree', 'dtree'], fun
         }
     });
     $(".exportButton").click(function(){
-        table.exportFile(tableE.config.id,exportData, 'xls');
+        table.exportFile(tableE.config.id,exportData, 'xls', '巡检点列表');
     })
 
 

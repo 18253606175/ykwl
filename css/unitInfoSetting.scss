@@ -33,7 +33,7 @@ body {
 }
 
 .Realtime-main {
-  height: 100%;
+  height: 90%;
   margin-left: 20px;
 
   .Realtime-left {
@@ -101,9 +101,11 @@ body {
 
   .Realtime-right {
     height: 100%;
-    padding-top: 20px;
-    padding-left: 10px;
-    padding-right: 10px;
+    margin-top: 20px;
+    width: 80%;
+    margin-left: 20px;
+    margin-right: 5px;
+    box-shadow: 0 2px 8px 0 #009688;
 
     iframe {
       height: 100%;

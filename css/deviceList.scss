@@ -27,6 +27,7 @@ body {
   margin-top: 3px;
 }
 .Realtime-main {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAP0lEQVQImZ3LsRGAQAwDwTtDE6R08P3XhkWKP+QyzY687pX0AxZVxbczaZKgTYeJ1gGAFu5PlSAqOnGurf/4AsrpDpHqPjDnAAAAAElFTkSuQmCC);
   height: 100%;
   margin-left: 20px;
   .Realtime-left {
@@ -55,7 +56,6 @@ body {
       }
       .Realtime-left-top-bottom {
         div {
-          // margin-bottom: 20px;
           display: flex;
           justify-content: space-between;
           & > p {
@@ -85,10 +85,10 @@ body {
     }
   }
   .Realtime-right {
-    padding: 20px 40px 20px 30px;
-    position: absolute;
-    top: 0px;
-    left: 17%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 94%;
     &::-webkit-scrollbar {
       width: 6px;
       height: 6px;

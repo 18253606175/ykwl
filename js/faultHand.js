@@ -74,7 +74,7 @@ layui.use(['element', 'layer', 'table', 'form'], function () {
         elem: '#table',
         id: 'tableReload',
         url: baseUrl + "/inspectrecort/list?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
-        height: 710,
+        height: 740,
         even: true,
         cellMinWidth: 85,
         where: {

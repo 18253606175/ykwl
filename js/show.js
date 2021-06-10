@@ -5,7 +5,7 @@ layui.use(['element','form'], function () {
     var element = layui.element;
     var form = layui.form;
 
-    $('.layui-nav-img').attr('src', JSON.parse(localStorage.getItem('loginInfo')).imgUrl)
+    $('.layui-nav-img').attr('src', JSON.parse(localStorage.getItem('loginInfo')).imgUrl ? JSON.parse(localStorage.getItem('loginInfo')).imgUrl : '../img/esco_logo.png')
 
 
     //循环侧边导航栏
@@ -121,33 +121,37 @@ layui.use(['element','form'], function () {
     }
 
     
-    //报警闪烁
-    var alarmNum = sessionStorage.getItem('alarmNum')
-    if(alarmNum !== '0'){
-        var flag = false;
-        var start = function() {
-            var notice = document.getElementById('icon');
-            var notice1 = document.getElementById('red');
-            if(!flag){
-                    notice.style.color = "red";
-                    notice1.style.opacity = 1;
-                    flag = true;
-                }else{
-                    notice.style.color = "white";
-                    notice1.style.opacity = 0;
-                    flag = false;
-                }
-            setTimeout(start, 500);
-        }
-        start();
-        if(alarmNum > 99){
-            $('#red').html('99')
-        }else{
-            $('#red').html(alarmNum)
-        }
-    }else{
-        $('#red').hide()
-    }
+    // //报警闪烁
+    
+    // function blink(){
+    //     var alarmNum = sessionStorage.getItem('alarmNum')
+    //     if(alarmNum !== '0'){
+    //         var flag = false;
+    //         var start = function() {
+    //             var notice = document.getElementById('icon');
+    //             var notice1 = document.getElementById('red');
+    //             if(!flag){
+    //                     notice.style.color = "red";
+    //                     notice1.style.opacity = 1;
+    //                     flag = true;
+    //                 }else{
+    //                     notice.style.color = "white";
+    //                     notice1.style.opacity = 0;
+    //                     flag = false;
+    //                 }
+    //             setTimeout(start, 500);
+    //         }
+    //         start();
+    //         if(alarmNum > 99){
+    //             $('#red').html('99')
+    //         }else{
+    //             $('#red').html(alarmNum)
+    //         }
+    //     }else{
+    //         $('#red').hide()
+    //     }
+    // }
+    // blink();
     
 
     //退出登录
@@ -217,11 +221,12 @@ layui.use(['element','form'], function () {
             $.ajax({
                 url: baseUrl + '/user/modify?token=' + JSON.parse(localStorage.getItem('loginInfo')).token,
                 type: 'post',
-                data: {
+                contentType: "json/application",
+                data: JSON.stringify({
                     userCode: JSON.parse(localStorage.getItem('loginInfo')).userCode,
                     password: data.field.password,
                     newPassword: data.field.newPassword
-                },
+                }),
                 success: function(res){
                     if(res.code === 20001){
                         layer.alert('登录已过期请重新登陆', {
@@ -235,6 +240,7 @@ layui.use(['element','form'], function () {
                         layer.msg('修改密码成功，请重新登录', {
                           icon: 1,
                           closeBtn: 0,
+                          shade: 0.5,
                           anim: 0, //动画类型
                           time: 3000
                         }, function () {
@@ -255,6 +261,40 @@ layui.use(['element','form'], function () {
         }
     })
 
+    $.ajax({
+        url: baseUrl + '/company/statistics?token=' + JSON.parse(localStorage.getItem('loginInfo')).token,
+        async:false,
+        success: function(res){
+            const { rows } = res;
+            sessionStorage.setItem('alarmNum', rows.alarmNum)
+            var alarmNum = sessionStorage.getItem('alarmNum')
+            if(alarmNum !== '0'){
+                var flag = false;
+                var start = function() {
+                    var notice = parent.document.getElementById('icon');
+                    var notice1 = parent.document.getElementById('red');
+                    if(!flag){
+                            notice.style.color = "red";
+                            notice1.style.opacity = 1;
+                            flag = true;
+                        }else{
+                            notice.style.color = "white";
+                            notice1.style.opacity = 0;
+                            flag = false;
+                        }
+                    setTimeout(start, 500);
+                }
+                start();
+                if(alarmNum > 99){
+                    $('#red', window.parent.document).html('99')
+                }else{
+                    $('#red', window.parent.document).html(alarmNum)
+                }
+            }else{
+                $('#red',window.parent.document).hide()
+            }
+        }
+    })
     //弹窗样式
     layer.config({
         //anim: 2, //出场动画

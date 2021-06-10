@@ -26,7 +26,7 @@ import {
       elem: '#unitTable',
       id: 'tableReload',
       url: baseUrl + "/article/list?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
-      height: 770,
+      height: 750,
       where: {
           companyId: JSON.parse(localStorage.getItem('loginInfo')).companyId
       },

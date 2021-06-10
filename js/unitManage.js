@@ -9,7 +9,7 @@ layui.use(['element', 'layer'], function () {
   //下拉框value
   var selectDate = [
     {
-      title: "没有选项",
+      title: "请选择单位",
       value: ""
     }
   ]
@@ -18,7 +18,7 @@ layui.use(['element', 'layer'], function () {
   var selectList1 = []
 
   //单位等级
-  var companyLevel = [
+  var companyLevel = JSON.parse(localStorage.getItem('loginInfo')).companyLevel === 'admin' ? [
 	{
       title: '消防联网单位',
       value: 'user'
@@ -27,11 +27,20 @@ layui.use(['element', 'layer'], function () {
       title: '消防运营商',
       value: 'agent'
     },
-	{
+	 {
       title: '系统管理员',
       value: 'admin'
-    }	
-  ]
+    }
+  ] : [
+    {
+        title: '消防联网单位',
+        value: 'user'
+      },
+    {
+        title: '消防运营商',
+        value: 'agent'
+      }
+    ]
 
   //消防等级
   var fireConLevel = [
@@ -106,7 +115,13 @@ layui.use(['element', 'layer'], function () {
                     return {
                         title: value.companyName,
                         id: value.id,
-                        spread: true,
+                        spread: false,
+                        children: value.companyVOS.length !==0 ? value.companyVOS.map(val => {
+                          return {
+                              title: val.companyName,
+                              id: val.id
+                          }
+                      }) : []
                       }
                   }) : []
               }
@@ -237,7 +252,7 @@ layui.use(['element', 'layer'], function () {
     elem: '#unitTable',
     id: 'tableReload',
     url: baseUrl + "/company/list?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
-    height: 770,
+    height: 750,
     limit: 15,
     limits: [15, 20, 30,40,50,60,70,80,90,100,200,500],
     cellMinWidth: 85,
@@ -580,26 +595,7 @@ layui.use(['element', 'layer'], function () {
             `
                   <form class="layui-form" action="">
                       
-                    <div class="layui-form-item">
-                        <label class="layui-form-label layui-required">所属经销商</label>
-                        <div class="layui-input-block">
-                          <select name="companyPId" lay-search="" lay-verify="required">
-                            <option value="">请选择单位</option>
-                            ${selectList1.map(item => {
-                              return `
-                                  ${function () {
-                                      if (item.id === data.companyPId) {
-                                          return `<option selected="true" value=${item.id}>${item.companyName}</option>`
-                                      } else {
-                                          return `<option value=${item.id}>${item.companyName}</option>`
-                                      }
-                                  }()
-                                  }
-                              `
-                          })}
-                          </select>
-                        </div>
-                    </div>
+                    
             <div class="layui-form-item">
                         <label class="layui-form-label layui-required">单位等级</label>
                         <div class="layui-input-block">

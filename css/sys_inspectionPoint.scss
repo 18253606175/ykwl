@@ -1,385 +1,395 @@
 .layui-body {
-    .layui-tab {
-      height: 100%;
+  .layui-tab {
+    height: 100%;
+  }
+}
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+.button-add {
+  height: 30px;
+  line-height: 30px;
+  margin-top: 3px;
+}
+.Realtime-main {
+  height: 100%;
+  margin-left: 20px;
+  .Realtime-left {
+    display: flex;
+    flex-direction: column;
+    height: 90%;
+    margin-top: 20px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    background-color: #1e2e3e;
+    box-shadow: 0 2px 8px 0 #009688;
+    border-radius: 5px;
+    .title {
+      border-bottom: 1px solid #eee;
+      .titleList {
+        color: #eee;
+        text-align: center;
+        font-size: 20px;
+      }
+      .count {
+        text-align: center;
+        color: #eee;
+        margin-top: 18px;
+        margin-bottom: 10px;
+      }
+    }
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: transparent;
+      border-radius: 4px;
+    }
+    &:hover {
+      &::-webkit-scrollbar-thumb {
+        background: rgba(135, 135, 135, 0.4);
+      }
+      &::-webkit-scrollbar-track {
+        background: rgba(135, 135, 135, 0.1);
+      }
+    }
+    #zreeList {
+      .layui-tree-txt {
+        color: #a3c1b0;
+      }
+      .layui-tree-entry {
+        &:hover {
+          background-color: transparent;
+        }
+      }
     }
   }
-  html,
-  body {
-    height: 100%;
-    overflow: hidden;
-  }
-  .button-add {
-    height: 30px;
-    line-height: 30px;
-    margin-top: 3px;
-  }
-  .Realtime-main {
-    height: 100%;
-    margin-left: 20px;
-    .Realtime-left {
+  .Realtime-right {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 94%;
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: transparent;
+      border-radius: 4px;
+    }
+    &:hover {
+      &::-webkit-scrollbar-thumb {
+        background: rgba(135, 135, 135, 0.4);
+      }
+      &::-webkit-scrollbar-track {
+        background: rgba(135, 135, 135, 0.1);
+      }
+    }
+    .wisdom-electricity {
+      height: 100%;
       display: flex;
       flex-direction: column;
-      height: 90%;
-      margin-top: 20px;
-      overflow-y: scroll;
-      overflow-x: hidden;
-      background-color: #1e2e3e;
-      box-shadow: 0 2px 8px 0 #009688;
-      border-radius: 5px;
-      .title {
-        border-bottom: 1px solid #eee;
-  
-        .titleList {
-          color: #eee;
-          text-align: center;
-          font-size: 20px;
+      .wisdom-electricity-bottom {
+        flex: 1;
+        background-color: #1c2536;
+        box-shadow: 0 2px 8px 0 #009688;
+        & > div {
+          height: 100%;
+          display: none;
         }
-        .count{
-          text-align: center;
-          color: #eee;
-          margin-top: 18px;
-          margin-bottom: 10px;
+        .current {
+          display: block;
+          height: 100%;
         }
-      }
-      &::-webkit-scrollbar {
-        width: 6px;
-        height: 6px;
-        background: transparent;
-      }
-      &::-webkit-scrollbar-thumb {
-        background: transparent;
-        border-radius: 4px;
-      }
-      &:hover {
-        &::-webkit-scrollbar-thumb {
-          background: rgba(135, 135, 135, 0.4);
-        }
-        &::-webkit-scrollbar-track {
-          background: rgba(135, 135, 135, 0.1);
-        }
-      }
-      #zreeList {
-        .layui-tree-txt {
-          color: #a3c1b0;
-        }
-        .layui-tree-entry {
-          &:hover {
-            background-color: transparent;
-          }
-        }
-      }
-    }
-    .Realtime-right {
-      padding: 20px 40px 20px 30px;
-      top: 0px;
-      &::-webkit-scrollbar {
-        width: 6px;
-        height: 6px;
-        background: transparent;
-      }
-      &::-webkit-scrollbar-thumb {
-        background: transparent;
-        border-radius: 4px;
-      }
-      &:hover {
-        &::-webkit-scrollbar-thumb {
-          background: rgba(135, 135, 135, 0.4);
-        }
-        &::-webkit-scrollbar-track {
-          background: rgba(135, 135, 135, 0.1);
-        }
-      }
-      .wisdom-electricity {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        .wisdom-electricity-bottom {
-          flex: 1;
-          background-color: #1c2536;
-          box-shadow: 0 2px 8px 0 #009688;
-          & > div {
-            height: 100%;
-            display: none;
-          }
-          .current {
-            display: block;
-            height: 100%;
-          }
-          .wisdom-electricity-bottom-homePage {
-            .wisdom-electricity-bottom-top {
-              height: 40px;
-              background-color: #1c2536;
-              display: flex;
+        .wisdom-electricity-bottom-homePage {
+          .wisdom-electricity-bottom-top {
+            height: 40px;
+            background-color: #1c2536;
+            display: flex;
+            align-items: center;
+            .wisdom-electricity-bottom-top-title {
+              color: rgba(91, 246, 251, 0.65);
+              font-size: 15px;
+            }
+            .wisdom-electricity-bottom-top-classify {
               align-items: center;
-              .wisdom-electricity-bottom-top-title {
-                color: rgba(91, 246, 251, 0.65);
-                font-size: 15px;
-              }
-              .wisdom-electricity-bottom-top-classify {
-                align-items: center;
-                border: 1px solid #3d4959;
+              border: 1px solid #3d4959;
+              height: 30px;
+              display: flex;
+              width: 190px;
+              justify-content: space-between;
+              & > p {
+                display: inline-block;
+                cursor: pointer;
+                width: 55px;
                 height: 30px;
                 display: flex;
-                width: 190px;
-                justify-content: space-between;
-                & > p {
+                color: #555;
+                align-items: center;
+                padding-left: 4px;
+                & > span {
+                  border-radius: 50%;
+                  background: chocolate;
                   display: inline-block;
-                  cursor: pointer;
-                  width: 55px;
-                  height: 30px;
-                  display: flex;
-                  color: #555;
-                  align-items: center;
-                  padding-left: 4px;
-                  & > span {
-                    border-radius: 50%;
-                    background: chocolate;
-                    display: inline-block;
-                    width: 10px;
-                    height: 10px;
-                    margin-right: 10px;
-                  }
+                  width: 10px;
+                  height: 10px;
+                  margin-right: 10px;
                 }
               }
-              .classifyStyle {
-                border: 1px solid #5f949a;
-              }
-              .wisdom-electricity-bottom-top-search {
-                .layui-form {
-                  .layui-form-selected {
-                    dl {
-                      background-color: #3d4959;
-                      border: none;
-                      color: #fff;
-                      &::-webkit-scrollbar {
-                        width: 6px;
-                        height: 6px;
-                        background: transparent;
-                      }
+            }
+            .classifyStyle {
+              border: 1px solid #5f949a;
+            }
+            .wisdom-electricity-bottom-top-search {
+              margin-top: 10px;
+              .layui-form {
+                .layui-form-selected {
+                  dl {
+                    background-color: #3d4959;
+                    border: none;
+                    color: #fff;
+                    &::-webkit-scrollbar {
+                      width: 6px;
+                      height: 6px;
+                      background: transparent;
+                    }
+                    &::-webkit-scrollbar-thumb {
+                      background: transparent;
+                      border-radius: 4px;
+                    }
+                    &:hover {
                       &::-webkit-scrollbar-thumb {
-                        background: transparent;
-                        border-radius: 4px;
+                        background: rgba(135, 135, 135, 0.4);
+                      }
+                      &::-webkit-scrollbar-track {
+                        background: rgba(135, 135, 135, 0.1);
+                      }
+                    }
+                  }
+                }
+                .layui-form-select {
+                  dl {
+                    dd {
+                      &.layui-this {
+                        background-color: #5f949a;
                       }
                       &:hover {
-                        &::-webkit-scrollbar-thumb {
-                          background: rgba(135, 135, 135, 0.4);
-                        }
-                        &::-webkit-scrollbar-track {
-                          background: rgba(135, 135, 135, 0.1);
-                        }
+                        background-color: #5f949a;
                       }
                     }
-                  }
-                  .layui-form-select {
-                    dl {
-                      dd {
-                        &.layui-this {
-                          background-color: #5f949a;
-                        }
-                        &:hover {
-                          background-color: #5f949a;
-                        }
-                      }
-                    }
-                  }
-                }
-                .layui-input-inline {
-                  display: flex;
-                  .layui-edge {
-                    top: 70%;
-                  }
-                  .layui-btn-primary {
-                    border: none;
-                  }
-                  .layui-btn {
-                    height: 30px;
-                    line-height: 30px;
-                    margin-top: 14px;
-                    width: 30px;
-                    padding: 0px 4px;
-                    background: #1f2c3c;
-                    border: none;
                   }
                 }
               }
-              .wisdom-electricity-bottom-top-type {
-                border: 1px solid #3d4959;
-                height: 30px;
-                width: 150px;
+              .layui-input-inline {
                 display: flex;
-                justify-content: space-around;
-                align-items: center;
-                cursor: pointer;
-                & > span {
-                  height: 28px;
-                  width: 92px;
-                  display: flex;
-                  color: #555;
-                  justify-content: center;
-                  align-items: center;
+                .layui-edge {
+                  top: 70%;
+                }
+                .layui-btn-primary {
+                  border: none;
+                }
+                .layui-btn {
+                  height: 30px;
+                  line-height: 30px;
+                  margin-top: 14px;
+                  width: 30px;
+                  padding: 0px 4px;
+                  background: #1f2c3c;
+                  border: none;
                 }
               }
             }
-            .wisdom-electricity-bottom-bottom {
-              .layui-table-body {
-                &::-webkit-scrollbar {
-                  width: 6px;
-                  height: 6px;
-                  background: transparent;
-                }
-                &::-webkit-scrollbar-thumb {
-                  background: transparent;
-                  border-radius: 4px;
-                }
-                &:hover {
-                  &::-webkit-scrollbar-thumb {
-                    background: rgba(135, 135, 135, 0.4);
-                  }
-                  &::-webkit-scrollbar-track {
-                    background: rgba(135, 135, 135, 0.1);
-                  }
-                }
-              }
-              .layui-table-page {
-                height: 38px;
-                .layui-table-page1 {
-                  height: 36px;
-                }
-                .layui-laypage {
-                  float: right;
-                }
-              }
-            }
-          }
-          .wisdom-electricity-bottom-video {
-            #video {
+            .wisdom-electricity-bottom-top-type {
+              border: 1px solid #3d4959;
+              height: 30px;
+              width: 150px;
               display: flex;
+              justify-content: space-around;
+              align-items: center;
+              cursor: pointer;
+              & > span {
+                height: 28px;
+                width: 92px;
+                display: flex;
+                color: #555;
+                justify-content: center;
+                align-items: center;
+              }
+            }
+          }
+          .wisdom-electricity-bottom-bottom {
+            .layui-table-body {
+              &::-webkit-scrollbar {
+                width: 6px;
+                height: 6px;
+                background: transparent;
+              }
+              &::-webkit-scrollbar-thumb {
+                background: transparent;
+                border-radius: 4px;
+              }
+              &:hover {
+                &::-webkit-scrollbar-thumb {
+                  background: rgba(135, 135, 135, 0.4);
+                }
+                &::-webkit-scrollbar-track {
+                  background: rgba(135, 135, 135, 0.1);
+                }
+              }
+            }
+            .layui-table-page {
+              height: 38px;
+              .layui-table-page1 {
+                height: 36px;
+              }
+              .layui-laypage {
+                float: right;
+              }
             }
           }
         }
-      }
-    }
-  }
-  .Realtime-main .Realtime-right .wisdom-electricity .wisdom-electricity-bottom .wisdom-electricity-bottom-homePage .wisdom-electricity-bottom-top .wisdom-electricity-bottom-top-search .layui-input,
-  .Realtime-main .Realtime-right .wisdom-electricity .wisdom-electricity-bottom .wisdom-electricity-bottom-homePage .wisdom-electricity-bottom-top .wisdom-electricity-bottom-top-search .layui-textarea,
-  .Realtime-main .Realtime-right .wisdom-electricity .wisdom-electricity-bottom .wisdom-electricity-bottom-homePage .wisdom-electricity-bottom-top .wisdom-electricity-bottom-top-search .layui-select {
-    margin-top: 14px;
-    height: 30px;
-    background: #1f2c3c;
-    border: none;
-    color: #fff;
-  }
-  .layui-border-box {
-    .layui-table {
-      background: #1c2536;
-      color: #d2d2d2;
-      tbody {
-        & > tr {
-          &:nth-child(even) {
-            background-color: rgba(55, 136, 144, 0.13);
+        .wisdom-electricity-bottom-video {
+          #video {
+            display: flex;
           }
         }
       }
-      .layui-table-tool {
-        background-color: yellow;
-      }
-      th {
-        background: rgba(55, 136, 144, 0.33);
-        color: #fff;
-        font-weight: bold;
-      }
     }
   }
-  /* 偶数行背景色 */
-  /* 鼠标经过颜色 */
-  .layui-border-box .layui-table tbody > tr:hover,
-  .layui-border-box .layui-table tbody > tr .layui-table-hover {
-    background-color: #3f3b3b;
-  }
-  /* 表格头部工具栏背景色 */
-  /* 表格头部背景色 */
-  /* 鼠标经过颜色 */
-  .layui-table tbody tr:hover,
-  .layui-table thead tr,
-  .layui-table-click,
-  .layui-table-header,
-  .layui-table-hover,
-  .layui-table-mend,
-  .layui-table-patch,
-  .layui-table-tool,
-  .layui-table-total,
-  .layui-table-total tr,
-  .layui-table[lay-even] tr:nth-child(even) {
+}
+.Realtime-main .Realtime-right .wisdom-electricity .wisdom-electricity-bottom .wisdom-electricity-bottom-homePage .wisdom-electricity-bottom-top .wisdom-electricity-bottom-top-search .layui-input,
+.Realtime-main .Realtime-right .wisdom-electricity .wisdom-electricity-bottom .wisdom-electricity-bottom-homePage .wisdom-electricity-bottom-top .wisdom-electricity-bottom-top-search .layui-textarea,
+.Realtime-main .Realtime-right .wisdom-electricity .wisdom-electricity-bottom .wisdom-electricity-bottom-homePage .wisdom-electricity-bottom-top .wisdom-electricity-bottom-top-search .layui-select {
+  margin-top: 14px;
+  height: 30px;
+  background: #1f2c3c;
+  border: none;
+  color: #fff;
+}
+.layui-border-box {
+  .layui-table {
     background: #1c2536;
-  }
-  /* 表格边框颜色 */
-  .layui-table td,
-  .layui-table th,
-  .layui-table-col-set,
-  .layui-table-fixed-r,
-  .layui-table-grid-down,
-  .layui-table-header,
-  .layui-table-page,
-  .layui-table-tips-main,
-  .layui-table-tool,
-  .layui-table-total,
-  .layui-table-view,
-  .layui-table[lay-skin=line],
-  .layui-table[lay-skin=row] {
-    border-color: rgba(255, 255, 255, 0.06);
-  }
-  .layui-laypage a,
-  .layui-laypage span {
-    color: #c2c2c2;
-    font-size: 12px;
-  }
-  .dialog {
-    padding: 30px 50px;
-    & > .layui-form {
-      & > .layui-form-item {
-        .layui-form-select {
-          .layui-edge {
-            right: 30px;
-          }
+    color: #d2d2d2;
+    tbody {
+      & > tr {
+        &:nth-child(even) {
+          background-color: rgba(55, 136, 144, 0.13);
         }
       }
-      & > .layui-form-item-submit {
-        margin: 0 auto;
-        margin-top: 60px;
-        width: 100%;
-      }
+    }
+    .layui-table-tool {
+      background-color: yellow;
+    }
+    th {
+      background: rgba(55, 136, 144, 0.33);
+      color: #fff;
+      font-weight: bold;
     }
   }
-  #close-pop-up {
-    margin-left: 30px;
-  }
-  .layui-form-label {
-    &.layui-required {
-      &:after {
-        content: "*";
-        color: red;
-        position: absolute;
-        top: 5px;
-        left: 15px;
+}
+/* 偶数行背景色 */
+/* 鼠标经过颜色 */
+.layui-border-box .layui-table tbody > tr:hover,
+.layui-border-box .layui-table tbody > tr .layui-table-hover {
+  background-color: #3f3b3b;
+}
+/* 表格头部工具栏背景色 */
+/* 表格头部背景色 */
+/* 鼠标经过颜色 */
+.layui-table tbody tr:hover,
+.layui-table thead tr,
+.layui-table-click,
+.layui-table-header,
+.layui-table-hover,
+.layui-table-mend,
+.layui-table-patch,
+.layui-table-tool,
+.layui-table-total,
+.layui-table-total tr,
+.layui-table[lay-even] tr:nth-child(even) {
+  background: #1c2536;
+}
+/* 表格边框颜色 */
+.layui-table td,
+.layui-table th,
+.layui-table-col-set,
+.layui-table-fixed-r,
+.layui-table-grid-down,
+.layui-table-header,
+.layui-table-page,
+.layui-table-tips-main,
+.layui-table-tool,
+.layui-table-total,
+.layui-table-view,
+.layui-table[lay-skin=line],
+.layui-table[lay-skin=row] {
+  border-color: rgba(255, 255, 255, 0.06);
+}
+.layui-laypage a,
+.layui-laypage span {
+  color: #c2c2c2;
+  font-size: 12px;
+}
+.dialog {
+  padding: 30px 50px;
+  & > .layui-form {
+    & > .layui-form-item {
+      .layui-form-select {
+        .layui-edge {
+          right: 30px;
+        }
       }
     }
+    & > .layui-form-item-submit {
+      margin: 0 auto;
+      margin-top: 60px;
+      width: 100%;
+    }
   }
-  .layui-nav .layui-badge,
-  .layui-nav .layui-badge-dot {
-    top: 50%;
-    right: 10px;
-    width: 25px;
+}
+#close-pop-up {
+  margin-left: 30px;
+}
+.layui-form-label {
+  &.layui-required {
+    &:after {
+      content: "*";
+      color: red;
+      position: absolute;
+      top: 5px;
+      left: 15px;
+    }
   }
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
+}
+.layui-nav .layui-badge,
+.layui-nav .layui-badge-dot {
+  top: 50%;
+  right: 10px;
+  width: 25px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+.exportBtn {
+  position: absolute;
+  right: 48px;
+  top: 26px;
+}
+.layui-icon-file:before {
+  content: "";
+}
+.layui-tree-icon {
+  .layui-icon {
+    font-size: 12px;
+    color: #ff5722;
   }
-  input[type="number"] {
-    -moz-appearance: textfield;
-  }
-  .exportBtn {
-    position: absolute;
-    right: 48px;
-    top: 26px;
-  }
-  
+}

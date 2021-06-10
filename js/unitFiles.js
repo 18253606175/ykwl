@@ -44,7 +44,7 @@ layui.use(['element', 'layer', 'upload'], function () {
                     <p>详细位置：${rows.companyAddress}</p>
                     <p>消防责任人：${rows.fireconperson}</p>
                     <p>消防电话：${rows.alarmTel}</p>
-                    <p>创建时间：${rows.createTime}</p>
+                    <p>创建时间：${rows.createTime ? rows.createTime : '--'}</p>
                 `)
             }else {
                 layer.msg(res.msg, {

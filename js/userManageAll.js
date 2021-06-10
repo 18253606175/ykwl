@@ -40,6 +40,12 @@ import {
                         title: value.companyName,
                         id: value.id,
                         spread: true,
+                        children: value.companyVOS.length !==0 ? value.companyVOS.map(val => {
+                          return {
+                              title: val.companyName,
+                              id: val.id
+                          }
+                      }) : []
                       }
                   }) : []
               }
@@ -94,7 +100,7 @@ import {
     //下拉框value
     var selectDate = [
       {
-        title: "没有选项",
+        title: "请选择单位",
         value: ""
       }
     ]

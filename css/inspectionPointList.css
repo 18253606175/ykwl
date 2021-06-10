@@ -77,8 +77,9 @@ body {
 }
 
 .Realtime-main .Realtime-right {
-  padding: 20px 40px 20px 30px;
+  padding: 20px;
   top: 0px;
+  height: 94%;
 }
 
 .Realtime-main .Realtime-right::-webkit-scrollbar {
@@ -165,6 +166,10 @@ body {
 
 .Realtime-main .Realtime-right .wisdom-electricity .wisdom-electricity-bottom .wisdom-electricity-bottom-homePage .wisdom-electricity-bottom-top .classifyStyle {
   border: 1px solid #5f949a;
+}
+
+.Realtime-main .Realtime-right .wisdom-electricity .wisdom-electricity-bottom .wisdom-electricity-bottom-homePage .wisdom-electricity-bottom-top .wisdom-electricity-bottom-top-search {
+  margin-top: 10px;
 }
 
 .Realtime-main .Realtime-right .wisdom-electricity .wisdom-electricity-bottom .wisdom-electricity-bottom-homePage .wisdom-electricity-bottom-top .wisdom-electricity-bottom-top-search .layui-form .layui-form-selected dl {
@@ -399,13 +404,7 @@ input[type="number"] {
   right: 48px;
   top: 26px;
 }
-.layui-tree-iconClick .layui-icon {
-    font-size: 14px;
-}
+
 .layui-icon-file:before {
-    content: "\e623";
-}
-.layui-tree-icon .layui-icon {
-    color: #ff5722;
-	font-size: 12px;
+  content: "";
 }

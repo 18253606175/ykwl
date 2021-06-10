@@ -9,7 +9,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
     var laydate = layui.laydate;
     //下拉框value
     var selectDate = [{
-        title: "没有选项",
+        title: "请选择单位",
         value: ""
     }]
 
@@ -303,7 +303,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
     var tableE = table.render({
         elem: '#home',
         id: 'tableReload',
-        height: 780,
+        height: 750,
         url: baseUrl + "/alarm/list?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
         limits: [15, 30, 45],
         cellMinWidth: 85,
@@ -407,7 +407,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
         }
     });
     $(".exportButton").click(function(){
-        table.exportFile(tableE.config.id,exportData, 'xls');
+        table.exportFile(tableE.config.id,exportData, 'xls', '处理记录');
     })
      //左侧分类
      $.ajax({

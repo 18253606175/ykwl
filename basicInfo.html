@@ -115,7 +115,7 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label layui-required" >单位等级</label>
                             <div class="layui-input-block">
-                                <select name="companyLevel" lay-search="" disabled lay-verify="required">
+                                <select name="companyLevel" style='color: #087!important' lay-search="" disabled lay-verify="required">
                                     <option value=""></option>
                                     ${companyLevel.map(item=>{
                                     return `${function(){
@@ -254,6 +254,7 @@
                     if (res.code === 200) {
                         layer.msg('保存成功', {
                             icon: 1,
+                            shade: 1,
                             closeBtn: 0,
                             shade: 0.5,
                             shadeClose: true,

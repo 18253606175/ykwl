@@ -62,7 +62,7 @@ layui.use(['element', 'layer', 'table',  'laydate', 'tree'], function () {
     var videourl = null;
     var title = null;
     $("#video2").html(`
-    <live-player id="live-player" video-url=${treeData[0].children[0].url} live="true" stretch="true" aspect='fullscreen' video-title=${treeData[0].children[0].title} controls="true" hide-big-play-button="true"></live-player>
+    <live-player id="live-player" video-url='' live="true" stretch="true" aspect='fullscreen' video-title=${treeData[0].children[0].title} controls="true" hide-big-play-button="true"></live-player>
     `)
     //树形结构
     tree.render({

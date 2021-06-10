@@ -251,6 +251,22 @@ body {
   box-shadow: 0 2px 8px 0 #009688;
 }
 
+.Homemain .Homecenter .home-center-top .close {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  right: 0;
+  z-index: 9999999999;
+  background: #000;
+  opacity: 0.5;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .Homemain .Homecenter .home-center-top .icon-quanping {
   position: absolute;
   z-index: 999;

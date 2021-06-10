@@ -37,8 +37,8 @@
 
 <body>
     <!-- 首页 -->
-    <div class="homeTitle">
-        大屏标题
+    <div class="homeTitle" style="color: rgb(194, 194, 194);">
+        英科智慧消防云平台
     </div>
     <div class="Homemain">
         <div class="Homeleft">
@@ -78,6 +78,9 @@
                 <i id="quanping-icon" onclick="showFull()" class="iconfont icon-quanping"></i>
                 <div style="height: 100%;" id="allmap">
                     
+                </div>
+                <div style="height: 100%; width: 100%;position: absolute; top: 0;display: none;z-index: 9999;" id="mapBox">
+                    <button class="close"><i class="layui-icon" style="font-size: 22px;">&#x1006;</i></button>
                 </div>
             </div>
             <div class="home-center-bottom">
@@ -121,7 +124,6 @@
 <script src="./js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
 
-
     var mapStyleBrown = [
         {
             "featureType": "background",
@@ -157,7 +159,7 @@
     var pointArr = []
     
     $.ajax({
-        url: "https://api.yk-iot.cn/rest/company/companyisalarm?token="+ JSON.parse(localStorage.getItem("loginInfo")).token,
+        url: "//api.yk-iot.cn/rest/company/companyisalarm?token="+ JSON.parse(localStorage.getItem("loginInfo")).token,
         async: false,
         success: function(res){
                 if(res.code === 20001){
@@ -203,6 +205,13 @@
         }
     })
     var map = new BMap.Map("allmap");
+    // var panoramaService = new BMap.PanoramaService();
+    // var stCtrl = new BMap.PanoramaControl(); //构造全景控件
+    // stCtrl.setOffset(new BMap.Size(40, 10));
+    // map.addControl(stCtrl);//添加全景控件
+    var panorama = new BMap.Panorama('mapBox'); 
+    // map.addTileLayer(new BMap.PanoramaCoverageLayer());
+
     var point = pointArr.length !==0 ? new BMap.Point(pointArr[0].lng, pointArr[0].lat) : new BMap.Point('119.17','36.77');
     // var marker = new BMap.Marker(point);
     // var label = new BMap.Label("", { offset: new BMap.Size(20, -10) });//标注标签  
@@ -360,9 +369,6 @@
                 return true
             }
         })
-
-
-        console.log(pointArr0)
     
         for (let i = 0; i < pointArr3.length; i++) {
             let pointCenter = new BMap.Point(pointArr3[i].lng, pointArr3[i].lat);
@@ -410,20 +416,14 @@
         //pop弹窗标题
         var title = '<div style="font-weight:bold;color:#CE5521;font-size:14px">' + poi.title + '</div>';
         //pop弹窗信息
-        // var html = [];
-        // html.push('<table cellspacing="0" style="table-layout:fixed;width:100%;font:12px arial,simsun,sans-serif"><tbody>');
-        // html.push('<tr>');
-        // html.push('<td style="vertical-align:top;line-height:16px;width:38px;white-space:nowrap;word-break:keep-all">地址:</td>');
-        // html.push('<td style="vertical-align:top;line-height:16px">' + poi.address + ' </td>');
-        // html.push('</tr>');
-        // html.push('</tbody></table>');
         html=`
+                <div style="width:100%"><img id="myImg" style="width:100%; height:120px" lng=${poi.lng} lat=${poi.lat} src='./img/background-wite.png'/></div>
                 <div>电话：${poi.alarmTel}</div>
                 <div>单位地址：${poi.companyAddress}</div>
-                <div class='sum' index=${poi.id} style="display:inline-block;color: green;cursor: pointer; margin-right: 60px">设备总数：${poi.deviceSum}</div>
-                <div style="display:inline-block">设备在线：${poi.deviceOnLine}</div>
-                <div class='alarm' index=${poi.id} style="display:inline-block;color: red;cursor: pointer; margin-right: 60px">设备报警：${poi.deviceAlarm}</div>
-                <div style="display:inline-block">设备离线：${poi.deviceOffLine}</div>
+                <div class='sum' index=${poi.id} style="width: 110px;display:inline-block;color: green;cursor: pointer; margin-right: 60px">设备总数：${poi.deviceSum}</div>
+                <div style="display:inline-block;width: 110px;">设备在线：${poi.deviceOnLine}</div>
+                <div class='alarm' index=${poi.id} style="width: 110px;display:inline-block;color: red;cursor: pointer; margin-right: 60px">设备报警：${poi.deviceAlarm}</div>
+                <div style="display:inline-block;width: 110px;">设备离线：${poi.deviceOffLine}</div>
                 `
         var infoWindow = new BMap.InfoWindow(html, {
             title: title,
@@ -434,6 +434,7 @@
             marker.openInfoWindow(infoWindow);
             var x = parent.document.querySelectorAll("a[accessKey]");
             $(".sum").click(function(){
+                $('.layui-body', window.parent.document).css('top', '50px')
                 localStorage.setItem('companyId', $(".sum").attr('index'))
                 x.forEach(item => {
                     if (item.accessKey === 'deviceList') {
@@ -449,6 +450,7 @@
                 $('.layui-body').css('top', '50px')
             })
             $(".alarm").click(function(){
+                $('.layui-body', window.parent.document).css('top', '50px')
                 localStorage.setItem('companyId', $(".alarm").attr('index'))
                 x.forEach(item => {
                     if (item.accessKey === 'alarm') {
@@ -462,8 +464,25 @@
                 })
                 window.open('./alarm.html', '_self')
             })
+            
+            $('#myImg').click(function(){
+                let lng = $(this).attr('lng')
+                let lat = $(this).attr('lat')
+                panorama.setPosition(new BMap.Point(lng, lat));
+                // panorama.show();
+                $('#mapBox').css('display', 'block')
+            })
         };
-        marker.addEventListener("click", openInfoWinFun);
+        marker.addEventListener("click", function(){
+            openInfoWinFun();
+            $.ajax({
+                url:'//newxf.yk-iot.cn/baidumap.php?localtion=' + poi.lng + ',' + poi.lat,
+                success: function(res){
+                    $('#myImg').attr('src', res.pic)
+                }
+            })
+            
+        });
         
         return openInfoWinFun;
     }
@@ -508,6 +527,11 @@
             document.webkitExitFullscreen();
         }
     }
+
+    //关闭按钮
+    $('.close').click(function(){
+        $('#mapBox').css('display', 'none')
+    })
 
     
 </script>

@@ -18,8 +18,8 @@
             <div class="biu-title">
                 基本信息
             </div>
-            <img style="width: 200px; height: 200px;"
-                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTM4IDc5LjE1OTgyNCwgMjAxNi8wOS8xNC0wMTowOTowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTcgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjMwQThGMEE0QkU3RjExRTk4NzM0QTIzOTNCN0VDN0U0IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjMwQThGMEE1QkU3RjExRTk4NzM0QTIzOTNCN0VDN0U0Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MzBBOEYwQTJCRTdGMTFFOTg3MzRBMjM5M0I3RUM3RTQiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MzBBOEYwQTNCRTdGMTFFOTg3MzRBMjM5M0I3RUM3RTQiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz603N/zAAAB40lEQVR42mL8//8/w2AGTAyDHIw6kGIASoO4MC4Qd2OBDBCzE2sHUK0JELuR4waSQxBoERuQug3E7SRo6wTiZfSKYi4g5gBiIRL0MAMxy2gmGXXgUHQgI77ihJGREZRrxYFMTiRhPiC+CMRrgbiESHtWALEWEOuhiX9fpJHwEq8b8EnG31zYAKTqaRxItQvV41vIjWIHOsSiM73S4B8gXgLEv0lNZvRyYDcwPcUC6auDMRffB+IWYIYKANIGg9GBOdDqbPJgLAfXAKN2G5AGhd5dID4IxYfJSI8YgIUKDpwCIoCOXAykFqO1fECZJnqgHbgC6JCbSPxnILcBsRoQBw+GEJSAYhhwg5q7HNosG1R1cS8wqncD6S4s1dqAOxBUP1cDo9sbSOcOxtbMeSCWBeL5g7W5lQDtq4jS04F/6dBY+EdJLgaVazpAzE6kZ3lJdNwvaLuS/AYrCd1RA2g6rAbm5DZS++b0SIOw2Pg2WDMJD6wZP1gd+BOpk44e/RJALDXQDrwJbVV7oTkOVOycBeLVNOnVkThuMx9aHk6BjsWAeoQdQKwOxKnAzDOH1EzCwkBdkAfE0tAGbA5UDNQmrMDlOLqGIDQUQZpsoE1/UI7eCXTcE3KLGcbRMepRBw4wAAgwACp+s8nlljxxAAAAAElFTkSuQmCC"
+            <img class="flag" style="width: 200px; height: 200px;"
+                src=""
                 alt="logo" srcset="">
             <div class="right-info">
 
@@ -66,6 +66,9 @@
             <div id="chartShow-smokeDetector">
 
             </div>
+            <div id="chartShow-combustible">
+
+            </div>
         </div>
 
         <div class="historyData" style="display: none;">
@@ -110,8 +113,8 @@
         var pressureSign = [] //压力标志
         var smokeDetector = []  //烟感
         var smokeDetectorSign = []  //烟感标志
-
-
+        var combustible = [] //可燃气体
+        var combustibleSign = [] //可燃气体标志
 
         function getUrl(url) {
             // 先获取href问号以及问号后的内容
@@ -128,35 +131,10 @@
                 for (var i = 0; i < strs.length; i++) {
                     obj[strs[i].split("=")[0]] = strs[i].split("=")[1];
                 }
-
                 return obj
             }
             return null
         }
-
-
-
-        var infoTitle = {
-            a: "电",
-            b: "水"
-        }
-
-        var infoValue = [{
-            value: 1,
-            title: "a"
-        },
-        {
-            value: 2,
-            title: "b"
-        }
-        ]
-
-
-        var aaa = [
-            { field: 'id', title: 'ID' }
-            , { field: 'username', title: '用户名' }
-            , { field: 'sex', title: '性别' }
-        ]
 
         var deviceId = null
 
@@ -169,7 +147,6 @@
             data: getUrl(window.location.href),
             success: function (res) {
                 if(res.code === 200){
-                    
                 var tableTitle = []
                 const { fieldlist, dataList } = res.rows
                 //历史信息表格
@@ -177,8 +154,6 @@
                     return { field: item.dataType, title: item.typeDes,align:'center' }
                 })
                 tableTitle.unshift({ field: 'happen_time', title: '上报时间',width:110,align:'center'  })
-
-                
                 //渲染历史数据表格
                 layui.use('table', function () {
                     var table = layui.table;
@@ -235,64 +210,45 @@
             data: getUrl(window.location.href),
             success: function (response) {
                 if(response.code === 200){
-                    
                 const {
                     data, deviceInfo, deviceData
                 } = response.rows
                 deviceId = deviceInfo.deviceId
-
-
-
+                if(deviceInfo.deviceSmallType === '01'){
+                    $('.flag').attr('src', './img/dian.png')
+                }else if(deviceInfo.deviceSmallType === '02' || deviceInfo.deviceSmallType === '03'){
+                    $('.flag').attr('src', './img/shui.png')
+                }else if(deviceInfo.deviceSmallType === '06'){
+                    $('.flag').attr('src', './img/yan.png') 
+                }else if(deviceInfo.deviceSmallType === '07'){
+                    $('.flag').attr('src', './img/krq.jpg') 
+                }
                 //添加设备基本信息
                 $('.right-info').append(
                     `
-                    <p>${deviceInfo.imei}</p>
+                    <p style="padding-left:20px">${deviceInfo.imei}</p>
                         <div class="right-content">
 						<p>所属单位：${deviceInfo.companyName}</p>
                         <p>设备名称：${deviceInfo.location}</p>
                         <p>设备类型：${function(){
-                            switch (deviceInfo.typeSign) {
-                                case 'AKR300ZE':
-                                    return '安科瑞电'
+                            switch (deviceInfo.deviceSmallType) {
+                                case '01':
+                                    return '智慧电气监测'
                                     break;
-                                case 'AKR300TE':
-                                    return '安科瑞电市府'
+                                case '02':
+                                    return '智慧水压监测'
                                     break;
-                                case 'TPR260E':
-                                    return '拓普瑞电'
+                                case '03':
+                                    return '智慧水位监测'
                                     break;
-                                case 'TPR240P':
-                                    return '拓普瑞水压'
+                                case '05':
+                                    return '可视化联网报警'
                                     break;
-                                case 'TPR240L':
-                                    return '拓普瑞水位'
+                                case '06':
+                                    return '智慧型独立烟感'
                                     break;
-                                case 'TK88P':
-                                    return '泰科水压'
-                                    break;
-                                case 'TK88L':
-                                    return '泰科水位'
-                                    break;
-                                case 'ZD350E':
-                                    return '中电350'
-                                    break;
-                                case 'HK002P':
-                                    return '海康水压'
-                                    break;
-                                case 'HK002E':
-                                    return '海康电'
-                                    break;
-                                case 'HK002L':
-                                    return '海康水位'
-                                    break;
-                                case 'SWZA01S':
-                                    return '思维智安烟感'
-                                    break;
-                                case 'LY01S':
-                                    return '览宇烟感'
-                                    break;
-                                case 'HK01V_YS':
-                                    return '海康监控'
+                                case '07':
+                                    return '可燃气体检测'
                                     break;
                             
                                 default:
@@ -319,7 +275,7 @@
                 if (response.rows.deviceType === '03') {
                     if (response.code === 200) {
                         time = response.rows.time
-                        liquidLevelSign.push(data[1].typeDes)
+                        liquidLevelSign.push(data[0].typeDes)
                         data.map(item => {
                             switch (item.dataType) {
                                 case "F":
@@ -403,7 +359,7 @@
                     </div>
                     ${infoMapData.join('')}
                     `
-                    $(".data-record-content").append($infoData)
+                    $(".data-record-content").html($infoData)
 
                     // 判断节点是否显示
                     if ($('#chartShow-temperature').children().length === 0) {
@@ -426,6 +382,9 @@
                     }
                     if ($('#chartShow-smokeDetector').children().length === 0) {
                         $('#chartShow-smokeDetector').css('display', 'none')
+                    }
+                    if ($('#chartShow-combustible').children().length === 0) {
+                        $('#chartShow-combustible').css('display', 'none')
                     }
                 } else if (response.rows.deviceType === '01') {
                     //电
@@ -547,7 +506,7 @@
 							color:"red",
 						  },
 							data: [
-							{yAxis:'100',label: {position:'middle',formatter: '电流阀值:100A'}}
+							{yAxis:'100',label: {position:'middle',formatter: '电流阈值:100A'}}
 							]
 							}
                         },
@@ -630,7 +589,7 @@
 							color:"green",
 						  },
 							data: [
-							{yAxis:'187',label: {position:'middle',formatter: '低压阀值:187V'}}
+							{yAxis:'187',label: {position:'middle',formatter: '低压阈值:187V'}}
 							]
 							}
                         },
@@ -650,7 +609,7 @@
 							color:"red",
 						  },
 							data: [
-							{yAxis:'264',label: {position:'middle',formatter: '高压阀值:264V'}}
+							{yAxis:'264',label: {position:'middle',formatter: '高压阈值:264V'}}
 							]
 							}
                         },
@@ -723,7 +682,7 @@
 							color:"red",
 						  },
 							data: [
-							{yAxis:'70',label: {position:'middle',formatter: '温度阀值:70℃'}}
+							{yAxis:'70',label: {position:'middle',formatter: '温度阈值:70℃'}}
 							]
 							}
                         },
@@ -813,7 +772,7 @@
 								color:"red",
 							  },
 							data: [
-								{yAxis:'300',label: {position:'middle',formatter: '漏电阀值:300Ma'}}
+								{yAxis:'300',label: {position:'middle',formatter: '漏电阈值:300Ma'}}
 								]
 							}
                         }]
@@ -839,7 +798,7 @@
                     </div>
                     ${infoMapData.join('')}
                     `
-                    $(".data-record-content").append($infoData)
+                    $(".data-record-content").html($infoData)
 
                     // 判断节点是否显示
                     if ($('#chartShow-liquidLevel').children().length === 0) {
@@ -929,7 +888,7 @@
 							color:"red",
 						  },
 							data: [
-							{yAxis:'1',label: {position:'middle',formatter: '阀值:1Mpa'}}
+							{yAxis:'1',label: {position:'middle',formatter: '阈值:1Mpa'}}
 							]
 							}
                         }]
@@ -953,7 +912,7 @@
                     </div>
                     ${infoMapData.join('')}
                     `
-                    $(".data-record-content").append($infoData)
+                    $(".data-record-content").html($infoData)
 
                     // 判断节点是否显示
                     if ($('#chartShow-temperature').children().length === 0) {
@@ -977,11 +936,14 @@
                     if ($('#chartShow-smokeDetector').children().length === 0) {
                         $('#chartShow-smokeDetector').css('display', 'none')
                     }
+                    if ($('#chartShow-combustible').children().length === 0) {
+                        $('#chartShow-combustible').css('display', 'none')
+                    }
                 } else if (response.rows.deviceType === '06') {
                     //烟感 06
                     if (response.code === 200) {
                         time = response.rows.time
-                        smokeDetectorSign.push(data[1].typeDes)
+                        smokeDetectorSign.push(data[2].typeDes)
                         data.map(item => {
                             switch (item.dataType) {
                                 case "V":
@@ -1040,7 +1002,7 @@
 							
                         },
                         series: [{
-                            name: '电池电压',
+                            name: '电压',
                             type: 'line',
                             data: smokeDetector,
 							markPoint: {
@@ -1055,7 +1017,7 @@
 							color:"red",
 						  },
 							data: [
-							{yAxis:'2.8',label: {position:'middle',formatter: '电池低压阀值:2.8V'}}
+							{yAxis:'2.8',label: {position:'middle',formatter: '电池低压阈值:2.8V'}}
 							]
 							}
                         }]
@@ -1079,7 +1041,7 @@
                     </div>
                     ${infoMapData.join('')}
                     `
-                    $(".data-record-content").append($infoData)
+                    $(".data-record-content").html($infoData)
 
                     // 判断节点是否显示
                     if ($('#chartShow-temperature').children().length === 0) {
@@ -1102,6 +1064,138 @@
                     }
                     if ($('#chartShow-smokeDetector').children().length === 0) {
                         $('#chartShow-smokeDetector').css('display', 'none')
+                    }
+                    if ($('#chartShow-combustible').children().length === 0) {
+                        $('#chartShow-combustible').css('display', 'none')
+                    }
+                } else if (response.rows.deviceType === '07') {
+                    //可燃气体 07
+                    if (response.code === 200) {
+                        time = response.rows.time
+                        combustibleSign.push(data[1].typeDes)
+                        data.map(item => {
+                            switch (item.dataType) {
+                                case "V":
+                                    combustible = item.value
+                                    break;
+                                default:
+                                    break;
+                            }
+                        })
+                    }
+
+                    //echars
+                    var myChartS = echarts.init(document.getElementById('chartShow-combustible'),
+                        null, {
+                        renderer: 'svg'
+                    });
+
+                    //电池电压
+                    var optionS = {
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+                        legend: {
+                            data: combustibleSign
+                        },
+                        grid: {
+                            left: '3%',
+                            right: '4%',
+                            bottom: '3%',
+                            containLabel: true
+                        },
+                        toolbox: {
+                            feature: {
+                                saveAsImage: {}
+                            }
+                        },
+                        xAxis: {
+                            type: 'category',
+                            boundaryGap: false,
+                            data: time
+                        },
+                        yAxis: {
+                            type: 'value',
+							//max: function (value) { return value.max },
+							max: function (value) { return '3.5' },
+							show:true,//不显示坐标轴线、坐标轴刻度线和坐标轴上的文字
+							axisTick:{
+								  show:true//不显示坐标轴刻度线
+							},
+							axisLine: {
+								  show: true,//不显示坐标轴线
+							},
+							axisLabel: {
+								  show: true,//不显示坐标轴上的文字
+							}
+							
+                        },
+                        series: [{
+                            name: '电压',
+                            type: 'line',
+                            data: combustible,
+							markPoint: {
+							data: [
+								{type: 'min', name: '最低电压'},
+								]
+							},
+							markLine: {
+							symbol:"none", //表示没有箭头的直线
+							lineStyle:{
+							type:"dashed",
+							color:"red",
+						  },
+							data: [
+							{yAxis:'2.8',label: {position:'middle',formatter: '电池低压阈值:2.8V'}}
+							]
+							}
+                        }]
+                    };
+                    optionS && myChartS.setOption(optionS);
+
+                    const infoMapData = data.map(item => {
+                        var value = item.value.pop()
+                        return `
+                        <p>
+                            <span class="data-record-content-icon"></span>
+                            <span class="data-record-content-detail">${item.typeDes}：${value === undefined ? '-' : value} ${item.typeUnit}</span>
+                        </p>
+                    `
+                    })
+
+                    var time = time.pop()
+                    const $infoData = `
+                    <div class="data-record-content-time">
+                        最后上报时间 : ${time === undefined ? '-' : time}
+                    </div>
+                    ${infoMapData.join('')}
+                    `
+                    $(".data-record-content").html($infoData)
+
+                    // 判断节点是否显示
+                    if ($('#chartShow-temperature').children().length === 0) {
+                        $('#chartShow-temperature').css('display', 'none')
+                    }
+                    if ($('#chartShow-electric').children().length === 0) {
+                        $('#chartShow-electric').css('display', 'none')
+                    }
+                    if ($('#chartShow-voltage').children().length === 0) {
+                        $('#chartShow-voltage').css('display', 'none')
+                    }
+                    if ($('#chartShow-aftercurrent').children().length === 0) {
+                        $('#chartShow-aftercurrent').css('display', 'none')
+                    }
+                    if ($('#chartShow-liquidLevel').children().length === 0) {
+                        $('#chartShow-liquidLevel').css('display', 'none')
+                    }
+                    if ($('#chartShow-pressure').children().length === 0) {
+                        $('#chartShow-pressure').css('display', 'none')
+                    }
+                    if ($('#chartShow-smokeDetector').children().length === 0) {
+                        $('#chartShow-smokeDetector').css('display', 'none')
+                    }
+                    if ($('#chartShow-combustible').children().length === 0) {
+                        $('#chartShow-combustible').css('display', 'none')
                     }
                 }
                 }else if(res.code === 20001){
@@ -1192,7 +1286,7 @@
                     type: 'get',
                     data: getUrl(window.location.href),
                     success: function (response) {
-                        if(res.code === 200){
+                        if(response.code === 200){
                             const {
                             data, deviceInfo, deviceData
                         } = response.rows
@@ -1276,6 +1370,9 @@
                             }
                             if ($('#chartShow-smokeDetector').children().length === 0) {
                                 $('#chartShow-smokeDetector').css('display', 'none')
+                            }
+                            if ($('#chartShow-combustible').children().length === 0) {
+                                $('#chartShow-combustible').css('display', 'none')
                             }
                         } else if (response.rows.deviceType === '01') {
                             if (response.code === 200) {
@@ -1609,11 +1706,14 @@
                             if ($('#chartShow-smokeDetector').children().length === 0) {
                                 $('#chartShow-smokeDetector').css('display', 'none')
                             }
+                            if ($('#chartShow-combustible').children().length === 0) {
+                                $('#chartShow-combustible').css('display', 'none')
+                            }
                         } else if (response.rows.deviceType === '06') {
                             //烟感 06
                             if (response.code === 200) {
                                 time = response.rows.time
-                                smokeDetectorSign.push(data[1].typeDes)
+                                smokeDetectorSign.push(data[2].typeDes)
                                 data.map(item => {
                                     switch (item.dataType) {
                                         case "V":
@@ -1659,7 +1759,7 @@
                                     type: 'value'
                                 },
                                 series: [{
-                                    name: '电池电压',
+                                    name: '电压',
                                     type: 'line',
                                     data: smokeDetector
                                 }]
@@ -1690,8 +1790,140 @@
                             if ($('#chartShow-smokeDetector').children().length === 0) {
                                 $('#chartShow-smokeDetector').css('display', 'none')
                             }
-                        }
-                        }else if(res.code === 20001){
+                            if ($('#chartShow-combustible').children().length === 0) {
+                                $('#chartShow-combustible').css('display', 'none')
+                            }
+                        }else if (response.rows.deviceType === '07') {
+                    //可燃气体 07
+                    if (response.code === 200) {
+                        time = response.rows.time
+                        combustibleSign.push(data[1].typeDes)
+                        data.map(item => {
+                            switch (item.dataType) {
+                                case "V":
+                                    combustible = item.value
+                                    break;
+                                default:
+                                    break;
+                            }
+                        })
+                    }
+
+                    //echars
+                    var myChartS = echarts.init(document.getElementById('chartShow-combustible'),
+                        null, {
+                        renderer: 'svg'
+                    });
+
+                    //电池电压
+                    var optionS = {
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+                        legend: {
+                            data: combustibleSign
+                        },
+                        grid: {
+                            left: '3%',
+                            right: '4%',
+                            bottom: '3%',
+                            containLabel: true
+                        },
+                        toolbox: {
+                            feature: {
+                                saveAsImage: {}
+                            }
+                        },
+                        xAxis: {
+                            type: 'category',
+                            boundaryGap: false,
+                            data: time
+                        },
+                        yAxis: {
+                            type: 'value',
+							//max: function (value) { return value.max },
+							max: function (value) { return '3.5' },
+							show:true,//不显示坐标轴线、坐标轴刻度线和坐标轴上的文字
+							axisTick:{
+								  show:true//不显示坐标轴刻度线
+							},
+							axisLine: {
+								  show: true,//不显示坐标轴线
+							},
+							axisLabel: {
+								  show: true,//不显示坐标轴上的文字
+							}
+							
+                        },
+                        series: [{
+                            name: '电压',
+                            type: 'line',
+                            data: combustible,
+							markPoint: {
+							data: [
+								{type: 'min', name: '最低电压'},
+								]
+							},
+							markLine: {
+							symbol:"none", //表示没有箭头的直线
+							lineStyle:{
+							type:"dashed",
+							color:"red",
+						  },
+							data: [
+							{yAxis:'2.8',label: {position:'middle',formatter: '电池低压阈值:2.8V'}}
+							]
+							}
+                        }]
+                    };
+                    optionS && myChartS.setOption(optionS);
+
+                    const infoMapData = data.map(item => {
+                        var value = item.value.pop()
+                        return `
+                        <p>
+                            <span class="data-record-content-icon"></span>
+                            <span class="data-record-content-detail">${item.typeDes}：${value === undefined ? '-' : value} ${item.typeUnit}</span>
+                        </p>
+                    `
+                    })
+
+                    var time = time.pop()
+                    const $infoData = `
+                    <div class="data-record-content-time">
+                        最后上报时间 : ${time === undefined ? '-' : time}
+                    </div>
+                    ${infoMapData.join('')}
+                    `
+                    $(".data-record-content").html($infoData)
+
+                    // 判断节点是否显示
+                    if ($('#chartShow-temperature').children().length === 0) {
+                        $('#chartShow-temperature').css('display', 'none')
+                    }
+                    if ($('#chartShow-electric').children().length === 0) {
+                        $('#chartShow-electric').css('display', 'none')
+                    }
+                    if ($('#chartShow-voltage').children().length === 0) {
+                        $('#chartShow-voltage').css('display', 'none')
+                    }
+                    if ($('#chartShow-aftercurrent').children().length === 0) {
+                        $('#chartShow-aftercurrent').css('display', 'none')
+                    }
+                    if ($('#chartShow-liquidLevel').children().length === 0) {
+                        $('#chartShow-liquidLevel').css('display', 'none')
+                    }
+                    if ($('#chartShow-pressure').children().length === 0) {
+                        $('#chartShow-pressure').css('display', 'none')
+                    }
+                    if ($('#chartShow-smokeDetector').children().length === 0) {
+                        $('#chartShow-smokeDetector').css('display', 'none')
+                    }
+                    if ($('#chartShow-combustible').children().length === 0) {
+                        $('#chartShow-combustible').css('display', 'none')
+                    }
+                }
+                        }else if(response.code === 20001){
                             layer.alert('登录已过期请重新登陆', {
                                 skin: 'layui-layer-yingke' //样式类名
                                 ,closeBtn: 0
@@ -1699,7 +1931,7 @@
                                     parent.location.href = './index.html'
                                 });
                         } else {
-                            layer.msg(res.msg, {
+                            layer.msg(response.msg, {
                                 icon: 2,
                                 closeBtn: 0,
                                 anim: 6, //动画类型
@@ -1849,6 +2081,9 @@
                             }
                             if ($('#chartShow-smokeDetector').children().length === 0) {
                                 $('#chartShow-smokeDetector').css('display', 'none')
+                            }
+                            if ($('#chartShow-combustible').children().length === 0) {
+                                $('#chartShow-combustible').css('display', 'none')
                             }
                         } else if (response.rows.deviceType === '01') {
                             if (response.code === 200) {
@@ -2182,11 +2417,14 @@
                             if ($('#chartShow-smokeDetector').children().length === 0) {
                                 $('#chartShow-smokeDetector').css('display', 'none')
                             }
+                            if ($('#chartShow-combustible').children().length === 0) {
+                                $('#chartShow-combustible').css('display', 'none')
+                            }
                         } else if (response.rows.deviceType === '06') {
                             //烟感 06
                             if (response.code === 200) {
                                 time = response.rows.time
-                                smokeDetectorSign.push(data[1].typeDes)
+                                smokeDetectorSign.push(data[2].typeDes)
                                 data.map(item => {
                                     switch (item.dataType) {
                                         case "V":
@@ -2232,7 +2470,7 @@
                                     type: 'value'
                                 },
                                 series: [{
-                                    name: '电池电压',
+                                    name: '电压',
                                     type: 'line',
                                     data: smokeDetector
                                 }]
@@ -2262,6 +2500,141 @@
                             }
                             if ($('#chartShow-smokeDetector').children().length === 0) {
                                 $('#chartShow-smokeDetector').css('display', 'none')
+                            }
+                            if ($('#chartShow-combustible').children().length === 0) {
+                                $('#chartShow-combustible').css('display', 'none')
+                            }
+                        }else if (response.rows.deviceType === '07') {
+                            //可燃气体 07
+                            if (response.code === 200) {
+                                time = response.rows.time
+                                combustibleSign.push(data[1].typeDes)
+                                data.map(item => {
+                                    switch (item.dataType) {
+                                        case "V":
+                                            combustible = item.value
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                })
+                            }
+
+                            //echars
+                            var myChartS = echarts.init(document.getElementById('chartShow-combustible'),
+                                null, {
+                                renderer: 'svg'
+                            });
+
+                            //电池电压
+                            var optionS = {
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data: combustibleSign
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    feature: {
+                                        saveAsImage: {}
+                                    }
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: time
+                                },
+                                yAxis: {
+                                    type: 'value',
+                                    //max: function (value) { return value.max },
+                                    max: function (value) { return '3.5' },
+                                    show:true,//不显示坐标轴线、坐标轴刻度线和坐标轴上的文字
+                                    axisTick:{
+                                        show:true//不显示坐标轴刻度线
+                                    },
+                                    axisLine: {
+                                        show: true,//不显示坐标轴线
+                                    },
+                                    axisLabel: {
+                                        show: true,//不显示坐标轴上的文字
+                                    }
+                                    
+                                },
+                                series: [{
+                                    name: '电压',
+                                    type: 'line',
+                                    data: combustible,
+                                    markPoint: {
+                                    data: [
+                                        {type: 'min', name: '最低电压'},
+                                        ]
+                                    },
+                                    markLine: {
+                                    symbol:"none", //表示没有箭头的直线
+                                    lineStyle:{
+                                    type:"dashed",
+                                    color:"red",
+                                },
+                                    data: [
+                                    {yAxis:'2.8',label: {position:'middle',formatter: '电池低压阈值:2.8V'}}
+                                    ]
+                                    }
+                                }]
+                            };
+                            optionS && myChartS.setOption(optionS);
+
+                            const infoMapData = data.map(item => {
+                                var value = item.value.pop()
+                                return `
+                                <p>
+                                    <span class="data-record-content-icon"></span>
+                                    <span class="data-record-content-detail">${item.typeDes}：${value === undefined ? '-' : value} ${item.typeUnit}</span>
+                                </p>
+                            `
+                            })
+
+                            var time = time.pop()
+                            const $infoData = `
+                            <div class="data-record-content-time">
+                                最后上报时间 : ${time === undefined ? '-' : time}
+                            </div>
+                            ${infoMapData.join('')}
+                            `
+                            $(".data-record-content").html($infoData)
+
+                            // 判断节点是否显示
+                            if ($('#chartShow-temperature').children().length === 0) {
+                                $('#chartShow-temperature').css('display', 'none')
+                            }
+                            if ($('#chartShow-electric').children().length === 0) {
+                                $('#chartShow-electric').css('display', 'none')
+                            }
+                            if ($('#chartShow-voltage').children().length === 0) {
+                                $('#chartShow-voltage').css('display', 'none')
+                            }
+                            if ($('#chartShow-aftercurrent').children().length === 0) {
+                                $('#chartShow-aftercurrent').css('display', 'none')
+                            }
+                            if ($('#chartShow-liquidLevel').children().length === 0) {
+                                $('#chartShow-liquidLevel').css('display', 'none')
+                            }
+                            if ($('#chartShow-pressure').children().length === 0) {
+                                $('#chartShow-pressure').css('display', 'none')
+                            }
+                            if ($('#chartShow-smokeDetector').children().length === 0) {
+                                $('#chartShow-smokeDetector').css('display', 'none')
+                            }
+                            if ($('#chartShow-combustible').children().length === 0) {
+                                $('#chartShow-combustible').css('display', 'none')
+                            }
+                            if ($('#chartShow-combustible').children().length === 0) {
+                                $('#chartShow-combustible').css('display', 'none')
                             }
                         }
                         } else if(res.code === 20001){
@@ -2420,6 +2793,9 @@
                                 }
                                 if ($('#chartShow-smokeDetector').children().length === 0) {
                                     $('#chartShow-smokeDetector').css('display', 'none')
+                                }
+                                if ($('#chartShow-combustible').children().length === 0) {
+                                    $('#chartShow-combustible').css('display', 'none')
                                 }
                             } else if (response.rows.deviceType === '01') {
                                 if (response.code === 200) {
@@ -2754,11 +3130,14 @@
                                 if ($('#chartShow-smokeDetector').children().length === 0) {
                                     $('#chartShow-smokeDetector').css('display', 'none')
                                 }
+                                if ($('#chartShow-combustible').children().length === 0) {
+                                    $('#chartShow-combustible').css('display', 'none')
+                                }
                             } else if (response.rows.deviceType === '06') {
                                 //烟感 06
                                 if (response.code === 200) {
                                     time = response.rows.time
-                                    smokeDetectorSign.push(data[1].typeDes)
+                                    smokeDetectorSign.push(data[2].typeDes)
                                     data.map(item => {
                                         switch (item.dataType) {
                                             case "V":
@@ -2804,7 +3183,7 @@
                                         type: 'value'
                                     },
                                     series: [{
-                                        name: '电池电压',
+                                        name: '电压',
                                         type: 'line',
                                         data: smokeDetector
                                     }]
@@ -2834,6 +3213,138 @@
                                 }
                                 if ($('#chartShow-smokeDetector').children().length === 0) {
                                     $('#chartShow-smokeDetector').css('display', 'none')
+                                }
+                                if ($('#chartShow-combustible').children().length === 0) {
+                                    $('#chartShow-combustible').css('display', 'none')
+                                }
+                            }else if (response.rows.deviceType === '07') {
+                                //可燃气体 07
+                                if (response.code === 200) {
+                                    time = response.rows.time
+                                    combustibleSign.push(data[1].typeDes)
+                                    data.map(item => {
+                                        switch (item.dataType) {
+                                            case "V":
+                                                combustible = item.value
+                                                break;
+                                            default:
+                                                break;
+                                        }
+                                    })
+                                }
+
+                                //echars
+                                var myChartS = echarts.init(document.getElementById('chartShow-combustible'),
+                                    null, {
+                                    renderer: 'svg'
+                                });
+
+                                //电池电压
+                                var optionS = {
+                                    tooltip: {
+                                        trigger: 'axis'
+                                    },
+                                    legend: {
+                                        data: combustibleSign
+                                    },
+                                    grid: {
+                                        left: '3%',
+                                        right: '4%',
+                                        bottom: '3%',
+                                        containLabel: true
+                                    },
+                                    toolbox: {
+                                        feature: {
+                                            saveAsImage: {}
+                                        }
+                                    },
+                                    xAxis: {
+                                        type: 'category',
+                                        boundaryGap: false,
+                                        data: time
+                                    },
+                                    yAxis: {
+                                        type: 'value',
+                                        //max: function (value) { return value.max },
+                                        max: function (value) { return '3.5' },
+                                        show:true,//不显示坐标轴线、坐标轴刻度线和坐标轴上的文字
+                                        axisTick:{
+                                            show:true//不显示坐标轴刻度线
+                                        },
+                                        axisLine: {
+                                            show: true,//不显示坐标轴线
+                                        },
+                                        axisLabel: {
+                                            show: true,//不显示坐标轴上的文字
+                                        }
+                                        
+                                    },
+                                    series: [{
+                                        name: '电压',
+                                        type: 'line',
+                                        data: combustible,
+                                        markPoint: {
+                                        data: [
+                                            {type: 'min', name: '最低电压'},
+                                            ]
+                                        },
+                                        markLine: {
+                                        symbol:"none", //表示没有箭头的直线
+                                        lineStyle:{
+                                        type:"dashed",
+                                        color:"red",
+                                    },
+                                        data: [
+                                        {yAxis:'2.8',label: {position:'middle',formatter: '电池低压阈值:2.8V'}}
+                                        ]
+                                        }
+                                    }]
+                                };
+                                optionS && myChartS.setOption(optionS);
+
+                                const infoMapData = data.map(item => {
+                                    var value = item.value.pop()
+                                    return `
+                                    <p>
+                                        <span class="data-record-content-icon"></span>
+                                        <span class="data-record-content-detail">${item.typeDes}：${value === undefined ? '-' : value} ${item.typeUnit}</span>
+                                    </p>
+                                `
+                                })
+
+                                var time = time.pop()
+                                const $infoData = `
+                                <div class="data-record-content-time">
+                                    最后上报时间 : ${time === undefined ? '-' : time}
+                                </div>
+                                ${infoMapData.join('')}
+                                `
+                                $(".data-record-content").html($infoData)
+
+                                // 判断节点是否显示
+                                if ($('#chartShow-temperature').children().length === 0) {
+                                    $('#chartShow-temperature').css('display', 'none')
+                                }
+                                if ($('#chartShow-electric').children().length === 0) {
+                                    $('#chartShow-electric').css('display', 'none')
+                                }
+                                if ($('#chartShow-voltage').children().length === 0) {
+                                    $('#chartShow-voltage').css('display', 'none')
+                                }
+                                if ($('#chartShow-aftercurrent').children().length === 0) {
+                                    $('#chartShow-aftercurrent').css('display', 'none')
+                                }
+                                if ($('#chartShow-liquidLevel').children().length === 0) {
+                                    $('#chartShow-liquidLevel').css('display', 'none')
+                                }
+                                if ($('#chartShow-pressure').children().length === 0) {
+                                    $('#chartShow-pressure').css('display', 'none')
+                                }
+                                if ($('#chartShow-smokeDetector').children().length === 0) {
+                                    $('#chartShow-smokeDetector').css('display', 'none')
+                                }
+                                if ($('#chartShow-combustible').children().length === 0) {
+                                    $('#chartShow-combustible').css('display', 'none')
                                 }
                             }
                         }else if(res.code === 20001){

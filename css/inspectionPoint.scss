@@ -12,7 +12,7 @@ body {
     margin-top: 20px;
     box-shadow: 0 2px 8px 0 #009688;
     border-radius: 5px;
-    height: 92%;
+    height: 91%;
   }
   .layui-border-green {
     border-color: #009688 !important;
@@ -67,9 +67,12 @@ body {
         display: flex;
         position: absolute;
         top: 18px;
-        left: 310px;
+        left: 170px;
         .layui-form {
-          margin-right: 50px;
+          margin-right: 0px;
+          .layui-form-item{
+            display: flex;
+          }
           .layui-form-selected {
             dl {
               background-color: #3d4959;
@@ -165,8 +168,8 @@ body {
       }
       & > div {
         width: 300px;
-        margin: 0 0 20px 0;
-        height: 135px;
+        margin: 10px 5px 20px 5px;
+        height: 140px;
         display: inline-block;
         border: 1px solid #009688;
         position: relative;
@@ -198,14 +201,14 @@ body {
           flex-direction: column;
           padding-top: 10px;
           position: absolute;
-          left: 45%;
+          left: 40%;
           article {
             position: absolute;
             top: 0;
             right: 0;
           }
           p {
-            margin-bottom: 5px;
+            margin-bottom: 6px;
           }
         }
       }
@@ -227,7 +230,7 @@ body {
   .Realtime-left {
     display: flex;
     flex-direction: column;
-    height: 90%;
+    height: 89%;
     margin-top: 20px;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -286,5 +289,10 @@ body {
 .layui-table-page {
   & > div {
     text-align: right;
+  }
+}
+.layui-icon-file {
+  &:before {
+    content: "";
   }
 }

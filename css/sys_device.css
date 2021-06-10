@@ -139,6 +139,9 @@ body {
 
 .Realtime-main .Realtime-right {
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 94%;
 }
 
 .Realtime-main .Realtime-right::-webkit-scrollbar {
@@ -459,4 +462,9 @@ input::-webkit-inner-spin-button {
 
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+.layui-tree-icon .layui-icon {
+  font-size: 12px;
+  color: #ff5722;
 }

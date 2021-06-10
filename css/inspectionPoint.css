@@ -15,7 +15,7 @@ body {
   margin-top: 20px;
   box-shadow: 0 2px 8px 0 #009688;
   border-radius: 5px;
-  height: 92%;
+  height: 91%;
 }
 
 .manage-main .layui-border-green {
@@ -79,11 +79,15 @@ body {
   display: flex;
   position: absolute;
   top: 18px;
-  left: 310px;
+  left: 170px;
 }
 
 .manage-main section .layui-tab-content .faultHand-main-header-right-search .layui-form {
-  margin-right: 50px;
+  margin-right: 0px;
+}
+
+.manage-main section .layui-tab-content .faultHand-main-header-right-search .layui-form .layui-form-item {
+  display: flex;
 }
 
 .manage-main section .layui-tab-content .faultHand-main-header-right-search .layui-form .layui-form-selected dl {
@@ -183,8 +187,8 @@ body {
 
 .manage-main > div > div > div {
   width: 300px;
-  margin: 0 0 20px 0;
-  height: 135px;
+  margin: 10px 5px 20px 5px;
+  height: 150px;
   display: inline-block;
   border: 1px solid #009688;
   position: relative;
@@ -209,7 +213,7 @@ body {
   width: 90px;
   height: 108px;
   background-size: 100% 100% !important;
-  top: 15px;
+  top: 20px;
   left: 14px;
   margin-right: 2px;
 }
@@ -219,19 +223,19 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding-top: 10px;
+  padding-top: 30px;
   position: absolute;
-  left: 45%;
+  left: 40%;
 }
 
-.manage-main > div > div > div > aside article {
+.manage-main > div > div > div >  article {
   position: absolute;
   top: 0;
   right: 0;
 }
 
 .manage-main > div > div > div > aside p {
-  margin-bottom: 5px;
+  margin-bottom: 6px;
 }
 
 .manage-main section .layui-tab-content .faultHand-main-header-right-search .layui-input,
@@ -252,7 +256,7 @@ body {
 .Realtime-main .Realtime-left {
   display: flex;
   flex-direction: column;
-  height: 90%;
+  height: 89%;
   margin-top: 20px;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -314,4 +318,8 @@ body {
 
 .layui-table-page > div {
   text-align: right;
+}
+
+.layui-icon-file:before {
+  content: "";
 }

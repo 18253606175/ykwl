@@ -46,8 +46,9 @@
                                     <div class="wisdom-electricity-bottom-top-search" style="display: flex;">
                                         <form class="layui-form" action="">
                                             <div class="layui-form-item">
+                                                <label class="layui-form-label" style="margin-top:18px;color:#ddd;padding: 0 10px;">位置搜索</label>
                                                 <div class="layui-input-inline">
-                                                    <input type="text" name="location" placeholder="请输入"
+                                                    <input type="text" name="location" placeholder="请输入位置"
                                                         autocomplete="off" class="layui-input">
                                                     <button type="submit" lay-filter="submitBtn" lay-submit=""
                                                         class="layui-btn layui-btn-primary">
@@ -58,6 +59,7 @@
                                         </form>
                                         <form class="layui-form" action="">
                                             <div class="layui-form-item">
+                                                <label class="layui-form-label" style="margin-top:18px;color:#ddd;padding: 0 10px;">单位搜索</label>
                                                 <div class="layui-input-inline">
                                                     <select class="layui-input-inline-select" name="companyId"
                                                         lay-search="">
@@ -137,6 +139,8 @@
         <div>可视化联网报警</div>
         {{#  } else if(d.deviceSmallType === '06') { }}
         <div>智慧型独立烟感</div>
+        {{#  }else if(d.deviceSmallType === '07') { }}
+        <div>可燃气体检测</div>
         {{#  } }}
     </script>
     <script type="text/html" id="isSolve">

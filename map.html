@@ -20,7 +20,7 @@
 	<!-- <script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=k2r3HsXXDf0NNM6AgVifp2oDDO3seNTb&s=1"></script> -->
 	<!-- <script src="//api.map.baidu.com/api?type=webgl&v=3.0&ak=k2r3HsXXDf0NNM6AgVifp2oDDO3seNTb"></script> -->
 	<script type="text/javascript"
-		src="https://api.map.baidu.com/api?v=1.4&ak=k2r3HsXXDf0NNM6AgVifp2oDDO3seNTb"></script>
+		src="//api.map.baidu.com/api?v=3.0&ak=S3A2GN9M7PHLKoWuPiKd29Uyz1j3mI9l"></script>
 	<script src="./js/jquery-3.6.0.min.js"></script>
 </head>
 
@@ -55,7 +55,7 @@
 				var title = addComp.province + addComp.city + addComp.district;
 				$("#map", window.parent.document).val(address);
 				$("#area", window.parent.document).val(title);
-				$("#areaCode", window.parent.document).val(rs.point.lng.toFixed(2) + ',' + rs.point.lat.toFixed(2));
+				$("#areaCode", window.parent.document).val(rs.point.lng.toFixed(6) + ',' + rs.point.lat.toFixed(6));//rs.point.lng.toFixed(2)
 
 			});
 			var index = parent.layer.getFrameIndex("HomeForm"); //先得到当前iframe层的索引

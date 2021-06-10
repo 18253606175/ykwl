@@ -42,7 +42,7 @@
 											<label class="layui-form-label" style="margin-top:18px;color:#ddd;padding: 5px 10px;">位置搜索</label>
                                                 <div class="layui-input-inline" style="width: 50%;">
                                                     <input type="text" name="location" 
-                                                        placeholder="请输入" autocomplete="off" class="layui-input">
+                                                        placeholder="请输入位置" autocomplete="off" class="layui-input">
                                                     <button type="submit" lay-filter="submitBtn" lay-submit=""
                                                         class="layui-btn layui-btn-primary">
                                                         <i class="layui-icon">&#xe615;</i>
@@ -130,6 +130,8 @@
         <div>可视化联网报警</div>
         {{#  } else if(d.deviceSmallType === '06') { }}
         <div>智慧型独立烟感</div>
+        {{#  }else if(d.deviceSmallType === '07') { }}
+        <div>可燃气体检测</div>
         {{#  } }}
     </script>
     <div id="pop-up-add" style="display: none;">
