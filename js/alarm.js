@@ -168,7 +168,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
             layer.open({
                 type: 1,
                 offset: '180px',
-                title: '处理设备',
+                title: '报警处理',
                 skin: 'layui-layer-yingke',
                 area: '900px',
                 content: $(".dialog"),
@@ -423,7 +423,7 @@ table.on('rowDouble(tableTest)',function(obj){
                 skin: 'layui-layer-yingke',
                 title: false,
                 closeBtn: 0, //不显示关闭按钮
-                title: '设备详情',
+                title: '报警详情',
                 shade: [0],
                 scrollbar: true,
                 closeBtn: 1,
@@ -587,7 +587,7 @@ table.on('rowDouble(tableTest)',function(obj){
 
     
     
-    //设备提交
+    //报警处理提交
     form.on('submit(update)', function (data) {
 
         for (var i = 0; i < Object.keys(data.field).length; i++) {

@@ -810,6 +810,9 @@
                     if ($('#chartShow-smokeDetector').children().length === 0) {
                         $('#chartShow-smokeDetector').css('display', 'none')
                     }
+                    if ($('#chartShow-combustible').children().length === 0) {
+                        $('#chartShow-combustible').css('display', 'none')
+                    }
                 } else if (response.rows.deviceType === '02') {
                     //水压 02
                     if (response.code === 200) {
@@ -1624,6 +1627,9 @@
                             if ($('#chartShow-smokeDetector').children().length === 0) {
                                 $('#chartShow-smokeDetector').css('display', 'none')
                             }
+                            if ($('#chartShow-combustible').children().length === 0) {
+                                $('#chartShow-combustible').css('display', 'none')
+                            }
                         } else if (response.rows.deviceType === '02') {
                             //水压 02
                             if (response.code === 200) {
@@ -2334,6 +2340,9 @@
                             }
                             if ($('#chartShow-smokeDetector').children().length === 0) {
                                 $('#chartShow-smokeDetector').css('display', 'none')
+                            }
+                            if ($('#chartShow-combustible').children().length === 0) {
+                                $('#chartShow-combustible').css('display', 'none')
                             }
                         } else if (response.rows.deviceType === '02') {
                             //水压 02
@@ -3046,6 +3055,9 @@
                                 }
                                 if ($('#chartShow-smokeDetector').children().length === 0) {
                                     $('#chartShow-smokeDetector').css('display', 'none')
+                                }
+                                if ($('#chartShow-combustible').children().length === 0) {
+                                    $('#chartShow-combustible').css('display', 'none')
                                 }
                             } else if (response.rows.deviceType === '02') {
                                 //水压 02

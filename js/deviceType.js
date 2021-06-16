@@ -10,6 +10,22 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
     var tree = layui.tree;
     var typeId = null;
     var state = 0;
+    
+    //平台
+    var interface_information = [
+        {
+            title: '华为',
+            value: '1'
+        },
+        {
+            title: '电信',
+            value: '2'
+        },
+        {
+            title: '萤石云',
+            value: '3'
+        }
+    ]
 
     //去除空参
     function dealObjectValue(obj){
@@ -27,8 +43,11 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
 
   //树形结构ajax
   $.ajax({
-      url: baseUrl + '/company/listtree?token=' + JSON.parse(localStorage.getItem("loginInfo")).token,
+      url: baseUrl + '/company/ztreelist?token=' + JSON.parse(localStorage.getItem("loginInfo")).token,
       async: false,
+      data: {
+          type: 1
+      },
       success: function (res) {
         if(res.code === 20001){
           layer.alert('登录已过期请重新登陆', {
@@ -40,31 +59,12 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
       } 
        else if(res.code === 200){
         treeData = function(){
-          return [{
-            title: res.rows.companyName,
-            id: res.rows.id,
-            spread: true,
-            children: res.rows.companyVOS.map(item => {
-              return {
-                  title: item.companyName,
-                  id: item.id,
-                  spread: false,//节点关闭
-                  children: item.companyVOS.length !==0 ? item.companyVOS.map(value => {
-                    return {
-                        title: value.companyName,
-                        id: value.id,
-                        spread: true,
-                        children: value.companyVOS.length !==0 ? value.companyVOS.map(val => {
-                            return {
-                                title: val.companyName,
-                                id: val.id
-                            }
-                        }) : []
-                      }
-                  }) : []
-              }
-            })
-          }]
+          return res.rows.length !==0 ? res.rows.map(val => {
+            return {
+                title: val.companyName,
+                id: val.id
+            }
+        }) : []
         }()
        }else {
         layer.msg(res.msg, {
@@ -120,6 +120,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
             value: ""
         }
     ]
+    var selectList1 = []
 
     var selectList = []
     var deviceType = [] //设备类型
@@ -170,12 +171,8 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                 <div class="layui-form-item" style='width:100%;margin-top:10px;'>
                     <label class="layui-form-label">设备类型</label>
                     <div class="layui-input-block  layui-required">
-                        <select name="type_sign" lay-verify="required" lay-search="">
-                            <option value=""></option>
-                            ${deviceType.map(item => {
-                    return `<option value=${item.typeSign}>${item.typeName}</option>`
-                })}
-                        </select>
+                        <input type="text" name="type_sign" required placeholder="请输入" autocomplete="off"
+                        class="layui-input">
                     </div>
                 </div>
                 
@@ -219,11 +216,12 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                     <div class="layui-input-block  layui-required">
                         <select name="companyId" lay-verify="required" lay-filter="companyId-select" lay-search="">
                             <option value="">请选择单位</option>
-                            ${selectList.map(item => {
-                    return `
-                                            <option value=${item.id}>${item.companyName}</option>
-                                        `
-                })}
+                            <option value="">请选择单位</option>
+                    ${selectList1.map(item => {
+                          return `
+                                    <option value=${item.id}>${item.companyName}</option>
+                                  `
+                      })}
                         </select>
                     </div>
                 </div>
@@ -354,6 +352,37 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
         }
     })
 
+    $.ajax({
+        url: baseUrl + "/company/ztreelist?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
+        async: false,
+        traditional: true,
+        dataType:"json",
+        data: {
+          type: 1
+        },
+        success: function (res) {
+          if(res.code === 20001){
+            layer.alert('登录已过期请重新登陆', {
+                skin: 'layui-layer-yingke' //样式类名
+                ,closeBtn: 0
+                }, function(){
+                    parent.location.href = './index.html'
+                });
+        } 
+          else if(res.code === 200){
+            selectList1 = res.rows
+            form.render();
+          }else {
+            layer.msg(res.msg, {
+                icon: 2,
+                closeBtn: 0,
+                anim: 6, //动画类型
+                time: 3000
+            });
+        }
+        }
+      })
+
     form.on('submit(submitDoubleBtn)', function (data) {
         if (data.field.companyId.length === 0) {
             layer.msg("请选择单位", {
@@ -377,61 +406,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
         return false;
     });
 
-    //设备类型分类
-    var typeSum = []
-    //设备总数
-    var typeCount = []
-    $.ajax({
-        url: baseUrl + '/device/devicetypewithnum?token=' + JSON.parse(localStorage.getItem('loginInfo')).token,
-        success: function (res) {
-            if(res.code === 20001){
-                layer.alert('登录已过期请重新登陆', {
-                    skin: 'layui-layer-yingke' //样式类名
-                    ,closeBtn: 0
-                    }, function(){
-                        parent.location.href = './index.html'
-                    });
-            } 
-            else if(res.code === 200){
-                const {
-                    rows
-                } = res
-                var leftTypeDate = rows.map((item, index) => {
-                    return `
-                            <li class="layui-nav-item select-li" id=${item.type}><a href="javaScript:;">${item.type_sign}</a></li>
-                        `
-                })
-                var leftTypeDate2 = '<li class="layui-nav-item select-li" style="width:100%" id=""><a href="javaScript:;">全部设备</a></li>' + leftTypeDate.join('');
-                $(".Realtime-left-bottom > .layui-nav").append(leftTypeDate2);
-                for (var i = 0; i < document.getElementsByClassName("select-li").length; i++) {
-                    $(".Realtime-left-bottom > .layui-nav > li")[i].setAttribute("index", i)
-                    $(".Realtime-left-bottom > .layui-nav > li")[i].onclick = function () {
-                        typeId = this.getAttribute('id')
-                        table.reload('tableReload', {
-                            page: {
-                                curr: 1 //重新从第 1 页开始
-                            },
-                            where: {
-                                deviceSmallType: typeId,
-                                companyId: id
-                            }
-                        });
-                    }
-                }
-                $(".select-li").on('click', function () {
-                    $(this).addClass("layui-this");
-                    $(this).siblings('li').removeClass('layui-this');
-                });
-            }else {
-                layer.msg(res.msg, {
-                    icon: 2,
-                    closeBtn: 0,
-                    anim: 6, //动画类型
-                    time: 3000
-                });
-            }
-        }
-    })
+   
 
     table.render({
         elem: '#home',
@@ -468,63 +443,62 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
         cols: [
             [ //表头
                 {
+                    field: 'id',
+                    align: "center",
+                    title: 'id',
+                    width: 70,
+                    sort: true
+                },
+                {
+                    field: 'companyName',
+                    align: "center",
+                    width: 200,
+                    title: '所属单位'
+                },
+                {
                     field: 'typeSign',
                     align: "center",
                     title: 'typeSign',
-                    width: 150,
+					width: 110,
                     sort: true
                 },
                 {
                     field: 'productId',
                     align: "center",
                     title: 'productId',
-                    width: 150,
                     sort: true
                 },
                 {
                     field: 'appId',
                     title: 'appId',
                     align: "center",
-                    width: 110,
                     sort: true
                 },
                 {
                     field: 'secret',
                     align: "center",
                     title: 'secret',
-                    width: 150,
                     sort: true
                 },
                 {
                     field: 'deviceSmallType',
                     align: "center",
-                    title: 'deviceSmallType',
-                    width: 150
+                    title: '设备类型',
+                    sort: true,
+                    width: 100
                 },
                 {
-                    field: 'device_agreement_type',
-                    title: 'device_agreement_type',
+                    field: 'interfaceInformation',
                     align: "center",
-                    width: 150,
-                    templet: "#typeSign"
-                },
-                {
-                    field: 'interface_information',
-                    align: "center",
-                    title: 'interface_information'
-                },
-                {
-                    field: 'masterKey',
-                    align: "center",
-                    title: 'masterKey',
-                    width: 120,
+                    width: 80,
+                    title: '平台',
                     sort: true
                 },
                 {
                     fixed: 'right',
                     title: '操作',
                     align: "center",
-                    width: 100,
+                    width: 120,
                     toolbar: '#barDemo'
                 }
             ]
@@ -550,12 +524,19 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                                 <label class="layui-form-label">所属单位</label>
                                 <div class="layui-input-block  layui-required">
                                     <select name="companyId" lay-verify="required" lay-filter="companyId-select" lay-search="">
-                                        <option value="">请选择单位</option>
-                                        ${selectList.map(item => {
-                                return `
-                                                        <option value=${item.id}>${item.companyName}</option>
-                                                    `
-                            })}
+                                    <option value="">请选择单位</option>
+                                    ${selectList.map(item => {
+                                        return `
+                                            ${function () {
+                                                if (item.id === data.companyId) {
+                                                    return `<option selected="true" value=${item.id}>${item.companyName}</option>`
+                                                } else {
+                                                    return `<option value=${item.id}>${item.companyName}</option>`
+                                                }
+                                            }()
+                                            }
+                                        `
+                                    })}
                                     </select>
                                 </div>
                             </div>
@@ -565,8 +546,17 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                                     <select name="typeSign" lay-verify="required" lay-search="">
                                         <option value=""></option>
                                         ${deviceType.map(item => {
-                                return `<option value=${item.typeSign}>${item.typeName}</option>`
-                            })}
+                                            return `
+                                                    ${function () {
+                                                    if (item.typeSign === data.typeSign) {
+                                                        return `<option selected="true" value=${item.typeSign}>${item.typeName}</option>`
+                                                    } else {
+                                                        return `<option value=${item.typeSign}>${item.typeName}</option>`
+                                                    }
+                                                }()
+                                                }
+                                            `
+                                        })}
                                     </select>
                                 </div>
                             </div>
@@ -574,38 +564,46 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                                 <label class="layui-form-label">productId</label>
                                 <div class="layui-input-block">
                                     <input type="text" name="productId" required placeholder="请输入" autocomplete="off"
-                                        class="layui-input">
+                                        class="layui-input" value=${data.productId}>
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">app_id</label>
                                 <div class="layui-input-block">
                                     <input type="text" name="app_id" required placeholder="请输入" autocomplete="off"
-                                        class="layui-input">
+                                        class="layui-input" value=${data.appId}>
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">masterKey</label>
                                 <div class="layui-input-block">
                                     <input type="text" name="masterKey" required placeholder="请输入" autocomplete="off"
-                                        class="layui-input">
+                                        class="layui-input" value=${data.masterKey}>
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">deviceSmallType</label>
                                 <div class="layui-input-block">
                                     <input type="text" name="deviceSmallType" required placeholder="请输入" autocomplete="off"
-                                        class="layui-input">
+                                        class="layui-input" value=${data.deviceSmallType}>
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">interface_information</label>
                                 <div class="layui-input-block">
                                     <select name="interface_information" lay-verify="required" lay-search="">
-                                        <option value="">请选择</option>
-                                        <option value="1">华为</option>
-                                        <option value="2">电信</option>
-                                        <option value="3">萤石云</option>
+                                    ${interface_information.map(item => {
+                                        return `
+                                                ${function () {
+                                                if (item.value === data.interfaceInformation) {
+                                                    return `<option selected="true" value=${item.value}>${item.title}</option>`
+                                                } else {
+                                                    return `<option value=${item.value}>${item.title}</option>`
+                                                }
+                                            }()
+                                            }
+                                        `
+                                    })}
                                     </select>
                                 </div>
                             </div>
@@ -613,21 +611,21 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                                 <label class="layui-form-label">secret</label>
                                 <div class="layui-input-block">
                                     <input type="text" name="secret" required placeholder="请输入" autocomplete="off"
-                                        class="layui-input">
+                                        class="layui-input" value=${data.secret}>
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">device_agreement_type</label>
                                 <div class="layui-input-block">
                                     <input type="text" name="device_agreement_type" required placeholder="请输入" autocomplete="off"
-                                        class="layui-input">
+                                        class="layui-input" value=${data.device_agreement_type}>
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">备注</label>
                                 <div class="layui-input-block">
                                     <input type="text" name="remark" required placeholder="请输入" autocomplete="off"
-                                        class="layui-input">
+                                        class="layui-input" value=${data.remark}>
                                 </div>
                             </div>
                             <div class="layui-form-item  layui-form-item-submit">
@@ -646,6 +644,21 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                     })
                 }
             });
+        } else if(obj.event === 'take'){
+            $.ajax({
+                url: '//newxf.yk-iot.cn/getdata_sub.php',
+                data: {
+                    id: data.id
+                },
+                success: function(res){
+                    layer.alert(`${res.error_desc}<br/>${res.msg}`, {
+                        offset: '300px',
+                        skin: 'layui-layer-yingke',
+                        area: '200px',
+                        title: `提示`
+                    });
+                }
+            })
         }
     });
 
@@ -658,7 +671,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
 
 
     //新增设备提交
-    form.on('submit(demo1)', function (data) {
+    form.on('submit(demo2)', function (data) {
         $.ajax({
             url: baseUrl + "/productapi/save?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
             data: JSON.stringify(dealObjectValue(data.field)),
@@ -703,7 +716,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
     });
 
     //新增接口
-    form.on('submit(demo2)', function (data) {
+    form.on('submit(demo1)', function (data) {
         $.ajax({
             url: baseUrl + "/prodect/save?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
             data: JSON.stringify(dealObjectValue(data.field)),

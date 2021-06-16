@@ -2,10 +2,11 @@ import {
     baseUrl
 } from "./params.js";
 
-layui.use(['element', 'layer'], function () {
+layui.use(['element', 'layer', 'form'], function () {
     var $ = layui.jquery
     var element = layui.element;
     var layer = layui.layer;
+    var form = layui.form;
     var layid = location.hash.replace(/^#test1=/, '');
     var projectView = {
         first: [{
@@ -36,6 +37,25 @@ layui.use(['element', 'layer'], function () {
         ]
     }
 
+    $('.layui-btn').click(function(){
+        console.log('11')
+        var othis = $(this)
+        var type = othis.data('type')
+      ,text = othis.text();
+        
+        layer.open({
+            type: 1
+            ,offset: type //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+            ,id: 'layerDemo'+type //防止重复弹出
+            ,content: '<div style="padding: 20px 100px;">'+  +'</div>'
+            ,btn: '关闭全部'
+            ,btnAlign: 'c' //按钮居中
+            ,shade: 0 //不显示遮罩
+            ,yes: function(){
+            layer.closeAll();
+            }
+        });
+    })
     //设备统计请求
     $.ajax({
         url: baseUrl + '/company/statistics?token=' + JSON.parse(localStorage.getItem('loginInfo')).token,
@@ -46,6 +66,8 @@ layui.use(['element', 'layer'], function () {
             projectView.first[1].value = rows.alarmNum;
             projectView.first[2].value = rows.inspectAddNum;
             projectView.second[0].value = rows.deviceNum;
+            projectView.second[1].value = rows.alarmNum - rows.isSolveAlarmNum;
+            projectView.second[2].value = rows.isInspect;
         }
     })
 
@@ -335,7 +357,7 @@ layui.use(['element', 'layer'], function () {
                 var option = {
                     title: {
                         text: '总数',
-                        subtext: num,
+                        subtext: company.deviceSum,
                         textStyle: {
                             color: '#00b5f3',
                             fontSize: 12,
@@ -621,8 +643,227 @@ layui.use(['element', 'layer'], function () {
             }
         })
 
+        var time = null;
+        var i=0;
+        function timer(flag){
+            if(flag){
+                time = setInterval(function () {
+                    $.ajax({   
+                        url: baseUrl + '/alarm/listwithmonth?token=' + JSON.parse(localStorage.getItem('loginInfo')).token,
+                        success: function (res) {
+                            if(res.code === 20001){
+                                layer.alert('登录已过期请重新登陆', {
+                                    skin: 'layui-layer-yingke' //样式类名
+                                    ,closeBtn: 0
+                                    }, function(){
+                                        parent.location.href = './index.html'
+                                    });
+                            } 
+                            else if(res.code === 200){  
+                            var data = res.rows
+                            if (i >= data.length) {
+                                clearInterval(time);
+                            } else {
+                                OpenAdvert(data[i]);
+                                i++;
+                            }
+                            }else {
+                                layer.msg(res.msg, {
+                                    icon: 2,
+                                    closeBtn: 0,
+                                    anim: 6, //动画类型
+                                    time: 3000
+                                });
+                            }
+                        }
+                })
+              }, 5000);
+            } else {
+                clearInterval(time)
+            }
+        }
+        timer(true);
 
-
+        function OpenAdvert(data) {
+            layer.open({
+                type: 1
+                ,fix: false
+                ,shadeClose: true
+                ,skin: 'demo-class'
+                ,title: false
+                ,offset: ['86%', '82%']
+                ,area: ['300px', '120px']
+                ,content: `
+                        <div class="box" style="width: 100%;height: 100%;background: #FFDD85;opacity: 1;">
+                            <div style="display: inline-block; width: 50px;">
+                                <i class="layui-icon" style="font-size: 50px; margin-left:5px; position: absolute; top:50%;margin-top: -25px;">&#xe702;</i> 
+                            </div>
+                            <div style="display: inline-block;margin-left:5px;margin-top:10px;">
+                                <p style="font-size: 20px; color: red;">报警提示</p>
+                                <p style="margin-top:5px;margin-bottom:5px;">${data.alarmMessage}: ${data.alarmData} ${data.data_unit}</p>
+                                <p style="margin-bottom:5px;margin-left:2px;">${data.location}</p>
+                                <p style="margin-bottom:5px;margin-left:2px;">${data.alarmTime} <span index=${data.companyId} class="details" style="cursor: pointer; color: red;">快速处理</span></p>
+                            </div>
+                        </div>
+                    `
+                ,time: 5000
+                ,shade: 0 //不显示遮罩
+                ,success: function(layero, index){
+                    $('.details').click(function(){
+                        timer(false)
+                        layer.open({
+                            type: 1,
+                            offset: '180px',
+                            title: '报警处理',
+                            area: '900px',
+                            skin: 'layui-layer-yingke',
+                            content: $(".dialog"),
+                            success: function () {
+                                $(".dialog").html(`<form class="layui-form" action="">
+                                    <div class="layui-form-item" style="margin-top: 10px">
+                                        <label class="layui-form-label">上报时间</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" name="imei" style="border: none" lay-verify="imei" required disabled placeholder="请输入" autocomplete="off"
+                                            class="layui-input" value=${data.alarmTime}>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">报警类别</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" name="imei" style="border: none" lay-verify="imei" required disabled placeholder="请输入" autocomplete="off"
+                                            class="layui-input" value=${data.alarmMessage}>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">上报方式</label>
+                                        <div id="tySign"  class="layui-input-block">
+                                            <input type="text" name="imei" style="border: none" lay-verify="imei" required disabled placeholder="请输入" autocomplete="off"
+                                            class="layui-input" value="自动上报">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">设备位置</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" name="imei" style="border: none" lay-verify="imei" required disabled placeholder="请输入" autocomplete="off"
+                                                class="layui-input" value=${data.location}>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">设备编号</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" name="location" style="border: none" lay-verify="address" disabled required placeholder="请输入" autocomplete="off"
+                                                class="layui-input" value=${data.imei}>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">处理状态</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" name="imei" style="border: none" lay-verify="imei" required disabled placeholder="请输入" autocomplete="off"
+                                            class="layui-input" value=${function(){
+                                                if(data.isSolve === 1){
+                                                    return `未处理`
+                                                }else if(data.isSolve === 2){
+                                                    return `
+                                        已处理 `
+                                                }
+                                            }()}>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">处理方式</label>
+                                        <div class="layui-input-block radioGroup">
+                                            <input type="radio" name="dispose_type" value="1"  title="正常报警" checked="">
+                                            <input type="radio" name="dispose_type" value="2" title="误报" >
+                                            <input type="radio" name="dispose_type" value="3" title="模拟报警" >
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item" style="width: 100%">
+                                        <label class="layui-form-label">处理意见</label>
+                                        <div class="layui-input-block">
+                                            <textarea style="height: 80px" name="dispose_method" placeholder="请输入" autocomplete="off" class="layui-input" value=${data.deviceName}></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item" style="display: none">
+                                        <div class="layui-input-block">
+                                            <input type="text" name="id" placeholder="请输入" autocomplete="off" class="layui-input" value=${data.id}>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item  layui-form-item-submit">
+                                        <div style="text-align: center;">
+                                            <button type="submit" class="layui-btn" lay-submit lay-filter="update">确认</button>
+                                            <button type="button" id="close-pop-up" class="layui-btn layui-btn-primary">取消</button>
+                                        </div>
+                                    </div>
+                                </form>`)
+                                form.render();
+                                $("#close-pop-up").click(function(){
+                                    layer.closeAll();
+                                })
+                            },
+                            end: function(){
+                                timer(true);
+                            }
+                        });
+                    })
+                }
+                ,cancel: function (index, layero) {
+                    // 判断是否强制关闭
+                    if (close == 1) {
+                      return true;
+                    } else if (close == 0) {
+                      return false;
+                    }
+                  }
+              });
+          } 
+          //报警分类提交
+        form.on('submit(update)', function (data) {
+            $.ajax({
+                url: baseUrl + "/alarm/update?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
+                data: JSON.stringify({
+                    id: Number(data.field.id),
+                    dispose_type: Number(data.field.dispose_type),
+                    dispose_method: data.field.dispose_method
+                }),
+                contentType: "json/application",
+                type: 'post',
+                dataType: "json",
+                success: function (res) {
+                    table.reload('tableReload', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                    });
+                    if (res.code === 200) {
+                        layer.msg('报警处理成功^_^', {
+                            icon: 1,
+                            shade: 1,
+                            closeBtn: 0,
+                            anim: 0, //动画类型
+                            time: 2000
+                        }, function () {
+                            layer.closeAll();
+                        });
+                    } else if(res.code === 20001){
+                        layer.alert('登录已过期请重新登陆', {
+                            skin: 'layui-layer-yingke' //样式类名
+                            ,closeBtn: 0
+                            }, function(){
+                                parent.location.href = './index.html'
+                            });
+                    } else {
+                        layer.msg(res.msg, {
+                            icon: 1,
+                            closeBtn: 0,
+                            anim: 6, //动画类型
+                            time: 3000
+                        });
+                    }
+                }
+            })
+            return false;
+        });
         //报警分类
         $.ajax({
             url: baseUrl + '/alarm/numbyalarmtype?token=' + JSON.parse(localStorage.getItem('loginInfo')).token + '&companyId=' + JSON.parse(localStorage.getItem('loginInfo')).companyId,
@@ -742,6 +983,11 @@ layui.use(['element', 'layer'], function () {
 
     roll(50);
 
-
+//弹窗样式
+layer.config({
+    //anim: 2, //出场动画
+    extend: 'layskin/style.css',
+    //skin: 'layui-layer-yingke' //英科专用弹窗样式
+});
 
 });

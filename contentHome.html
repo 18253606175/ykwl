@@ -116,6 +116,9 @@
                 </div>
             </div>
         </div>
+        <div class="dialog" style="display: none;">
+            
+        </div>
     </div>
 </body>
 <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.1.0/echarts.min.js"></script>
@@ -468,8 +471,9 @@
             $('#myImg').click(function(){
                 let lng = $(this).attr('lng')
                 let lat = $(this).attr('lat')
+                console.log(lng,lat)
                 panorama.setPosition(new BMap.Point(lng, lat));
-                // panorama.show();
+                panorama.show();
                 $('#mapBox').css('display', 'block')
             })
         };

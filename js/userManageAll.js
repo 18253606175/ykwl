@@ -13,7 +13,7 @@ import {
 
   //树形结构ajax
   $.ajax({
-      url: baseUrl + '/company/listtree?token=' + JSON.parse(localStorage.getItem("loginInfo")).token,
+      url: baseUrl + '/company/tree?token=' + JSON.parse(localStorage.getItem("loginInfo")).token,
       async: false,
       success: function (res) {
         if(res.code === 20001){
@@ -25,33 +25,53 @@ import {
               });
       } 
        else if(res.code === 200){
-        treeData = function(){
-          return [{
-            title: res.rows.companyName,
-            id: res.rows.id,
-            spread: true,
-            children: res.rows.companyVOS.map(item => {
-              return {
-                  title: item.companyName,
-                  id: item.id,
-                  spread: false,//节点关闭
-                  children: item.companyVOS.length !==0 ? item.companyVOS.map(value => {
-                    return {
-                        title: value.companyName,
-                        id: value.id,
-                        spread: true,
-                        children: value.companyVOS.length !==0 ? value.companyVOS.map(val => {
-                          return {
-                              title: val.companyName,
-                              id: val.id
-                          }
-                      }) : []
-                      }
-                  }) : []
+        const { rows } = res
+        if(rows[0].parentId === 0){
+          for(var i in rows){     // pId为0时表示为根节点
+              if(rows[i].parentId=='0'){   
+                  var tempObject={};
+                  tempObject.title=rows[i].title;
+                  tempObject.id=rows[i].id;
+                  tempObject.spread = true;
+                  tempObject.children=getChildren(tempObject.id);
+                  treeData.push(tempObject);
               }
-            })
-          }]
-        }()
+            }
+      } else {
+          for(var i in rows){     // pId为0时表示为根节点
+              if(rows[i].parentId === rows[0].parentId){   
+                  var tempObject={};
+                  tempObject.title=rows[i].title;
+                  tempObject.id=rows[i].id;
+                  tempObject.spread = true;
+                  tempObject.children=getChildren(tempObject.id);
+                  treeData.push(tempObject);
+              }
+            }
+      }
+        function getChildren(id){    //递归体  即对每条data逐条递归找children
+            var tempArray=[];
+            for(var i in rows){
+                if(rows[i].parentId==id){
+                    var tempChild={};
+                    tempChild.title=rows[i].title;
+                    tempChild.id=rows[i].id;
+                    if(selectChildren(rows[i].id)){   //若存在子节点，继续递归；否则为叶节点，停止递归
+                        tempChild.children=getChildren(rows[i].id);
+                    }
+                    tempArray.push(tempChild);
+                }
+            }
+            return tempArray;
+        }
+        function selectChildren(id){   // 是否存在子节点
+            for(var i in rows){
+                if(rows[i].parentId==id){
+                    return true;
+                }
+            }
+            return false;
+        }
        }else {
         layer.msg(res.msg, {
             icon: 2,

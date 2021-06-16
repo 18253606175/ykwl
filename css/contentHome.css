@@ -496,3 +496,11 @@ body {
   margin-left: 3px !important;
   margin-top: 4px !important;
 }
+
+body .layui-layer-content {
+  border-radius: 12px;
+}
+
+body .demo-class {
+  border-radius: 12px;
+}

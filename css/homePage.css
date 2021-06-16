@@ -83,6 +83,10 @@ html {
   padding: 0;
 }
 
+.layui-body .layui-tab .layui-tab-content .layui-layer {
+  left: 20%;
+}
+
 .layui-body .layui-tab .layui-tab-content .layui-tab-item {
   height: 100%;
 }

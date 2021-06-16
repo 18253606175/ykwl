@@ -80,6 +80,9 @@ html {
     .layui-tab-content {
       height: 100%;
       padding: 0;
+      .layui-layer {
+        left: 20%;
+      }
       .layui-tab-item {
         height: 100%;
         & > div {

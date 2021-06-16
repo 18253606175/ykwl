@@ -480,3 +480,12 @@ body {
     margin-top: 4px!important;
   }
 }
+
+body{
+  .layui-layer-content{
+    border-radius: 12px;
+  }
+  .demo-class {
+    border-radius: 12px;
+  }
+} 
