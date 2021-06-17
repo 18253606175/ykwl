@@ -644,7 +644,7 @@ layui.use(['element', 'layer', 'form'], function () {
         })
 
         var time = null;
-        var i=0;
+
         function timer(flag){
             if(flag){
                 time = setInterval(function () {
@@ -660,13 +660,12 @@ layui.use(['element', 'layer', 'form'], function () {
                                     });
                             } 
                             else if(res.code === 200){  
-                            var data = res.rows
-                            if (i >= data.length) {
-                                clearInterval(time);
-                            } else {
-                                OpenAdvert(data[i]);
-                                i++;
-                            }
+                                var data = res.rows
+                                if (sessionStorage.getItem('data0') && Number(sessionStorage.getItem('data0')) === data[0].alarmData) {
+                                } else {
+                                    OpenAdvert(data[0]);
+                                }
+                                sessionStorage.setItem('data0', data[0].alarmData)
                             }else {
                                 layer.msg(res.msg, {
                                     icon: 2,
@@ -677,7 +676,7 @@ layui.use(['element', 'layer', 'form'], function () {
                             }
                         }
                 })
-              }, 5000);
+              }, 2000);
             } else {
                 clearInterval(time)
             }
@@ -691,24 +690,42 @@ layui.use(['element', 'layer', 'form'], function () {
                 ,shadeClose: true
                 ,skin: 'demo-class'
                 ,title: false
-                ,offset: ['86%', '82%']
-                ,area: ['300px', '120px']
+                ,offset: ['83%', '81%']
+                ,area: ['300px', '140px']
                 ,content: `
-                        <div class="box" style="width: 100%;height: 100%;background: #FFDD85;opacity: 1;">
+                        <div class="box" style="width: 100%;height: 100%;background: ${data.alarmType === '2008' ? 'red' : '#FFDD85' };opacity: 1;">
                             <div style="display: inline-block; width: 50px;">
-                                <i class="layui-icon" style="font-size: 50px; margin-left:5px; position: absolute; top:50%;margin-top: -25px;">&#xe702;</i> 
+                                <i class="layui-icon" style="font-size: 50px; color: ${data.alarmType === '2008' ? '#fff' : '' }; margin-left:5px; position: absolute; top:50%;margin-top: -25px;">&#xe702;</i> 
                             </div>
                             <div style="display: inline-block;margin-left:5px;margin-top:10px;">
-                                <p style="font-size: 20px; color: red;">报警提示</p>
-                                <p style="margin-top:5px;margin-bottom:5px;">${data.alarmMessage}: ${data.alarmData} ${data.data_unit}</p>
-                                <p style="margin-bottom:5px;margin-left:2px;">${data.location}</p>
-                                <p style="margin-bottom:5px;margin-left:2px;">${data.alarmTime} <span index=${data.companyId} class="details" style="cursor: pointer; color: red;">快速处理</span></p>
+                                <p style="font-size: 20px; color: ${data.alarmType === '2008' ? '#fff' : '' };">报警提示</p>
+                                <p style="margin-top:5px;margin-bottom:5px;color: ${data.alarmType === '2008' ? '#fff' : '' };">${data.alarmMessage}: ${data.alarmData} ${data.data_unit}</p>
+                                <p style="margin-bottom:5px;margin-left:2px;color: ${data.alarmType === '2008' ? '#fff' : '' };">${data.location}</p>
+                                <p style="margin-bottom:5px;margin-left:2px;color: ${data.alarmType === '2008' ? '#fff' : '' };">${data.alarmTime}</p>
+                                <span index=${data.companyId} class="details" style="cursor: pointer; color: ${data.alarmType === '2008' ? '#fff' : 'red' };">快速处理</span>
+                                <span location=${data.location} class="dispose" style="cursor: pointer; color: ${data.alarmType === '2008' ? '#fff' : 'red' };">查看详情</span>
                             </div>
                         </div>
                     `
                 ,time: 5000
                 ,shade: 0 //不显示遮罩
                 ,success: function(layero, index){
+                    $('.dispose').click(function(){
+                        sessionStorage.setItem('location', $(this).attr('location'))
+                        var x = parent.document.querySelectorAll("a[accessKey]");
+                        x.forEach(item => {
+                            if (item.accessKey === 'alarm') {
+                                item.classList.add('layui-this');
+                                $(item).parent().parent().parent().addClass(' layui-nav-itemed')
+                            } else {
+                                item.classList.remove('layui-this')
+                                $(item).parent().parent().parent().removeClass('layui-this');
+                                $(item).parent().removeClass('layui-this');
+                            }
+                        })
+                        $("#homeIframe", window.parent.document).attr('src', '../alarm.html');
+                        $('.layui-body', window.parent.document).css('top', '50px')
+                    })
                     $('.details').click(function(){
                         timer(false)
                         layer.open({

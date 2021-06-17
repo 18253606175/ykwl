@@ -520,6 +520,13 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                     $("#pop-up-add").html(
                         `
                         <form class="layui-form" action="">
+                            <div class="layui-form-item" style='display: none'>
+                                <label class="layui-form-label">id</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="id" required placeholder="请输入" autocomplete="off"
+                                        class="layui-input" value=${data.id}>
+                                </div>
+                            </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">所属单位</label>
                                 <div class="layui-input-block  layui-required">
@@ -630,7 +637,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                             </div>
                             <div class="layui-form-item  layui-form-item-submit">
                                     <div style="text-align:center">
-                                        <button type="submit" class="layui-btn" lay-submit lay-filter="demo2">确认</button>
+                                        <button type="submit" class="layui-btn" lay-submit lay-filter="update">确认</button>
                                         <button type="button" id="close-pop-up" class="layui-btn layui-btn-primary">取消</button>
                                     </div>
                             </div>
@@ -775,7 +782,8 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                     },
                     where: {
                         state: state,
-                        deviceSmallType: typeId
+                        deviceSmallType: typeId,
+
                     }
                 });
                 if(res.code === 20001){

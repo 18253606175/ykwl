@@ -108,7 +108,7 @@ layui.use(['element','form'], function () {
 
     for (var i = 0; i < $(".site-demo-active").length; i++) {
         $(".site-demo-active")[i].onclick = function () {
-            
+            sessionStorage.setItem('location', '')
             localStorage.setItem('companyId', 0)
             var bSrc = $(this).attr('accessKey')
             $("#homeIframe").attr('src', `${bSrc}.html`)
@@ -159,6 +159,7 @@ layui.use(['element','form'], function () {
         layer.confirm('您确定要退出吗？', {
             btn: ['确定','取消'] //按钮
           }, function(){
+              sessionStorage.removeItem('data0')
             window.open('../index.html', '_self')
           }, function(){
             

@@ -201,6 +201,66 @@
                     }
             }
         })
+
+        //报警信息
+        layui.use('table', function () {
+            var table = layui.table;
+            table.render({
+                elem: '#alarmInfo',
+                id: "alarmTableReload",
+                url: baseUrl + '/alarm/listtodevice?token=' + JSON.parse(localStorage.getItem('loginInfo'))
+                    .token
+                , request: {
+                    pageName: 'pageNumber' //页码的参数名称，默认：page
+                    , limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                },
+                where: {
+                    ykDeviceId: getUrl(window.location.href).id
+                },
+                parseData: function (response) {
+                    return {
+                        "data": function(){
+                            response.rows.rows.map(item=>{
+                                item.alarmData = item.alarmData + '' + item.data_unit
+                            })
+                            return response.rows.rows
+                        }(),
+                        "code": 0,
+                        "count": response.rows.total,
+                    }
+                }
+                , page: true
+                , skin: 'line'
+                , even: true
+                , cellMinWidth: 60 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                , cols: [
+                    [ //表头
+                        {
+                            field: 'alarmMessage',
+                            title: '报警类型',
+                            align: "center",
+                            sort: true
+                        },
+                        {
+                            field: 'alarmData',
+                            align: "center",
+                            title: '报警值',
+                            width: 100
+                        },
+                        {
+                            field: 'location',
+                            title: '地点',
+                            align: "center"
+                        },
+                        {
+                            field: 'alarmTime',
+                            align: "center",
+                            title: '报警时间'
+                        }
+                    ]
+                ]
+            });
+        });
         //处理回调
         $.ajax({
             url: baseUrl + "/deviceworkdata/zxlist?token=" + JSON.parse(localStorage.getItem('loginInfo'))
@@ -946,7 +1006,7 @@
                     //烟感 06
                     if (response.code === 200) {
                         time = response.rows.time
-                        smokeDetectorSign.push(data[2].typeDes)
+                        smokeDetectorSign.push('电压')
                         data.map(item => {
                             switch (item.dataType) {
                                 case "V":
@@ -1283,6 +1343,17 @@
                         }
                     }
                 })
+                layui.use('table', function () {
+                    var table = layui.table;
+                    table.reload('alarmTableReload', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        },
+                        where:{
+                            happen_time: s1
+                        }
+                    });
+                });
                 $.ajax({
                     url: baseUrl + "/deviceworkdata/zxlist?token=" + JSON.parse(localStorage.getItem('loginInfo'))
                         .token + "&happen_time=" + s1,
@@ -1719,7 +1790,7 @@
                             //烟感 06
                             if (response.code === 200) {
                                 time = response.rows.time
-                                smokeDetectorSign.push(data[2].typeDes)
+                                smokeDetectorSign.push('电压')
                                 data.map(item => {
                                     switch (item.dataType) {
                                         case "V":
@@ -1993,6 +2064,17 @@
                         }
                     }
                 })
+                layui.use('table', function () {
+                    var table = layui.table;
+                    table.reload('alarmTableReload', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        },
+                        where:{
+                            happen_time: s2
+                        }
+                    });
+                });
                 $.ajax({
                     url: baseUrl + "/deviceworkdata/zxlist?token=" + JSON.parse(localStorage.getItem('loginInfo'))
                         .token + "&happen_time=" + s2,
@@ -2004,10 +2086,6 @@
                         const {
                             data, deviceInfo, deviceData
                         } = response.rows
-
-
-
-
                         // 水位 03
                         if (response.rows.deviceType === '03') {
                             if (response.code === 200) {
@@ -2433,7 +2511,7 @@
                             //烟感 06
                             if (response.code === 200) {
                                 time = response.rows.time
-                                smokeDetectorSign.push(data[2].typeDes)
+                                smokeDetectorSign.push('电压')
                                 data.map(item => {
                                     switch (item.dataType) {
                                         case "V":
@@ -3149,7 +3227,7 @@
                                 //烟感 06
                                 if (response.code === 200) {
                                     time = response.rows.time
-                                    smokeDetectorSign.push(data[2].typeDes)
+                                    smokeDetectorSign.push('电压')
                                     data.map(item => {
                                         switch (item.dataType) {
                                             case "V":
@@ -3379,6 +3457,18 @@
 
                     }
                 })
+                //报警信息
+                layui.use('table', function () {
+                    var table = layui.table;
+                    table.reload('alarmTableReload', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        },
+                        where:{
+                            happen_time: s3
+                        }
+                    });
+                });
 
             } else if (index === 'realtime') {
                 $(".chartShow").css('display', 'block')

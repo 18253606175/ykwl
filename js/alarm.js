@@ -312,7 +312,8 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
         limit: 15,
         skin: 'row',
         where: {
-            companyId: localStorage.getItem('companyId')
+            companyId: localStorage.getItem('companyId'),
+            location: sessionStorage.getItem('location')
         },
         parseData: function (res) { //res 即为原始返回的数据
             return {
@@ -589,13 +590,6 @@ table.on('rowDouble(tableTest)',function(obj){
     
     //报警处理提交
     form.on('submit(update)', function (data) {
-
-        for (var i = 0; i < Object.keys(data.field).length; i++) {
-            if (data.field[Object.keys(data.field)[i]].length === 0) {
-                delete data.field[Object.keys(data.field)[i]]
-            }
-        }
-
         $.ajax({
             url: baseUrl + "/alarm/update?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
             data: JSON.stringify({
