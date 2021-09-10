@@ -291,6 +291,8 @@ layui.use(['element', 'layer'], function () {
         "code": 0, //解析接口状态
         "data": res.rows.rows, //解析数据列表
         "count": res.rows.total,
+        'status': res.code,
+        'msg': res.msg
       };
     },
     request: {
@@ -353,7 +355,26 @@ layui.use(['element', 'layer'], function () {
 		    width:170
       }
       ]
-    ]
+    ],
+    done: function(res){
+      if(res.status === 20001){
+        layer.alert('登录已过期请重新登陆', {
+            skin: 'layui-layer-yingke' //样式类名
+            ,closeBtn: 0
+            }, function(){
+                parent.location.href = './index.html'
+            });
+      } else if(res.status === 200) {
+          
+      } else {
+          layer.msg(res.msg, {
+              icon: 2,
+              closeBtn: 0,
+              anim: 6, //动画类型
+              time: 3000
+          });
+      }
+    }
   });
 
   //监听搜索提交
@@ -558,51 +579,51 @@ layui.use(['element', 'layer'], function () {
     var data = obj.data;
     // obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
     if (obj.event === 'del') {
-      layer.confirm('您确定要删除吗？', {
-        skin: 'layui-layer-yingke',
-        btn: ['确定','取消'] //按钮
-      }, function(){
-        $.ajax({
-          url: baseUrl + "/company/delete?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
-          contentType: "application/json",
-          data: JSON.stringify({
-            companyId: data.id,
+      layer.prompt({
+        title: '请输入密码进行权限验证',
+        formType: 1,
+    },
+        function (pass, index) {
+            $.ajax({
+                url: baseUrl + "/company/delete?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
+                contentType: "application/json",
+                data: JSON.stringify({
+                    companyId: data.id,
+                    password: pass
+                }),
+                type: 'post',
+                // dataType: "json",
+                success: function (res) {
+                    if(res.code === 20001){
+                        layer.alert('登录已过期请重新登陆', {
+                            skin: 'layui-layer-yingke' //样式类名
+                            ,closeBtn: 0
+                            }, function(){
+                                parent.location.href = './index.html'
+                            });
+                    } 
+                    else if (res.code === 200) {
+                        obj.del();
+                        layer.msg('删除成功', {
+                            icon: 1,
+                            closeBtn: 0,
+                            anim: 0, //动画类型
+                            time: 3000
+                        });
 
-          }),
-          type: 'post',
-          // dataType: "json",
-          success: function (res) {
-            if(res.code === 20001){
-              layer.alert('登录已过期请重新登陆', {
-                  skin: 'layui-layer-yingke' //样式类名
-                  ,closeBtn: 0
-                  }, function(){
-                      parent.location.href = './index.html'
-                  });
-          } 
-           else if (res.code === 200) {
-              obj.del();
-              layer.msg('删除成功', {
-                icon: 1,
-                closeBtn: 0,
-                anim: 0, //动画类型
-                time: 3000
-              });
+                    } else {
+                        layer.msg(res.msg, {
+                            icon: 2,
+                            closeBtn: 0,
+                            anim: 6, //动画类型
+                            time: 4000
 
-            } else {
-              layer.msg(res.msg, {
-                icon: 2,
-                closeBtn: 0,
-                anim: 6, //动画类型
-                time: 4000
-
-              });
-            }
-          }
-        })
-      }, function(){
-      });
-          
+                        });
+                    }
+                }
+            })
+            layer.close(index);
+        });
     } else if (obj.event === 'edit') {
       layer.open({
         type: 1,

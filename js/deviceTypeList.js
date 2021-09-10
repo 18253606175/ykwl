@@ -41,9 +41,10 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
      //树形列表
   var treeData = []
 
+
   //树形结构ajax
   $.ajax({
-      url: baseUrl + '/company/ztreelist?token=' + JSON.parse(localStorage.getItem("loginInfo")).token,
+      url: baseUrl + '/prodect/list?token=' + JSON.parse(localStorage.getItem("loginInfo")).token,
       async: false,
       data: {
           type: 1
@@ -61,7 +62,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
         treeData = function(){
           return res.rows.length !==0 ? res.rows.map(val => {
             return {
-                title: val.companyName,
+                title: val.typeSign,
                 id: val.id
             }
         }) : []
@@ -77,7 +78,7 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
       }
   })
   
-  var id = 0;
+  var id = null;
   //树形结构
   tree.render({
       elem: '#zreeList'
@@ -100,15 +101,13 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
       }
                   
           }
-          id = obj.data.id;
+          id = obj.data.title;
           table.reload('tableReload', {
               page: {
                   curr: 1 //重新从第 1 页开始
               },
               where: {
-                companyId: id,
-                deviceSmallType: typeId,
-                state: state
+                typeSign: id
               }
           });
       }
@@ -412,9 +411,9 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
         elem: '#home',
         id: 'tableReload',
         height: 750,
-        url: baseUrl + "/productapi/list?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
+        url: baseUrl + "/devicedatatype/listByTypeSign?token=" + JSON.parse(localStorage.getItem('loginInfo')).token,
         where: {
-            companyId: localStorage.getItem('companyId')
+            type: localStorage.getItem('companyId')
         },
         limit: 15,
         limits: [15, 30, 50, 100, 200, 500, 1000],
@@ -431,8 +430,8 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
         parseData: function (res) { //res 即为原始返回的数据
             return {
                 "code": 0, //解析接口状态
-                "data": res.rows.rows, //解析数据列表
-                "count": res.rows.total,
+                "data": res.rows, //解析数据列表
+                "count": res.total,
                 'status': res.code,
                 'msg': res.msg
             };
@@ -445,55 +444,41 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
         cols: [
             [ //表头
                 {
-                    field: 'id',
+                    field: 'dataType',
                     align: "center",
-                    title: 'id',
+                    title: 'dataType',
                     width: 70,
                     sort: true
                 },
                 {
-                    field: 'companyName',
+                    field: 'newValue',
                     align: "center",
                     width: 200,
-                    title: '所属单位'
+                    title: 'newValue'
                 },
                 {
-                    field: 'typeSign',
+                    field: 'threshold',
                     align: "center",
-                    title: 'typeSign',
+                    title: 'threshold',
 					width: 110,
                     sort: true
                 },
                 {
-                    field: 'productId',
+                    field: 'typeDes',
                     align: "center",
-                    title: 'productId',
+                    title: 'typeDes',
                     sort: true
                 },
                 {
-                    field: 'appId',
-                    title: 'appId',
+                    field: 'typeUnit',
+                    title: 'typeUnit',
                     align: "center",
                     sort: true
                 },
                 {
-                    field: 'secret',
+                    field: 'type_sign',
                     align: "center",
-                    title: 'secret',
-                    sort: true
-                },
-                {
-                    field: 'deviceSmallType',
-                    align: "center",
-                    title: '设备类型',
-                    sort: true,
-                    width: 100
-                },
-                {
-                    field: 'interfaceInformation',
-                    align: "center",
-                    width: 80,
-                    title: '平台',
+                    title: 'type_sign',
                     sort: true
                 },
                 {

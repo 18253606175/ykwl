@@ -5,11 +5,11 @@ layui.use(['element','form'], function () {
     var element = layui.element;
     var form = layui.form;
 
-    $('.layui-nav-img').attr('src', JSON.parse(localStorage.getItem('loginInfo')).imgUrl ? JSON.parse(localStorage.getItem('loginInfo')).imgUrl : '../img/esco_logo.png')
+    $('.layui-nav-img').attr('src', localStorage.getItem('loginInfo') ? JSON.parse(localStorage.getItem('loginInfo')).imgUrl ? JSON.parse(localStorage.getItem('loginInfo')).imgUrl : '../img/esco_logo.png' : '../img/esco_logo.png')
 
 
     //循环侧边导航栏
-    var nav = JSON.parse(localStorage.getItem('loginInfo')).roleCode.menuVOS
+    var nav = localStorage.getItem('loginInfo') ? JSON.parse(localStorage.getItem('loginInfo')).roleCode.menuVOS : []
     $('.layui-nav-bar').remove();
     var navMap = nav.map(item => {
         return `
@@ -119,39 +119,6 @@ layui.use(['element','form'], function () {
             }
         }
     }
-
-    
-    // //报警闪烁
-    
-    // function blink(){
-    //     var alarmNum = sessionStorage.getItem('alarmNum')
-    //     if(alarmNum !== '0'){
-    //         var flag = false;
-    //         var start = function() {
-    //             var notice = document.getElementById('icon');
-    //             var notice1 = document.getElementById('red');
-    //             if(!flag){
-    //                     notice.style.color = "red";
-    //                     notice1.style.opacity = 1;
-    //                     flag = true;
-    //                 }else{
-    //                     notice.style.color = "white";
-    //                     notice1.style.opacity = 0;
-    //                     flag = false;
-    //                 }
-    //             setTimeout(start, 500);
-    //         }
-    //         start();
-    //         if(alarmNum > 99){
-    //             $('#red').html('99')
-    //         }else{
-    //             $('#red').html(alarmNum)
-    //         }
-    //     }else{
-    //         $('#red').hide()
-    //     }
-    // }
-    // blink();
     
 
     //退出登录

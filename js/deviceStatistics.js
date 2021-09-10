@@ -332,6 +332,8 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
                 "code": 0, //解析接口状态
                 "data": res.rows, //解析数据列表
                 "count": res.total,
+                'status': res.code,
+                'msg': res.msg
             };
         },
         request: {
@@ -400,6 +402,23 @@ layui.use(['element', 'layer', 'table', 'form', 'laydate'], function () {
         ],
         done: function(res){
             exportData= res.data;
+            if(res.status === 20001){
+                layer.alert('登录已过期请重新登陆', {
+                    skin: 'layui-layer-yingke' //样式类名
+                    ,closeBtn: 0
+                    }, function(){
+                        parent.location.href = './index.html'
+                    });
+            } else if(res.status === 200) {
+                
+            } else {
+                layer.msg(res.msg, {
+                    icon: 2,
+                    closeBtn: 0,
+                    anim: 6, //动画类型
+                    time: 3000
+                });
+            }
         }
     });
     $(".exportButton").click(function(){
